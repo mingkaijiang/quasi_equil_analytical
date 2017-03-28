@@ -8,8 +8,15 @@
 ####
 ################################################################################
 
-#### To run analytical solution codes
+#### Prepare GDAY stuffs
+
+### Create met data for gday simulations
+#source("R/create_monthly_met_for_GDAY.R")
+
+
+### To run analytical solution codes
 source("R/Run_analytical_solutions.R")
+
 
 
 #### To generate manuscript figures
