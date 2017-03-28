@@ -32,3 +32,12 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 .Rproj.user
+
+
+# Folders storing met data and output data
+GDAY/analyses/*.csv
+GDAY/met_data/*.csv
+GDAY/outputs/*.csv
+
+# Folders storing params
+GDAY/params/

@@ -9,18 +9,33 @@
 #### Author: Mingkai Jiang (m.jiang@westernsydney.edu.au)
 #### 
 ####
-################################################################################
+######################## General system stuffs #################################
+#### Get current date
+date<-Sys.Date()
 
-#### Prepare GDAY stuffs
+######################## Prepare GDAY stuffs ###################################
+#### Create met data for gday simulations
+source("GDAY/pre-processing/create_monthly_met_for_GDAY.R")
 
-### Create met data for gday simulations
-#source("R/create_monthly_met_for_GDAY.R")
+#### make gday and send to simulation folders
+source("GDAY/pre-processing/Make_GDAY_and_Send_To_Folders.R")
 
+######################## Run GDAY simulations ##################################
+#### Run GDAY using the python wrapper file
+source("GDAY/pre_processing/Run_GDAY.R")
+
+
+
+######################## Run analytical stuffs #################################
 
 ### To run analytical solution codes
 source("R/Run_analytical_solutions.R")
 
 
+##################### Generate manuscript figures ################################
 
 #### To generate manuscript figures
 source("Plots/Figure_generating.R")
+
+
+

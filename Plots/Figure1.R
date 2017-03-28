@@ -1,7 +1,14 @@
 
 #### Functions to generate Figure 1
+#### Purpose:
+#### Attempted to regenerate the classic photosynthetic and N constraint equilibrium points,
+#### under aCO2 (350ppm) and eCO2 (700 ppm) conditions
 ####
-#### 
+#### Assumptions:
+#### 1. Fixed wood NC ratio
+#### 2. Implicit inorganic N pool
+#### 3. VL and L constraints under aCO2 intersect with photosynthetic constraint at the same point
+#### 4. Photosynthesis is an empirical function
 ################################################################################
 
 ######### PHOTOSYNTHETIC CONSTRAINT FUNCTIONS

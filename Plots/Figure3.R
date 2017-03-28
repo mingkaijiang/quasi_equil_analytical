@@ -1,7 +1,14 @@
 
 #### Functions to generate Figure 3
+#### Purpose: 
+#### 3-d plot of photosynthetic, nitrogen and phosphorus constraint under aCO2 and eCO2
+#### Co-limited by N and P
 ####
-#### 
+#### Assumptions:
+#### 1. Fixed leaf NC and PC ratio
+#### 2. Uses G to reverse calculate leaf P (see open Issue #1 for more details)
+
+#### The commented out lines at the end can plot 2d plots
 ################################################################################
 
 ######### Libraries

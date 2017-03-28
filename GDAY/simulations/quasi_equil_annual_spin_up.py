@@ -14,7 +14,13 @@ import subprocess
 import numpy as np
 
 USER = os.getlogin()
-sys.path.append('/Users/%s/Documents/Research/Projects/Quasi-equilibrium-test/gday_verification/scripts' % (USER))
+
+# get the parent directory of the current working directory
+from os.path import dirname, abspath
+d = dirname(dirname(abspath(__file__)))
+
+sys.path.append(os.path.join(d, "code/scripts"))
+
 import adjust_gday_param_file as ad
 
 __author__  = "Martin De Kauwe"
@@ -27,15 +33,12 @@ def main(site, SPIN_UP=True):
     GDAY_SPIN = "./gday -s -p "
     GDAY = "./gday -p "
 
-    base_dir = os.path.dirname(os.getcwd())
-
     # dir names
     base_param_name = "base_start_with_P"
     base_dir = os.path.dirname(os.getcwd())
-    base_param_dir = "/Users/%s/Documents/Git/GDAY/example/params" % (USER)
-    param_dir = os.path.join(base_dir, "params")
-    # met_dir = os.path.join(base_dir, "met_data")
-    run_dir = os.path.join(base_dir, "outputs")
+    base_param_dir = os.path.join(d, "code/example/params")
+    param_dir = os.path.join(d, "params")
+    run_dir = os.path.join(d, "outputs")
 
     if SPIN_UP == True:
 
@@ -148,12 +151,12 @@ def main(site, SPIN_UP=True):
                          "leafsap1": "3060.0",
                          "targ_sens": "0.5",
 
-			 "actncmax": "0.066667",               # C:N = 15 
-			 "actncmin": "0.066667",               # C:N = 15
-			 "actpcmax": "0.00125",                # C:P = 800
-			 "actpcmin": "0.00125",                # C:P = 800
-			 "slowncmax": "0.05",                  # C:N = 20
-			 "slowncmin": "0.05",                  # C:N = 20
+		             	 "actncmax": "0.066667",               # C:N = 15 
+		            	 "actncmin": "0.066667",               # C:N = 15
+		            	 "actpcmax": "0.00125",                # C:P = 800
+		            	 "actpcmin": "0.00125",                # C:P = 800
+		             	 "slowncmax": "0.05",                  # C:N = 20
+		            	 "slowncmin": "0.05",                  # C:N = 20
                          "slowpcmin": "0.0005",                # C:P = 2000
                          "slowpcmax": "0.0005",                # C:P = 2000
                          "passncmax": "0.1",                   # C:N = 10
@@ -223,7 +226,7 @@ def main(site, SPIN_UP=True):
         os.system(GDAY_SPIN + cfg_fname)
 
         # add this directory to python search path so we can find the scripts!
-        sys.path.append(os.path.join(base_dir, "scripts"))
+        sys.path.append(os.path.join(d, "code/scripts"))
         import translate_GDAY_output_to_NCEAS_format as tr
         # tr.translate_output(out_fname)
 
