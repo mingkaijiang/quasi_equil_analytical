@@ -1,7 +1,10 @@
 
 #### Main program
 ####
-#### Level 1 code: to run the analytical solution code and the manuscript figure generating codes
+#### Level 1 code: 
+#### 1. To prepare GDAY runs
+#### 2. To run the analytical solution code together with the GDAY program
+#### 3. To generate manuscript figures
 ####
 #### Author: Mingkai Jiang (m.jiang@westernsydney.edu.au)
 #### 
