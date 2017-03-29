@@ -33,7 +33,6 @@ vignettes/*.pdf
 *.knit.md
 .Rproj.user
 
-
 # Folders storing met data and output data
 GDAY/analyses/*.csv
 GDAY/met_data/*.csv
@@ -42,6 +41,9 @@ GDAY/outputs/*.csv
 # Folders storing params
 GDAY/params/*.cfg
 
+# ignoring temporary outputfile in run simulation
+GDAY/simulations/*.txt
 
-
+# ignore all the .o files
+GDAY/code/src/*.o
 
