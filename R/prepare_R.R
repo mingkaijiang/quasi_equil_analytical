@@ -6,7 +6,10 @@
 
 #### Install libraries
 if(!require(pacman))install.packages("pacman")
-pacman::p_load(scatterplot3d) # add other packages needed to this list
+pacman::p_load(scatterplot3d, 
+               data.table, 
+               lattice, 
+               plyr) # add other packages needed to this list
 
 
 #### Sourcing all R files in the function subdirectory

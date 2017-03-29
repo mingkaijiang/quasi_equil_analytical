@@ -38,6 +38,10 @@ source("GDAY/pre_processing/Make_GDAY_and_Send_To_Folders.R")
 source("GDAY/pre_processing/Run_GDAY.R")
 
 
+################# Post-processing GDAY simulations #############################
+#### Convert from monthly to annual data and save to analyses subfolders
+source("GDAY/post_processing/Convert_GDAY_monthly_to_annual.R")
+
 ######################## Run analytical stuffs #################################
 
 ### To run analytical solution codes
