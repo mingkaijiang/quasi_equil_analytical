@@ -17,4 +17,14 @@ system("make -f Makefile gday")
 setwd(cwd)
 
 #### paste gday executive program to simulation folders
-system("cp GDAY/code/src/gday GDAY/simulations/")
+system("cp GDAY/code/src/gday GDAY/simulations/Run1/")
+system("cp GDAY/code/src/gday GDAY/simulations/Run2/")
+system("cp GDAY/code/src/gday GDAY/simulations/Run3/")
+system("cp GDAY/code/src/gday GDAY/simulations/Run4/")
+system("cp GDAY/code/src/gday GDAY/simulations/Run5/")
+system("cp GDAY/code/src/gday GDAY/simulations/Run6/")
+system("cp GDAY/code/src/gday GDAY/simulations/Run7/")
+system("cp GDAY/code/src/gday GDAY/simulations/Run8/")
+system("cp GDAY/code/src/gday GDAY/simulations/Run9/")
+system("cp GDAY/code/src/gday GDAY/simulations/Run10/")
+
