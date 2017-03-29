@@ -31,9 +31,9 @@ def main(site, treatment):
 
     # dir names
     base_dir = os.path.dirname(os.getcwd())
-    param_dir = os.path.join(d, "params/Run1")
+    param_dir = os.path.join(d, "params/Run4")
     met_dir = os.path.join(d, "met_data")
-    run_dir = os.path.join(d, "outputs/Run1")
+    run_dir = os.path.join(d, "outputs/Run4")
     
     
     shutil.copy(os.path.join(param_dir, "%s_model_spunup.cfg" % (site)),

@@ -37,8 +37,8 @@ def main(site, SPIN_UP=True):
     base_param_name = "base_start_with_P"
     base_dir = os.path.dirname(os.getcwd())
     base_param_dir = os.path.join(d, "code/example/params")
-    param_dir = os.path.join(d, "params/Run1")
-    run_dir = os.path.join(d, "outputs/Run1")
+    param_dir = os.path.join(d, "params/Run2")
+    run_dir = os.path.join(d, "outputs/Run2")
 
     if SPIN_UP == True:
 
