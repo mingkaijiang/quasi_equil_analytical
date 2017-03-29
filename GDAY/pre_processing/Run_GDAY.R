@@ -7,7 +7,7 @@
 #### get the existing working directory
 cwd <- getwd()
 
-#### Set working directory to each simulation folder
+#### Set working directory to each simulation folder and run GDAY
 
 ### Run1
 setwd("GDAY/simulations/Run1")
