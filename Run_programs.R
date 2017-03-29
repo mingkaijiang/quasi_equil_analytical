@@ -13,12 +13,14 @@
 #### Get current date
 date<-Sys.Date()
 
+source("R/prepare_R.R")
+
 ######################## Prepare GDAY stuffs ###################################
 #### Create met data for gday simulations
-source("GDAY/pre-processing/create_monthly_met_for_GDAY.R")
+source("GDAY/pre_processing/create_monthly_met_for_GDAY.R")
 
 #### make gday and send to simulation folders
-source("GDAY/pre-processing/Make_GDAY_and_Send_To_Folders.R")
+source("GDAY/pre_processing/Make_GDAY_and_Send_To_Folders.R")
 
 ######################## Run GDAY simulations ##################################
 #### Run GDAY using the python wrapper file

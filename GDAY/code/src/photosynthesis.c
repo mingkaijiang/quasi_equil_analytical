@@ -115,7 +115,7 @@ void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s) {
       
     }
     
-    fprintf(stderr, "Csapwood %f, stem %f, Rmsw %f, Rmf %f, Rmr %f\n", Csapwood, s->stem, Rmsw, Rmf, Rmr);
+    //fprintf(stderr, "Csapwood %f, stem %f, Rmsw %f, Rmf %f, Rmr %f\n", Csapwood, s->stem, Rmsw, Rmf, Rmr);
     
     return;
   

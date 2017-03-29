@@ -40,7 +40,7 @@ GDAY/met_data/*.csv
 GDAY/outputs/*.csv
 
 # Folders storing params
-GDAY/params/
+GDAY/params/*.cfg
 
 
 
