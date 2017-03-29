@@ -66,24 +66,24 @@ def main(site, SPIN_UP=True):
                          "out_fname": "%s" % (out_fname),
 
                          # state - default C:N 25.
-                         "shoot": "0.02",              # assuming total 10 g plant, 2 in leaf 
-                         "shootn": "0.000",            # 0.0008 C:N = 25 
-                         "shootp": "0.0000",           # 0.00003 C:P = 680 
-                         "stem": "0.06",               # assuming total 10 g plant, 6 in stem
-                         "stemn": "0.0003",            # 0.0003 C:N = 200 
-                         "stemp": "0.000018",          # 0.000018 C:P = 3333.33
-                         "root": "0.02",               # assuming total 10 g plant, 2 in root
-                         "rootn": "0.000",           # 0.00056 Root CN = leaf * 0.7 
-                         "rootp": "0.0000",          # 0.000021 Root CP = leaf * 0.7
-                         "activesoil": "0.001",        # guess
-                         "activesoiln": "0.000067",    # C:N = 15
-                         "activesoilp": "0.00000125",  # C:P = 800
-                         "slowsoil": "0.001",          # guess
-                         "slowsoiln": "0.00005",       # C:N = 20
-                         "slowsoilp": "0.0000005",     # C:P = 2000
-                         "passivesoil": "0.0",        # analytical
-                         "passivesoiln": "0.0",       # C:N = 10
-                         "passivesoilp": "0.0",      # C:P = 200
+                         "shoot": "11.0",              # assuming total 10 g plant, 2 in leaf 
+                         "shootn": "0.3",            # 0.0008 C:N = 25 
+                         "shootp": "0.01",           # 0.00003 C:P = 680 
+                         "stem": "1700.0",               # assuming total 10 g plant, 6 in stem
+                         "stemn": "0.2",            # 0.0003 C:N = 200 
+                         "stemp": "0.0005",          # 0.000018 C:P = 3333.33
+                         "root": "3.0",               # assuming total 10 g plant, 2 in root
+                         "rootn": "0.07",           # 0.00056 Root CN = leaf * 0.7 
+                         "rootp": "0.002",          # 0.000021 Root CP = leaf * 0.7
+                         "activesoil": "11.0",        # guess
+                         "activesoiln": "0.7",    # C:N = 15
+                         "activesoilp": "0.01",  # C:P = 800
+                         "slowsoil": "170.0",          # guess
+                         "slowsoiln": "8.0",       # C:N = 20
+                         "slowsoilp": "0.08",     # C:P = 2000
+                         "passivesoil": "180.0",        # analytical
+                         "passivesoiln": "18.0",       # C:N = 10
+                         "passivesoilp": "0.9",      # C:P = 200
                          "metabsoil": "0.00",          #
                          "metabsoiln": "0.0",          # C:N = 10 <-> 25
                          "metabsoilp": "0.0",          # C:P = 80 <-> 150
@@ -96,11 +96,11 @@ def main(site, SPIN_UP=True):
                          "structsurf": "0.00",         # 
                          "structsurfn": "0.00000",     # C:N = 150
                          "structsurfp": "0.000000",    # C:P = 500
-                         "inorgn": "0.000833",         # annual input = 0.01 t/ha, monthly rate 
-                         "inorgavlp": "0.00003333",    # annual input = 0.0004 t/ha, monthly rate 
-                         "inorgssorbp": "0.0",         # 
-                         "inorgoccp": "0.0",           # 
-                         "inorgparp": "0.0",           # annual input = 0.0004 t/ha, monthly rate 
+                         "inorgn": "0.016",         # annual input = 0.01 t/ha, monthly rate 
+                         "inorgavlp": "0.0005",    # annual input = 0.0004 t/ha, monthly rate 
+                         "inorgssorbp": "0.00009",         # 
+                         "inorgoccp": "1.2",           # 
+                         "inorgparp": "0.00003",           # annual input = 0.0004 t/ha, monthly rate 
                          "canht": "30.0",              # 
                          "sapwood": "0.01",            # initialize value, needed it for initialize alloc_stuffs
 
