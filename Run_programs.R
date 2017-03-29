@@ -25,7 +25,7 @@ source("GDAY/pre_processing/create_monthly_met_for_GDAY.R")
 source("GDAY/pre_processing/Make_GDAY_and_Send_To_Folders.R")
 
 
-#### Here need a script to modify the python scripts for each simulations
+#### Here need a script to modify the python scripts parameters for each simulations
 
 
 
@@ -41,6 +41,12 @@ source("GDAY/pre_processing/Run_GDAY.R")
 ################# Post-processing GDAY simulations #############################
 #### Convert from monthly to annual data and save to analyses subfolders
 source("GDAY/post_processing/Convert_GDAY_monthly_to_annual.R")
+
+#### Mass balance QC check for each simulations
+#### Plotting first 100 years and last 100 years
+#### Only for spin-up files
+source("GDAY/post_processing/mass_balance.R")
+
 
 ######################## Run analytical stuffs #################################
 
