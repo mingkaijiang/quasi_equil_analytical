@@ -33,16 +33,48 @@ vignettes/*.pdf
 *.knit.md
 .Rproj.user
 
-# Folders storing met data and output data
-GDAY/analyses/*.csv
+# Folders storing met data 
 GDAY/met_data/*.csv
-GDAY/outputs/*.csv
+
+# Folder storing output data
+GDAY/outputs/Run1/*.csv
+GDAY/outputs/Run2/*.csv
+GDAY/outputs/Run3/*.csv
+GDAY/outputs/Run4/*.csv
+GDAY/outputs/Run5/*.csv
+GDAY/outputs/Run6/*.csv
+GDAY/outputs/Run7/*.csv
+GDAY/outputs/Run8/*.csv
+GDAY/outputs/Run9/*.csv
+GDAY/outputs/Run10/*.csv
+
+# Folder storing analyzed data
+GDAY/analyses/Run1/*.csv
+GDAY/analyses/Run2/*.csv
+GDAY/analyses/Run3/*.csv
+GDAY/analyses/Run4/*.csv
+GDAY/analyses/Run5/*.csv
+GDAY/analyses/Run6/*.csv
+GDAY/analyses/Run7/*.csv
+GDAY/analyses/Run8/*.csv
+GDAY/analyses/Run9/*.csv
+GDAY/analyses/Run10/*.csv
+
 
 # Folders storing params
-GDAY/params/*.cfg
+GDAY/params/Run1/*.cfg
+GDAY/params/Run2/*.cfg
+GDAY/params/Run3/*.cfg
+GDAY/params/Run4/*.cfg
+GDAY/params/Run5/*.cfg
+GDAY/params/Run6/*.cfg
+GDAY/params/Run7/*.cfg
+GDAY/params/Run8/*.cfg
+GDAY/params/Run9/*.cfg
+GDAY/params/Run10/*.cfg
 
 # ignoring temporary outputfile in run simulation
-GDAY/simulations/*.txt
+#GDAY/simulations/*.txt
 
 # ignore all the .o files
 GDAY/code/src/*.o
