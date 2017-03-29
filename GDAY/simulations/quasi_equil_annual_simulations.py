@@ -12,7 +12,12 @@ import shutil
 import sys
 import subprocess
 USER = os.getlogin()
-sys.path.append('/Users/%s/Documents/Research/Projects/Quasi-equilibrium-test/gday_verification/scripts' % (USER))
+# get the parent directory of the current working directory
+from os.path import dirname, abspath
+d = dirname(dirname(abspath(__file__)))
+
+sys.path.append(os.path.join(d, "code/scripts"))
+
 import adjust_gday_param_file as ad
 
 __author__  = "Martin De Kauwe"
@@ -26,10 +31,11 @@ def main(site, treatment):
 
     # dir names
     base_dir = os.path.dirname(os.getcwd())
-    param_dir = os.path.join(base_dir, "params")
-    met_dir = os.path.join(base_dir, "met_data")
-    run_dir = os.path.join(base_dir, "outputs")
-
+    param_dir = os.path.join(d, "params")
+    met_dir = os.path.join(d, "met_data")
+    run_dir = os.path.join(d, "outputs")
+    
+    
     shutil.copy(os.path.join(param_dir, "%s_model_spunup.cfg" % (site)),
                 os.path.join(param_dir, "%s_model_transient.cfg" % (site)))
 
@@ -59,7 +65,7 @@ def main(site, treatment):
 
 
     # add this directory to python search path so we can find the scripts!
-    sys.path.append(os.path.join(base_dir, "scripts"))
+    sys.path.append(os.path.join(d, "code/scripts"))
     import translate_GDAY_output_to_NCEAS_format as tr
     # tr.translate_output(out_fname, met_fname)
 

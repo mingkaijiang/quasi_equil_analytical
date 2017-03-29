@@ -11,8 +11,7 @@ cwd <- getwd()
 setwd("GDAY/simulations")
 
 #### Run the python code
-system("./quasi_equil_annual_spin_up.py; ./quasi_equil_annual_simulations.py", 
-       show.output.on.console=FALSE)
+system("./quasi_equil_annual_spin_up.py; ./quasi_equil_annual_simulations.py")
 
 #### Reset working directory back to parent level
 setwd(cwd)
