@@ -84,6 +84,10 @@ GDAY/params/Run8/*.cfg
 GDAY/params/Run9/*.cfg
 GDAY/params/Run10/*.cfg
 
+# Folders storing figures and tables
+Plots/*.tiff
+Tables/*.csv
+
 # ignoring temporary outputfile in run simulation
 #GDAY/simulations/*.txt
 

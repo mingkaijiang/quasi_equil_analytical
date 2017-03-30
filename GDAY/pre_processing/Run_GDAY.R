@@ -4,6 +4,9 @@
 #### in the future this will possibly change to remove the dependency on python wrapper file
 ################################################################################
 
+#### Library
+require(rPython)
+
 #### get the existing working directory
 cwd <- getwd()
 
@@ -12,6 +15,7 @@ cwd <- getwd()
 ### Run1
 setwd("GDAY/simulations/Run1")
 system("./quasi_equil_annual_spin_up.py; ./quasi_equil_annual_simulations.py")
+python.load( system.file("quasi_equil_annual_spin_up.py", package="rPython"))
 setwd(cwd)
 
 ### Run2
