@@ -52,12 +52,11 @@ source("GDAY/post_processing/Transient_spin_up_plot.R")
 
 #### Check spin-up and transient continuity
 #### co2_amb and co2_ele only pools, starting from last 10 years of equilibration
-
-
+source("GDAY/post_processing/Check_continuity.R")
 
 #### plot continuity starting from transient year 1 and specify endyear for pools and flxues
 #### Only for elevated CO2 runs
-
+source("GDAY/post_processing/Check_continuity_transient.R")
 
 
 ######################## Run analytical stuffs #################################
