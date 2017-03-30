@@ -12,10 +12,8 @@ adjust_param_file <- function(fname, replacements) {
     
     #### Parameters:
     #### ----------
-    #### fname : string
-    #### parameter filename to be changed.
-    #### replacements : dictionary
-    #### dictionary of replacement values.
+    #### fname : string, parameter filename to be changed.
+    #### replacements : dictionary of replacement values.
     
     conn <- file(fname,open="r")
     inParams <- readLines(conn)

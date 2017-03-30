@@ -13,8 +13,8 @@
 d <- dirname(dirname(getwd()))
 
 ### sourcing the adjust_gday_param_file.py code    # Note: need to change to R
-script_path <- paste(d, "/code/scripts", sep="")
-adjust_gday_param_file <- source(paste(script_path, "/adjust_gday_params_file.py", sep=""))
+script_path <- paste0(d, "/code/scripts")
+adjust_gday_param_file <- source(paste0(script_path, "/adjust_gday_params_file.py"))
 
 ################################ Main functions #########################################
 
@@ -27,26 +27,25 @@ Run_GDAY_spinup <- function(site, SPIN_UP = TRUE) {
     #### setting directory names
     base_dir <- getwd()
     base_param_name <- "base_start_with_P.cfg"
-    base_param_dir <- paste(d, "/code/example/params",sep="")
-    param_dir <- paste(d, "/params/Run1", sep="")
-    run_dir <- paste(d, "/outputs/Run1", sep="")
+    base_param_dir <- paste0(d, "/code/example/params")
+    param_dir <- paste0(d, "/params/Run1")
+    run_dir <- paste0(d, "/outputs/Run1")
     
     if (SPIN_UP == TRUE) {
         #### Copy and paste the initial parameter cfg file
-        sys_com1 <- paste("cp ", base_param_dir, "/", base_param_name, " ",
-                          param_dir, "/", site, "_model_spinup.cfg",
-                          sep="")
+        sys_com1 <- paste0("cp ", base_param_dir, "/", base_param_name, " ",
+                          param_dir, "/", site, "_model_spinup.cfg")
         system(paste(sys_com1))
         
         #### setting up the output file names and locations
-        itag <- paste(site, "_model_spinup", sep="")
-        otag <- paste(site, "_model_spunup", sep="")
-        # mtag = paste(site, "_met_forcing_transient_co2_amb.csv", sep="")
-        out_fn <- paste(itag, "_equilib.csv", sep="")
-        out_param_fname <- paste(param_dir, "/", otag, ".cfg", sep="")
-        cfg_fname <- paste(param_dir, "/", itag, ".cfg", sep="")
-        # met_fname <- paste(met_dir, mtag, sep="")
-        out_fname <- paste(run_dir, "/", out_fn, sep="")
+        itag <- paste0(site, "_model_spinup")
+        otag <- paste0(site, "_model_spunup")
+        # mtag = paste0(site, "_met_forcing_transient_co2_amb.csv")
+        out_fn <- paste0(itag, "_equilib.csv")
+        out_param_fname <- paste0(param_dir, "/", otag, ".cfg")
+        cfg_fname <- paste0(param_dir, "/", itag, ".cfg")
+        # met_fname <- paste0(met_dir, mtag)
+        out_fname <- paste0(run_dir, "/", out_fn)
         
         #### set up the replacement list
         replace_dict <- c(
@@ -196,18 +195,15 @@ Run_GDAY_spinup <- function(site, SPIN_UP = TRUE) {
             "som_nc_calc", "fixed",
             "som_pc_calc", "fixed")
         
-        #### Transform into dataframe
-        even <- seq(2, length(replace_dict), by=2)
-        odd <- seq(1, length(replace_dict)-1, by=2)
-        replace_dict2 <- cbind(replace_dict[odd], replace_dict[even])
-        replace_dict2 <- as.data.frame(replace_dict2)
-        
-        ad.adjust_param_file(cfg_fname, replace_dict)
-        os.system(GDAY_SPIN + cfg_fname)
+        #### call function to conduct the parameter replacement
+        adjust_param_file(cfg_fname, replace_dict)
+        system(paste0(GDAY_SPIN, cfg_fname))
         
         # add this directory to python search path so we can find the scripts!
         sys.path.append(os.path.join(d, "code/scripts"))
-        import translate_GDAY_output_to_NCEAS_format as tr
+        
+        #### Call external function to transform the raw GDAY output into something more readable
+        source(paste0(script_path, "translate_GDAY_output_to_NCEAS_format.R"))
         
     } # if SPIN_UP ends
     
