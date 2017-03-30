@@ -47,6 +47,11 @@ source("GDAY/post_processing/Convert_GDAY_monthly_to_annual.R")
 #### Only for spin-up files
 source("GDAY/post_processing/mass_balance.R")
 
+#### Plot time series spin up files for each simulations
+source("GDAY/post_processing/Transient_spin_up_plot.R")
+
+
+
 
 ######################## Run analytical stuffs #################################
 
