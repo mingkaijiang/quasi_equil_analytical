@@ -16,7 +16,7 @@
 #### Get current date
 date<-Sys.Date()
 
-
+source("R/prepare_R.R")
 ######################## Prepare GDAY stuffs ###################################
 #### Create met data for gday simulations
 source("GDAY/pre_processing/create_monthly_met_for_GDAY.R")
@@ -45,7 +45,8 @@ source("GDAY/post_processing/Convert_GDAY_monthly_to_annual.R")
 #### Mass balance QC check for each simulations
 #### Plotting first 100 years and last 100 years
 #### Only for spin-up files
-source("GDAY/post_processing/mass_balance.R")
+#### WARNING: TAKES VERY LONG TO RUN!!!!!!!!!!!
+#source("GDAY/post_processing/mass_balance.R")
 
 #### Plot time series spin up files for each simulations
 source("GDAY/post_processing/Transient_spin_up_plot.R")

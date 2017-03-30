@@ -74,7 +74,7 @@ run_continuity_plot <- function() {
         FilePath <- paste(getwd(), "/GDAY/analyses/Run", i, sep="")
         
         ## Read in spin up, aCO2 and eCO2 files
-        F1 <- read.table(paste(FilePath, "/Quasi_equil_model_spinup_equilib.csv", sep=""),
+        F1 <- read.table(paste(FilePath, "/annual_gday_result_spinup.csv", sep=""),
                              header=T,sep=",")
         F2 <- read.table(paste(FilePath, "/annual_gday_result_transient_CO2_AMB.csv", sep=""),
                          header=T,sep=",")

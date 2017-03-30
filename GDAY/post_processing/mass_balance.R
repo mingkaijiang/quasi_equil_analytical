@@ -9,7 +9,7 @@
 mass_balance_check_delta <- function(FilePath) {
     
     ## Read in the file
-    ann <- read.table(paste(FilePath, "/Quasi_equil_model_spinup_equilib.csv", sep=""),
+    ann <- read.table(paste(FilePath, "/annual_gday_result_spinup.csv", sep=""),
                       header=T,sep=",")
     
     ## update year list for calculation of delta

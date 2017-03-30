@@ -39,9 +39,12 @@ run_plot_discrete <- function() {
     #### Do mass balance for each sub-simulations
     for (i in 1:length(dirFile)) {
         FilePath <- paste(getwd(), "/GDAY/analyses/Run", i, sep="")
-        plotDF <- read.table(paste(FilePath, "/Quasi_equil_model_spinup_equilib.csv", sep=""),
+        plotDF <- read.table(paste(FilePath, "/annual_gday_result_spinup.csv", sep=""),
                       header=T,sep=",")
-        basic_ts_plot_discrete(plotDF) 
+        
+        pdf(paste(FilePath, "/Basic_time_series_spinup_discrete.pdf", sep=""))
+        basic_ts_plot_discrete(plotDF)
+        dev.off()
     }
 }
 

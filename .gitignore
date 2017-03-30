@@ -60,6 +60,17 @@ GDAY/analyses/Run8/*.csv
 GDAY/analyses/Run9/*.csv
 GDAY/analyses/Run10/*.csv
 
+GDAY/analyses/Run1/*.pdf
+GDAY/analyses/Run2/*.pdf
+GDAY/analyses/Run3/*.pdf
+GDAY/analyses/Run4/*.pdf
+GDAY/analyses/Run5/*.pdf
+GDAY/analyses/Run6/*.pdf
+GDAY/analyses/Run7/*.pdf
+GDAY/analyses/Run8/*.pdf
+GDAY/analyses/Run9/*.pdf
+GDAY/analyses/Run10/*.pdf
+
 
 # Folders storing params
 GDAY/params/Run1/*.cfg

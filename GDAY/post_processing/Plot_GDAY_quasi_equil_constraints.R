@@ -17,14 +17,14 @@ quasi_equil_constraint_plot <- function(plotDF, endyear) {
     L4 <- expression(paste("Very long term equilibrium at ",CO[2], "=700 ppm"))
     
     ## Plotting each plots
-    nc_constraint_plot(plotDF, message, endyear)
-    pc_constraint_plot(plotDF, message, endyear)
-    constraint_3d(plotDF, message, endyear)
+    nc_constraint_plot(plotDF, message, endyear, L1, L2, L3, L4)
+    pc_constraint_plot(plotDF, message, endyear,L1, L2, L3, L4)
+    constraint_3d(plotDF, message, endyear,L1, L2, L3, L4)
 }
 
 
 ############# Plot nc constrant vs. NPP curve with transient data frame
-nc_constraint_plot <- function(tranDF, message, endyear) {
+nc_constraint_plot <- function(tranDF, message, endyear,L1, L2, L3, L4) {
     plot(npp~I(shootn/shoot), tranDF[5,], type="p",
          cex = 2, ylab = "NPP [t/ha/yr]", xlab = "Shoot NC", 
          ylim=c(10,35), col="black", pch=19)
@@ -42,7 +42,7 @@ nc_constraint_plot <- function(tranDF, message, endyear) {
 }
 
 ############# Plot pc constrant vs. NPP curve with transient data frame
-pc_constraint_plot <- function(tranDF, message, endyear) {
+pc_constraint_plot <- function(tranDF, message, endyear,L1, L2, L3, L4) {
     plot(npp~I(shootp/shoot), tranDF[5,], type="p",
          cex = 2, ylab = "NPP [t/ha/yr]", xlab = "Shoot PC", 
          ylim=c(10,35), col="black", pch=19)
@@ -59,7 +59,7 @@ pc_constraint_plot <- function(tranDF, message, endyear) {
 }
 
 ############# Plot 3d leaf constrant vs. NPP curve with transient data frame
-constraint_3d <- function(tranDF, message, endyear) {
+constraint_3d <- function(tranDF, message, endyear,L1, L2, L3, L4) {
     ## library
     require(scatterplot3d)
     

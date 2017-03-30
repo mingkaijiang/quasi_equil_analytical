@@ -127,7 +127,7 @@ run_transient_continuity <- function() {
                          header=T,sep=",")
         
         pdf(paste(FilePath,"/gday_continuity_eCO2_transient.pdf", sep=""), width=10,height=8)
-        continuity_pool_plot(inDF, endyear = 200)
+        transient_continuity(inDF, endyear = 200)
         dev.off()
     }
 }
