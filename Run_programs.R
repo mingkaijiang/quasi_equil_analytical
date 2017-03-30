@@ -74,18 +74,11 @@ source("R/Run_analytical_solutions.R")
 ####
 
 
-########## Checking effects of doubling CO2 in GDAY simulation #################
 
-
-
-##################### Generate manuscript figures ##############################
+################# Generate manuscript figures and tables #######################
 
 #### To generate manuscript figures
 source("Plots/Figure_generating.R")
 
-
-
-
-
-
-
+#### To generate manuscript tables (or statistics used for generating the tables)
+source("Tables/Table_generating.R")
