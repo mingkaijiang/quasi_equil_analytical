@@ -69,9 +69,3 @@ def replace_keys(text, replacements_dict):
     return '\n'.join(lines) + '\n'
 
 
-if __name__ == "__main__":
-
-    cfg_fname = "/Users/mdekauwe/research/NCEAS_face/GDAY_duke_simulation/params/dk_varyco2_varyndep_grassequilib_then_forest_dukegrass_youngforest.cfg"
-    replace_dict = { "albedo": "0.123"}
-    adjust_param_file(cfg_fname, replace_dict)
-    print(cfg_fname)
