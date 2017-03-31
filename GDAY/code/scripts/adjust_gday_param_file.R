@@ -25,12 +25,6 @@ adjust_param_file <- function(fname, replacements) {
 
     new_str = replace_keys(inParams, rDF)
     
-    #fd, path = tempfile.mkstemp()
-    #os.write(fd, str.encode(new_str))
-    #os.close(fd)
-    #shutil.copy(path, fname)
-    #os.remove(path)
-    
     writeLines(new_str, fname)
 }
 
