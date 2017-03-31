@@ -14,8 +14,9 @@ cwd <- getwd()
 
 ### Run1
 setwd("GDAY/simulations/Run1")
+source("quasi_equil_annual_spin_up.R")
+
 system("./quasi_equil_annual_spin_up.py; ./quasi_equil_annual_simulations.py")
-python.load( system.file("quasi_equil_annual_spin_up.py", package="rPython"))
 setwd(cwd)
 
 ### Run2

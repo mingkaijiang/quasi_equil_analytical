@@ -7,7 +7,7 @@
 #### Date Created: Mar-30-2017
 
 ################################ Main functions #########################################
-adjust_param_file <- function(fname, replacements) {
+adjust_param_file <- function(fname, oname, replacements) {
     #### adjust model parameters in the file and save over the original.
     
     #### Parameters:
@@ -26,6 +26,7 @@ adjust_param_file <- function(fname, replacements) {
     new_str = replace_keys(inParams, rDF)
     
     writeLines(new_str, fname)
+    writeLines(new_str, oname)
 }
 
 
@@ -103,3 +104,37 @@ add_equal_sign <- function(inF) {
     return(outF)
 }
 
+adjust_gday_params <- function(in_fname, out_fname, replacements) {
+    
+    if (!require("ini")){
+        install.packages("ini")
+        library(ini)
+    }
+    
+    g <- read.ini(in_fname)
+    
+    for (key in names(replacements)) {
+        
+        match_git <- key %in% names(g$git)
+        match_files <- key %in% names(g$files)
+        match_params <- key %in% names(g$params)
+        match_state <- key %in% names(g$state)
+        match_control <- key %in% names(g$control)
+        
+        if (match_git) {
+            g$git[key] <- replacements[key]
+        } else if (match_files) {
+            g$files[key] <- replacements[key]
+        } else if (match_params) {
+            g$params[key] <- replacements[key]
+        } else if (match_state) {
+            g$state[key] <- replacements[key]
+        } else if (match_control) {
+            g$control[key] <- replacements[key]
+        }
+        
+    }
+    
+    write.ini(g, in_fname)
+    write.ini(g, out_fname)
+}

@@ -14,7 +14,10 @@ d <- dirname(dirname(getwd()))
 
 ### sourcing the adjust_gday_param_file.py code    # Note: need to change to R
 script_path <- paste0(d, "/code/scripts")
-adjust_gday_param_file <- source(paste0(script_path, "/adjust_gday_param_file.R"))
+source(paste0(script_path, "/adjust_gday_param_file.R"))
+
+### library
+library(ini)
 
 ################################ Main functions #########################################
 
@@ -30,12 +33,7 @@ Run_GDAY_spinup <- function(site) {
     base_param_dir <- paste0(d, "/code/example/params")
     param_dir <- paste0(d, "/params/Run1")
     run_dir <- paste0(d, "/outputs/Run1")
-    
-    #### Copy and paste the initial parameter cfg file
-    sys_com1 <- paste0("cp ", base_param_dir, "/", base_param_name, " ",
-                       param_dir, "/", site, "_model_spinup.cfg")
-    system(paste(sys_com1))
-    
+
     #### setting up the output file names and locations
     itag <- paste0(site, "_model_spinup")
     otag <- paste0(site, "_model_spunup")
@@ -45,14 +43,21 @@ Run_GDAY_spinup <- function(site) {
     cfg_fname <- paste0(param_dir, "/", itag, ".cfg")
     # met_fname <- paste0(met_dir, mtag)
     out_fname <- paste0(run_dir, "/", out_fn)
+    swp_fname <- paste0(d, "/simulations/Run1/replace_params.cfg")
+    
+    #### Copy and paste the initial parameter cfg file
+    sys_com1 <- paste0("cp ", base_param_dir, "/", base_param_name, " ",
+                       cfg_fname)
+    system(paste(sys_com1))
+    
     
     #### set up the replacement list
     replace_dict <- c(
         ############## FILES ############
-        "out_param_fname", out_param_fname,
-        "cfg_fname", cfg_fname,
-        # "met_fname", met_fname,
-        "out_fname", out_fname,
+        "[out_param_fname]", out_param_fname,
+        "[cfg_fname]", cfg_fname,
+        # "[met_fname]", met_fname,
+        "[out_fname]", out_fname,
         ############## STATE ############
         "shoot", "11.0",              # assuming total 10 g plant, 2 in leaf 
         "shootn", "0.3",              # 0.0008 C:N = 25 
@@ -91,7 +96,7 @@ Run_GDAY_spinup <- function(site) {
         "inorgparp", "0.00003",       # annual input = 0.0004 t/ha, monthly rate 
         "canht", "30.0",              # 
         "sapwood", "0.01",            # initialize value, needed it for initialize alloc_stuffs
-        ############## STATE ############
+        ############## PARAMETERS ############
         "co2_in", "350.0",                    # spin-up value
         "I0", "3000.0",                       # spin-up value, annual rate, unit MJ/m2/yr
         "ndep_in", "0.005",                   # spin-up value, annual rate, unit t/ha/yr
@@ -151,7 +156,7 @@ Run_GDAY_spinup <- function(site) {
         "ncrfac", "0.7",                      # match against analytical
         "nref", "0.04",                       # N saturation threshold for photosynthesis
         "pcmaxf", "0.005",                    # 
-        "pcwnewz", "0.0003",                  # C:P = 3333.33 match analytical
+        "pcwnewz", "0.0003",                  # C:P", "3333.33 match analytical
         "pcrfac", "0.7",                      # match against analytical
         "rateuptake", "0.96884",              # 0.96884 
         "rateloss", "0.05",                   # match against analytical
@@ -194,9 +199,15 @@ Run_GDAY_spinup <- function(site) {
         "som_nc_calc", "fixed",
         "som_pc_calc", "fixed")
     
-    #### call function to conduct the parameter replacement
-    adjust_param_file(cfg_fname, replace_dict)
+    writeLines(replace_dict,swp_fname)
     
+    #### re-read in the parameters to swap
+    replace_dict <- read.ini(swp_fname)
+    
+    #### call function to conduct the parameter replacement
+    #adjust_param_file(cfg_fname, out_param_fname, replace_dict)
+    adjust_gday_params(cfg_fname, out_param_fname, replace_dict)
+
     #### Run the spin up model
     system(paste0(GDAY_SPIN, " ", cfg_fname))
     
