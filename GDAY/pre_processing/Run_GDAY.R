@@ -5,7 +5,7 @@
 ################################################################################
 
 #### Library
-require(rPython)
+#require(rPython)
 
 #### get the existing working directory
 cwd <- getwd()

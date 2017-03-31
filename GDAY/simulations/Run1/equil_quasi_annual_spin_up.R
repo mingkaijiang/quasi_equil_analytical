@@ -14,7 +14,7 @@ d <- dirname(dirname(getwd()))
 
 ### sourcing the adjust_gday_param_file.py code    # Note: need to change to R
 script_path <- paste0(d, "/code/scripts")
-adjust_gday_param_file <- source(paste0(script_path, "/adjust_gday_params_file.py"))
+adjust_gday_param_file <- source(paste0(script_path, "/adjust_gday_param_file.R"))
 
 ################################ Main functions #########################################
 
@@ -197,7 +197,7 @@ Run_GDAY_spinup <- function(site, SPIN_UP = TRUE) {
         
         #### call function to conduct the parameter replacement
         adjust_param_file(cfg_fname, replace_dict)
-        system(paste0(GDAY_SPIN, cfg_fname))
+        system(paste0(GDAY_SPIN, " ", cfg_fname))
         
         # add this directory to python search path so we can find the scripts!
         sys.path.append(os.path.join(d, "code/scripts"))
