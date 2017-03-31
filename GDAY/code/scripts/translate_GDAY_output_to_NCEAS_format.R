@@ -14,22 +14,6 @@ def date_converter(*args):
     return dt.datetime.strptime(str(int(float(args[0]))) + " " +\
                                 str(int(float(args[1]))), '%Y %j')
 
-def remove_comments_from_header(fname):
-    """ I have made files with comments which means the headings can't be
-parsed to get dictionary headers for pandas! Solution is to remove these
-comments first """
-#s = StringIO()
-s = BytesIO()
-with open(fname) as f:
-    for line in f:
-    if '#' in line:
-    line = line.replace("#", "").lstrip(' ')
-s.write(line)
-s.seek(0) # "rewind" to the beginning of the StringIO object
-
-return s
-
-
 def load_met_input_data(fname):
     MJ_TO_MOL = 4.6
 SW_TO_PAR = 0.48
@@ -55,26 +39,11 @@ return {'CO2': co2, 'PREC':precip, 'PAR':par, 'TAIR':air_temp, 'TSOIL':soil_temp
 
 
 
-
-remove_comments_from_header_and_get_git_rev <- function(fname) {
-    
-    s = BytesIO()
-    with open(fname) as f:
-        line_counter = 0
-    for line in f:
-        if line_counter == 0:
-        git_ver = line.rstrip(' ')
-    if '#' in line:
-        line = line.replace("#", "").lstrip(' ')
-    s.write(line)
-    line_counter += 1
-    s.seek(0) 
-    
-    return s, git_ver
-}
-
-load_gday_output(fname) {
+load_gday_output(fname,git_v) {
     #### To load gday outputs
+    
+    #### library
+    require(data.table)
     
     #### Setting parameters
     SW_RAD_TO_PAR <- 2.3
@@ -82,11 +51,13 @@ load_gday_output(fname) {
     tonnes_per_ha_to_g_m2 <- 100
     yr_to_day <- 365.25
     
-        (s, git_ver) = remove_comments_from_header_and_get_git_rev(fname)  ## come back to this
+    #### getting the git version number
+    git_v <- readLines(out_fname, n=1)
+    git_v <- gsub("#","",git_v)
     
-        out = pd.read_csv(s, parse_dates=[[0,1]], skiprows=1, index_col=0,
-                          sep=",", keep_date_col=True, date_parser=date_converter)
-        
+    #### Read in the gday output file
+    out <- fread(out_fname, header=T,sep=",",skip=1) 
+    
         year = out["year"]
         doy = out["doy"]
         
@@ -363,11 +334,13 @@ translate_output <- function(infname, outdir) {
     
     #### set parameters
     UNDEF <- -9999.
+    git_ver <- NA
     
     #### load the rest of the gday output
     
+    
         # load the rest of the g'day output
-        (gday, git_ver) = load_gday_output(infname)
+        (gday, git_ver) = load_gday_output(infname, git_ver)
         
         # merge dictionaries to ease output
         data_dict = dict(envir, **gday)
