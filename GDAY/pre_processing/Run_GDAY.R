@@ -13,10 +13,9 @@ cwd <- getwd()
 #### Set working directory to each simulation folder and run GDAY
 
 ### Run1
-setwd("GDAY/simulations/Run1")
+setwd("GDAY/simulations/Run1")   # Setting to subfolder helps as you can also run in terminal without the need to change anything in the code
 source("quasi_equil_annual_spin_up.R")
-
-system("./quasi_equil_annual_spin_up.py; ./quasi_equil_annual_simulations.py")
+source("quasi_equil_annual_simulations.R")
 setwd(cwd)
 
 ### Run2

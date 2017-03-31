@@ -16,8 +16,6 @@ d <- dirname(dirname(getwd()))
 script_path <- paste0(d, "/code/scripts")
 source(paste0(script_path, "/adjust_gday_param_file.R"))
 
-### library
-library(ini)
 
 ################################ Main functions #########################################
 
@@ -199,24 +197,18 @@ Run_GDAY_spinup <- function(site) {
         "som_nc_calc", "fixed",
         "som_pc_calc", "fixed")
     
-    even <- seq(2, length(replace_dict), by=2)
-    odd <- seq(1, length(replace_dict)-1, by=2)
-    rDF <- t(cbind(replace_dict[odd], replace_dict[even]))
-    rDF <- as.data.frame(rDF)
-    colnames(rDF) <- as.character(unlist(rDF[1,]))
-    rDF<-rDF[-1,]
-    
+    #### make a df out from replacement dictionary
+    rDF <- make_df(replace_dict)
     
     #### call function to conduct the parameter replacement
     #adjust_param_file(cfg_fname, out_param_fname, replace_dict)
-    adjust_gday_params(cfg_fname, out_param_fname, rDF)
+    adjust_gday_params(cfg_fname, rDF)
 
     #### Run the spin up model
     system(paste0(GDAY_SPIN, " ", cfg_fname))
     
     #### Call external function to transform the raw GDAY output into something more readable
     #source(paste0(script_path, "/translate_GDAY_output_to_NCEAS_format.R"))
-    
     #translate_output(out_fname,run_dir)
     
         

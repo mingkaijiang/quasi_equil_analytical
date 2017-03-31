@@ -10,7 +10,8 @@ pacman::p_load(scatterplot3d,
                data.table, 
                lattice, 
                plyr,
-               rPython) # add other packages needed to this list
+               rPython,
+               ini) # add other packages needed to this list
 
 
 #### Sourcing all R files in the function subdirectory

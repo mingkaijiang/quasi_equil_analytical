@@ -7,6 +7,13 @@
 #### Date Created: Mar-30-2017
 
 ################################ Main functions #########################################
+
+if (!require("ini")){
+    install.packages("ini")
+    library(ini)
+}
+
+
 adjust_param_file <- function(fname, oname, replacements) {
     #### adjust model parameters in the file and save over the original.
     
@@ -104,12 +111,7 @@ add_equal_sign <- function(inF) {
     return(outF)
 }
 
-adjust_gday_params <- function(in_fname, out_fname, replacements) {
-    
-    if (!require("ini")){
-        install.packages("ini")
-        library(ini)
-    }
+adjust_gday_params <- function(in_fname, replacements) {
     
     g <- read.ini(in_fname)
     
@@ -136,5 +138,17 @@ adjust_gday_params <- function(in_fname, out_fname, replacements) {
     }
     
     write.ini(g, in_fname)
-    write.ini(g, out_fname)
+    #write.ini(g, out_fname)
+}
+
+make_df <- function(inDF) {
+    
+    even <- seq(2, length(inDF), by=2)
+    odd <- seq(1, length(inDF)-1, by=2)
+    oDF <- t(cbind(inDF[odd], inDF[even]))
+    oDF <- as.data.frame(oDF)
+    colnames(oDF) <- as.character(unlist(oDF[1,]))
+    oDF<-oDF[-1,]
+    
+    return(oDF)
 }
