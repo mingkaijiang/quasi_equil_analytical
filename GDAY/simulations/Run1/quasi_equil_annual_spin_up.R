@@ -54,10 +54,10 @@ Run_GDAY_spinup <- function(site) {
     #### set up the replacement list
     replace_dict <- c(
         ############## FILES ############
-        "[out_param_fname]", out_param_fname,
-        "[cfg_fname]", cfg_fname,
-        # "[met_fname]", met_fname,
-        "[out_fname]", out_fname,
+        "out_param_fname", out_param_fname,
+        "cfg_fname", cfg_fname,
+        # "met_fname", met_fname,
+        "out_fname", out_fname,
         ############## STATE ############
         "shoot", "11.0",              # assuming total 10 g plant, 2 in leaf 
         "shootn", "0.3",              # 0.0008 C:N = 25 
@@ -199,14 +199,17 @@ Run_GDAY_spinup <- function(site) {
         "som_nc_calc", "fixed",
         "som_pc_calc", "fixed")
     
-    writeLines(replace_dict,swp_fname)
+    even <- seq(2, length(replace_dict), by=2)
+    odd <- seq(1, length(replace_dict)-1, by=2)
+    rDF <- t(cbind(replace_dict[odd], replace_dict[even]))
+    rDF <- as.data.frame(rDF)
+    colnames(rDF) <- as.character(unlist(rDF[1,]))
+    rDF<-rDF[-1,]
     
-    #### re-read in the parameters to swap
-    replace_dict <- read.ini(swp_fname)
     
     #### call function to conduct the parameter replacement
     #adjust_param_file(cfg_fname, out_param_fname, replace_dict)
-    adjust_gday_params(cfg_fname, out_param_fname, replace_dict)
+    adjust_gday_params(cfg_fname, out_param_fname, rDF)
 
     #### Run the spin up model
     system(paste0(GDAY_SPIN, " ", cfg_fname))

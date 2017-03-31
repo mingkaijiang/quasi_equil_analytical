@@ -122,15 +122,15 @@ adjust_gday_params <- function(in_fname, out_fname, replacements) {
         match_control <- key %in% names(g$control)
         
         if (match_git) {
-            g$git[key] <- replacements[key]
+            g$git[key] <- as.character(replacements[1,key])
         } else if (match_files) {
-            g$files[key] <- replacements[key]
+            g$files[key] <- as.character(replacements[1,key])
         } else if (match_params) {
-            g$params[key] <- replacements[key]
+            g$params[key] <- as.character(replacements[1,key])
         } else if (match_state) {
-            g$state[key] <- replacements[key]
+            g$state[key] <- as.character(replacements[1,key])
         } else if (match_control) {
-            g$control[key] <- replacements[key]
+            g$control[key] <- as.character(replacements[1,key])
         }
         
     }
