@@ -235,6 +235,8 @@ int write_final_state(control *c, params *p, state *s)
     int error = 0;
     int line_number = 0;
     int match = FALSE;
+    
+    fprintf(stderr, "in write_final_state\n");
 
     while (fgets(line, sizeof(line), c->ifp) != NULL) {
         strcpy(saved_line, line);

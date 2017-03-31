@@ -342,6 +342,7 @@ void spin_up_annual(control *c, fluxes *f, met *m,
 
     /* save end of spin-up parameters and stocks */
     open_output_file(c, c->out_param_fname, &(c->ofp));
+    
     write_final_state(c, p, s);
     
     return;
