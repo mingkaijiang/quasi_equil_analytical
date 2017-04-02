@@ -1,13 +1,25 @@
-#### Run python wrapper file to run GDAY
-####
-#### Currently this is an easy solution, 
-#### in the future this will possibly change to remove the dependency on python wrapper file
+#### Source R wrapper files to swap parameters and running GDAY.
+#### All sub-simulations are performed here. 
+#### 
+#### Run definitions:
+#### Run 1: baseline, fixed plant stoichiometry
+#### Run 2: same as Run1, but variable plant stoichiometry
+#### Run 3: 
+#### Run 4: 
+#### Run 5: 
+#### Run 6: 
+#### Run 7: 
+#### Run 8: 
+#### Run 9: 
+#### Run 10: 
+#### 
+
 ################################################################################
 
 #### get the existing working directory
 cwd <- getwd()
 
-#### Set working directory to each simulation folder and run GDAY
+#### Perform GDAY simulations:
 
 ### Run1
 setwd("GDAY/simulations/Run1")   # Setting to subfolder helps as you can also run in terminal without the need to change anything in the code
