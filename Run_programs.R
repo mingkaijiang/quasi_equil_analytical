@@ -2,28 +2,31 @@
 #### Main program
 ####
 #### Level 1 code: 
-#### 1. To prepare GDAY runs
-#### 2. To run the analytical solution code together with the GDAY program
-#### 3. To generate manuscript figures
-####
-
-####
+#### 1. To prepare GDAY met forcing data and parameter files
+#### 2. To run GDAY and output each simulations into the corresponding folders
+#### 3. To quality check GDAY simulation results and post-processing them
+#### 4. To generate analytical solutions for each gday simulation
+#### 5. To prepare manuscript figures and tables 
 ####
 #### Author: Mingkai Jiang (m.jiang@westernsydney.edu.au)
 #### 
-####
 ######################## General system stuffs #################################
+#### Make sure everything is clear
+rm(list=ls(all=TRUE))
+
 #### Get current date
 date<-Sys.Date()
 
+#### read in all R packages
 source("R/prepare_R.R")
+
+
 ######################## Prepare GDAY stuffs ###################################
 #### Create met data for gday simulations
 source("GDAY/pre_processing/create_monthly_met_for_GDAY.R")
 
-#### make gday and send to simulation folders
+#### compile gday program and send to simulation folders
 source("GDAY/pre_processing/Make_GDAY_and_Send_To_Folders.R")
-
 
 #### Here need a script to modify the python scripts parameters for each simulations
 
@@ -34,19 +37,21 @@ source("GDAY/pre_processing/Make_GDAY_and_Send_To_Folders.R")
 
 
 ######################## Run GDAY simulations ##################################
-#### Run GDAY using the python wrapper file
+#### Run GDAY simulations, using either the python or R wrapper file
+#### Current setting use R, but is quite slow
 source("GDAY/pre_processing/Run_GDAY.R")
 
 
 ################# Post-processing GDAY simulations #############################
 #### Convert from monthly to annual data and save to analyses subfolders
+#### This step is the only "must-run" step for post-processing purpose
 source("GDAY/post_processing/Convert_GDAY_monthly_to_annual.R")
 
 #### Mass balance QC check for each simulations
 #### Plotting first 100 years and last 100 years
 #### Only for spin-up files
 #### WARNING: TAKES VERY LONG TO RUN!!!!!!!!!!!
-#source("GDAY/post_processing/mass_balance.R")
+# source("GDAY/post_processing/mass_balance.R")
 
 #### Plot time series spin up files for each simulations
 source("GDAY/post_processing/Transient_spin_up_plot.R")
@@ -64,12 +69,10 @@ source("GDAY/post_processing/Check_continuity_transient.R")
 ####       better to consider an automatic process to pick these years
 source("GDAY/post_processing/Plot_GDAY_quasi_equil_constraints.R")
 
-
 ######################## Run analytical stuffs #################################
-
-### To run analytical solution codes
+### To run analytical solution codes for each gday simulations
 source("R/Run_analytical_solutions.R")
-
+#### Need to store all the dataframe and outputs separately
 
 ############ Checking GDAY matches with analytical results #####################
 ####
