@@ -17,8 +17,6 @@ d <- dirname(dirname(getwd()))
 script_path <- paste0(d, "/code/scripts")
 source(paste0(script_path, "/adjust_gday_param_file.R"))
 
-
-
 ################################ Main functions #########################################
 Run_GDAY_transient <- function(site, treatment) {
     
@@ -38,10 +36,10 @@ Run_GDAY_transient <- function(site, treatment) {
     itag <- paste0(site, "_model_transient")
     otag <- paste0(site, "_model_simulation_", treatment)
     mtag = paste0(site, "_met_forcing_transient_", treatment, ".csv")
-    out_fn <- paste0(site, "_transient_", treatment, ".csv")   # treatment should be in upper case here
+    out_fn <- paste0(site, "_transient_", toupper(treatment), ".csv")   
     out_param_fname <- paste0(param_dir, "/", otag, ".cfg")
     cfg_fname <- paste0(param_dir, "/", itag, ".cfg")
-    met_fname <- paste0(met_dir, mtag)
+    met_fname <- paste0(met_dir, "/", mtag)
     out_fname <- paste0(run_dir, "/", out_fn)
     
     #### Copy and paste the initial parameter cfg file
@@ -58,7 +56,7 @@ Run_GDAY_transient <- function(site, treatment) {
         "met_fname", met_fname,
         "out_fname", out_fname,
         ############## CONTROL ############
-        "print_options": "annual")
+        "print_options", "annual")
     
     #### make a df out from replacement dictionary
     rDF <- make_df(replace_dict)

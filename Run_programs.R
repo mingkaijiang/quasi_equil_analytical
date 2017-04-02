@@ -10,6 +10,7 @@
 ####
 #### Author: Mingkai Jiang (m.jiang@westernsydney.edu.au)
 #### 
+#### Warning: needs at least 8 GB disk space because the simulation creates many large files
 ######################## General system stuffs #################################
 #### Make sure everything is clear
 rm(list=ls(all=TRUE))
