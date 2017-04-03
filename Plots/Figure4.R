@@ -476,17 +476,19 @@ equilNPP <- VLongN$equilNPP_N
 equilpf <- equilpVL(equilNPP,Pin = 0.04)   
 VLongNP <- data.frame(VLongN, equilpf)
 
-out700DF <- data.frame(nfseq, pfseq, pfseqL, NC700, NCVLONG, NCHUGH)
+out700DF <- data.frame(nfseq, pfseq, pfseqL, NC700, NCVLONG)
 colnames(out700DF) <- c("nc", "pc_VL", "pc_700_L", "NPP_700", "NPP_VL",
-                        "nleach_VL", "NPP_700_L", "nwood_L", "nburial_L",
-                        "nleach_L", "aw")
+                        "nleach_VL")
+
+# N:C ratio inferred by L constraint
+NCLONG <- NConsLong(df=nfseq,a=a_nf,Nin=1.0+NrelwoodVLong,Cpass=CpassVLong)
 
 # Find equilibrate intersection and plot
 LongN <- solveLongN(co2=CO2_2, Cpass=CpassVLong, Nin=1.0+NrelwoodVLong)
 equilNPP <- LongN$equilNPP
 
 a_new <- allocn(LongN$equilnf)
-equilpf <- inferpfVL(LongN$equilnf, a_new)
+equilpf <- equilpL(LongN, Pin=0.04+PrelwoodVLong, Cpass=CpassVLong)
 
 LongNP <- data.frame(LongN, equilpf)
 
@@ -494,14 +496,6 @@ equil700DF <- data.frame(VLongNP, LongNP)
 colnames(equil700DF) <- c("nc_VL", "NPP_VL", "pc_VL",
                           "nc_L", "NPP_L", "pc_L")
 
-#### Check for new P:C vs. production under eCO2, inferred from L constraint
-
-# N:C ratio inferred by L constraint
-NCLONG <- NConsLong(df=nfseq,a=a_nf,Nin=1.0+NrelwoodVLong,Cpass=CpassVLong)
-LongN_l <- solveLongN(co2=CO2_2, Nin=1.0+NrelwoodVLong, Cpass=CpassVLong)
-equilNPP_l <- LongN_l$equilNPP
-equilpf_l <- equilpL(LongN_l, Pin=0.04+PrelwoodVLong, Cpass=CpassVLong)
-LongNP_l <- data.frame(LongN_l, equilpf_l)
 
 ##### Main program
 
@@ -540,22 +534,13 @@ points(equil350DF$pc_VL,equil350DF$NPP_VL, pch = 19, cex = 2.0, col = "blue")
 points(out350DF$pc_VL, out350DF$NPP_350_L,type='l',col="violet", lwd = 2.5)
 
 
-# L nutrient constraint curve under CO2 = 700 ppm
-#points(out700DF$pc_700_L, out700DF$NPP_700_L, type = "l", col = "purple", lwd = 2.5,
-#       lty=3)
-
-# VL nutrient constraint curve under CO2 = 700 ppm
-#points(out700DF$pc_700_L, out700DF$NPP_VL, type = "l", col = "red", lwd = 2.5,
-#       lty = 3)
-
 # Instantaneous intersect with CO2 = 700 ppm
 points(equil350DF$pc_VL, df700[18, "PC700"], cex = 2.0, col = "darkgreen", pch=19)
 
 # VL intersect with CO2 = 700 ppm
 points(equil700DF$pc_VL, equil700DF$NPP_VL, cex = 2.0, col = "orange", pch = 19)
 
-
-points(LongNP_l$equilpf_l, LongNP_l$equilNPP, cex = 2.0, pch = 19, col = "red")
+points(equil700DF$pc_L, equil700DF$NPP_L, cex = 2.0, pch = 19, col = "red")
 
 legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
                      expression(paste("Photo constraint at ", CO[2]," = 700 ppm, VL")),
