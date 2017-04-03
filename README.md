@@ -15,6 +15,9 @@ Folder GDAY includes numerous sub-folders:
 7. pre_processing contains the R code to pre-process the simulations (e.g. generating met data)
 8. simulations contains the gday executive program and the python code to run the simulations
 
+GDAY model framework
+<p style="text-align:center"><img src="GDAY/code/doc/outline.png" width="700"/></p>
+
 Key references:
 
 Quasi-equilibrium analysis:
