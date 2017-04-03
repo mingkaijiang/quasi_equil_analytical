@@ -239,9 +239,9 @@ void spin_up_annual(control *c, fluxes *f, met *m,
     * Murty, D and McMurtrie, R. E. (2000) Ecological Modelling, 134,
     185-205, specifically page 196.
     */
-    double tol_c = 1E-02; //tol_c = 1E-06;
-    double tol_n = 1E-02; //tol_n = 1E-06;
-    double tol_p = 1E-02; //tol_p = 1E-04;
+    double tol_c = 1E-06;
+    double tol_n = 1E-06;
+    double tol_p = 1E-04;
     double prev_plantc = 99999.9;
     double prev_soilc = 99999.9;
     double prev_plantn = 99999.9;
@@ -313,8 +313,8 @@ void spin_up_annual(control *c, fluxes *f, met *m,
                 if (c->pcycle) {
                   /* Have we reached a steady state? */
                   fprintf(stderr,
-                          "Spinup: Iteration %d, moy %d, Leaf NC %f, Leaf PC %f, NPP %f, stem %f\n",
-                          year, moy, s->shootnc, s->shootpc, f->npp, s->stem);
+                          "Spinup: Iteration %d, moy %d, Leaf NC %f, Leaf PC %f, lai %f\n",
+                          year, moy,  s->shootnc, s->shootpc, s->lai);
                 } else if (c->ncycle) {
                   /* Have we reached a steady state? */
                   fprintf(stderr,

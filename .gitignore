@@ -94,3 +94,5 @@ Tables/*.csv
 # ignore all the .o files
 GDAY/code/src/*.o
 
+# ignore all the DS_store files
+.DS_Store
