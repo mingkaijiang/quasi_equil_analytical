@@ -57,43 +57,44 @@ Run_GDAY_spinup <- function(site) {
         # "met_fname", met_fname,
         "out_fname", out_fname,
         ############## STATE ############
-        "shoot", "11.0",              # assuming total 10 g plant, 2 in leaf 
-        "shootn", "0.3",              # 0.0008 C:N = 25 
-        "shootp", "0.01",             # 0.00003 C:P = 680 
-        "stem", "1700.0",             # assuming total 10 g plant, 6 in stem
-        "stemn", "0.2",               # 0.0003 C:N = 200 
-        "stemp", "0.0005",            # 0.000018 C:P = 3333.33
-        "root", "3.0",                # assuming total 10 g plant, 2 in root
-        "rootn", "0.07",              # 0.00056 Root CN = leaf * 0.7 
-        "rootp", "0.002",             # 0.000021 Root CP = leaf * 0.7
-        "activesoil", "11.0",         # guess
-        "activesoiln", "0.7",         # C:N = 15
-        "activesoilp", "0.01",        # C:P = 800
-        "slowsoil", "170.0",          # guess
-        "slowsoiln", "8.0",           # C:N = 20
-        "slowsoilp", "0.08",          # C:P = 2000
-        "passivesoil", "180.0",       # analytical
-        "passivesoiln", "18.0",       # C:N = 10
-        "passivesoilp", "0.9",        # C:P = 200
-        "metabsoil", "0.00",          #
-        "metabsoiln", "0.0",          # C:N = 10 <-> 25
-        "metabsoilp", "0.0",          # C:P = 80 <-> 150
-        "metabsurf", "0.00",          #
+        "shoot", "11.4513817366",              # assuming total 10 g plant, 2 in leaf 
+        "shootn", "0.3127565959",              # 0.0008 C:N = 25 
+        "shootp", "0.0117098780",             # 0.00003 C:P = 680 
+        "stem", "1717.7071632468",             # assuming total 10 g plant, 6 in stem
+        "stemn", "0.2345674203",               # 0.0003 C:N = 200 
+        "stemp", "0.0005269445",            # 0.000018 C:P = 3333.33
+        "root", "3.8171272483",                # assuming total 10 g plant, 2 in root
+        "rootn", "0.0729765392",              # 0.00056 Root CN = leaf * 0.7 
+        "rootp", "0.0027323049",             # 0.000021 Root CP = leaf * 0.7
+        "activesoil", "11.3813058596",    
+        "activesoiln", "0.7587575177",      # C:N = 15
+        "activesoilp", "0.0142266323",      # C:P = 800
+        "slowsoil", "176.4377787045",          # guess
+        "slowsoiln", "8.8218889352",           # C:N = 20
+        "slowsoilp", "0.0882188894",          # C:P = 2000
+        "passivesoil", "185.3704697468",       # analytical
+        "passivesoiln", "18.5370469747",       # C:N = 10
+        "passivesoilp", "0.9268523487",        # C:P = 200
+        "metabsoil", "0.4755035405",          #
+        "metabsoiln", "0.0154068712",        # C:N = 10 <-> 25
+        "metabsoilp", "0.0005263846",       # C:P = 80 <-> 150
+        "metabsurf", "0.304745989",          #
         "metabsurfn", "0.0",          # C:N = 10 <-> 25
         "metabsurfp", "0.0",          # C:P = 80 <-> 150
-        "structsoil", "0.00",         # 
-        "structsoiln", "0.00000",     # C:N = 150 
-        "structsoilp", "0.000000",    # C:P = 500
-        "structsurf", "0.00",         # 
-        "structsurfn", "0.00000",     # C:N = 150
-        "structsurfp", "0.000000",    # C:P = 500
-        "inorgn", "0.016",            # annual input = 0.01 t/ha, monthly rate 
-        "inorgavlp", "0.0005",        # annual input = 0.0004 t/ha, monthly rate 
-        "inorgssorbp", "0.00009",     # 
-        "inorgoccp", "1.2",           # 
-        "inorgparp", "0.00003",       # annual input = 0.0004 t/ha, monthly rate 
+        "structsoil", "2.6919821177",          # 
+        "structsoiln", "0.0134599106",       # C:N = 150 
+        "structsoilp", "0.0008075954",      # C:P = 500
+        "structsurf", "28.9309212284",         # 
+        "structsurfn", "0.1089258663",         # C:N = 150
+        "structsurfp", "0.0031747223",       # C:P = 500
+        "inorgn", "0.0166666344",           # annual input = 0.01 t/ha, monthly rate 
+        "inorgavlp", "0.0005714275",       # annual input = 0.0004 t/ha, monthly rate 
+        "inorgssorbp", "0.0000952379",    # 
+        "inorgoccp", "0.0",        # 
+        "inorgparp", "0.0000333333",      # annual input = 0.0004 t/ha, monthly rate 
         "canht", "30.0",              # 
-        "sapwood", "0.01",            # initialize value, needed it for initialize alloc_stuffs
+        "sapwood", "156.1552048922",         # initialize value, needed it for initialize alloc_stuffs
+        "lai", "12.7237574851",
         ############## PARAMETERS ############
         "co2_in", "350.0",                    # spin-up value
         "I0", "3000.0",                       # spin-up value, annual rate, unit MJ/m2/yr
@@ -205,7 +206,7 @@ Run_GDAY_spinup <- function(site) {
     adjust_gday_params(cfg_fname, rDF)
 
     #### Run the spin up model
-    system(paste0(GDAY_SPIN, " ", cfg_fname), ignore.stderr=T)
+    system(paste0(GDAY_SPIN, " ", cfg_fname), ignore.stderr=F)
     
     #### Call external function to transform the raw GDAY output into something more readable, NOT NEEDED
     #source(paste0(script_path, "/translate_GDAY_output_to_NCEAS_format.R"))

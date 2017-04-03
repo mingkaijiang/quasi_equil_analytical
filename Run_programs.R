@@ -29,11 +29,8 @@ source("GDAY/pre_processing/create_monthly_met_for_GDAY.R")
 #### compile gday program and send to simulation folders
 source("GDAY/pre_processing/Make_GDAY_and_Send_To_Folders.R")
 
-#### Here need a script to modify the python scripts parameters for each simulations
-
-
-
-
+#### Here need a script to modify the R scripts parameters for each simulations
+source("GDAY/pre_processing/Paste_R_script_to_folders.R")
 
 
 
