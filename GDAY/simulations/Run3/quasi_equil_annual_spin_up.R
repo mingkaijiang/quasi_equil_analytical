@@ -184,8 +184,8 @@ Run_GDAY_spinup <- function(site) {
         "alloc_model", "fixed",               # fixed and variable allocation pattern
         "diagnosis", "false",
         "exudation", "false",
-        "fixed_stem_nc", "false",
-        "fixed_stem_pc", "false",
+        "fixed_stem_nc", "true",
+        "fixed_stem_pc", "true",
         "fixleafnc", "false",
         "fixleafpc", "false",
         "ncycle", "true",
