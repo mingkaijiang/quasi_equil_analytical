@@ -1,18 +1,11 @@
 
-#### Functions to generate Figure 3
+#### Functions to generate Figure 4
 #### Purpose: 
-#### 3-d plot of photosynthetic, nitrogen and phosphorus constraint under aCO2 and eCO2
-#### Co-limited by N and P
+#### Shoot P:C vs. production under aCO2 and eCO2
+#### In particular show eCO2 P:C line is modified by both VL and L constraints
 ####
-#### Assumptions:
-#### 1. Fixed leaf NC and PC ratio
-#### 2. Uses G to reverse calculate leaf P (see open Issue #1 for more details)
 
-#### The commented out lines at the end can plot 2d plots
 ################################################################################
-
-######### Libraries
-require(scatterplot3d)
 
 ######### PHOTOSYNTHETIC CONSTRAINT FUNCTIONS
 
@@ -408,7 +401,7 @@ inferpfL <- function(nf, a, Pin = 0.04, Nin = 1.0,
 CO2_1 <- 350.0
 CO2_2 <- 700.0
 
-# plot photosynthetic constraints - not quite same as Hugh's, not sure why? 
+# plot photosynthetic constraints
 # N:C and P:C ratio
 nfseq <- round(seq(0.005, 0.05, by = 0.001),5)
 a_nf <- as.data.frame(allocn(nfseq))
@@ -467,10 +460,11 @@ colnames(equil350DF) <- c("nc_VL", "NPP_VL", "pc_VL",
 nfseq <- round(seq(0.005, 0.05, by = 0.001),5)
 a_nf <- as.data.frame(allocn(nfseq))
 
+# P:C ratio infered by VL constraint
 pfseq <- inferpfVL(nfseq, a_nf,Pin=0.04, Nin=1.0)
 a_pf <- as.data.frame(allocp(pfseq))
 
-# calculate NC vs. NPP at CO2 = 350 respectively
+# calculate NC vs. NPP at CO2 = 700 respectively
 NC700 <- solveNC(nfseq, a_nf$af, co2=CO2_2)
 
 # calculate very long term NC and PC constraint on NPP, respectively
@@ -500,158 +494,81 @@ equil700DF <- data.frame(VLongNP, LongNP)
 colnames(equil700DF) <- c("nc_VL", "NPP_VL", "pc_VL",
                           "nc_L", "NPP_L", "pc_L")
 
+#### Check for new P:C vs. production under eCO2, inferred from L constraint
+
+# N:C ratio inferred by L constraint
+NCLONG <- NConsLong(df=nfseq,a=a_nf,Nin=1.0+NrelwoodVLong,Cpass=CpassVLong)
+LongN_l <- solveLongN(co2=CO2_2, Nin=1.0+NrelwoodVLong, Cpass=CpassVLong)
+equilNPP_l <- LongN_l$equilNPP
+equilpf_l <- equilpL(LongN_l, Pin=0.04+PrelwoodVLong, Cpass=CpassVLong)
+LongNP_l <- data.frame(LongN_l, equilpf_l)
 
 ##### Main program
 
 ### Plotting
-tiff("Plots/Figure3.tiff",
+tiff("Plots/Figure4.tiff",
      width = 8, height = 7, units = "in", res = 300)
 par(mar=c(5.1,5.1,2.1,2.1))
-
-
-# NPP constraint by CO2 = 350
-s3d <- scatterplot3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_350, xlim=c(0.0, 0.05),
-                     ylim = c(0.0, 0.002), zlim=c(0, 8), 
-                     type = "l", xlab = "Shoot N:C ratio", ylab = "Shoot P:C ratio", 
-                     zlab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
-                     color="cyan", lwd = 3, angle=24)
-
-# NPP constraint by very long term nutrient availability
-s3d$points3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_VL, type="l", col="tomato", lwd = 3)
-
-# equilibrated NPP for very long term nutrient and CO2 = 350
-s3d$points3d(equil350DF$nc_VL, equil350DF$pc_VL, equil350DF$NPP_VL,
-             type="h", pch = 19, col = "blue")
-
-# NPP constraint by long term nutrient availability
-s3d$points3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_350_L, type='l',col="violet", lwd = 3)
-#s3d$points3d(out700DF$nc, out700DF$pc_700_L, out700DF$NPP_700_L, type='l',col="grey", lwd = 3)
-
-
-# equilibrated NPP for long term nutrient and CO2 = 350
-#s3d$points3d(equil350DF$nc_L, equil350DF$pc_L, equil350DF$NPP_L,
-#             type="h", col="lightblue", pch = 19)
-
-# NPP constraint by CO2 = 700
-s3d$points3d(out700DF$nc, out700DF$pc_VL, out700DF$NPP_700, col="green", type="l", lwd = 3)
-
-s3d$points3d(equil350DF$nc_VL, equil350DF$pc_VL, 
-             out700DF[18, "NPP_700"], type="h", col = "darkgreen", pch=19)
-
-# equilibrated NPP for very long term nutrient and CO2 = 700
-s3d$points3d(equil700DF$nc_VL, equil700DF$pc_VL, equil700DF$NPP_VL, 
-             type="h", col="orange", pch = 19)
-
-# equilibrated NPP for long term nutrient and CO2 = 700
-s3d$points3d(equil700DF$nc_L, equil700DF$pc_VL, equil700DF$NPP_L,
-             type="h", col="red", pch = 19)
-
-
-legend("topleft", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
-                     expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-                     "VL nutrient constraint", "L nutrient constraint",
-                     "A", "B", "C", "D"),
-       col=c("cyan","green", "tomato", "violet","blue", "darkgreen","red", "orange"), 
-       lwd=c(2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,19,19,19,19), cex = 1.0, 
-       bg = adjustcolor("grey", 0.8))
-
-dev.off()
-
-
 
 ### only plot pf and npp
 #
 ## Photosynthetic constraint CO2 = 350 ppm
-#plot(out350DF$pc_VL, out350DF$NPP_350,axes=F,
-#     type='l',xlim=c(0,0.001),ylim=c(0,8), 
-#     ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]"))
-#     , xlab = "Shoot P:C ratio", lwd = 2.5, col="cyan", cex = 2.0, bg = "black")
-#rect(-2,-2,0.002,8,border=NA, col=adjustcolor("lightgrey", 0.2))
-#axis(1)
-#axis(2)
-## add abline to show instantaneous effect of doubling CO2
-#abline(v=equil350DF$pc_VL, lwd = 2, lty = 5, col = "gray73")
-#
-## Photosynthetic constraint CO2 = 700 ppm
-#points(out700DF$pc_VL, out700DF$NPP_700,type='l',col="green", lwd = 2.5)
-#
-## VL nutrient constraint curve
-#points(out350DF$pc_VL, out350DF$NPP_VL,type='l',col="tomato", lwd = 2.5)
-#
-## L nutrient constraint curve   changed from pc_350_L to pc_VL
-#points(out350DF$pc_VL, out350DF$NPP_350_L,type='l',col="violet", lwd = 2.5)
-#
-## VL intersect with CO2 = 350 ppm
-#points(equil350DF$pc_VL,equil350DF$NPP_VL, pch = 19, cex = 2.0, col = "blue")
-#
-## L intersect with CO2 = 350 ppm      
-#with(equil350DF,points(pc_L,NPP_L,pch=19, cex = 2.0, col = "black"))
-#
-## L intersect with CO2 = 700 ppm
-#with(equil700DF,points(pc_L,NPP_L,pch=19, cex = 2.0, col = "red"))
-#
-## VL intersect with CO2 = 700 ppm
-#points(equil700DF$pc_VL, equil700DF$NPP_VL, cex = 2.0, col = "orange", pch = 19)
-#
-#legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
-#                     expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-#                     "VL nutrient constraint", "L nutrient constraint",
-#                     "A", "B"),
-#       col=c("cyan","green", "tomato", "violet","blue", "darkgreen"), 
-#       lwd=c(2,2,2,2,NA,NA), pch=c(NA,NA,NA,NA,19,19), cex = 1.0, 
-#       bg = adjustcolor("grey", 0.8))
-#
-#legend(0.0008, 7.05, c("C", "D"),
-#       col=c("red", "orange"), 
-#       lwd=c(NA,NA), pch=c(19,19), cex = 1.0, border=FALSE, bty="n",
-#       bg = adjustcolor("grey", 0.8))      
-#
-#
-#
-## only plot nf and NPP
-#
-## Photosynthetic constraint CO2 = 350 ppm
-#plot(out350DF$nc, out350DF$NPP_350,axes=F,
-#     type='l',xlim=c(0,0.05),ylim=c(0,8), 
-#     ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]"))
-#     , xlab = "Shoot P:C ratio", lwd = 2.5, col="cyan", cex = 2.0, bg = "black")
-#rect(-2,-2,0.05,8,border=NA, col=adjustcolor("lightgrey", 0.2))
-#axis(1)
-#axis(2)
-## add abline to show instantaneous effect of doubling CO2
-#abline(v=equil350DF$nc_VL, lwd = 2, lty = 5, col = "gray73")
-#
-## Photosynthetic constraint CO2 = 700 ppm
-#points(out700DF$nc, out700DF$NPP_700,type='l',col="green", lwd = 2.5)
-#
-## VL nutrient constraint curve
-#points(out350DF$nc, out350DF$NPP_VL,type='l',col="tomato", lwd = 2.5)
-#
-## L nutrient constraint curve
-#points(out350DF$nc, out350DF$NPP_350_L,type='l',col="violet", lwd = 2.5)
-#
-## VL intersect with CO2 = 350 ppm
-#points(equil350DF$nc_VL,equil350DF$NPP_VL, pch = 19, cex = 2.0, col = "blue")
-#
-## L intersect with CO2 = 350 ppm
-##with(equil350DF,points(nc_L,NPP_L,pch=19, cex = 2.0, col = "black"))
-#
-## L intersect with CO2 = 700 ppm
-#with(equil700DF,points(nc_L,NPP_L,pch=19, cex = 2.0, col = "red"))
-#
-## VL intersect with CO2 = 700 ppm
-#points(equil700DF$nc_VL, equil700DF$NPP_VL, cex = 2.0, col = "orange", pch = 19)
-#
-#legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
-#                     expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-#                     "VL nutrient constraint", "L nutrient constraint",
-#                     "A", "B"),
-#       col=c("cyan","green", "tomato", "violet","blue", "darkgreen"), 
-#       lwd=c(2,2,2,2,NA,NA), pch=c(NA,NA,NA,NA,19,19), cex = 1.0, 
-#       bg = adjustcolor("grey", 0.8))
-#
-#legend(0.04, 7.05, c("C", "D"),
-#       col=c("red", "orange"), 
-#       lwd=c(NA,NA), pch=c(19,19), cex = 1.0, border=FALSE, bty="n",
-#       bg = adjustcolor("grey", 0.8))     
-#
+plot(out350DF$pc_VL, out350DF$NPP_350,axes=F,
+     type='l',xlim=c(0,0.0015),ylim=c(0,8), 
+     ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]"))
+     , xlab = "Shoot P:C ratio", lwd = 2.5, col="cyan", cex = 2.0, bg = "black")
+rect(-2,-2,0.002,8,border=NA, col=adjustcolor("lightgrey", 0.2))
+axis(1)
+axis(2)
+# add abline to show instantaneous effect of doubling CO2
+abline(v=equil350DF$pc_VL, lwd = 2, lty = 5, col = "gray73")
+
+# Photosynthetic constraint CO2 = 700 ppm, VL term
+points(out700DF$pc_VL, out700DF$NPP_700,type='l',col="green", lwd = 2.5)
+
+# Photosynthetic constraint CO2 = 700 ppm, Long term
+points(out700DF$pc_700_L, out700DF$NPP_700, type = "l", col = "darkgreen", lwd = 2.5,
+       lty = 3)
+
+# VL nutrient constraint curve
+points(out350DF$pc_VL, out350DF$NPP_VL,type='l',col="tomato", lwd = 2.5)
+
+# VL intersect with CO2 = 350 ppm
+points(equil350DF$pc_VL,equil350DF$NPP_VL, pch = 19, cex = 2.0, col = "blue")
+
+# L nutrient constraint curve   changed from pc_350_L to pc_VL
+points(out350DF$pc_VL, out350DF$NPP_350_L,type='l',col="violet", lwd = 2.5)
+
+
+# L nutrient constraint curve under CO2 = 700 ppm
+#points(out700DF$pc_700_L, out700DF$NPP_700_L, type = "l", col = "purple", lwd = 2.5,
+#       lty=3)
+
+# VL nutrient constraint curve under CO2 = 700 ppm
+#points(out700DF$pc_700_L, out700DF$NPP_VL, type = "l", col = "red", lwd = 2.5,
+#       lty = 3)
+
+# Instantaneous intersect with CO2 = 700 ppm
+points(equil350DF$pc_VL, df700[18, "PC700"], cex = 2.0, col = "darkgreen", pch=19)
+
+# VL intersect with CO2 = 700 ppm
+points(equil700DF$pc_VL, equil700DF$NPP_VL, cex = 2.0, col = "orange", pch = 19)
+
+
+points(LongNP_l$equilpf_l, LongNP_l$equilNPP, cex = 2.0, pch = 19, col = "red")
+
+legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
+                     expression(paste("Photo constraint at ", CO[2]," = 700 ppm, VL")),
+                     expression(paste("Photo constraint at ", CO[2]," = 700 ppm, L")), 
+                     "VL nutrient constraint", "L nutrient constraint",
+                     "A", "B"),
+       col=c("cyan","green", "darkgreen", "tomato", "violet","blue", "darkgreen"), 
+       lwd=c(2,2,2,2,2,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19), lty=c(1,1,3,1,1,NA,NA),cex = 1.0, 
+       bg = adjustcolor("grey", 0.8))
+
+legend(0.001, 6.75, c("C", "D"),
+       col=c("red", "orange"), 
+       lwd=c(NA,NA), pch=c(19,19), cex = 1.0, border=FALSE, bty="n",
+       bg = adjustcolor("grey", 0.8))    
+       
+dev.off()
