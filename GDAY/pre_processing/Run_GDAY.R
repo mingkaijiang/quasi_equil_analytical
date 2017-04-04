@@ -2,9 +2,10 @@
 #### All sub-simulations are performed here. 
 #### 
 #### Run definitions:
-#### Run 1: baseline, fixed plant stoichiometry
-#### Run 2: same as Run1, but variable plant stoichiometry
-#### Run 3: 
+#### Run 1: baseline, variable wood stoichiometry, N and P cycles on,
+####        implicit mineral N and P pools
+#### Run 2: same as Run1, but P cycle off
+#### Run 3: same as Run1, but fixed wood stoichiometry
 #### Run 4: 
 #### Run 5: 
 #### Run 6: 

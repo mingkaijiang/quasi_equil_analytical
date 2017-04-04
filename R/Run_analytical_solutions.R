@@ -1,13 +1,40 @@
 
-#### Run analytical functions
+#### Run analytical functions for each sub-simulations of GDAY
+#### Output the necessary dataframe onto a cohesive framework,
+#### so that they are available for cross-match with GDAY simulation results
 ####
-#### 
+#### This is the main script to call individual analytical run scripts and functions
+####
 ################################################################################
 
-#### Create a plots directory to store plots
-#if(!dir.exists("Plots"))dir.create("Plots")
+#### Create dataframes to store all the data
 
-#### Source the prepare_R.R file to read in all the structures, libraries and functions
-source("R/prepare_R.R")
+#### Run 1
+source("R/Analytical_Run1.R")
 
-## to add all analytical scripts, but need to think about Run1-15 generation
+#### Run 2
+source("R/Analytical_Run2.R")
+
+#### Run 3
+source("R/Analytical_Run3.R")
+
+#### Run 4
+source("R/Analytical_Run4.R")
+
+#### Run 5
+source("R/Analytical_Run5.R")
+
+#### Run 6
+source("R/Analytical_Run6.R")
+
+#### Run 7
+source("R/Analytical_Run7.R")
+
+#### Run 8
+source("R/Analytical_Run8.R")
+
+#### Run 9
+source("R/Analytical_Run9.R")
+
+#### Run 10
+source("R/Analytical_Run10.R")

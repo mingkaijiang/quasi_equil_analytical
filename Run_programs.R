@@ -75,6 +75,8 @@ source("R/Run_analytical_solutions.R")
 ############ Checking GDAY matches with analytical results #####################
 ####
 
+############ Perform the necessary plottings and statistics ####################
+
 
 
 ################# Generate manuscript figures and tables #######################
