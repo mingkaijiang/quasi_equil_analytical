@@ -286,9 +286,13 @@ void cut_back_production_n(control *c, fluxes *f, params *p, state *s,
                         double tot, double ncwnew, double pcwnew) {
 
     double lai_inc, conv;
-    double shoot_biomass, leafn, resp;
-    double a = 0.645;   /* Reich et al. 2008 Ecol. Let. Table 1, Leaves */
-    double b = 1.66;    /* Reich et al. 2008 Ecol. Let. Table 1, Leaves */
+    double leafn, stemn, rootn, respl, resps, respr;
+    double a1 = 0.02376;
+    double b1 = 1.411;   /* Reich et al. 2008 Ecol. Let. Table 1, Leaves */
+    double a2 = 0.03323;
+    double b2 = 1.315;   /* Reich et al. 2008 Ecol. Let. Table 1, Stems */
+    double a3 = 0.02888;
+    double b3 = 1.597;   /* Reich et al. 2008 Ecol. Let. Table 1, Roots */
     /* default is we don't need to recalculate the water balance,
        however if we cut back on NPP due to available N and P below then we do
        need to do this */
@@ -346,27 +350,20 @@ void cut_back_production_n(control *c, fluxes *f, params *p, state *s,
       fprintf(stderr, "Not implemented yet");
       exit(EXIT_FAILURE);
     } else if (c->respiration_model == LEAFN) {
-      /* obtain leaf biomass in g/m2 */
-      shoot_biomass = s->lai / (p->sla * M2_AS_HA / (KG_AS_TONNES * p->cfracts)) / G_AS_TONNES * M2_AS_HA; 
-      
-      /* convert shootn from t/ha to mmol/m2 */
-      leafn = s->shootn / G_AS_TONNES * M2_AS_HA / MOL_N_TO_GRAMS_N * MOL_2_MMOL;
-      
-      /* calculate leafn in mmol [N] g-1 [shoot biomass] */
-      leafn = leafn / shoot_biomass;
-      
-      /* calculate leaf dark respiration in nmol g-1 s-1 */
-      resp = a * leafn * exp(b);
-      
-      /* convert respiration rate from mmol g-1 s-1 to t/ha/m */
-      /* 1: from nmol g-1 s-1 to g m-2 s-1 */
-      resp = resp * NMOL_2_MOL * MOL_C_TO_GRAMS_C * shoot_biomass;
-      
-      /* 2: from g m-2 s-1 to t ha-2 month-1 */
-      resp = resp * SECS_IN_HOUR * 24.0 * NDAYS_IN_YR / NMONTHS_IN_YR * G_AS_TONNES / M2_AS_HA;
-      
-      f->auto_resp = resp;
-      f->gpp = f->npp + f->auto_resp;
+        /* calculate leafn per leaf biomass, and same for stem and root, 
+         in the unit of mmol[N] g-1*/
+        leafn = s->shootnc / MOL_N_TO_GRAMS_N * MOL_2_MMOL;
+        stemn = s->stemn / s->stem / MOL_N_TO_GRAMS_N * MOL_2_MMOL;
+        rootn = s->rootnc / MOL_N_TO_GRAMS_N * MOL_2_MMOL;
+        
+        /* calculate dark respiration for leaf, stem and root */
+        respl = (s->shoot * a1) * pow(leafn, b1);
+        resps = (s->stem * a2) * pow(stemn, b2);
+        respr = (s->root * a3) * pow(rootn, b3);
+        
+        /* compute autotrophic respiration */
+        f->auto_resp = respl + resps + respr;
+        f->npp = f->gpp - f->auto_resp;
     }
 
     return;
@@ -376,9 +373,13 @@ void cut_back_production_p(control *c, fluxes *f, params *p, state *s,
                            double tot, double ncwnew, double pcwnew) {
   
   double lai_inc, conv;
-  double shoot_biomass, leafn, resp;
-  double a = 0.645;   /* Reich et al. 2008 Ecol. Let. Table 1, Leaves */
-  double b = 1.66;    /* Reich et al. 2008 Ecol. Let. Table 1, Leaves */
+  double leafn, stemn, rootn, respl, resps, respr;
+  double a1 = 0.02376;
+  double b1 = 1.411;   /* Reich et al. 2008 Ecol. Let. Table 1, Leaves */
+  double a2 = 0.03323;
+  double b2 = 1.315;   /* Reich et al. 2008 Ecol. Let. Table 1, Stems */
+  double a3 = 0.02888;
+  double b3 = 1.597;   /* Reich et al. 2008 Ecol. Let. Table 1, Roots */
   /* default is we don't need to recalculate the water balance,
   however if we cut back on NPP due to available N and P below then we do
   need to do this */
@@ -431,27 +432,20 @@ void cut_back_production_p(control *c, fluxes *f, params *p, state *s,
     fprintf(stderr, "Not implemented yet");
     exit(EXIT_FAILURE);
   } else if (c->respiration_model == LEAFN) {
-    /* obtain leaf biomass in g/m2 */
-    shoot_biomass = s->lai / (p->sla * M2_AS_HA / (KG_AS_TONNES * p->cfracts)) / G_AS_TONNES * M2_AS_HA; 
-    
-    /* convert shootn from t/ha to mmol/m2 */
-    leafn = s->shootn / G_AS_TONNES * M2_AS_HA / MOL_N_TO_GRAMS_N * MOL_2_MMOL;
-    
-    /* calculate leafn in mmol [N] g-1 [shoot biomass] */
-    leafn = leafn / shoot_biomass;
-    
-    /* calculate leaf dark respiration in nmol g-1 s-1 */
-    resp = a * leafn * exp(b);
-    
-    /* convert respiration rate from mmol g-1 s-1 to t/ha/m */
-    /* 1: from nmol g-1 s-1 to g m-2 s-1 */
-    resp = resp * NMOL_2_MOL * MOL_C_TO_GRAMS_C * shoot_biomass;
-    
-    /* 2: from g m-2 s-1 to t ha-2 month-1 */
-    resp = resp * SECS_IN_HOUR * 24.0 * NDAYS_IN_YR / NMONTHS_IN_YR * G_AS_TONNES / M2_AS_HA;
-    
-    f->auto_resp = resp;
-    f->gpp = f->npp + f->auto_resp;
+      /* calculate leafn per leaf biomass, and same for stem and root, 
+       in the unit of mmol[N] g-1*/
+      leafn = s->shootnc / MOL_N_TO_GRAMS_N * MOL_2_MMOL;
+      stemn = s->stemn / s->stem / MOL_N_TO_GRAMS_N * MOL_2_MMOL;
+      rootn = s->rootnc / MOL_N_TO_GRAMS_N * MOL_2_MMOL;
+      
+      /* calculate dark respiration for leaf, stem and root */
+      respl = (s->shoot * a1) * pow(leafn, b1);
+      resps = (s->stem * a2) * pow(stemn, b2);
+      respr = (s->root * a3) * pow(rootn, b3);
+      
+      /* compute autotrophic respiration */
+      f->auto_resp = respl + resps + respr;
+      f->npp = f->gpp - f->auto_resp;
   }
   
   return;

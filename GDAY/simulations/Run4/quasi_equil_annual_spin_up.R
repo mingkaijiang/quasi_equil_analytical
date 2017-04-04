@@ -194,7 +194,7 @@ Run_GDAY_spinup <- function(site) {
         "puptake_model", "0",
         "print_options", "end",                # during spin up, set to end
         "passiveconst", "false",
-        "respiration_model", "fixed",
+        "respiration_model", "leafn",
         "som_nc_calc", "fixed",
         "som_pc_calc", "fixed")
     
