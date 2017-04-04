@@ -181,7 +181,7 @@ Run_GDAY_spinup <- function(site) {
         "pmincrit", "2.0",                    # for variable som PC depend on inorgavlp 
         ############## CONTROL ############
         "adjust_rtslow", "false",             # goes together with exudation
-        "alloc_model", "fixed",               # fixed and variable allocation pattern
+        "alloc_model", "allometric",               # fixed and variable allocation pattern
         "diagnosis", "false",
         "exudation", "false",
         "fixed_stem_nc", "false",

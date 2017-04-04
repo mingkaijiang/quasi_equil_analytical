@@ -23,7 +23,7 @@ Perform_Analytical_Run6 <- function(plotting = T) {
     
     # create nc and pc for shoot to initiate
     nfseq <- round(seq(0.005, 0.05, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq,nwvar=T))
+    a_nf <- as.data.frame(allocn(nfseq))
     
     pfseq <- inferpfVL(nfseq, a_nf, Pin=0.04, Nin=1.0, pwvar=T)
     a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
