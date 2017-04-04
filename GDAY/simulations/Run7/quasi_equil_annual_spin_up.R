@@ -190,8 +190,8 @@ Run_GDAY_spinup <- function(site) {
         "fixleafpc", "false",
         "ncycle", "true",
         "pcycle", "true",
-        "nuptake_model", "0",
-        "puptake_model", "0",
+        "nuptake_model", "1",
+        "puptake_model", "1",
         "print_options", "end",                # during spin up, set to end
         "passiveconst", "false",
         "respiration_model", "fixed",
