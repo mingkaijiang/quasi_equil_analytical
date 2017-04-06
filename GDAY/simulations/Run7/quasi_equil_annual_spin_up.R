@@ -29,8 +29,8 @@ Run_GDAY_spinup <- function(site) {
     base_dir <- getwd()
     base_param_name <- "base_start_with_P.cfg"
     base_param_dir <- paste0(d, "/code/example/params")
-    param_dir <- paste0(d, "/params/Run1")
-    run_dir <- paste0(d, "/outputs/Run1")
+    param_dir <- paste0(d, "/params/Run7")
+    run_dir <- paste0(d, "/outputs/Run7")
 
     #### setting up the output file names and locations
     itag <- paste0(site, "_model_spinup")
@@ -144,10 +144,10 @@ Run_GDAY_spinup <- function(site) {
         "slowncmin", "0.05",                  # C:N = 20
         "slowpcmin", "0.0005",                # C:P = 2000
         "slowpcmax", "0.0005",                # C:P = 2000
-        "passncmax", "0.1",                   # C:N = 10
+        "passncmax", "0.142857",               
         "passncmin", "0.1",                   # C:N = 10
         "passpcmin", "0.005",                 # C:P = 200
-        "passpcmax", "0.005",                 # C:P = 200
+        "passpcmax", "0.05",                 
         "lue0", "2.8",                        # 2.8 for GPP, 1.4 for NPP
         "cue", "0.5",                         # 
         "ncmaxf", "0.05",                     # 0.05
@@ -195,8 +195,8 @@ Run_GDAY_spinup <- function(site) {
         "print_options", "end",                # during spin up, set to end
         "passiveconst", "false",
         "respiration_model", "fixed",
-        "som_nc_calc", "fixed",
-        "som_pc_calc", "fixed")
+        "som_nc_calc", "inorgn",
+        "som_pc_calc", "inorgavlp")
     
     #### make a df out from replacement dictionary
     rDF <- make_df(replace_dict)

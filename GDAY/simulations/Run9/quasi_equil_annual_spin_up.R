@@ -29,8 +29,8 @@ Run_GDAY_spinup <- function(site) {
     base_dir <- getwd()
     base_param_name <- "base_start_with_P.cfg"
     base_param_dir <- paste0(d, "/code/example/params")
-    param_dir <- paste0(d, "/params/Run1")
-    run_dir <- paste0(d, "/outputs/Run1")
+    param_dir <- paste0(d, "/params/Run9")
+    run_dir <- paste0(d, "/outputs/Run9")
 
     #### setting up the output file names and locations
     itag <- paste0(site, "_model_spinup")

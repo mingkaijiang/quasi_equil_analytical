@@ -893,6 +893,7 @@ void calculate_n_immobilisation(control *c, fluxes *f, params *p, state *s, doub
         if (*nimmob > numer2)
           *nimmob = numer2;
       } else if (c->som_nc_calc == INORGN) {
+         
         /* N:C new SOM - active, slow and passive */
         *active_nc_slope = calculate_nc_slope(p, p->actncmax, p->actncmin);
         *slow_nc_slope = calculate_nc_slope(p, p->slowncmax, p->slowncmin);

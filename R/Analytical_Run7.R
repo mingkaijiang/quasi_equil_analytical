@@ -57,8 +57,11 @@ Perform_Analytical_Run7 <- function(plotting = T) {
                        Nin = 1.0+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
     
     # Calculate long term nutrieng constraint
+    #test <- NConsLong_variable_pass(df=nfseq, a=a_nf,Cpass=CpassVLong,
+    #                    Nin = 1.0+NrelwoodVLong)
+    
     NCHUGH <- NConsLong(df=nfseq, a=a_nf,Cpass=CpassVLong,
-                        Nin = 1.0+NrelwoodVLong)
+                                      Nin = 1.0+NrelwoodVLong)
     
     # Find equilibrate intersection and plot
     LongN <- solveLongN(co2=CO2_1, Cpass=CpassVLong, Nin= 1.0+NrelwoodVLong, nwvar=T)
