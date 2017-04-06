@@ -45,6 +45,10 @@ source("GDAY/pre_processing/Run_GDAY.R")
 ### This step is the only "must-run" step for post-processing purpose
 source("GDAY/post_processing/Convert_GDAY_monthly_to_annual.R")
 
+
+### Consider add a script to delete all the raw GDAY simulation outputs as they are LARGE!!!
+
+
 ### Mass balance QC check for each simulations
 ### Plotting first 100 years and last 100 years
 ### Only for spin-up files
@@ -82,6 +86,11 @@ source("R/Run_analytical_solutions.R")
 
 
 #### ------------------------ Perform the necessary plottings and statistics ------------------------ #####
+### Need to be run specific, e.g. Run 4 - respiration as a function of tissue N, needs gday CUE and analytical CUE
+
+### Run 4 CUE output, save into a table
+source("R/CUE_check.R")
+
 
 
 
