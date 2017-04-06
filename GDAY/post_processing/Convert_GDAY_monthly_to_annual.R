@@ -24,7 +24,7 @@ m_to_a <- function(inDF) {
             rep(0,1),    # 74
             rep(1,23))   # 75 - 97
     match <- data.frame(fop1,n)
-    print(match)
+    #print(match)
     
     ## extract stock df and flux df
     fDF <- cbind(inDF[1:2], inDF[,38:97])

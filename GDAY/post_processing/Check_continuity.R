@@ -10,7 +10,8 @@ integrate_DF <- function(spinDF, tranDF) {
     
     ## Collecting last 10 years of spin-out DF
     l <- nrow(spinDF)
-    s <- l-10
+    test <- l-10
+    s <- ifelse(test < 0, 1, test)
     spinDF <- as.data.frame(spinDF[s:l,])
     spinDF$year <- spinDF$year-l+1
     
@@ -45,7 +46,7 @@ continuity_pool_plot <- function(spinDF, tranDF1, tranDF2) {
     
     #### Plotting all the stocks
     for (y in varnames) {
-        print(y)
+        #print(y)
         plot(get(y)~year, DF2, type = "l", lwd = 2.5,
              ylab = paste(y, " [t/ha/yr]", sep=""), col="red", main = y)
         lines(get(y)~year, DF1, type = "l", lwd = 2.5, col="black")
@@ -80,6 +81,7 @@ run_continuity_plot <- function() {
                          header=T,sep=",")
         F3 <- read.table(paste(FilePath, "/annual_gday_result_transient_CO2_ELE.csv", sep=""),
                          header=T,sep=",")
+        print(FilePath)
         
         pdf(paste(FilePath,"/gday_continuity_pools.pdf", sep=""), width=10,height=8)
         continuity_pool_plot(F1, F2, F3)

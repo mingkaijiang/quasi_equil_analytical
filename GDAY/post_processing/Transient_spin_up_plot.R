@@ -14,7 +14,7 @@ basic_ts_plot_discrete <- function(plotDF) {
     
     ## Plot all data, starting from 2nd column
     for (i in yvars) {
-        print(i)
+        #print(i)
         plot(get(i)~year, plotDF, type = "l", lwd = 2.5,
              cex = 2, ylab = i, 
              main = i)
@@ -42,6 +42,7 @@ run_plot_discrete <- function() {
         plotDF <- read.table(paste(FilePath, "/annual_gday_result_spinup.csv", sep=""),
                       header=T,sep=",")
         
+        print(FilePath)
         pdf(paste(FilePath, "/Basic_time_series_spinup_discrete.pdf", sep=""))
         basic_ts_plot_discrete(plotDF)
         dev.off()

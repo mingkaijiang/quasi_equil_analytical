@@ -27,7 +27,7 @@ quasi_equil_constraint_plot <- function(plotDF, endyear) {
 nc_constraint_plot <- function(tranDF, message, endyear,L1, L2, L3, L4) {
     plot(npp~I(shootn/shoot), tranDF[5,], type="p",
          cex = 2, ylab = "NPP [t/ha/yr]", xlab = "Shoot NC", 
-         ylim=c(10,35), col="black", pch=19)
+         ylim=c(0,50), col="black", pch=19)
     points(npp~I(shootn/shoot), tranDF[6,], type="p",
            cex = 2, col="red", pch=19)
     points(npp~I(shootn/shoot), tranDF[300,], type="p",
@@ -45,7 +45,7 @@ nc_constraint_plot <- function(tranDF, message, endyear,L1, L2, L3, L4) {
 pc_constraint_plot <- function(tranDF, message, endyear,L1, L2, L3, L4) {
     plot(npp~I(shootp/shoot), tranDF[5,], type="p",
          cex = 2, ylab = "NPP [t/ha/yr]", xlab = "Shoot PC", 
-         ylim=c(10,35), col="black", pch=19)
+         ylim=c(0,50), col="black", pch=19)
     points(npp~I(shootp/shoot), tranDF[6,], type="p",
            cex = 2, col="red", pch=19)
     points(npp~I(shootp/shoot), tranDF[300,], type="p",
@@ -67,7 +67,7 @@ constraint_3d <- function(tranDF, message, endyear,L1, L2, L3, L4) {
     s3d <- scatterplot3d(tranDF[5,"shootn"]/tranDF[5,"shoot"], 
                          tranDF[5,"shootp"]/tranDF[5,"shoot"], 
                          tranDF[5,"npp"], xlim=c(0.005, 0.05),
-                         ylim = c(0.0, 0.002), zlim=c(10, 35), 
+                         ylim = c(0.0, 0.002), zlim=c(0,50), 
                          type = "h", pch = 19, xlab = "N:C", ylab = "P:C", zlab = "NPP [t/ha/yr]",
                          color="black")
     
@@ -115,6 +115,7 @@ run_gday_quasi_equil_plot <- function() {
         inDF <- read.table(paste(FilePath, "/annual_gday_result_transient_CO2_ELE.csv", sep=""),
                          header=T,sep=",")
         
+        print(FilePath)
         pdf(paste(FilePath,"/gday_quasi_equil_eCO2.pdf", sep=""), width=10,height=8)
         quasi_equil_constraint_plot(inDF, endyear = 4850)
         dev.off()
