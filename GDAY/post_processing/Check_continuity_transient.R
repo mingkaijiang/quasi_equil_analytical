@@ -126,6 +126,8 @@ run_transient_continuity <- function() {
         inDF <- read.table(paste(FilePath, "/annual_gday_result_transient_CO2_ELE.csv", sep=""),
                          header=T,sep=",")
         
+        print(FilePath)
+        
         pdf(paste(FilePath,"/gday_continuity_eCO2_transient.pdf", sep=""), width=10,height=8)
         transient_continuity(inDF, endyear = 200)
         dev.off()
