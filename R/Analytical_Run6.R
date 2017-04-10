@@ -1,9 +1,9 @@
 
-#### Analytical script to match GDAY Run 6 settings
+#### Analytical script to match GDAY Run 1 settings
 ####
 #### Assumptions:
 #### Same as Run 1, except
-#### 1.Uses allometric allocations
+#### 1. explicit mineral N and P pools, uptake is a constant rate
 ####
 ################################################################################
 
@@ -11,8 +11,8 @@
 require(scatterplot3d)
 
 #### Functions
-Perform_Analytical_Run6 <- function(plotting = T) {
-    #### Function to perform analytical run 1 simulations
+Perform_Analytical_Run7 <- function(plotting = T) {
+    #### Function to perform analytical run 7 simulations
     #### Will save multiple dataframes
 
     ######### Main program
@@ -22,10 +22,10 @@ Perform_Analytical_Run6 <- function(plotting = T) {
     CO2_2 <- 700.0
     
     # create nc and pc for shoot to initiate
-    nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq))
+    nfseq <- round(seq(0.005, 0.05, by = 0.001),5)
+    a_nf <- as.data.frame(allocn(nfseq,nwvar=T))
     
-    pfseq <- inferpfVL(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=T)
+    pfseq <- inferpfVL(nfseq, a_nf, Pin=0.04, Nin=1.0, pwvar=T)
     a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
     
     ##### CO2 = 350
@@ -57,8 +57,11 @@ Perform_Analytical_Run6 <- function(plotting = T) {
                        Nin = 1.0+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
     
     # Calculate long term nutrieng constraint
+    #test <- NConsLong_variable_pass(df=nfseq, a=a_nf,Cpass=CpassVLong,
+    #                    Nin = 1.0+NrelwoodVLong)
+    
     NCHUGH <- NConsLong(df=nfseq, a=a_nf,Cpass=CpassVLong,
-                        Nin = 1.0+NrelwoodVLong)
+                                      Nin = 1.0+NrelwoodVLong)
     
     # Find equilibrate intersection and plot
     LongN <- solveLongN(co2=CO2_1, Cpass=CpassVLong, Nin= 1.0+NrelwoodVLong, nwvar=T)
@@ -116,7 +119,7 @@ Perform_Analytical_Run6 <- function(plotting = T) {
     if (plotting == T) {
         ######### Plotting
         
-        tiff("Plots/Analytical_Run6.tiff",
+        tiff("Plots/Analytical_Run7.tiff",
              width = 8, height = 7, units = "in", res = 300)
         par(mar=c(5.1,5.1,2.1,2.1))
         
@@ -173,4 +176,4 @@ Perform_Analytical_Run6 <- function(plotting = T) {
 
 #### Main program
 
-Perform_Analytical_Run6(plotting = T)
+Perform_Analytical_Run7(plotting = T)
