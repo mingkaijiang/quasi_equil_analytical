@@ -8,6 +8,9 @@
 ################################################################################
 
 #### Create dataframes to store all the data
+constraintDF <- create_constraint_DF()
+equilDF <- create_equilDF()
+
 
 #### Run 1
 source("R/Analytical_Run1.R")

@@ -49,15 +49,10 @@ source("GDAY/pre_processing/Run_GDAY.R")
 source("GDAY/post_processing/Convert_GDAY_monthly_to_annual.R")
 
 
-### Consider add a script to delete all the raw GDAY simulation outputs as they are LARGE!!!
+### delete all raw GDAY output files as they are large
+source("GDAY/post_processing/delete_raw_gday_files.R")
 
-
-### Mass balance QC check for each simulations
-### Plotting first 100 years and last 100 years
-### Only for spin-up files
-### Checked out in Run1, so not recommended to perform this 
-### because it takes very long to long!
-### 
+### Mass balance checks, takes very long to run!
 # source("GDAY/post_processing/mass_balance.R")
 
 ### Plot time series spin up files for each simulations
