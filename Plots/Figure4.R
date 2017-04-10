@@ -13,7 +13,7 @@ CO2_2 <- 700.0
 
 # plot photosynthetic constraints
 # N:C and P:C ratio
-nfseq <- round(seq(0.005, 0.05, by = 0.001),5)
+nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
 a_nf <- as.data.frame(allocn(nfseq, nwvar=F))
 
 pfseq <- inferpfVL(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=F)
@@ -69,7 +69,7 @@ colnames(equil350DF) <- c("nc_VL", "NPP_VL", "pc_VL",
 ##### CO2 = 700
 
 # N:C and P:C ratio
-nfseq <- round(seq(0.005, 0.05, by = 0.001),5)
+nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
 a_nf <- as.data.frame(allocn(nfseq, nwvar=F))
 
 # P:C ratio infered by VL constraint
@@ -124,7 +124,7 @@ par(mar=c(5.1,5.1,2.1,2.1))
 #
 ## Photosynthetic constraint CO2 = 350 ppm
 plot(out350DF$pc_VL, out350DF$NPP_350,axes=F,
-     type='l',xlim=c(0,0.0015),ylim=c(0,8), 
+     type='l',xlim=c(0,0.0015),ylim=c(0,4), 
      ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]"))
      , xlab = "Shoot P:C ratio", lwd = 2.5, col="cyan", cex = 2.0, bg = "black")
 rect(-2,-2,0.002,8,border=NA, col=adjustcolor("lightgrey", 0.2))

@@ -22,7 +22,7 @@ CO2_2 <- 700.0
 
 # plot photosynthetic constraints - not quite same as Hugh's, not sure why? 
 # N:C and P:C ratio
-nfseq <- round(seq(0.005, 0.05, by = 0.001),5)
+nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
 a_nf <- as.data.frame(allocn(nfseq,nwvar=F))
 
 pfseq <- inferpfVL(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=F)
@@ -77,7 +77,7 @@ colnames(equil350DF) <- c("nc_VL", "NPP_VL", "pc_VL",
 ##### CO2 = 700
 
 # N:C and P:C ratio
-nfseq <- round(seq(0.005, 0.05, by = 0.001),5)
+nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
 a_nf <- as.data.frame(allocn(nfseq, nwvar=F))
 
 pfseq <- inferpfVL(nfseq, a_nf,Pin=0.02, Nin=0.4,pwvar=F)
@@ -128,7 +128,7 @@ par(mar=c(5.1,5.1,2.1,2.1))
 
 # NPP constraint by CO2 = 350
 s3d <- scatterplot3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_350, xlim=c(0.0, 0.05),
-                     ylim = c(0.0, 0.002), zlim=c(0, 6), 
+                     ylim = c(0.0, 0.002), zlim=c(0, 3), 
                      type = "l", xlab = "Shoot N:C ratio", ylab = "Shoot P:C ratio", 
                      zlab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
                      color="cyan", lwd = 3, angle=24)

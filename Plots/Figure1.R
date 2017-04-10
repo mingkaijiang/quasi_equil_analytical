@@ -14,7 +14,7 @@
 ##### MAIN PROGRAM
 # plot photosynthetic constraints - not quite same as Hugh's, not sure why? 
 # N:C ratios for x-axis
-nfseq <- seq(0.005,0.05,by=0.001)
+nfseq <- seq(0.01,0.05,by=0.001)
 # need allocation fractions here
 a_vec <- allocn(nfseq,nwvar=FALSE)
 
@@ -55,7 +55,7 @@ par(mar=c(5.1,5.1,2.1,2.1))
 
 # Photosynthetic constraint CO2 = 350 ppm
 plot(nfseq,PC350,axes=F,
-     type='l',xlim=c(0,0.05),ylim=c(0,6), 
+     type='l',xlim=c(0,0.05),ylim=c(0,4.0), 
      ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]"))
      , xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex = 2.0, bg = "black")
 rect(0,0,0.05,8,border=NA, col=adjustcolor("lightgrey", 0.2))
@@ -96,7 +96,7 @@ legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm"
        lwd=c(2,2,2,2,NA,NA), pch=c(NA,NA,NA,NA,19,19), cex = 1.0, 
        bg = adjustcolor("grey", 0.8))
 
-legend(0.04, 7.05, c("C", "D"),
+legend(0.04, 3.505, c("C", "D"),
        col=c("red", "orange"), 
        lwd=c(NA,NA), pch=c(19,19), cex = 1.0, border=FALSE, bty="n",
        bg = adjustcolor("grey", 0.8))      

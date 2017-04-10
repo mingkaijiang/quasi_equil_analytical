@@ -1,6 +1,6 @@
 ### This function implements photosynthetic constraint - solve by finding the root
 solveNC <- function(nf, af, co2=350,
-                    LUE0=2.8, I0=3, Nref=0.04, 
+                    LUE0=1.4, I0=3, Nref=0.04, 
                     kext=0.5, SLA=5, sf=0.5, w = 0.45, cue = 0.5) {
     # parameters
     # nf is variable
@@ -28,7 +28,7 @@ solveNC <- function(nf, af, co2=350,
 
 ### This function implements photosynthetic constraint - solve by finding the root
 solveNC_respiration <- function(nf, adf, co2=350,
-                                LUE0=2.8, I0=3, Nref=0.04, 
+                                LUE0=1.4, I0=3, Nref=0.04, 
                                 kext=0.5, SLA=5, sf=0.5, w = 0.45) {
     # parameters
     # nf is variable
