@@ -29,8 +29,8 @@ Run_GDAY_spinup <- function(site) {
     base_dir <- getwd()
     base_param_name <- "base_start_with_P.cfg"
     base_param_dir <- paste0(d, "/code/example/params")
-    param_dir <- paste0(d, "/params/Run1")
-    run_dir <- paste0(d, "/outputs/Run1")
+    param_dir <- paste0(d, "/params/Run2")
+    run_dir <- paste0(d, "/outputs/Run2")
 
     #### setting up the output file names and locations
     itag <- paste0(site, "_model_spinup")
@@ -41,7 +41,7 @@ Run_GDAY_spinup <- function(site) {
     cfg_fname <- paste0(param_dir, "/", itag, ".cfg")
     # met_fname <- paste0(met_dir, mtag)
     out_fname <- paste0(run_dir, "/", out_fn)
-    swp_fname <- paste0(d, "/simulations/Run1/replace_params.cfg")
+    swp_fname <- paste0(d, "/simulations/Run2/replace_params.cfg")
     
     #### Copy and paste the initial parameter cfg file
     sys_com1 <- paste0("cp ", base_param_dir, "/", base_param_name, " ",
@@ -189,7 +189,7 @@ Run_GDAY_spinup <- function(site) {
         "fixleafnc", "false",
         "fixleafpc", "false",
         "ncycle", "true",
-        "pcycle", "true",
+        "pcycle", "false",
         "nuptake_model", "0",
         "puptake_model", "0",
         "print_options", "end",                # during spin up, set to end
