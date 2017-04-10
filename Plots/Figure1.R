@@ -43,8 +43,7 @@ equil_long_700 <- solveLongN(co2=700, Cpass=CpassVLong, Nin = 0.4+NrelwoodVLong,
 
 # get the point instantaneous NPP response to doubling of CO2
 df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
-ncref <- round(VLong$equilnf,3)
-
+inst700 <- inst_NPP(VLong$equilnf, df700)
 
 ## locate the intersect between VL nutrient constraint and CO2 = 700
 VLong700 <- solveVLongN(co2=700,nwvar=F)
@@ -56,7 +55,7 @@ par(mar=c(5.1,5.1,2.1,2.1))
 
 # Photosynthetic constraint CO2 = 350 ppm
 plot(nfseq,PC350,axes=F,
-     type='l',xlim=c(0,0.05),ylim=c(0,3), 
+     type='l',xlim=c(0,0.05),ylim=c(0,6), 
      ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]"))
      , xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex = 2.0, bg = "black")
 rect(0,0,0.05,8,border=NA, col=adjustcolor("lightgrey", 0.2))
@@ -84,7 +83,7 @@ points(VLong$equilnf,VLong$equilNPP, pch = 19, cex = 2.0, col = "blue")
 with(equil_long_700,points(equilnf,equilNPP,pch=19, cex = 2.0, col = "red"))
 
 # instantaneous NPP response to doubling CO2
-points(VLong$equilnf, df700[18, "PC700"], cex = 2.0, col = "darkgreen", pch=19)
+points(inst700$nf, inst700$equilNPP, cex = 2.0, col = "darkgreen", pch=19)
 
 # VL intersect with CO2 = 700 ppm
 points(VLong700$equilnf, VLong700$equilNPP, cex = 2.0, col = "orange", pch = 19)
