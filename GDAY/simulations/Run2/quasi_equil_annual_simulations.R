@@ -27,9 +27,9 @@ Run_GDAY_transient <- function(site, treatment) {
     
     #### setting directory names
     base_dir <- getwd()
-    param_dir <- paste0(d, "/params/Run2")
+    param_dir <- paste0(d, "/params/Run1")
     met_dir <- paste0(d, "/met_data")
-    run_dir <- paste0(d, "/outputs/Run2")
+    run_dir <- paste0(d, "/outputs/Run1")
     
     
     #### setting up the output file names and locations

@@ -34,7 +34,7 @@ source("GDAY/pre_processing/create_monthly_met_for_GDAY.R")
 source("GDAY/pre_processing/Make_GDAY_and_Send_To_Folders.R")
 
 ### Here need a script to modify the R scripts parameters for each simulations
-#source("GDAY/pre_processing/Paste_R_script_to_folders.R")
+source("GDAY/pre_processing/Paste_R_script_to_folders.R")
 
 
 #### ------------------------ Run GDAY simulations ------------------------ #####

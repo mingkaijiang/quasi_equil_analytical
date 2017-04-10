@@ -8,8 +8,8 @@
 
 ######### Functions
 create_dataset <- function(outName,
-                           nyear=20000.0, tsoil=15.0, co2 = 350.0, ndep = 0.005, nfix = 0.005,
-                           pdep = 0.0004, par = 3000.0) {
+                           nyear=20000.0, tsoil=15.0, co2 = 350.0, ndep = 0.002, nfix = 0.002,
+                           pdep = 0.0002, par = 3000.0) {
     #### Create hypothetical monthly input data for simplfied gday transient runs
     #### outName: Out File name
     #### nyear: number of years for met forcing data
@@ -35,9 +35,9 @@ create_dataset <- function(outName,
     ### baseline met, i.e. those used in spin-up
     tsoil_b <- 15.0
     co2_b <- 350.0
-    ndep_b_m <- 0.005/12.0
-    nfix_b_m <- 0.005/12.0
-    pdep_b_m <- 0.0004/12.0
+    ndep_b_m <- 0.002/12.0
+    nfix_b_m <- 0.002/12.0
+    pdep_b_m <- 0.0002/12.0
     par_b_m <- 3000/12.0
     
     ### assign baseline met to first 5 years of the dataframe
