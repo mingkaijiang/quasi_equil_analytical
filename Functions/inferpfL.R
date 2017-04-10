@@ -1,5 +1,5 @@
 # Find long term equilibrated pf based on equilibrated NPP calculated from equilnf profile
-inferpfL <- function(nf, a, Pin = 0.04, Nin = 1.0,
+inferpfL <- function(nf, a, Pin = 0.02, Nin = 0.4,
                      leachn = 0.05, leachp = 0.05, Cpass=CpassVLong, 
                      pwvar = TRUE, nwvar = TRUE, pwood = 0.0003, prho = 0.7, 
                      pretrans = 0.6, pcp = 0.005, ncp = 0.1,

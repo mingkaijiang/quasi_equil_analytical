@@ -140,9 +140,6 @@ Analytical_R4 <- function() {
     return(outDF)
 }
 
-
-
-
 save_CUE_stats <- function() {
     
     ### Performing analytical calculation and obtain CUE
@@ -153,8 +150,6 @@ save_CUE_stats <- function() {
                 col.names=T, row.names=F)
    
 }
-
-
 
 
 ############################## Main program #######################################

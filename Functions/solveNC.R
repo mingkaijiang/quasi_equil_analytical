@@ -20,6 +20,7 @@ solveNC <- function(nf, af, co2=350,
     len <- length(nf)
     for (i in 1:len) {
         fPC <- function(NPP) eqNC(nf[i], NPP, co2, LUE0, Nref, I0, kext, SLA, af[i], sf, w, cue) - NPP
+        #ans[i] <- tryCatch(uniroot(fPC,interval=c(0.1,20), trace=T)$root, error=function(e) NULL)
         ans[i] <- uniroot(fPC,interval=c(0.1,20), trace=T)$root
     }
     return(ans)

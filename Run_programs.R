@@ -10,7 +10,11 @@
 ###
 ### Author: Mingkai Jiang (m.jiang@westernsydney.edu.au)
 ### 
-#### Warning: needs at least 8 GB disk space because the simulation creates many large files
+### Warning: needs at least 8 GB disk space,
+### because the simulation creates many large files
+###
+
+
 #### ------------------------ General system stuffs ------------------------ #####
 ### Make sure everything is clear
 rm(list=ls(all=TRUE))
@@ -23,15 +27,14 @@ source("R/prepare_R.R")
 
 
 #### ------------------------ Prepare GDAY stuffs ------------------------ #####
-#### Create met data for gday simulations
+### Create met data for gday simulations
 source("GDAY/pre_processing/create_monthly_met_for_GDAY.R")
 
-#### compile gday program and send to simulation folders
+### compile gday program and send to simulation folders
 source("GDAY/pre_processing/Make_GDAY_and_Send_To_Folders.R")
 
-#### Here need a script to modify the R scripts parameters for each simulations
+### Here need a script to modify the R scripts parameters for each simulations
 #source("GDAY/pre_processing/Paste_R_script_to_folders.R")
-
 
 
 #### ------------------------ Run GDAY simulations ------------------------ #####
@@ -40,7 +43,7 @@ source("GDAY/pre_processing/Make_GDAY_and_Send_To_Folders.R")
 source("GDAY/pre_processing/Run_GDAY.R")
 
 
-#### ------------------------ Post-processing GDAY simulations ------------------------ #####
+#### ------------------ Post-processing GDAY simulations ------------------ #####
 ### Convert from monthly to annual data and save to analyses subfolders
 ### This step is the only "must-run" step for post-processing purpose
 source("GDAY/post_processing/Convert_GDAY_monthly_to_annual.R")
@@ -52,7 +55,9 @@ source("GDAY/post_processing/Convert_GDAY_monthly_to_annual.R")
 ### Mass balance QC check for each simulations
 ### Plotting first 100 years and last 100 years
 ### Only for spin-up files
-### WARNING: TAKES VERY LONG TO RUN!!!!!!!!!!!
+### Checked out in Run1, so not recommended to perform this 
+### because it takes very long to long!
+### 
 # source("GDAY/post_processing/mass_balance.R")
 
 ### Plot time series spin up files for each simulations
@@ -76,7 +81,7 @@ source("GDAY/post_processing/Plot_GDAY_quasi_equil_constraints.R")
 source("R/Run_analytical_solutions.R")
 ### Need to store all the dataframe and outputs separately
 
-#### ------------------------ Checking GDAY matches with analytical results ------------------------ #####
+#### ------------- Checking GDAY matches with analytical results ----------- #####
 ###
 
 
@@ -85,7 +90,7 @@ source("R/Run_analytical_solutions.R")
 
 
 
-#### ------------------------ Perform the necessary plottings and statistics ------------------------ #####
+#### --------- Perform the necessary plottings and statistics -------------- #####
 ### Need to be run specific, e.g. Run 4 - respiration as a function of tissue N, needs gday CUE and analytical CUE
 
 ### Run 4 CUE output, save into a table
@@ -94,10 +99,15 @@ source("R/CUE_check.R")
 
 
 
-#### ------------------------ Generate manuscript figures and tables ------------------------ #####
+#### ---------------- Generate manuscript figures and tables --------------- #####
 
 ### To generate manuscript figures
 source("Plots/Figure_generating.R")
 
 ### To generate manuscript tables (or statistics used for generating the tables)
 source("Tables/Table_generating.R")
+
+
+
+### Clear workspace
+rm(list=ls(all=TRUE))

@@ -1,6 +1,6 @@
 
 ### Function for nutrient N constraint in longterm ie passive, leaching, wood considered
-NConsLong <- function(df, a, Nin=1.0, leachn=0.05, 
+NConsLong <- function(df, a, Nin=0.4, leachn=0.05, 
                       Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
                       Cpass = 2680, ncp = 0.1) {
     # passed are df and a, the allocation and plant N:C ratios

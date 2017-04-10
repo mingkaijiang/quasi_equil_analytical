@@ -1,7 +1,7 @@
 ### This function also implements photosynthetic constraint - solving by iteration
 ### Shown below that this gives same solution as finding root
 solvePCiter <- function(nf, af, co2=350,
-                        LUE0=1.4, I0=3, Nref=0.04, 
+                        LUE0=0.7, I0=3, Nref=0.04, 
                         kext=0.5, SLA=5, sf=0.5, w = 0.45, tol=0.01) {
     # parameters
     # nf is passed to the function
@@ -23,7 +23,7 @@ solvePCiter <- function(nf, af, co2=350,
     for (i in 1:len) {
         repeat {
             newNPP <- eqPC(nf[i], oldNPP, co2, LUE0, Nref, I0, kext, SLA, af[i], sf, w)
-            print(newNPP)
+            #print(newNPP)
             if (abs(newNPP - oldNPP) < tol) break
             oldNPP <- newNPP
         }

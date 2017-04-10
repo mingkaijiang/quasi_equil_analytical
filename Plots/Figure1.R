@@ -23,7 +23,7 @@ PC350 <- solveNC(nfseq,a_vec$af,co2=350)
 PC700 <- solveNC(nfseq,a_vec$af,co2=700)
 
 #plot very-long nutrient cycling constraint
-NCVLONG <- NConsVLong(df=nfseq,a=a_vec,Nin=1.0)
+NCVLONG <- NConsVLong(df=nfseq,a=a_vec,Nin=0.4)
 
 #solve very-long nutrient cycling constraint
 VLong <- solveVLongN(co2=350, nwvar=F)
@@ -35,11 +35,11 @@ CpassVLong <- omegap*VLong$equilNPP/pass$decomp/(1-pass$qq)*1000.0
 NrelwoodVLong <- aequil$aw*aequil$nw*VLong$equilNPP*1000
 
 #now plot long-term constraint with this Cpassive
-NCHUGH <- NConsLong(df = nfseq,a = a_vec, Cpass=CpassVLong, Nin = 1.0+NrelwoodVLong)
+NCHUGH <- NConsLong(df = nfseq,a = a_vec, Cpass=CpassVLong, Nin = 0.4+NrelwoodVLong)
 
 # Solve longterm equilibrium
-equil_long_350 <- solveLongN(co2=350, Cpass=CpassVLong, Nin = 1.0+NrelwoodVLong,nwvar=F)
-equil_long_700 <- solveLongN(co2=700, Cpass=CpassVLong, Nin = 1.0+NrelwoodVLong,nwvar=F)
+equil_long_350 <- solveLongN(co2=350, Cpass=CpassVLong, Nin = 0.4+NrelwoodVLong,nwvar=F)
+equil_long_700 <- solveLongN(co2=700, Cpass=CpassVLong, Nin = 0.4+NrelwoodVLong,nwvar=F)
 
 # get the point instantaneous NPP response to doubling of CO2
 df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
@@ -56,7 +56,7 @@ par(mar=c(5.1,5.1,2.1,2.1))
 
 # Photosynthetic constraint CO2 = 350 ppm
 plot(nfseq,PC350,axes=F,
-     type='l',xlim=c(0,0.05),ylim=c(0,8), 
+     type='l',xlim=c(0,0.05),ylim=c(0,3), 
      ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]"))
      , xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex = 2.0, bg = "black")
 rect(0,0,0.05,8,border=NA, col=adjustcolor("lightgrey", 0.2))

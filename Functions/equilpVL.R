@@ -1,6 +1,6 @@
 
 # Find very-long term equilibrated pf based on equilibrated NPP calculated from equilnf profile
-equilpVL <- function(equilNPP, Pin = 0.04, leachp=0.05,
+equilpVL <- function(equilNPP, Pin = 0.02, leachp=0.05,
                      pwvar = TRUE, pwood = 0.0003, prho = 0.7,
                      pretrans = 0.6, k1 = 0.01, k2 = 0.01, k3 = 0.05) {
     # prepare allocation partitioning

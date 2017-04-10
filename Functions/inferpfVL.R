@@ -1,5 +1,5 @@
 ### Make inference of pf based on nf
-inferpfVL <- function(nf, a, Pin=0.04, Nin=1.0,
+inferpfVL <- function(nf, a, Pin=0.02, Nin=0.4,
                       leachn=0.05, leachp=0.05,
                       k1=0.01, k2=0.01, k3=0.05,
                       nwood=0.005, pwood=0.0003, 
