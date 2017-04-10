@@ -23,10 +23,10 @@ Perform_Analytical_Run1 <- function(plotting = T) {
     CO2_2 <- 700.0
     
     # create nc and pc for shoot to initiate
-    nfseq <- round(seq(0.005, 0.05, by = 0.001),5)
+    nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq,nwvar=T))
     
-    pfseq <- inferpfVL(nfseq, a_nf, Pin=0.04, Nin=1.0, pwvar=T)
+    pfseq <- inferpfVL(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=T)
     a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
     
     ##### CO2 = 350
@@ -34,12 +34,12 @@ Perform_Analytical_Run1 <- function(plotting = T) {
     NC350 <- solveNC(nfseq, a_nf$af, co2=CO2_1)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=1.0)
+    NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=0.4)
     
     # solve very-long nutrient cycling constraint
     VLongN <- solveVLongN(co2=CO2_1, nwvar=T)
     equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL(equilNPP,Pin = 0.04,pwvar=T)   
+    equilpf <- equilpVL(equilNPP,Pin = 0.02,pwvar=T)   
     VLongNP <- data.frame(VLongN, equilpf)
     
     # Get Cpassive from very-long nutrient cycling solution
@@ -54,16 +54,16 @@ Perform_Analytical_Run1 <- function(plotting = T) {
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0
     
     # Calculate pf based on nf of long-term nutrient exchange
-    pfseqL <- inferpfL(nfseq, a_nf, Pin = 0.04+PrelwoodVLong,
-                       Nin = 1.0+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
+    pfseqL <- inferpfL(nfseq, a_nf, Pin = 0.02+PrelwoodVLong,
+                       Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
     
     # Calculate long term nutrieng constraint
     NCHUGH <- NConsLong(df=nfseq, a=a_nf,Cpass=CpassVLong,
-                        Nin = 1.0+NrelwoodVLong)
+                        Nin = 0.4+NrelwoodVLong)
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN(co2=CO2_1, Cpass=CpassVLong, Nin= 1.0+NrelwoodVLong, nwvar=T)
-    equilpf <- equilpL(LongN, Pin = 0.04+PrelwoodVLong, Cpass=CpassVLong, 
+    LongN <- solveLongN(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T)
+    equilpf <- equilpL(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
                        nwvar=T, pwvar=T)   
     LongNP <- data.frame(LongN, equilpf)
     
@@ -78,22 +78,22 @@ Perform_Analytical_Run1 <- function(plotting = T) {
     ##### CO2 = 700
     
     # N:C and P:C ratio
-    nfseq <- round(seq(0.005, 0.05, by = 0.001),5)
+    nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq, nwvar=T))
     
-    pfseq <- inferpfVL(nfseq, a_nf,Pin=0.04, Nin=1.0,pwvar=T)
+    pfseq <- inferpfVL(nfseq, a_nf,Pin=0.02, Nin=0.4,pwvar=T)
     a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
     
     # calculate NC vs. NPP at CO2 = 350 respectively
     NC700 <- solveNC(nfseq, a_nf$af, co2=CO2_2)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=1.0)
+    NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=0.4)
     
     # solve very-long nutrient cycling constraint
     VLongN <- solveVLongN(co2=CO2_2, nwvar=T)
     equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL(equilNPP,Pin = 0.04, pwvar=T)   
+    equilpf <- equilpVL(equilNPP,Pin = 0.02, pwvar=T)   
     VLongNP <- data.frame(VLongN, equilpf)
     
     out700DF <- data.frame(nfseq, pfseq, pfseqL, NC700, NCVLONG, NCHUGH)
@@ -102,7 +102,7 @@ Perform_Analytical_Run1 <- function(plotting = T) {
                             "nleach_L", "aw")
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN(co2=CO2_2, Cpass=CpassVLong, Nin=1.0+NrelwoodVLong, nwvar=T)
+    LongN <- solveLongN(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
     equilNPP <- LongN$equilNPP
     
     a_new <- allocn(LongN$equilnf, nwvar=T)
@@ -114,6 +114,10 @@ Perform_Analytical_Run1 <- function(plotting = T) {
     colnames(equil700DF) <- c("nc_VL", "NPP_VL", "pc_VL",
                               "nc_L", "NPP_L", "pc_L")
     
+    # get the point instantaneous NPP response to doubling of CO2
+    df700 <- as.data.frame(cbind(round(nfseq,3), NC700))
+    inst700 <- inst_NPP(equil350DF$nc_VL, df700)
+    
     if (plotting == T) {
         ######### Plotting
         
@@ -124,7 +128,7 @@ Perform_Analytical_Run1 <- function(plotting = T) {
         
         # NPP constraint by CO2 = 350
         s3d <- scatterplot3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_350, xlim=c(0.0, 0.05),
-                             ylim = c(0.0, 0.002), zlim=c(0, 8), 
+                             ylim = c(0.0, 0.002), zlim=c(0, 3), 
                              type = "l", xlab = "Shoot N:C ratio", ylab = "Shoot P:C ratio", 
                              zlab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
                              color="cyan", lwd = 3, angle=24)
@@ -149,7 +153,7 @@ Perform_Analytical_Run1 <- function(plotting = T) {
         s3d$points3d(out700DF$nc, out700DF$pc_VL, out700DF$NPP_700, col="green", type="l", lwd = 3)
         
         s3d$points3d(equil350DF$nc_VL, equil350DF$pc_VL, 
-                     out700DF[18, "NPP_VL"], type="h", col = "darkgreen", pch=19)
+                     inst700$equilNPP, type="h", col = "darkgreen", pch=19)
         
         # equilibrated NPP for very long term nutrient and CO2 = 700
         s3d$points3d(equil700DF$nc_VL, equil700DF$pc_VL, equil700DF$NPP_VL, 

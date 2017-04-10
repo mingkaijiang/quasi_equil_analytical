@@ -15,7 +15,7 @@ Perform_Analytical_Run2 <- function(plotting = T) {
     ######### Main program
     
     # N:C ratios for x-axis
-    nfseq <- seq(0.005,0.05,by=0.001)
+    nfseq <- seq(0.01,0.05,by=0.001)
     # need allocation fractions here
     a_vec <- allocn(nfseq,nwvar=FALSE)
     
@@ -24,7 +24,7 @@ Perform_Analytical_Run2 <- function(plotting = T) {
     PC700 <- solveNC(nfseq,a_vec$af,co2=700)
     
     #plot very-long nutrient cycling constraint
-    NCVLONG <- NConsVLong(df=nfseq,a=a_vec,Nin=1.0)
+    NCVLONG <- NConsVLong(df=nfseq,a=a_vec,Nin=0.4)
     
     #solve very-long nutrient cycling constraint
     VLong <- solveVLongN(co2=350, nwvar=F)
@@ -36,16 +36,15 @@ Perform_Analytical_Run2 <- function(plotting = T) {
     NrelwoodVLong <- aequil$aw*aequil$nw*VLong$equilNPP*1000
     
     #now plot long-term constraint with this Cpassive
-    NCHUGH <- NConsLong(df = nfseq,a = a_vec, Cpass=CpassVLong, Nin = 1.0+NrelwoodVLong)
+    NCHUGH <- NConsLong(df = nfseq,a = a_vec, Cpass=CpassVLong, Nin = 0.4+NrelwoodVLong)
     
     # Solve longterm equilibrium
-    equil_long_350 <- solveLongN(co2=350, Cpass=CpassVLong, Nin = 1.0+NrelwoodVLong,nwvar=F)
-    equil_long_700 <- solveLongN(co2=700, Cpass=CpassVLong, Nin = 1.0+NrelwoodVLong,nwvar=F)
+    equil_long_350 <- solveLongN(co2=350, Cpass=CpassVLong, Nin = 0.4+NrelwoodVLong,nwvar=F)
+    equil_long_700 <- solveLongN(co2=700, Cpass=CpassVLong, Nin = 0.4+NrelwoodVLong,nwvar=F)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
-    ncref <- round(VLong$equilnf,3)
-    
+    inst700 <- inst_NPP(VLong$equilnf, df700)
     
     ## locate the intersect between VL nutrient constraint and CO2 = 700
     VLong700 <- solveVLongN(co2=700,nwvar=F)
@@ -61,7 +60,7 @@ Perform_Analytical_Run2 <- function(plotting = T) {
         
         # Photosynthetic constraint CO2 = 350 ppm
         plot(nfseq,PC350,axes=F,
-             type='l',xlim=c(0,0.05),ylim=c(0,8), 
+             type='l',xlim=c(0,0.05),ylim=c(0,4), 
              ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]"))
              , xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex = 2.0, bg = "black")
         rect(0,0,0.05,8,border=NA, col=adjustcolor("lightgrey", 0.2))
@@ -89,7 +88,7 @@ Perform_Analytical_Run2 <- function(plotting = T) {
         with(equil_long_700,points(equilnf,equilNPP,pch=19, cex = 2.0, col = "red"))
         
         # instantaneous NPP response to doubling CO2
-        points(VLong$equilnf, df700[18, "PC700"], cex = 2.0, col = "darkgreen", pch=19)
+        points(VLong$equilnf, inst700$equilNPP, cex = 2.0, col = "darkgreen", pch=19)
         
         # VL intersect with CO2 = 700 ppm
         points(VLong700$equilnf, VLong700$equilNPP, cex = 2.0, col = "orange", pch = 19)
@@ -102,7 +101,7 @@ Perform_Analytical_Run2 <- function(plotting = T) {
                lwd=c(2,2,2,2,NA,NA), pch=c(NA,NA,NA,NA,19,19), cex = 1.0, 
                bg = adjustcolor("grey", 0.8))
         
-        legend(0.04, 7.05, c("C", "D"),
+        legend(0.04, 3.55, c("C", "D"),
                col=c("red", "orange"), 
                lwd=c(NA,NA), pch=c(19,19), cex = 1.0, border=FALSE, bty="n",
                bg = adjustcolor("grey", 0.8))      

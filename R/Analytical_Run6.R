@@ -22,10 +22,10 @@ Perform_Analytical_Run6 <- function(plotting = T) {
     CO2_2 <- 700.0
     
     # create nc and pc for shoot to initiate
-    nfseq <- round(seq(0.005, 0.05, by = 0.001),5)
+    nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq))
     
-    pfseq <- inferpfVL(nfseq, a_nf, Pin=0.04, Nin=1.0, pwvar=T)
+    pfseq <- inferpfVL(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=T)
     a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
     
     ##### CO2 = 350
