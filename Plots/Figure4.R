@@ -16,7 +16,7 @@ CO2_2 <- 700.0
 nfseq <- round(seq(0.005, 0.05, by = 0.001),5)
 a_nf <- as.data.frame(allocn(nfseq, nwvar=F))
 
-pfseq <- inferpfVL(nfseq, a_nf, Pin=0.04, Nin=1.0, pwvar=F)
+pfseq <- inferpfVL(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=F)
 a_pf <- as.data.frame(allocp(pfseq, pwvar=F))
 
 ##### CO2 = 350
@@ -24,12 +24,12 @@ a_pf <- as.data.frame(allocp(pfseq, pwvar=F))
 NC350 <- solveNC(nfseq, a_nf$af, co2=CO2_1)
 
 # calculate very long term NC and PC constraint on NPP, respectively
-NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=1.0)
+NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=0.4)
 
 # solve very-long nutrient cycling constraint
 VLongN <- solveVLongN(co2=CO2_1, nwvar=F)
 equilNPP <- VLongN$equilNPP_N   
-equilpf <- equilpVL(equilNPP,Pin = 0.04, pwvar=F)   
+equilpf <- equilpVL(equilNPP,Pin=0.02, pwvar=F)   
 VLongNP <- data.frame(VLongN, equilpf)
 
 # Get Cpassive from very-long nutrient cycling solution
@@ -44,17 +44,17 @@ PrelwoodVLong <- aequilp$aw*aequilp$pw*VLongNP$equilNPP_N*1000.0
 NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0
 
 # Calculate pf based on nf of long-term nutrient exchange
-pfseqL <- inferpfL(nfseq, a_nf, Pin = 0.04+PrelwoodVLong,
-                   Nin = 1.0+NrelwoodVLong,Cpass=CpassVLong,
+pfseqL <- inferpfL(nfseq, a_nf, Pin=0.02+PrelwoodVLong,
+                   Nin=0.4+NrelwoodVLong,Cpass=CpassVLong,
                    nwvar=F, pwvar=F)
 
 # Calculate long term nutrieng constraint
 NCHUGH <- NConsLong(df=nfseq, a=a_nf,Cpass=CpassVLong,
-                    Nin = 1.0+NrelwoodVLong)
+                    Nin=0.4+NrelwoodVLong)
 
 # Find equilibrate intersection and plot
-LongN <- solveLongN(co2=CO2_1, Cpass=CpassVLong, Nin= 1.0+NrelwoodVLong, nwvar=F)
-equilpf <- equilpL(LongN, Pin = 0.04+PrelwoodVLong, Cpass=CpassVLong,
+LongN <- solveLongN(co2=CO2_1, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=F)
+equilpf <- equilpL(LongN, Pin=0.02+PrelwoodVLong, Cpass=CpassVLong,
                    nwvar=F,pwvar=F)   
 LongNP <- data.frame(LongN, equilpf)
 
@@ -73,19 +73,19 @@ nfseq <- round(seq(0.005, 0.05, by = 0.001),5)
 a_nf <- as.data.frame(allocn(nfseq, nwvar=F))
 
 # P:C ratio infered by VL constraint
-pfseq <- inferpfVL(nfseq, a_nf,Pin=0.04, Nin=1.0, pwvar=F)
+pfseq <- inferpfVL(nfseq, a_nf,Pin=0.02, Nin=0.4, pwvar=F)
 a_pf <- as.data.frame(allocp(pfseq, pwvar=F))
 
 # calculate NC vs. NPP at CO2 = 700 respectively
 NC700 <- solveNC(nfseq, a_nf$af, co2=CO2_2)
 
 # calculate very long term NC and PC constraint on NPP, respectively
-NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=1.0)
+NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=0.4)
 
 # solve very-long nutrient cycling constraint
 VLongN <- solveVLongN(co2=CO2_2,nwvar=F)
 equilNPP <- VLongN$equilNPP_N   
-equilpf <- equilpVL(equilNPP,Pin = 0.04,pwvar=F)   
+equilpf <- equilpVL(equilNPP,Pin=0.02,pwvar=F)   
 VLongNP <- data.frame(VLongN, equilpf)
 
 out700DF <- data.frame(nfseq, pfseq, pfseqL, NC700, NCVLONG)
@@ -93,14 +93,14 @@ colnames(out700DF) <- c("nc", "pc_VL", "pc_700_L", "NPP_700", "NPP_VL",
                         "nleach_VL")
 
 # N:C ratio inferred by L constraint
-NCLONG <- NConsLong(df=nfseq,a=a_nf,Nin=1.0+NrelwoodVLong,Cpass=CpassVLong)
+NCLONG <- NConsLong(df=nfseq,a=a_nf,Nin=0.4+NrelwoodVLong,Cpass=CpassVLong)
 
 # Find equilibrate intersection and plot
-LongN <- solveLongN(co2=CO2_2, Cpass=CpassVLong, Nin=1.0+NrelwoodVLong, nwvar=F)
+LongN <- solveLongN(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=F)
 equilNPP <- LongN$equilNPP
 
 a_new <- allocn(LongN$equilnf, nwvar=F)
-equilpf <- equilpL(LongN, Pin=0.04+PrelwoodVLong, Cpass=CpassVLong,
+equilpf <- equilpL(LongN, Pin=0.02+PrelwoodVLong, Cpass=CpassVLong,
                    nwvar=F, pwvar=F)
 
 LongNP <- data.frame(LongN, equilpf)
@@ -109,6 +109,9 @@ equil700DF <- data.frame(VLongNP, LongNP)
 colnames(equil700DF) <- c("nc_VL", "NPP_VL", "pc_VL",
                           "nc_L", "NPP_L", "pc_L")
 
+# get the point instantaneous NPP response to doubling of CO2
+df700 <- as.data.frame(cbind(round(nfseq,3), NC700))
+inst700 <- inst_NPP(equil350DF$nc_VL, df700)
 
 ##### Main program
 
@@ -148,7 +151,7 @@ points(out350DF$pc_VL, out350DF$NPP_350_L,type='l',col="violet", lwd = 2.5)
 
 
 # Instantaneous intersect with CO2 = 700 ppm
-points(equil350DF$pc_VL, out700DF[18, "NPP_700"], cex = 2.0, col = "darkgreen", pch=19)
+points(equil350DF$pc_VL, inst700$equilNPP, cex = 2.0, col = "darkgreen", pch=19)
 
 # VL intersect with CO2 = 700 ppm
 points(equil700DF$pc_VL, equil700DF$NPP_VL, cex = 2.0, col = "orange", pch = 19)
