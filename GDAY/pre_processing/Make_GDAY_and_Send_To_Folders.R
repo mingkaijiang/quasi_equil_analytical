@@ -29,6 +29,18 @@ if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run8", sep="")))dir.create(paste
 if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run9", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run9", sep=""))
 if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run10", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run10", sep=""))
 
+#### Create output folders if not exist
+if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run1", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run1", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run2", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run2", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run3", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run3", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run4", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run4", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run5", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run5", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run6", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run6", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run7", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run7", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run8", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run8", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run9", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run9", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run10", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run10", sep=""))
+
 
 
 #### Create params folders at the same time for each subfolders of output
