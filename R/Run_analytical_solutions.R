@@ -6,38 +6,86 @@
 #### This is the main script to call individual analytical run scripts and functions
 ####
 ################################################################################
-
 #### Create dataframes to store all the data
 constraintDF <- create_constraint_DF()
-equilDF <- create_equilDF()
+equilDF <- create_equil_DF()
 
 
-#### Run 1
-source("R/Analytical_Run1.R")
+#### Step 1: simply run analytical solution and plot quasi-equil plots
+Perform_Analytical_Run1(f.flag = 1, constraintDF, equilDF)
+Perform_Analytical_Run2(f.flag = 1, constraintDF, equilDF)
+Perform_Analytical_Run3(f.flag = 1, constraintDF, equilDF)
+Perform_Analytical_Run4(f.flag = 1, constraintDF, equilDF)
+Perform_Analytical_Run5(f.flag = 1, constraintDF, equilDF)
+#Perform_Analytical_Run6(f.flag = 1, constraintDF, equilDF)
+#Perform_Analytical_Run7(f.flag = 1, constraintDF, equilDF)
+#Perform_Analytical_Run8(f.flag = 1, constraintDF, equilDF)
+#Perform_Analytical_Run9(f.flag = 1, constraintDF, equilDF)
+#Perform_Analytical_Run10(f.flag = 1, constraintDF, equilDF)
 
-#### Run 2
-source("R/Analytical_Run2.R")
+#### Step 2 store run 1 - 10 constrainDF dataframes
 
-#### Run 3
-source("R/Analytical_Run3.R")
+### Run 1
+constraintDF <- Perform_Analytical_Run1(f.flag = 2, constraintDF, equilDF)
 
-#### Run 4
-source("R/Analytical_Run4.R")
+### Run 2
+constraintDF <- Perform_Analytical_Run2(plotting = T, constraintDF, equilDF)
 
-#### Run 5
-source("R/Analytical_Run5.R")
+### Run 3
+constraintDF <- Perform_Analytical_Run3(plotting = T, constraintDF, equilDF)
 
-#### Run 6
-source("R/Analytical_Run6.R")
+### Run 4
+constraintDF <- Perform_Analytical_Run4(plotting = T, constraintDF, equilDF)
 
-#### Run 7
-source("R/Analytical_Run7.R")
+### Run 5
+constraintDF <- Perform_Analytical_Run5(plotting = T, constraintDF, equilDF)
 
-#### Run 8
-source("R/Analytical_Run8.R")
+### Run 6
+#constraintDF <- Perform_Analytical_Run6(plotting = T, constraintDF, equilDF)
 
-#### Run 9
-source("R/Analytical_Run9.R")
+### Run 7
+#constraintDF <- Perform_Analytical_Run7(plotting = T, constraintDF, equilDF)
 
-#### Run 10
-source("R/Analytical_Run10.R")
+### Run 8
+#constraintDF <- Perform_Analytical_Run8(plotting = T, constraintDF, equilDF)
+
+### Run 9
+#constraintDF <- Perform_Analytical_Run9(plotting = T, constraintDF, equilDF)
+
+### Run 10
+#constraintDF <- Perform_Analytical_Run10(plotting = T, constraintDF, equilDF)
+
+
+#### Step 2 store run 1 - 10 equilDF dataframes
+
+### Run 1
+equilDF <- Perform_Analytical_Run1(plotting = T, constraintDF, equilDF)
+
+### Run 2
+equilDF <- Perform_Analytical_Run2(plotting = T, constraintDF, equilDF)
+
+### Run 3
+equilDF <- Perform_Analytical_Run3(plotting = T, constraintDF, equilDF)
+
+### Run 4
+equilDF <- Perform_Analytical_Run4(plotting = T, constraintDF, equilDF)
+
+### Run 5
+equilDF <- Perform_Analytical_Run5(plotting = T, constraintDF, equilDF)
+
+### Run 6
+#equilDF <- Perform_Analytical_Run6(plotting = T, constraintDF, equilDF)
+
+### Run 7
+#equilDF <- Perform_Analytical_Run7(plotting = T, constraintDF, equilDF)
+
+### Run 8
+#equilDF <- Perform_Analytical_Run8(plotting = T, constraintDF, equilDF)
+
+### Run 9
+#equilDF <- Perform_Analytical_Run9(plotting = T, constraintDF, equilDF)
+
+### Run 10
+#equilDF <- Perform_Analytical_Run10(plotting = T, constraintDF, equilDF)
+
+

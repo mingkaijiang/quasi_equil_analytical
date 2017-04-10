@@ -7,9 +7,6 @@
 ####
 ################################################################################
 
-#### Library
-require(scatterplot3d)
-
 #### Functions
 Perform_Analytical_Run5 <- function(plotting = T) {
     #### Function to perform analytical run 5 simulations
@@ -74,6 +71,10 @@ Perform_Analytical_Run5 <- function(plotting = T) {
     colnames(equil350DF) <- c("nc_VL", "NPP_VL", "pc_VL",
                               "nc_L", "NPP_L", "pc_L")
     
+    # store constraint and equil DF onto their respective output df
+    cDF[cDF$Run == 5 & cDF$CO2 == 350, 3:13] <- out350DF
+    eDF[eDF$Run == 5 & eDF$CO2 == 350, 3:8] <- equil350DF
+    
     ##### CO2 = 700
     
     # N:C and P:C ratio
@@ -113,11 +114,20 @@ Perform_Analytical_Run5 <- function(plotting = T) {
     colnames(equil700DF) <- c("nc_VL", "NPP_VL", "pc_VL",
                               "nc_L", "NPP_L", "pc_L")
     
+    # store constraint and equil DF onto their respective output df
+    cDF[cDF$Run == 5 & cDF$CO2 == 700, 3:13] <- out350DF
+    eDF[eDF$Run == 5 & eDF$CO2 == 700, 3:8] <- equil350DF
+    
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), NC700))
     inst700 <- inst_NPP(equil350DF$nc_VL, df700)
     
     if (plotting == T) {
+        
+        
+        #### Library
+        require(scatterplot3d)
+        
         ######### Plotting
         
         tiff("Plots/Analytical_Run5.tiff",
@@ -174,7 +184,3 @@ Perform_Analytical_Run5 <- function(plotting = T) {
         dev.off()
     }
 }
-
-#### Main program
-
-Perform_Analytical_Run5(plotting = T)
