@@ -12,6 +12,9 @@ equilDF <- create_equil_DF()
 
 
 #### Step 1: simply run analytical solution and plot quasi-equil plots
+### f.flag: = 1 simply plot analytical solution graph
+###         = 2 return constraintDF
+###         = 3 return equilDF
 Perform_Analytical_Run1(f.flag = 1, constraintDF, equilDF)
 Perform_Analytical_Run2(f.flag = 1, constraintDF, equilDF)
 Perform_Analytical_Run3(f.flag = 1, constraintDF, equilDF)

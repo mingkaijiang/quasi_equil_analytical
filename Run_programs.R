@@ -26,7 +26,7 @@ date<-Sys.Date()
 source("R/prepare_R.R")
 
 
-#### ------------------------ Prepare GDAY stuffs ------------------------ #####
+#### ------------------------ Prepare GDAY stuffs -------------------------- #####
 ### Create met data for gday simulations
 source("GDAY/pre_processing/create_monthly_met_for_GDAY.R")
 
@@ -37,13 +37,13 @@ source("GDAY/pre_processing/Make_GDAY_and_Send_To_Folders.R")
 source("GDAY/pre_processing/Paste_R_script_to_folders.R")
 
 
-#### ------------------------ Run GDAY simulations ------------------------ #####
+#### ------------------------ Run GDAY simulations ------------------------- #####
 ### Run GDAY simulations, using either the python or R wrapper file
 ### Current setting use R, but is quite slow
 source("GDAY/pre_processing/Run_GDAY.R")
 
 
-#### ------------------ Post-processing GDAY simulations ------------------ #####
+#### ------------------ Post-processing GDAY simulations ------------------- #####
 ### Convert from monthly to annual data and save to analyses subfolders
 ### This step is the only "must-run" step for post-processing purpose
 source("GDAY/post_processing/Convert_GDAY_monthly_to_annual.R")
