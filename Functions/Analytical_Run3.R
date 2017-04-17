@@ -119,8 +119,8 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
                               "nc_L", "NPP_L", "pc_L")
     
     # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 3 & cDF$CO2 == 700, 3:13] <- out350DF
-    eDF[eDF$Run == 3 & eDF$CO2 == 700, 3:8] <- equil350DF
+    cDF[cDF$Run == 3 & cDF$CO2 == 700, 3:13] <- out700DF
+    eDF[eDF$Run == 3 & eDF$CO2 == 700, 3:8] <- equil700DF
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), NC700))
