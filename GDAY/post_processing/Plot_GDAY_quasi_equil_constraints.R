@@ -36,7 +36,7 @@ nc_constraint_plot <- function(tranDF, message, endyear,L1, L2, L3, L4) {
            cex = 2, col="blue", pch=19)
     abline(v=(tranDF[5,"shootn"]/tranDF[5,"shoot"]))
     
-    legend("bottomright", c(L1, L2, L3, L4),
+    legend("topright", c(L1, L2, L3, L4),
            col=c("black", "red", "orange", "blue"), pch = 19)
     title(message)
 }
@@ -53,7 +53,7 @@ pc_constraint_plot <- function(tranDF, message, endyear,L1, L2, L3, L4) {
     points(npp~I(shootp/shoot), tranDF[endyear,], type="p",
            cex = 2, col="blue", pch=19)
     abline(v=(tranDF[5,"shootp"]/tranDF[5,"shoot"]))
-    legend("bottomright", c(L1, L2, L3, L4),
+    legend("topright", c(L1, L2, L3, L4),
            col=c("black", "red", "orange", "blue"), pch = 19)
     title(message)
 }
@@ -86,7 +86,7 @@ constraint_3d <- function(tranDF, message, endyear,L1, L2, L3, L4) {
                  tranDF[endyear,"shootp"]/tranDF[endyear,"shoot"], 
                  tranDF[endyear,"npp"], type="h", pch=19, col="blue")
     
-    legend("bottomright", c(L1, L2, L3, L4),
+    legend("topright", c(L1, L2, L3, L4),
            col=c("black", "red", "orange", "blue"), pch = 19)
     
     title(message)

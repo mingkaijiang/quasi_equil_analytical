@@ -8,9 +8,13 @@
 ################################################################################
 
 #### Functions
-Perform_Analytical_Run6 <- function(plotting = T) {
+Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
     #### Function to perform analytical run 7 simulations
-    #### Will save multiple dataframes
+    #### eDF: stores equilibrium points
+    #### cDF: stores constraint points (curves)
+    #### f.flag: = 1 simply plot analytical solution file
+    #### f.flag: = 2 return cDF
+    #### f.flag: = 3 return eDF
 
     ######### Main program
     
@@ -126,7 +130,7 @@ Perform_Analytical_Run6 <- function(plotting = T) {
     df700 <- as.data.frame(cbind(round(nfseq,3), NC700))
     inst700 <- inst_NPP(equil350DF$nc_VL, df700)
     
-    if (plotting == T) {
+    if (f.flag == 1) {
         
         #### Library
         require(scatterplot3d)
@@ -185,5 +189,9 @@ Perform_Analytical_Run6 <- function(plotting = T) {
                bg = adjustcolor("grey", 0.8))
         
         dev.off()
+    } else if (f.flag == 2) {
+        return(cDF)
+    } else if (f.flag == 3) {
+        return(eDF)
     }
 }
