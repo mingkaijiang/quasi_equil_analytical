@@ -6,9 +6,9 @@
 ####        implicit mineral N and P pools
 #### Run 2: same as Run1, but P cycle off
 #### Run 3: same as Run1, but fixed wood stoichiometry
-#### Run 4: 
-#### Run 5: 
-#### Run 6: 
+#### Run 4: same as Run1, but autotrophic respiration as a function of plant N concentration
+#### Run 5: same as Run4, but fixed wood stoichiometry and increased nutrient supply
+#### Run 6: same as Run1, but with separate coarse woody debris pool
 #### Run 7: 
 #### Run 8: 
 #### Run 9: 

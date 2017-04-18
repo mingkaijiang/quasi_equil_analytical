@@ -182,6 +182,7 @@ Run_GDAY_spinup <- function(site) {
         ############## CONTROL ############
         "adjust_rtslow", "false",             # goes together with exudation
         "alloc_model", "fixed",               # fixed and variable allocation pattern
+        "cwd_pool", "false",  
         "diagnosis", "false",
         "exudation", "false",
         "fixed_stem_nc", "true",

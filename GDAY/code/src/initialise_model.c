@@ -17,6 +17,7 @@ void initialise_control(control *c) {
     strcpy(c->out_param_fname, "*NOT SET*");
 
     c->alloc_model = ALLOMETRIC;    /* C allocation scheme: FIXED, GRASSES, ALLOMETRIC */
+    c->cwd_pool = TRUE;             /* Coarse woody debris pool */
     c->exudation = TRUE;            /* Plant exudation */
     c->fixed_stem_nc = TRUE;        /* False=vary stem N:C with foliage, True=fixed stem N:C */
     c->fixed_stem_pc = TRUE;        /* False=vary stem P:C with foliage, True=fixed stem P:C */

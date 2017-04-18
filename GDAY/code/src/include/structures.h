@@ -14,6 +14,7 @@ typedef struct {
     char  git_hash[STRING_LENGTH];
     int   adjust_rtslow;
     int   alloc_model;
+    int   cwd_pool;
     int   diagnosis;
     int   exudation;
     int   fixed_stem_nc;
@@ -30,7 +31,7 @@ typedef struct {
     int   som_nc_calc;
     int   som_pc_calc;
     int   num_months;
-    int   respiration_model;    
+    int   respiration_model;
     int   total_num_months;
     char  git_code_ver[STRING_LENGTH];
     int   spin_up;

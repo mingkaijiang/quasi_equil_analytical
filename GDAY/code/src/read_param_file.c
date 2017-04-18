@@ -174,6 +174,19 @@ int handler(char *section, char *name, char *value, control *c,
           fprintf(stderr, "Unknown adjust_rtslow option: %s\n", temp);
           exit(EXIT_FAILURE);
         }
+    } else if (MATCH("control", "cwd_pool")) {
+        if (strcmp(temp, "False") == 0 ||
+            strcmp(temp, "FALSE") == 0 ||
+            strcmp(temp, "false") == 0)
+            c->cwd_pool = FALSE;
+        else if (strcmp(temp, "True") == 0 ||
+                 strcmp(temp, "TRUE") == 0 ||
+                 strcmp(temp, "true") == 0)
+            c->cwd_pool = TRUE;
+        else {
+            fprintf(stderr, "Unknown cwd_pool option: %s\n", temp);
+            exit(EXIT_FAILURE);
+        }
     } else if (MATCH("control", "diagnosis")) {
       if (strcmp(temp, "False") == 0 ||
           strcmp(temp, "FALSE") == 0 ||

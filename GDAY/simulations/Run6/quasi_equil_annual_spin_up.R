@@ -29,8 +29,8 @@ Run_GDAY_spinup <- function(site) {
     base_dir <- getwd()
     base_param_name <- "base_start_with_P.cfg"
     base_param_dir <- paste0(d, "/code/example/params")
-    param_dir <- paste0(d, "/params/Run4")
-    run_dir <- paste0(d, "/outputs/Run4")
+    param_dir <- paste0(d, "/params/Run6")
+    run_dir <- paste0(d, "/outputs/Run6")
 
     #### setting up the output file names and locations
     itag <- paste0(site, "_model_spinup")
@@ -41,7 +41,7 @@ Run_GDAY_spinup <- function(site) {
     cfg_fname <- paste0(param_dir, "/", itag, ".cfg")
     # met_fname <- paste0(met_dir, mtag)
     out_fname <- paste0(run_dir, "/", out_fn)
-    swp_fname <- paste0(d, "/simulations/Run4/replace_params.cfg")
+    swp_fname <- paste0(d, "/simulations/Run6/replace_params.cfg")
     
     #### Copy and paste the initial parameter cfg file
     sys_com1 <- paste0("cp ", base_param_dir, "/", base_param_name, " ",
@@ -182,7 +182,7 @@ Run_GDAY_spinup <- function(site) {
         ############## CONTROL ############
         "adjust_rtslow", "false",             # goes together with exudation
         "alloc_model", "fixed",               # fixed and variable allocation pattern
-        "cwd_pool", "false",  
+        "cwd_pool", "true",  
         "diagnosis", "false",
         "exudation", "false",
         "fixed_stem_nc", "false",
@@ -195,7 +195,7 @@ Run_GDAY_spinup <- function(site) {
         "puptake_model", "0",
         "print_options", "end",                # during spin up, set to end
         "passiveconst", "false",
-        "respiration_model", "leafn",
+        "respiration_model", "fixed",
         "som_nc_calc", "fixed",
         "som_pc_calc", "fixed")
     
@@ -207,7 +207,7 @@ Run_GDAY_spinup <- function(site) {
     adjust_gday_params(cfg_fname, rDF)
 
     #### Run the spin up model
-    system(paste0(GDAY_SPIN, " ", cfg_fname), ignore.stderr=T)
+    system(paste0(GDAY_SPIN, " ", cfg_fname), ignore.stderr=F)
     
     #### Call external function to transform the raw GDAY output into something more readable, NOT NEEDED
     #source(paste0(script_path, "/translate_GDAY_output_to_NCEAS_format.R"))
