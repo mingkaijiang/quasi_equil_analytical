@@ -77,9 +77,9 @@ void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s) {
     } else if (c->respiration_model == LEAFN) {
         
         /* calculate g plant m-2 */
-        biomass_leaf = s->shoot / p->cfracts;
-        biomass_stem = s->stem / p->cfracts;
-        biomass_root = s->root / p->cfracts;
+        biomass_leaf = s->shoot;// / p->cfracts;
+        biomass_stem = s->stem;// / p->cfracts;
+        biomass_root = s->root;// / p->cfracts;
         
         /* calculate g N m-2 / g biomass m-2 */
         leafn = s->shootn / biomass_leaf;
@@ -89,18 +89,18 @@ void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s) {
         /* calculate leafn per leaf dry biomass, and same for stem and root, 
         in the unit of mmol[N] g-1*/
         leafn =leafn / MOL_N_TO_GRAMS_N * MOL_2_MMOL;
-        stemn = stemn  / s->stem / MOL_N_TO_GRAMS_N * MOL_2_MMOL;
+        stemn = stemn / MOL_N_TO_GRAMS_N * MOL_2_MMOL;
         rootn = rootn / MOL_N_TO_GRAMS_N * MOL_2_MMOL;
       
-        /* calculate dark respiration in umol CO2 g-1 s-1*/
+        /* calculate dark respiration in nmol CO2 g-1 s-1*/
         respl = a1 * pow(leafn, b1);
         resps = a2 * pow(stemn, b2);
         respr = a3 * pow(rootn, b3);
         
         /* convert to g C g-1 month-1 */
-        respl = respl * 31.104;
-        resps = resps * 31.104;
-        respr = respr * 31.104;
+        respl = respl * 0.031104;
+        resps = resps * 0.031104;
+        respr = respr * 0.031104;
         
         /* convert to g C m-2 month-1 */
         respl = respl * biomass_leaf;

@@ -39,7 +39,7 @@ source("GDAY/pre_processing/Paste_R_script_to_folders.R")
 
 #### ------------------------ Run GDAY simulations ------------------------- #####
 ### Run GDAY simulations, using either the python or R wrapper file
-### Current setting use R, but is quite slow
+### Current setting use R
 source("GDAY/pre_processing/Run_GDAY.R")
 
 
@@ -79,7 +79,7 @@ source("R/Run_analytical_solutions.R")
 ### Need to store all the dataframe and outputs separately
 
 #### ------------- Checking GDAY matches with analytical results ----------- #####
-###
+### generate a table for comparison of the equilibrium points
 source("R/Check_analytical_gday_matches.R")
 # Run 4 (respiration ~ N) does not match, because in analytical solution, the dependency on plant biomass is not realized. 
 

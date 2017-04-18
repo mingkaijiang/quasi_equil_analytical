@@ -206,7 +206,7 @@ Run_GDAY_spinup <- function(site) {
     adjust_gday_params(cfg_fname, rDF)
 
     #### Run the spin up model
-    system(paste0(GDAY_SPIN, " ", cfg_fname), ignore.stderr=T)
+    system(paste0(GDAY_SPIN, " ", cfg_fname), ignore.stderr=F)
     
     #### Call external function to transform the raw GDAY output into something more readable, NOT NEEDED
     #source(paste0(script_path, "/translate_GDAY_output_to_NCEAS_format.R"))
