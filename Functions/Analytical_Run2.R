@@ -31,9 +31,9 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     NCVLONG <- NConsVLong(df=nfseq,a=a_vec,Nin=0.4)
     
     #solve very-long nutrient cycling constraint
-    VLong <- solveVLongN(co2=350, nwvar=F)
+    VLong <- solveVLongN(co2=350, nwvar=T)
     #get Cpassive from very-long nutrient cycling solution
-    aequil <- allocn(VLong$equilnf, nwvar=F)
+    aequil <- allocn(VLong$equilnf, nwvar=T)
     pass <- passive(df=VLong$equilnf, a=aequil)
     omegap <- aequil$af*pass$omegaf + aequil$ar*pass$omegar
     CpassVLong <- omegap*VLong$equilNPP/pass$decomp/(1-pass$qq)*1000.0
@@ -43,15 +43,15 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     NCHUGH <- NConsLong(df = nfseq,a = a_vec, Cpass=CpassVLong, Nin = 0.4+NrelwoodVLong)
     
     # Solve longterm equilibrium
-    equil_long_350 <- solveLongN(co2=350, Cpass=CpassVLong, Nin = 0.4+NrelwoodVLong,nwvar=F)
-    equil_long_700 <- solveLongN(co2=700, Cpass=CpassVLong, Nin = 0.4+NrelwoodVLong,nwvar=F)
+    equil_long_350 <- solveLongN(co2=350, Cpass=CpassVLong, Nin = 0.4+NrelwoodVLong,nwvar=T)
+    equil_long_700 <- solveLongN(co2=700, Cpass=CpassVLong, Nin = 0.4+NrelwoodVLong,nwvar=T)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
     inst700 <- inst_NPP(VLong$equilnf, df700)
     
     ## locate the intersect between VL nutrient constraint and CO2 = 700
-    VLong700 <- solveVLongN(co2=700,nwvar=F)
+    VLong700 <- solveVLongN(co2=700,nwvar=T)
     
     # store constraint and equil DF onto their respective output df
     cDF[cDF$Run == 2 & cDF$CO2 == 350, 3:13] <- cbind(nfseq, 0, 0, PC350, NCVLONG, NCHUGH)
