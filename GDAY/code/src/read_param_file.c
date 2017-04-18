@@ -345,6 +345,12 @@ int handler(char *section, char *name, char *value, control *c,
         s->activesoilp = atof(value);
     } else if (MATCH("state", "canht")) {
       s->canht = atof(value);
+    } else if (MATCH("state", "cwd")) {
+        s->cwd = atof(value);
+    } else if (MATCH("state", "cwdn")) {
+        s->cwdn = atof(value);
+    } else if (MATCH("state", "cwdp")) {
+        s->cwdp = atof(value);
     } else if (MATCH("state", "inorgn")) {
         s->inorgn = atof(value);
     } else if (MATCH("state", "inorgp")) {
