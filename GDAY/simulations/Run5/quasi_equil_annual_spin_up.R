@@ -151,11 +151,11 @@ Run_GDAY_spinup <- function(site) {
         "lue0", "1.4",                        # 2.8 for GPP, 1.4 for NPP
         "cue", "0.5",                         # 
         "ncmaxf", "0.05",                     # 0.05
-        "ncwnewz", "0.005",                   # C:N = 200, match analytical 
+        "ncwnewz", "0.0005",                   # C:N = 200, match analytical 
         "ncrfac", "0.7",                      # match against analytical
         "nref", "0.04",                       # N saturation threshold for photosynthesis
         "pcmaxf", "0.005",                    # 
-        "pcwnewz", "0.0003",                  # C:P", "3333.33 match analytical
+        "pcwnewz", "0.00003",                  # C:P", "3333.33 match analytical
         "pcrfac", "0.7",                      # match against analytical
         "rateuptake", "0.96884",              # 0.96884 
         "rateloss", "0.05",                   # match against analytical
@@ -206,7 +206,7 @@ Run_GDAY_spinup <- function(site) {
     adjust_gday_params(cfg_fname, rDF)
 
     #### Run the spin up model
-    system(paste0(GDAY_SPIN, " ", cfg_fname), ignore.stderr=F)
+    system(paste0(GDAY_SPIN, " ", cfg_fname), ignore.stderr=T)
     
     #### Call external function to transform the raw GDAY output into something more readable, NOT NEEDED
     #source(paste0(script_path, "/translate_GDAY_output_to_NCEAS_format.R"))

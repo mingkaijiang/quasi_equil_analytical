@@ -46,9 +46,7 @@ source("GDAY/pre_processing/Run_GDAY.R")
 #### ------------------ Post-processing GDAY simulations ------------------- #####
 ### Convert from monthly to annual data and save to analyses subfolders
 ### This step is the only "must-run" step for post-processing purpose
-source("GDAY/post_processing/Convert_GDAY_monthly_to_annual.R")   # ignore Run 5 for now
-# problem description: Fixed wood stoichiometry, plant in cut back P mode, then dies
-# wood P demand is too high - nothing left to leaf, and respiration takes up a lot (guess)
+source("GDAY/post_processing/Convert_GDAY_monthly_to_annual.R")   
 
 
 ### delete all raw GDAY output files as they are large
@@ -81,7 +79,6 @@ source("R/Run_analytical_solutions.R")
 #### ------------- Checking GDAY matches with analytical results ----------- #####
 ### generate a table for comparison of the equilibrium points
 source("R/Check_analytical_gday_matches.R")
-# Run 4 (respiration ~ N) does not match, because in analytical solution, the dependency on plant biomass is not realized. 
 
 
 

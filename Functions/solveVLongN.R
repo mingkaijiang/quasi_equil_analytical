@@ -12,12 +12,12 @@ solveVLongN <- function(co2=350, nwvar=TRUE) {
 
 # Find the very-long term equilibrium nf and NPP under standard conditions - by finding the root
 # respiration specific function
-solveVLongN_respiration <- function(co2=350, nwvar=TRUE) {
+solveVLongN_respiration <- function(co2=350, nwvar=TRUE, nw = 0.0005) {
     fn <- function(nf) {
-        solveNC_respiration(nf,allocn(nf, nwvar=nwvar),co2=co2) - NConsVLong(nf,allocn(nf, nwvar=nwvar))$NPP
+        solveNC_respiration(nf,allocn(nf, nwvar=nwvar, nwood = nw),co2=co2) - NConsVLong(nf,allocn(nf, nwvar=nwvar, nwood = nw))$NPP
     }
     equilnf <- uniroot(fn,interval=c(0.01,0.05))$root
-    equilNPP_N <- solveNC_respiration(equilnf,adf=allocn(equilnf, nwvar=nwvar), co2=co2)
+    equilNPP_N <- solveNC_respiration(equilnf,adf=allocn(equilnf, nwvar=nwvar, nwood = nw), co2=co2)
     
     ans <- data.frame(equilnf,equilNPP_N)
     return(ans)

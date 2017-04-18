@@ -27,10 +27,10 @@ Analytical_R4 <- function() {
     CO2_2 <- 700.0
     
     # create nc and pc for shoot to initiate
-    nfseq <- round(seq(0.005, 0.05, by = 0.001),5)
+    nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq,nwvar=T))
     
-    pfseq <- inferpfVL(nfseq, a_nf, Pin=0.04, Nin=1.0, pwvar=T)
+    pfseq <- inferpfVL(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=T)
     a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
     
     ##### CO2 = 350
@@ -38,12 +38,12 @@ Analytical_R4 <- function() {
     NC350 <- solveNC_respiration(nfseq, a_nf, co2=CO2_1)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=1.0)
+    NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=0.4)
     
     # solve very-long nutrient cycling constraint
     VLongN <- solveVLongN_respiration(co2=CO2_1, nwvar=T)
     equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL(equilNPP,Pin = 0.04,pwvar=T)   
+    equilpf <- equilpVL(equilNPP,Pin = 0.02,pwvar=T)   
     VLongNP <- data.frame(VLongN, equilpf)
     
     # compute Ra and CUE
@@ -62,16 +62,16 @@ Analytical_R4 <- function() {
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0
     
     # Calculate pf based on nf of long-term nutrient exchange
-    pfseqL <- inferpfL(nfseq, a_nf, Pin = 0.04+PrelwoodVLong,
-                       Nin = 1.0+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
+    pfseqL <- inferpfL(nfseq, a_nf, Pin = 0.02+PrelwoodVLong,
+                       Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
     
     # Calculate long term nutrieng constraint
     NCHUGH <- NConsLong(df=nfseq, a=a_nf,Cpass=CpassVLong,
-                        Nin = 1.0+NrelwoodVLong)
+                        Nin = 0.4+NrelwoodVLong)
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_respiration(co2=CO2_1, Cpass=CpassVLong, Nin= 1.0+NrelwoodVLong, nwvar=T)
-    equilpf <- equilpL(LongN, Pin = 0.04+PrelwoodVLong, Cpass=CpassVLong, 
+    LongN <- solveLongN_respiration(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T)
+    equilpf <- equilpL(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
                        nwvar=T, pwvar=T)   
     LongNP <- data.frame(LongN, equilpf)
     
@@ -90,22 +90,22 @@ Analytical_R4 <- function() {
     ##### CO2 = 700
     
     # N:C and P:C ratio
-    nfseq <- round(seq(0.005, 0.05, by = 0.001),5)
+    nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq, nwvar=T))
     
-    pfseq <- inferpfVL(nfseq, a_nf,Pin=0.04, Nin=1.0,pwvar=T)
+    pfseq <- inferpfVL(nfseq, a_nf,Pin=0.02, Nin=0.4,pwvar=T)
     a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
     
     # calculate NC vs. NPP at CO2 = 350 respectively
     NC700 <- solveNC_respiration(nfseq, a_nf, co2=CO2_2)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=1.0)
+    NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=0.4)
     
     # solve very-long nutrient cycling constraint
     VLongN <- solveVLongN_respiration(co2=CO2_2, nwvar=T)
     equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL(equilNPP,Pin = 0.04, pwvar=T)   
+    equilpf <- equilpVL(equilNPP,Pin = 0.02, pwvar=T)   
     VLongNP <- data.frame(VLongN, equilpf)
     
     # compute Ra and CUE
@@ -118,7 +118,7 @@ Analytical_R4 <- function() {
                             "nleach_L", "aw")
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_respiration(co2=CO2_2, Cpass=CpassVLong, Nin=1.0+NrelwoodVLong, nwvar=T)
+    LongN <- solveLongN_respiration(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
     equilNPP <- LongN$equilNPP
     
     a_new <- allocn(LongN$equilnf, nwvar=T)

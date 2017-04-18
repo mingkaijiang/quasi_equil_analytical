@@ -22,7 +22,7 @@ void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s) {
     */
     double lue_avg, conv1, conv2;
     double leafn, stemn, rootn, respl, resps, respr;
-    double a1 = 0.753;
+    double a1 = 2.753;    /* original value 0.753, changed so that CUE = ~ 50% */
     double b1 = 1.411;   /* Reich et al. 2008 Ecol. Let. Table 1, Leaves */
     double a2 = 1.053;
     double b2 = 1.315;   /* Reich et al. 2008 Ecol. Let. Table 1, Stems */
