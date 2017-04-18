@@ -20,9 +20,9 @@ Compute_Ra <- function(a, a1=0.753, b1=1.411, a2=1.053, b2=1.315,
     MOL_2_MMOL <- 1000.0
     
     ## Use shoot and root nc ratio to obtain mmol [N] g-1
-    leafn <- a$nf / MOL_N_TO_GRAMS_N * MOL_2_MMOL
-    stemn <- a$nw / MOL_N_TO_GRAMS_N * MOL_2_MMOL
-    rootn <- a$nr / MOL_N_TO_GRAMS_N * MOL_2_MMOL
+    leafn <- a$nf * NPP / MOL_N_TO_GRAMS_N * MOL_2_MMOL
+    stemn <- a$nw * NPP / MOL_N_TO_GRAMS_N * MOL_2_MMOL
+    rootn <- a$nr * NPP / MOL_N_TO_GRAMS_N * MOL_2_MMOL
     
     ## calculate dark respiration for leaf, stem and root, (nmol g-1 s-1)
     respl <- a1 * (leafn^b1)

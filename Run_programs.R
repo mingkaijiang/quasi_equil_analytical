@@ -81,7 +81,7 @@ source("R/Run_analytical_solutions.R")
 #### ------------- Checking GDAY matches with analytical results ----------- #####
 ###
 source("R/Check_analytical_gday_matches.R")
-
+# Run 4 (respiration ~ N) does not match, because in analytical solution, the dependency on plant biomass is not realized. 
 
 
 
