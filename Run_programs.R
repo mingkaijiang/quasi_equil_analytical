@@ -80,7 +80,7 @@ source("R/Run_analytical_solutions.R")
 
 #### ------------- Checking GDAY matches with analytical results ----------- #####
 ###
-
+source("R/Check_analytical_gday_matches.R")
 
 
 
