@@ -19,6 +19,10 @@ Run5_copy_paste <- function() {
                 "        \"fixed_stem_pc\", \"true\"," ,
                 out)
     
+    # modify wood nc and pc ratios
+    out[154] <- "        \"ncwnewz\", \"0.0005\",                   # C:N = 200, match analytical "
+    out[158] <- "        \"pcwnewz\", \"0.00003\",                  # C:P\", \"3333.33 match analytical"
+    
     # swap parameter locations
     out[32] <- "    param_dir <- paste0(d, \"/params/Run5\")"
     
