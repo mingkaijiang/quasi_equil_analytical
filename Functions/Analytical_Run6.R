@@ -83,13 +83,13 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
     out350DF <- data.frame(nfseq, pfseq, pfseqL, NC350, NCVLONG, NCHUGH)
     colnames(out350DF) <- c("nc", "pc_VL", "pc_350_L", "NPP_350", "NPP_VL",
                             "nleach_VL", "NPP_350_L", "nwood_L", "nburial_L",
-                            "nleach_L", "aw")
+                            "nleach_L", "aw", "ncwd")
     equil350DF <- data.frame(VLongNP, LongNP)
     colnames(equil350DF) <- c("nc_VL", "NPP_VL", "pc_VL",
                               "nc_L", "NPP_L", "pc_L")
     
     # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 6 & cDF$CO2 == 350, 3:13] <- out350DF
+    cDF[cDF$Run == 6 & cDF$CO2 == 350, 3:13] <- out350DF[,1:11]
     eDF[eDF$Run == 6 & eDF$CO2 == 350, 3:8] <- equil350DF
     
     ##### CO2 = 700
@@ -116,7 +116,7 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
     out700DF <- data.frame(nfseq, pfseq, pfseqL, NC700, NCVLONG, NCHUGH)
     colnames(out700DF) <- c("nc", "pc_VL", "pc_700_L", "NPP_700", "NPP_VL",
                             "nleach_VL", "NPP_700_L", "nwood_L", "nburial_L",
-                            "nleach_L", "aw")
+                            "nleach_L", "aw", "ncwd")
     
     # Find equilibrate intersection and plot
     LongN <- solveLongN_CWD(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
@@ -132,7 +132,7 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
                               "nc_L", "NPP_L", "pc_L")
     
     # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 6 & cDF$CO2 == 700, 3:13] <- out700DF
+    cDF[cDF$Run == 6 & cDF$CO2 == 700, 3:13] <- out700DF[,1:11]
     eDF[eDF$Run == 6 & eDF$CO2 == 700, 3:8] <- equil700DF
     
     
