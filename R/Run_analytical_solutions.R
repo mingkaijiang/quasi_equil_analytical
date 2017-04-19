@@ -21,7 +21,7 @@ Perform_Analytical_Run3(f.flag = 1, constraintDF, equilDF)
 Perform_Analytical_Run4(f.flag = 1, constraintDF, equilDF)
 Perform_Analytical_Run5(f.flag = 1, constraintDF, equilDF)
 Perform_Analytical_Run6(f.flag = 1, constraintDF, equilDF)
-#Perform_Analytical_Run7(f.flag = 1, constraintDF, equilDF)
+Perform_Analytical_Run7(f.flag = 1, constraintDF, equilDF)
 #Perform_Analytical_Run8(f.flag = 1, constraintDF, equilDF)
 #Perform_Analytical_Run9(f.flag = 1, constraintDF, equilDF)
 #Perform_Analytical_Run10(f.flag = 1, constraintDF, equilDF)
@@ -47,7 +47,7 @@ constraintDF <- Perform_Analytical_Run5(f.flag = 2, constraintDF, equilDF)
 constraintDF <- Perform_Analytical_Run6(f.flag = 2, constraintDF, equilDF)
 
 ### Run 7
-#constraintDF <- Perform_Analytical_Run7(f.flag = 2, constraintDF, equilDF)
+constraintDF <- Perform_Analytical_Run7(f.flag = 2, constraintDF, equilDF)
 
 ### Run 8
 #constraintDF <- Perform_Analytical_Run8(f.flag = 2, constraintDF, equilDF)
@@ -80,7 +80,7 @@ equilDF <- Perform_Analytical_Run5(f.flag = 3, constraintDF, equilDF)
 equilDF <- Perform_Analytical_Run6(f.flag = 3, constraintDF, equilDF)
 
 ### Run 7
-#equilDF <- Perform_Analytical_Run7(f.flag = 3, constraintDF, equilDF)
+equilDF <- Perform_Analytical_Run7(f.flag = 3, constraintDF, equilDF)
 
 ### Run 8
 #equilDF <- Perform_Analytical_Run8(f.flag = 3, constraintDF, equilDF)
