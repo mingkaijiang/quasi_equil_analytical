@@ -48,15 +48,16 @@ void   precision_control_soil_n(fluxes *, state *, params *);
 
 /* P stuff */
 void   calculate_psoil_flows(control *, fluxes *, params *, state *);
-void   p_inputs_from_plant_litter(fluxes *, params *, double *, double *);
+void   p_inputs_from_plant_litter(control *, fluxes *, params *, double *, double *);
 void   partition_plant_litter_p(control *, fluxes *, params *, double, double);
 void   pfluxes_from_structural_pools(fluxes *, params *, state *);
 void   pfluxes_from_metabolic_pool(fluxes *, params *, state *);
+void   pfluxes_from_cwd_pool(fluxes *, params *, state *);
 void   pfluxes_from_active_pool(fluxes *, params *, state *, double);
 void   pfluxes_from_slow_pool(fluxes *, params *, state *s);
 void   pfluxes_from_passive_pool(fluxes *, params *, state *);
 void   calculate_p_parent_fluxes(control *, fluxes *, params *, state *);
-void   calculate_p_mineralisation(fluxes *);
+void   calculate_p_mineralisation(control *, fluxes *);
 void   calculate_p_immobilisation(control *, fluxes *, params *, state *, double *,
                                   double *, double *, double *);
 double calculate_pc_slope(params *, double, double);

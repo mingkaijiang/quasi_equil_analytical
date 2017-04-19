@@ -1273,13 +1273,17 @@ void calculate_psoil_flows(control *c, fluxes *f, params *p, state *s) {
     double frac_microb_resp = 0.85 - (0.68 * p->finesoil);
     double psurf, psoil, active_pc_slope, slow_pc_slope, passive_pc_slope;
 
-    p_inputs_from_plant_litter(f, p, &psurf, &psoil);
+    p_inputs_from_plant_litter(c, f, p, &psurf, &psoil);
     partition_plant_litter_p(c, f, p, psurf, psoil);
 
     /* SOM phosphorus effluxes.  These are assumed to have the source p:c
     ratio prior to the increase of P:C due to co2 evolution. */
     pfluxes_from_structural_pools(f, p, s);
     pfluxes_from_metabolic_pool(f, p, s);
+    
+    if(c->cwd_pool) {
+        pfluxes_from_cwd_pool(f, p, s);
+    }
     pfluxes_from_active_pool(f, p, s, frac_microb_resp);
     pfluxes_from_slow_pool(f, p, s);
     pfluxes_from_passive_pool(f, p, s);
@@ -1288,7 +1292,7 @@ void calculate_psoil_flows(control *c, fluxes *f, params *p, state *s) {
     calculate_p_parent_fluxes(c, f, p, s);
 
     /* gross P mineralisation */
-    calculate_p_mineralisation(f);
+    calculate_p_mineralisation(c, f);
 
     /* calculate P immobilisation */
     calculate_p_immobilisation(c, f, p, s, &(f->pimmob), &active_pc_slope,
@@ -1367,7 +1371,7 @@ void calc_root_exudation_uptake_of_P(fluxes *f, state *s) {
 }
 
 
-void p_inputs_from_plant_litter(fluxes *f, params *p, double *psurf,
+void p_inputs_from_plant_litter(control *c, fluxes *f, params *p, double *psurf,
                                 double *psoil) {
     /* inputs from plant litter.
 
@@ -1383,7 +1387,11 @@ void p_inputs_from_plant_litter(fluxes *f, params *p, double *psurf,
     */
 
     /* surface and soil inputs (faeces p goes to abovgrd litter pools) */
-    *psurf = f->deadleafp + f->deadstemp;
+    if(c->cwd_pool) {
+        *psurf = f->deadleafp;
+    } else {
+        *psurf = f->deadleafp + f->deadstemp;
+    }
     *psoil = f->deadrootp;
     
     return;
@@ -1467,6 +1475,17 @@ void pfluxes_from_metabolic_pool(fluxes *f, params *p, state *s) {
 }
 
 
+void pfluxes_from_cwd_pool(fluxes *f, params *p, state *s) {
+    
+    /* P flux cwd pool -> active pool */
+    f->p_cwd_to_active = s->cwdp * p->decayrate[7] * p->cwd2active;
+    
+    /* P flux cwd pool -> active pool */
+    f->p_cwd_to_active = s->cwdp * p->decayrate[7] * p->cwd2slow;
+    
+    return;
+}
+
 void pfluxes_from_active_pool(fluxes *f, params *p, state *s,
                               double frac_microb_resp) {
 
@@ -1527,7 +1546,7 @@ void calculate_p_parent_fluxes(control *c, fluxes *f, params *p, state *s) {
     return;
 }
 
-void calculate_p_mineralisation(fluxes *f) {
+void calculate_p_mineralisation(control *c, fluxes *f) {
     /* P gross mineralisation rate is given by the excess of P outflows
     over inflows. P mineralisation is the process by which organic P is
     converted to plant available inorganic P, i.e. the microbial conversion
@@ -1540,12 +1559,24 @@ void calculate_p_mineralisation(fluxes *f) {
     Gross P mineralisation
     Unit: t/ha/d
     */
-    f->pgross =  (f->p_surf_struct_to_slow + f->p_surf_struct_to_active +
-                  f->p_soil_struct_to_slow + f->p_soil_struct_to_active +
-                  f->p_surf_metab_to_active + f->p_soil_metab_to_active +
-                  f->p_active_to_slow + f->p_active_to_passive +
-                  f->p_slow_to_active + f->p_slow_to_passive +
-                  f->p_passive_to_active);
+    
+    if(c->cwd_pool) {
+        f->pgross =  (f->p_surf_struct_to_slow + f->p_surf_struct_to_active +
+            f->p_soil_struct_to_slow + f->p_soil_struct_to_active +
+            f->p_surf_metab_to_active + f->p_soil_metab_to_active +
+            f->p_active_to_slow + f->p_active_to_passive +
+            f->p_slow_to_active + f->p_slow_to_passive +
+            f->p_passive_to_active + f->p_cwd_to_active + f->p_cwd_to_slow);
+        
+    } else {
+        f->pgross =  (f->p_surf_struct_to_slow + f->p_surf_struct_to_active +
+            f->p_soil_struct_to_slow + f->p_soil_struct_to_active +
+            f->p_surf_metab_to_active + f->p_soil_metab_to_active +
+            f->p_active_to_slow + f->p_active_to_passive +
+            f->p_slow_to_active + f->p_slow_to_passive +
+            f->p_passive_to_active);
+        
+    }
 
     return;
 }
@@ -1666,9 +1697,6 @@ void calc_p_net_mineralisation(control *c, fluxes *f) {
   /* add diagnostic statement if needed */
   if (c->diagnosis) {
   }
-  
-  //fprintf(stderr, "pmineralisation %f, pgross %f, pimmob %f, plittrelease %f\n",
-  //        f->pmineralisation, f->pgross, f->pimmob, f->plittrelease);
 
     return;
 }
@@ -1766,18 +1794,36 @@ void calculate_ppools(control *c, fluxes *f, params *p, state *s) {
     removed with each timestep. Effectively with time this value which is
     zero can end up becoming zero but to a silly decimal place */
     precision_control_soil_p(f, s, p);
+    
+    if(c->cwd_pool) {
+        s->cwdp += (f->deadstemp - (f->p_cwd_to_active + f->p_cwd_to_slow));
+        
+        p_into_active = (f->p_surf_struct_to_active + f->p_soil_struct_to_active +
+                         f->p_surf_metab_to_active + f->p_soil_metab_to_active +
+                         f->p_slow_to_active + f->p_passive_to_active + f->p_cwd_to_active);
+        
+        p_out_of_active = f->p_active_to_slow + f->p_active_to_passive;
+        
+        p_into_slow = (f->p_surf_struct_to_slow + f->p_soil_struct_to_slow +
+                       f->p_active_to_slow + f->p_cwd_to_slow);
+        
+        p_out_of_slow = f->p_slow_to_active + f->p_slow_to_passive;
+        
+    } else {
+        /* Update SOM pools */
+        p_into_active = (f->p_surf_struct_to_active + f->p_soil_struct_to_active +
+                        f->p_surf_metab_to_active + f->p_soil_metab_to_active +
+                        f->p_slow_to_active + f->p_passive_to_active);
+        
+        p_out_of_active = f->p_active_to_slow + f->p_active_to_passive;
+        
+        p_into_slow = (f->p_surf_struct_to_slow + f->p_soil_struct_to_slow +
+                      f->p_active_to_slow);
+        
+        p_out_of_slow = f->p_slow_to_active + f->p_slow_to_passive;
+    }
 
-    /* Update SOM pools */
-    p_into_active = (f->p_surf_struct_to_active + f->p_soil_struct_to_active +
-    f->p_surf_metab_to_active + f->p_soil_metab_to_active +
-    f->p_slow_to_active + f->p_passive_to_active);
 
-    p_out_of_active = f->p_active_to_slow + f->p_active_to_passive;
-
-    p_into_slow = (f->p_surf_struct_to_slow + f->p_soil_struct_to_slow +
-                   f->p_active_to_slow);
-
-    p_out_of_slow = f->p_slow_to_active + f->p_slow_to_passive;
     p_into_passive = f->p_active_to_passive + f->p_slow_to_passive;
     p_out_of_passive = f->p_passive_to_active;
 
