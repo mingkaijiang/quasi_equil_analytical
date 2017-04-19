@@ -411,6 +411,7 @@ typedef struct {
     double co2_rel_from_soil_struct_litter;
     double co2_rel_from_surf_metab_litter;
     double co2_rel_from_soil_metab_litter;
+    double co2_rel_from_cwd_pool;
     double co2_rel_from_active_pool;
     double co2_rel_from_slow_pool;
     double co2_rel_from_passive_pool;

@@ -66,6 +66,10 @@ void calculate_csoil_flows(control *c, fluxes *f, params *p, state *s,
     f->co2_rel_from_soil_struct_litter = f->co2_to_air[1];
     f->co2_rel_from_surf_metab_litter = f->co2_to_air[2];
     f->co2_rel_from_soil_metab_litter = f->co2_to_air[3];
+    
+    if(c->cwd_pool) {
+        f->co2_rel_from_cwd_pool = f->co2_to_air[7];
+    }
     f->co2_rel_from_active_pool = f->co2_to_air[4];
     f->co2_rel_from_slow_pool = f->co2_to_air[5];
     f->co2_rel_from_passive_pool = f->co2_to_air[6];
