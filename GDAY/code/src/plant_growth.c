@@ -852,7 +852,7 @@ double calculate_nuptake(control *c, params *p, state *s, fluxes *f) {
         nuptake = (1.0 - (p->rateloss * NMONTHS_IN_YR)) * s->inorgn;
     } else if (c->nuptake_model == 1) {
         /* evaluate nuptake : proportional to dynamic inorganic N pool */
-        nuptake = p->rateuptake * s->inorgn;
+        nuptake = p->rateuptake * (1.0 - (p->rateloss * NMONTHS_IN_YR)) * s->inorgn;
     } else if (c->nuptake_model == 2) {
         /* N uptake is a saturating function on root biomass following
            Dewar and McMurtrie, 1996. */
@@ -898,7 +898,9 @@ double calculate_puptake(control *c, params *p, state *s, fluxes *f) {
     } else if (c->puptake_model == 1) {
         // evaluate puptake : proportional to lab P pool that is
         // available to plant uptake
-        puptake = p->prateuptake * s->inorgavlp;
+        pleach = ((prateloss) / (1.0 - prateloss));
+        pocc = (k3 / (k2 + k3)) * (k1 / (1.0 - k1));
+        puptake = p->prateuptake * (1.0 - prateloss - p->k1) *s->inorgavlp;
     } else if (c->puptake_model == 2) {
         /* P uptake is a saturating function on root biomass, as N */
 

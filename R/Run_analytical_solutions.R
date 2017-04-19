@@ -26,7 +26,7 @@ Perform_Analytical_Run7(f.flag = 1, constraintDF, equilDF)
 #Perform_Analytical_Run9(f.flag = 1, constraintDF, equilDF)
 #Perform_Analytical_Run10(f.flag = 1, constraintDF, equilDF)
 
-#### Step 2 store run 1 - 10 constrainDF dataframes
+#### Step 2 store run 1 - 10 constrainDF dataframe
 
 ### Run 1
 constraintDF <- Perform_Analytical_Run1(f.flag = 2, constraintDF, equilDF)
