@@ -450,6 +450,10 @@ int handler(char *section, char *name, char *value, control *c,
         p->cue = atof(value);
     } else if (MATCH("params", "co2_in")) {
       p->co2_in = atof(value);
+    } else if (MATCH("params", "cwd2active")) {
+        p->cwd2active = atof(value);
+    } else if (MATCH("params", "cwd2slow")) {
+        p->cwd2slow = atof(value);
     } else if (MATCH("params", "density")) {
       p->density = atof(value);
     } else if (MATCH("params", "fdecay")) {
@@ -490,6 +494,8 @@ int handler(char *section, char *name, char *value, control *c,
         p->kdec6 = atof(value);
     } else if (MATCH("params", "kdec7")) {
         p->kdec7 = atof(value);
+    } else if (MATCH("params", "kdec8")) {
+        p->kdec8 = atof(value);
     } else if (MATCH("params", "kr")) {
         p->kr = atof(value);
     } else if (MATCH("params", "krp")) {

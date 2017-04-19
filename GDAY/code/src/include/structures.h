@@ -124,7 +124,9 @@ typedef struct {
     double cfracts;                         /* carbon fraction of dry biomass */
     double co2_in;                          /* annual version co2 concentration ppm */
     double cue;                             /* carbon use efficiency, or the ratio of NPP to GPP */
-    double decayrate[7];
+    double cwd2active;                      /* transfer rate of cwd to active pool */
+    double cwd2slow;                        /* transfer rate of cwd to slow pool */
+    double decayrate[8];
     double density;                         /* sapwood density kg DM m-3 (trees) */
     double fdecay;                          /* foliage turnover rate (1/yr) */
     double finesoil;                        /* clay+silt fraction */
@@ -146,7 +148,8 @@ typedef struct {
     double kdec4;                           /* soil metabolic decay rate(1/yr) */
     double kdec5;                           /* active pool decay rate (1/yr) */
     double kdec6;                           /* slow pool decay rate (1/yr) */
-    double kdec7;                           /* passive pool decay rate (1/yr) */
+    double kdec7;                           /* passive pool decay rate (1/yr) */    
+    double kdec8;                           /* cwd pool decay rate (1/yr) */
     double kext;                            /* extinction coefficient for light  */
     double kr;                              /* N uptake coefficent (0.05 kg C m-2 to 0.5 tonnes/ha) see Silvia's PhD, Dewar and McM, 96. */
     double krp;                             /* P uptake coefficent */
@@ -379,10 +382,14 @@ typedef struct {
     double p_ssorb_to_occ;
     double p_par_to_avl;
     double p_atm_dep;
+    
+    /* fluxes associated with cwd pool */
+    double cwd_to_active;
+    double cwd_to_slow;
 
 
     /* CO2 flows to the air */
-    double co2_to_air[7];
+    double co2_to_air[8];
 
     /* C allocated fracs  */
     double alleaf;             /* allocation to leaf */

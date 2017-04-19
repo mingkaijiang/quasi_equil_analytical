@@ -17,6 +17,7 @@ void   partition_plant_litter(control *, fluxes *, params *);
 double ratio_of_litternc_to_live_leafnc(control *, fluxes *, params *);
 void   cfluxes_from_structural_pool(fluxes *, params *, state *);
 void   cfluxes_from_metabolic_pool(fluxes *f, params *, state *);
+void   cfluxes_from_cwd_pool(fluxes *f, params *, state *);
 void   cfluxes_from_active_pool(fluxes *, params *, state *, double);
 void   cfluxes_from_slow_pool(fluxes *, params *, state *);
 void   cfluxes_from_passive_pool(fluxes *, params *, state *);

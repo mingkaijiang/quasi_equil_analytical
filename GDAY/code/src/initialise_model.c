@@ -61,6 +61,8 @@ void initialise_params(params *p) {
     p->cfracts = 0.5;
     p->cue = 0.5;
     p->co2_in = 350.0;
+    p->cwd2active = 0.2;
+    p->cwd2slow = 0.2;
     p->density = 420.0;
     p->fdecay = 0.59988;
     p->finesoil = 0.51;
@@ -83,6 +85,7 @@ void initialise_params(params *p) {
     p->kdec5 = 7.305;
     p->kdec6 = 0.198279;
     p->kdec7 = 0.006783;
+    p->kdec8 = 0.7904;     /* decay rate for coarse woody debris pool, as in Table 1, Kirschbaum and Paul, 2002. Soil Biology and Biochemistry */
     p->kext = 0.5;
     p->kr = 0.5;          /* this value is 1.0 in Wang et al. 2007 Global Biogeochemical Cycles, Kn Michaelis-Menten constant for plant N uptake [g P m-2] */
     p->krp = 0.01;        /* Wang et al. 2007 Global Biogeochemical Cycles, Kp Michaelis-Menten constant for plant P uptake [g P m-2] */
@@ -140,7 +143,7 @@ void initialise_params(params *p) {
     p->wdecay = 0.02;
     p->wretrans = 0.0;
 
-    for (i = 0; i < 7; i++) {
+    for (i = 0; i < 8; i++) {
         p->decayrate[i] = 0.0;
     }
 
@@ -289,10 +292,14 @@ void initialise_fluxes(fluxes *f) {
     f->p_ssorb_to_avl = 0.0;
     f->p_ssorb_to_occ = 0.0;
     f->p_par_to_avl = 0.0;
+    
+    /* fluxes associated with cwd pool */
+    f->cwd_to_active = 0.0;
+    f->cwd_to_slow = 0.0;
 
     /* CO2 flows to the air */
     /* C flows to the air */
-    for (i = 0; i < 7; i++) {
+    for (i = 0; i < 8; i++) {
         f->co2_to_air[i] = 0.0;
     }
 

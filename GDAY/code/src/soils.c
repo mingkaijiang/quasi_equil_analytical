@@ -41,10 +41,15 @@ void calculate_csoil_flows(control *c, fluxes *f, params *p, state *s,
     p->fmleaf = metafract(lnleaf);
     p->fmroot = metafract(lnroot);
     
-    /* input from faeces */
+    /* c fluxes */
     partition_plant_litter(c, f, p);
     cfluxes_from_structural_pool(f, p, s);
     cfluxes_from_metabolic_pool(f, p, s);
+    
+    if(c->cwd_pool) {
+        cfluxes_from_cwd_pool(f, p, s);
+    }
+    
     cfluxes_from_active_pool(f, p, s, frac_microb_resp);
     cfluxes_from_slow_pool(f, p, s);
     cfluxes_from_passive_pool(f, p, s);
@@ -171,6 +176,9 @@ void calculate_decay_rates(control *c, fluxes *f, params *p, state *s) {
 
     /* decay rate of passive pool */
     p->decayrate[6] = p->kdec7 * f->tfac_soil_decomp;
+    
+    /* decay rate of cwd pool */
+    p->decayrate[7] = p->kdec8 * f->tfac_soil_decomp;
 
     return;
 }
@@ -323,7 +331,12 @@ void partition_plant_litter(control *c, fluxes *f, params *p) {
 
     /* ...to the structural pool*/
     leaf_material = f->deadleaves * (1.0 - p->fmleaf);
-    wood_material = f->deadstems;
+    
+    if (c->cwd_pool) {
+        wood_material = 0.0;
+    } else {
+        wood_material = f->deadstems;
+    }
     f->surf_struct_litter = leaf_material + wood_material;         
 
     /* ...to the metabolic pool */
@@ -395,6 +408,21 @@ void cfluxes_from_metabolic_pool(fluxes *f, params *p, state *s) {
     return;
 }
 
+void cfluxes_from_cwd_pool(fluxes *f, params *p, state *s) {
+    /* Send C from cwd pool to other SOM pools */
+    
+    /* C flux cwd pool -> active pool */
+    f->cwd_to_active = s->cwd * p->decayrate[7] * p->cwd2active;
+    
+    /* C flux cwd pool  -> slow pool */
+    f->cwd_to_slow = s->cwd * p->decayrate[7] * p->cwd2slow;
+    
+    /* Respiration fluxes */
+    f->co2_to_air[7] = s->cwd * p->decayrate[7];
+
+    return;
+}
+
 void cfluxes_from_active_pool(fluxes *f, params *p, state *s,
                               double frac_microb_resp) {
     /* Send C fluxes from active pool to other SOM pools */
@@ -446,9 +474,16 @@ void calculate_soil_respiration(control *c, fluxes *f, params *p, state *s) {
     the amount of CO2 released back to the atmosphere */
 
     /* total CO2 production */
-    f->hetero_resp = (f->co2_to_air[0] + f->co2_to_air[1] + f->co2_to_air[2] +
-                      f->co2_to_air[3] + f->co2_to_air[4] + f->co2_to_air[5] +
-                      f->co2_to_air[6]);
+    if(c->cwd_pool) {
+        f->hetero_resp = (f->co2_to_air[0] + f->co2_to_air[1] + f->co2_to_air[2] +
+            f->co2_to_air[3] + f->co2_to_air[4] + f->co2_to_air[5] +
+            f->co2_to_air[6] + f->co2_to_air[7]);
+    } else {
+        f->hetero_resp = (f->co2_to_air[0] + f->co2_to_air[1] + f->co2_to_air[2] +
+            f->co2_to_air[3] + f->co2_to_air[4] + f->co2_to_air[5] +
+            f->co2_to_air[6]);
+    }
+
   
     /* insert following line so value of respiration obeys c conservation if
      assuming a fixed passive pool */
@@ -479,15 +514,29 @@ void calculate_cpools(control *c, fluxes *f, state *s, params *p) {
     s->metabsoil += (f->soil_metab_litter -
                      (f->soil_metab_to_active + f->co2_to_air[3]));
     
-    /* store the C SOM fluxes for Nitrogen/Phosphorus calculations */
-    f->c_into_active = (f->surf_struct_to_active + f->soil_struct_to_active +
-                        f->surf_metab_to_active + f->soil_metab_to_active +
-                        f->slow_to_active + f->passive_to_active);
-
-    f->c_into_slow = (f->surf_struct_to_slow + f->soil_struct_to_slow +
-                      f->active_to_slow);
-
-    f->c_into_passive = f->active_to_passive + f->slow_to_passive;
+    if(c->cwd_pool) {
+        s->cwd += (f->deadstems - (f->cwd_to_active + f->cwd_to_slow + f->co2_to_air[7]));
+        
+        /* store the C SOM fluxes for Nitrogen/Phosphorus calculations */
+        f->c_into_active = (f->surf_struct_to_active + f->soil_struct_to_active +
+        f->surf_metab_to_active + f->soil_metab_to_active +
+        f->slow_to_active + f->passive_to_active + f->cwd_to_active);
+        
+        f->c_into_slow = (f->surf_struct_to_slow + f->soil_struct_to_slow +
+            f->active_to_slow + f->cwd_to_slow);
+        
+        f->c_into_passive = f->active_to_passive + f->slow_to_passive;
+    } else {
+        /* store the C SOM fluxes for Nitrogen/Phosphorus calculations */
+        f->c_into_active = (f->surf_struct_to_active + f->soil_struct_to_active +
+        f->surf_metab_to_active + f->soil_metab_to_active +
+        f->slow_to_active + f->passive_to_active);
+        
+        f->c_into_slow = (f->surf_struct_to_slow + f->soil_struct_to_slow +
+            f->active_to_slow);
+        
+        f->c_into_passive = f->active_to_passive + f->slow_to_passive;
+    }
 
     s->activesoil += (f->c_into_active -
                       (f->active_to_slow + f->active_to_passive +
