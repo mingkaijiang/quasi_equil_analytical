@@ -49,21 +49,34 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
     omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
     CpassVLong <- omega*VLongNP$equilNPP/pass$decomp/(1-pass$qq)*1000.0
     
-    # Calculate nutrient release from recalcitrant pools
+    # The wood has less N release because part of the N are stored in CWD pool now
+    # as a function of wood decay rate, and the release of N from CWD is controled by the
+    # decay rate of CWD, so the net should be a value smaller than the originally calculated
+    # NrelwoodVLong (in theory at least). But, the value of N release from CWD should be
+    # very small, because a small fraction of wood is transferred into the CWD pool, and
+    # a small fraction of N in CWD pool is released to add into the SOM pool. In this case, 
+    # a first-order solution is to reduce NrelwoodVLong first. 
+    # PrelwoodVLong <- aequilp$aw*aequilp$pw*VLongNP$equilNPP_N*1000.0*(1.0 - 0.02) # 0.02 is the wood decay rate in yr-1
+    # NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0*(1.0 - 0.02) # 0.02 is the wood decay rate in yr-1
+    # realistically, this above equation should look something like this:
+    # NrelcwdVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0*0.02*cwd_decay
+    # where the term cwd_decay is 0.7904 yr-1, as in Table 1 of Kirschbaum and Paul, 2002
+    # additionally, the term cwd_decay should be multiplying a temperature factor
+    # overall, the net change to NrelwoodVLong is very small < 0.01 net difference
     PrelwoodVLong <- aequilp$aw*aequilp$pw*VLongNP$equilNPP_N*1000.0
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0
     
     # Calculate pf based on nf of long-term nutrient exchange
-    pfseqL <- inferpfL(nfseq, a_nf, Pin = 0.02+PrelwoodVLong,
-                       Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
+    pfseqL <- inferpfL_CWD(nfseq, a_nf, Pin = 0.02+PrelwoodVLong,
+                           Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
     
     # Calculate long-term nutrient constraint
-    NCHUGH <- NConsLong(df=nfseq, a=a_nf,Cpass=CpassVLong,
-                                      Nin = 0.4+NrelwoodVLong)
+    NCHUGH <- NConsLong_CWD(df=nfseq, a=a_nf,Cpass=CpassVLong,
+                             Nin = 0.4+NrelwoodVLong)
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T)
-    equilpf <- equilpL(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
+    LongN <- solveLongN_CWD(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T)
+    equilpf <- equilpL_CWD(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
                        nwvar=T, pwvar=T)   
     LongNP <- data.frame(LongN, equilpf)
     
@@ -106,7 +119,7 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
                             "nleach_L", "aw")
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
+    LongN <- solveLongN_CWD(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
     equilNPP <- LongN$equilNPP
     
     a_new <- allocn(LongN$equilnf, nwvar=T)

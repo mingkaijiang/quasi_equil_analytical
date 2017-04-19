@@ -701,6 +701,7 @@ void correct_rate_constants(params *p, int output) {
     p->kdec5 *= NMONTHS_IN_YR;
     p->kdec6 *= NMONTHS_IN_YR;
     p->kdec7 *= NMONTHS_IN_YR;
+    p->kdec8 *= NMONTHS_IN_YR;
     //p->k1 *= NMONTHS_IN_YR;
     //p->k2 *= NMONTHS_IN_YR;
     //p->k3 *= NMONTHS_IN_YR;
@@ -726,6 +727,7 @@ void correct_rate_constants(params *p, int output) {
     p->kdec5 /= NMONTHS_IN_YR;
     p->kdec6 /= NMONTHS_IN_YR;
     p->kdec7 /= NMONTHS_IN_YR;
+    p->kdec8 /= NMONTHS_IN_YR;
     //p->k1 /= NMONTHS_IN_YR;
     //p->k2 /= NMONTHS_IN_YR;
     //p->k3 /= NMONTHS_IN_YR;
