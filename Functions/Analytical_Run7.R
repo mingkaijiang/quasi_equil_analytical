@@ -1,15 +1,16 @@
 
-#### Analytical script to match GDAY Run 6 settings
+#### Analytical script to match GDAY Run 7 settings
 ####
-#### Assumptions:
 #### Same as Run 1, except
-#### 1. turn coarse woody debris pool on
+#### 1. N and P explicit mineral pools
+#### 2. N and P upake rates are constants (i.e. adjustable parameters)
 ####
 ################################################################################
 
+
 #### Functions
-Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
-    #### Function to perform analytical run 7 simulations
+Perform_Analytical_Run7 <- function(f.flag = 1, cDF, eDF) {
+    #### Function to perform analytical run 1 simulations
     #### eDF: stores equilibrium points
     #### cDF: stores constraint points (curves)
     #### f.flag: = 1 simply plot analytical solution file
@@ -49,34 +50,21 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
     omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
     CpassVLong <- omega*VLongNP$equilNPP/pass$decomp/(1-pass$qq)*1000.0
     
-    # The wood has less N release because part of the N are stored in CWD pool now
-    # as a function of wood decay rate, and the release of N from CWD is controled by the
-    # decay rate of CWD, so the net should be a value smaller than the originally calculated
-    # NrelwoodVLong (in theory at least). But, the value of N release from CWD should be
-    # very small, because a small fraction of wood is transferred into the CWD pool, and
-    # a small fraction of N in CWD pool is released to add into the SOM pool. In this case, 
-    # a first-order solution is to reduce NrelwoodVLong first. 
-    # PrelwoodVLong <- aequilp$aw*aequilp$pw*VLongNP$equilNPP_N*1000.0*(1.0 - 0.02) # 0.02 is the wood decay rate in yr-1
-    # NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0*(1.0 - 0.02) # 0.02 is the wood decay rate in yr-1
-    # realistically, this above equation should look something like this:
-    # NrelcwdVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0*0.02*cwd_decay
-    # where the term cwd_decay is 0.7904 yr-1, as in Table 1 of Kirschbaum and Paul, 2002
-    # additionally, the term cwd_decay should be multiplying a temperature factor
-    # overall, the net change to NrelwoodVLong is very small < 0.01 net difference
+    # Calculate nutrient release from recalcitrant pools
     PrelwoodVLong <- aequilp$aw*aequilp$pw*VLongNP$equilNPP_N*1000.0
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0
     
     # Calculate pf based on nf of long-term nutrient exchange
-    pfseqL <- inferpfL_CWD(nfseq, a_nf, Pin = 0.02+PrelwoodVLong,
-                           Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
+    pfseqL <- inferpfL(nfseq, a_nf, Pin = 0.02+PrelwoodVLong,
+                       Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
     
-    # Calculate long-term nutrient constraint
-    NCHUGH <- NConsLong_CWD(df=nfseq, a=a_nf,Cpass=CpassVLong,
-                             Nin = 0.4+NrelwoodVLong)
+    # Calculate long term nutrieng constraint
+    NCHUGH <- NConsLong(df=nfseq, a=a_nf,Cpass=CpassVLong,
+                        Nin = 0.4+NrelwoodVLong)
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_CWD(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T)
-    equilpf <- equilpL_CWD(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
+    LongN <- solveLongN(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T)
+    equilpf <- equilpL(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
                        nwvar=T, pwvar=T)   
     LongNP <- data.frame(LongN, equilpf)
     
@@ -89,8 +77,8 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
                               "nc_L", "NPP_L", "pc_L")
     
     # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 6 & cDF$CO2 == 350, 3:13] <- out350DF
-    eDF[eDF$Run == 6 & eDF$CO2 == 350, 3:8] <- equil350DF
+    cDF[cDF$Run == 1 & cDF$CO2 == 350, 3:13] <- out350DF
+    eDF[eDF$Run == 1 & eDF$CO2 == 350, 3:8] <- equil350DF
     
     ##### CO2 = 700
     
@@ -119,7 +107,7 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
                             "nleach_L", "aw")
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_CWD(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
+    LongN <- solveLongN(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
     equilNPP <- LongN$equilNPP
     
     a_new <- allocn(LongN$equilnf, nwvar=T)
@@ -132,9 +120,8 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
                               "nc_L", "NPP_L", "pc_L")
     
     # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 6 & cDF$CO2 == 700, 3:13] <- out700DF
-    eDF[eDF$Run == 6 & eDF$CO2 == 700, 3:8] <- equil700DF
-    
+    cDF[cDF$Run == 1 & cDF$CO2 == 700, 3:13] <- out700DF
+    eDF[eDF$Run == 1 & eDF$CO2 == 700, 3:8] <- equil700DF
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), NC700))
@@ -147,14 +134,14 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
         
         ######### Plotting
         
-        tiff("Plots/Analytical_Run6.tiff",
+        tiff("Plots/Analytical_Run7.tiff",
              width = 8, height = 7, units = "in", res = 300)
         par(mar=c(5.1,5.1,2.1,2.1))
         
         
         # NPP constraint by CO2 = 350
         s3d <- scatterplot3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_350, xlim=c(0.0, 0.05),
-                             ylim = c(0.0, 0.002), zlim=c(0, 5), 
+                             ylim = c(0.0, 0.002), zlim=c(0, 3), 
                              type = "l", xlab = "Shoot N:C ratio", ylab = "Shoot P:C ratio", 
                              zlab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
                              color="cyan", lwd = 3, angle=24)
@@ -204,4 +191,5 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
     } else if (f.flag == 3) {
         return(eDF)
     }
+    
 }
