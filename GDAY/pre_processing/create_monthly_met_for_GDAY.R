@@ -103,8 +103,8 @@ create_dataset <- function(outName,
   met1 <- paste(f.Path, "/Quasi_equil_met_forcing_transient_co2_amb.csv", sep="")
   met2 <- paste(f.Path, "/Quasi_equil_met_forcing_transient_co2_ele.csv", sep="")
   
-  create_dataset(met1, co2=350)
-  create_dataset(met2, co2=700)
+  create_dataset(met1, co2=350, nyear = 200)   # no need of running for a very long time as the model equilibrates already in spinup
+  create_dataset(met2, co2=700, nyear = 20000)
 
 
 

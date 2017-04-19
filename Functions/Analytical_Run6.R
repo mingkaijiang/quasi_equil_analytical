@@ -3,7 +3,7 @@
 ####
 #### Assumptions:
 #### Same as Run 1, except
-#### 1. explicit mineral N and P pools, uptake is a constant rate
+#### 1. turn coarse woody debris pool on
 ####
 ################################################################################
 
@@ -57,10 +57,7 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
     pfseqL <- inferpfL(nfseq, a_nf, Pin = 0.02+PrelwoodVLong,
                        Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
     
-    # Calculate long term nutrieng constraint
-    #test <- NConsLong_variable_pass(df=nfseq, a=a_nf,Cpass=CpassVLong,
-    #                    Nin = 0.4+NrelwoodVLong)
-    
+    # Calculate long-term nutrient constraint
     NCHUGH <- NConsLong(df=nfseq, a=a_nf,Cpass=CpassVLong,
                                       Nin = 0.4+NrelwoodVLong)
     
