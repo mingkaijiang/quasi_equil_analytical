@@ -260,7 +260,7 @@ void initialise_fluxes(fluxes *f) {
     f->n_soil_metab_to_active = 0.0;
     f->p_surf_metab_to_active = 0.0;
     f->p_soil_metab_to_active = 0.0;
-
+    
     /* fluxes out of active pool */
     f->active_to_slow = 0.0;
     f->active_to_passive = 0.0;
@@ -296,6 +296,10 @@ void initialise_fluxes(fluxes *f) {
     /* fluxes associated with cwd pool */
     f->cwd_to_active = 0.0;
     f->cwd_to_slow = 0.0;
+    f->n_cwd_to_active = 0.0;
+    f->n_cwd_to_slow = 0.0;
+    f->p_cwd_to_active = 0.0;
+    f->p_cwd_to_slow = 0.0;
 
     /* CO2 flows to the air */
     /* C flows to the air */

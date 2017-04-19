@@ -386,7 +386,10 @@ typedef struct {
     /* fluxes associated with cwd pool */
     double cwd_to_active;
     double cwd_to_slow;
-
+    double n_cwd_to_active;
+    double n_cwd_to_slow;
+    double p_cwd_to_active;
+    double p_cwd_to_slow;
 
     /* CO2 flows to the air */
     double co2_to_air[8];

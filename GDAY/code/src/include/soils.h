@@ -28,12 +28,13 @@ void   precision_control_soil_c(fluxes *, state *, params *);
 
 /* N stuff */
 void   calculate_nsoil_flows(control *, fluxes *, params *, state *);
-void   n_inputs_from_plant_litter(fluxes *, params *, double *, double *);
+void   n_inputs_from_plant_litter(control *, fluxes *, params *, double *, double *);
 void   partition_plant_litter_n(control *, fluxes *, params *, double, double);
 void   nfluxes_from_structural_pools(fluxes *, params *, state *);
 void   nfluxes_from_metabolic_pool(fluxes *, params *, state *);
 void   nfluxes_from_active_pool(fluxes *, params *, state *, double);
 void   nfluxes_from_slow_pool(fluxes *, params *, state *s);
+void   nfluxes_from_cwd_pool(fluxes *, params *, state *s);
 void   nfluxes_from_passive_pool(fluxes *, params *, state *);
 void   calculate_n_mineralisation(control *, fluxes *);
 void   calculate_n_immobilisation(control *, fluxes *, params *, state *, double *,

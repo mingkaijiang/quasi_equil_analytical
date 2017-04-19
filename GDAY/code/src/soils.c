@@ -595,13 +595,17 @@ void calculate_nsoil_flows(control *c, fluxes *f, params *p, state *s) {
     double frac_microb_resp = 0.85 - (0.68 * p->finesoil);
     double nsurf, nsoil, active_nc_slope, slow_nc_slope, passive_nc_slope;
 
-    n_inputs_from_plant_litter(f, p, &nsurf, &nsoil);
+    n_inputs_from_plant_litter(c, f, p, &nsurf, &nsoil);
     partition_plant_litter_n(c, f, p, nsurf, nsoil);
 
     /* SOM nitrogen effluxes.  These are assumed to have the source n:c
        ratio prior to the increase of N:C due to co2 evolution. */
     nfluxes_from_structural_pools(f, p, s);
     nfluxes_from_metabolic_pool(f, p, s);
+    
+    if(c->cwd_pool) {
+        nfluxes_from_cwd_pool(f, p, s);
+    }
     nfluxes_from_active_pool(f, p, s, frac_microb_resp);
     nfluxes_from_slow_pool(f, p, s);
     nfluxes_from_passive_pool(f, p, s);
@@ -736,7 +740,7 @@ void adjust_residence_time_of_slow_pool(fluxes *f, params *p) {
 }
 
 
-void n_inputs_from_plant_litter(fluxes *f, params *p, double *nsurf,
+void n_inputs_from_plant_litter(control *c, fluxes *f, params *p, double *nsurf,
                               double *nsoil) {
     /* inputs from plant litter.
 
@@ -752,7 +756,12 @@ void n_inputs_from_plant_litter(fluxes *f, params *p, double *nsurf,
     */
 
     /* surface and soil inputs (faeces n goes to abovgrd litter pools) */
-    *nsurf = f->deadleafn + f->deadstemn;
+    if(c->cwd_pool) {
+        * nsurf = f->deadleafn;
+    } else {
+        *nsurf = f->deadleafn + f->deadstemn;
+        
+    }
     *nsoil = f->deadrootn;
 
     return;
@@ -832,6 +841,17 @@ void nfluxes_from_metabolic_pool(fluxes *f, params *p, state *s) {
     return;
 }
 
+void nfluxes_from_cwd_pool(fluxes *f, params *p, state *s) {
+    
+    /* N flux cwd pool -> active pool */
+    f->n_cwd_to_active = s->cwdn * p->decayrate[7] * p->cwd2active;
+    
+    /* N flux cwd pool  -> active pool */
+    f->n_cwd_to_active = s->cwdn * p->decayrate[7] * p->cwd2active;
+    
+    return;
+}
+
 void nfluxes_from_active_pool(fluxes *f, params *p, state *s,
                               double frac_microb_resp) {
 
@@ -885,14 +905,24 @@ void calculate_n_mineralisation(control *c, fluxes *f) {
     value : float
         Gross N mineralisation
     */
-    f->ngross =  (f->n_surf_struct_to_slow + f->n_surf_struct_to_active +
-                  f->n_soil_struct_to_slow + f->n_soil_struct_to_active +
-                  f->n_surf_metab_to_active + f->n_soil_metab_to_active +
-                  f->n_active_to_slow + f->n_active_to_passive +
-                  f->n_slow_to_active + f->n_slow_to_passive +
-                  f->n_passive_to_active);
-  
-  
+    
+    if(c->cwd_pool) {
+        f->ngross =  (f->n_surf_struct_to_slow + f->n_surf_struct_to_active +
+            f->n_soil_struct_to_slow + f->n_soil_struct_to_active +
+            f->n_surf_metab_to_active + f->n_soil_metab_to_active +
+            f->n_active_to_slow + f->n_active_to_passive +
+            f->n_slow_to_active + f->n_slow_to_passive +
+            f->n_passive_to_active + f->n_cwd_to_active + f->n_cwd_to_slow);
+        
+    } else {
+        f->ngross =  (f->n_surf_struct_to_slow + f->n_surf_struct_to_active +
+            f->n_soil_struct_to_slow + f->n_soil_struct_to_active +
+            f->n_surf_metab_to_active + f->n_soil_metab_to_active +
+            f->n_active_to_slow + f->n_active_to_passive +
+            f->n_slow_to_active + f->n_slow_to_passive +
+            f->n_passive_to_active);
+        
+    }
 
     return;
 }
@@ -1060,22 +1090,43 @@ void calculate_npools(control *c, fluxes *f, params *p, state *s) {
                               1.0/p->metabcnmin);
     
     /* When nothing is being added to the metabolic pools, there is the
-       potential scenario with the way the model works for tiny bits to be
-       removed with each timestep. Effectively with time this value which is
-       zero can end up becoming zero but to a silly decimal place */
+     potential scenario with the way the model works for tiny bits to be
+    removed with each timestep. Effectively with time this value which is
+    zero can end up becoming zero but to a silly decimal place */
     precision_control_soil_n(f, s, p);
+    
+    
+    if(c->cwd_pool) {
+        s->cwdn += (f->deadstemn - (f->n_cwd_to_active + f->n_cwd_to_slow));
+        
+        /* Update SOM pools */
+        n_into_active = (f->n_surf_struct_to_active + f->n_soil_struct_to_active +
+                        f->n_surf_metab_to_active + f->n_soil_metab_to_active +
+                        f->n_slow_to_active + f->n_passive_to_active + f->n_cwd_to_active);
+        
+        n_out_of_active = f->n_active_to_slow + f->n_active_to_passive;
+        
+        n_into_slow = (f->n_surf_struct_to_slow + f->n_soil_struct_to_slow +
+                      f->n_active_to_slow + f->n_cwd_to_slow);
+        
+        n_out_of_slow = f->n_slow_to_active + f->n_slow_to_passive;
+        
+    } else {
+        /* Update SOM pools */
+        n_into_active = (f->n_surf_struct_to_active + f->n_soil_struct_to_active +
+                         f->n_surf_metab_to_active + f->n_soil_metab_to_active +
+                         f->n_slow_to_active + f->n_passive_to_active);
+        
+        n_out_of_active = f->n_active_to_slow + f->n_active_to_passive;
+        
+        n_into_slow = (f->n_surf_struct_to_slow + f->n_soil_struct_to_slow +
+                      f->n_active_to_slow);
+        
+        n_out_of_slow = f->n_slow_to_active + f->n_slow_to_passive;
+    }
+    
 
-    /* Update SOM pools */
-    n_into_active = (f->n_surf_struct_to_active + f->n_soil_struct_to_active +
-                     f->n_surf_metab_to_active + f->n_soil_metab_to_active +
-                     f->n_slow_to_active + f->n_passive_to_active);
-
-    n_out_of_active = f->n_active_to_slow + f->n_active_to_passive;
-
-    n_into_slow = (f->n_surf_struct_to_slow + f->n_soil_struct_to_slow +
-                   f->n_active_to_slow);
-
-    n_out_of_slow = f->n_slow_to_active + f->n_slow_to_passive;
+   
     n_into_passive = f->n_active_to_passive + f->n_slow_to_passive;
     n_out_of_passive = f->n_passive_to_active;
 
