@@ -108,8 +108,9 @@ run_check_matches <- function() {
         
     }
     
-    return(matchDF)
+    write.table(matchDF, "Tables/analytical_matches_with_gday_output.csv",
+                sep=",", col.names=T, row.names=F)
 }
 
 ######################## Program ###################################
-equilDF2 <- run_check_matches()
+run_check_matches()

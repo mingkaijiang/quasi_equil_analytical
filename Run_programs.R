@@ -90,11 +90,12 @@ source("R/Check_analytical_gday_matches.R")
 ### Run 4 CUE output, save into a table
 source("R/CUE_check.R")
 
+### Run 8 two methods on deriving nuptake ~ root biomass * nmin (e.g. O-CN vs. GDAY)
+
 
 
 
 #### ---------------- Generate manuscript figures and tables --------------- #####
-
 ### To generate manuscript figures
 source("Plots/Figure_generating.R")
 
@@ -103,5 +104,8 @@ source("Tables/Table_generating.R")
 
 
 
-### Clear workspace
+##### ------------------------ Clear workspace ---------------------------- #####
 rm(list=ls(all=TRUE))
+
+#### End
+
