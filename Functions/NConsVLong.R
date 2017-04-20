@@ -48,7 +48,7 @@ NConsVLong_expl_min <- function(df, a, Nin=0.4,
 # specifically for nuptake as a function of root biomass
 NConsVLong_root <- function(df, a, Nin=0.4, 
                             leachn=0.05, nuptakerate=0.96884,
-                            sr = 1.5, kr = 0.003) {
+                            sr = 1.5, kr = 50) {                   # why this small?
     # passed are bf and nf, the allocation and plant N:C ratios
     # parameters : 
     # Nin is fixed N inputs (N fixed and deposition) in g m-2 yr-1 (could vary fixation)
@@ -56,15 +56,14 @@ NConsVLong_root <- function(df, a, Nin=0.4,
     # nuptakerate is the rate of N uptake [yr-1] 
     # Nmin is the mineral N pool
     # sr is the decay rate of root in yr-1
-    # kr is the value of root carbon at which 50% of the available N is taken up
+    # kr is the value of root carbon at which 50% of the available N is taken up  
     
     # equation for N constraint with just leaching
     U0 <- Nin
-    nleach <- leachn/(1-leachn) 
+    nleach <- leachn/(1-leachn) * (a$nfl*a$af + a$nr*(a$ar) + a$nw*a$aw)
     
     Nmin <- U0 / nleach
-    NPP_NC <- (Nmin * nuptakerate * a$ar - sr*kr ) / a$ar
-
+    NPP_NC <- (U0 * nuptakerate * a$ar - nleach * kr * sr) / (nleach * a$ar)
     NPP_N <- NPP_NC*10^-3     # returned in kg C m-2 yr-1
     
     df <- data.frame(NPP_N,nleach)

@@ -38,7 +38,7 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
     NCVLONG <- NConsVLong_root(df=nfseq,a=a_nf,Nin=0.4)
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLongN_expl_min(co2=CO2_1, nwvar=T)
+    VLongN <- solveVLongN_root(co2=CO2_1, nwvar=T)
     equilNPP <- VLongN$equilNPP_N   
     equilpf <- equilpVL_expl_min(equilNPP,Pin = 0.02,pwvar=T)   
     VLongNP <- data.frame(VLongN, equilpf)
@@ -59,11 +59,11 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
                                 Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
     
     # Calculate long term nutrieng constraint
-    NCHUGH <- NConsLong_expl_min(df=nfseq, a=a_nf,Cpass=CpassVLong,
+    NCHUGH <- NConsLong_root(df=nfseq, a=a_nf,Cpass=CpassVLong,
                                  Nin = 0.4+NrelwoodVLong)
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_expl_min(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T)
+    LongN <- solveLongN_root(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T)
     equilpf <- equilpL_expl_min(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
                                 nwvar=T, pwvar=T)   
     LongNP <- data.frame(LongN, equilpf)
@@ -93,10 +93,10 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
     NC700 <- solveNC(nfseq, a_nf$af, co2=CO2_2)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_nf,Nin=0.4)
+    NCVLONG <- NConsVLong_root(df=nfseq,a=a_nf,Nin=0.4)
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLongN_expl_min(co2=CO2_2, nwvar=T)
+    VLongN <- solveVLongN_root(co2=CO2_2, nwvar=T)
     equilNPP <- VLongN$equilNPP_N   
     equilpf <- equilpVL_expl_min(equilNPP,Pin = 0.02, pwvar=T)   
     VLongNP <- data.frame(VLongN, equilpf)
@@ -107,7 +107,7 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
                             "nleach_L", "aw")
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_expl_min(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
+    LongN <- solveLongN_root(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
     equilNPP <- LongN$equilNPP
     
     a_new <- allocn(LongN$equilnf, nwvar=T)
@@ -155,12 +155,7 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
         
         # NPP constraint by long term nutrient availability
         s3d$points3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_350_L, type='l',col="violet", lwd = 3)
-        #s3d$points3d(out700DF$nc, out700DF$pc_700_L, out700DF$NPP_700_L, type='l',col="grey", lwd = 3)
-        
-        
-        # equilibrated NPP for long term nutrient and CO2 = 350
-        #s3d$points3d(equil350DF$nc_L, equil350DF$pc_L, equil350DF$NPP_L,
-        #             type="h", col="lightblue", pch = 19)
+
         
         # NPP constraint by CO2 = 700
         s3d$points3d(out700DF$nc, out700DF$pc_VL, out700DF$NPP_700, col="green", type="l", lwd = 3)
