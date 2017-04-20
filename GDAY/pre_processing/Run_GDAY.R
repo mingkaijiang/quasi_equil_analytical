@@ -70,10 +70,10 @@ source("quasi_equil_annual_simulations.R")
 setwd(cwd)
 
 ### Run8
-#setwd("GDAY/simulations/Run8")
-#source("quasi_equil_annual_spin_up.R")
-#source("quasi_equil_annual_simulations.R")
-#setwd(cwd)
+setwd("GDAY/simulations/Run8")
+source("quasi_equil_annual_spin_up.R")
+source("quasi_equil_annual_simulations.R")
+setwd(cwd)
 
 ### Run9
 #setwd("GDAY/simulations/Run9")

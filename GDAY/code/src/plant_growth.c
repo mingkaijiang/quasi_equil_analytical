@@ -858,7 +858,7 @@ double calculate_nuptake(control *c, params *p, state *s, fluxes *f) {
            Dewar and McMurtrie, 1996. */
 
         /* supply rate of available mineral N */
-        U0 = p->rateuptake * s->inorgn;
+        U0 = p->rateuptake * (1.0 - (p->rateloss * NMONTHS_IN_YR)) * s->inorgn;
         Kr = p->kr;
         nuptake = MAX(U0 * s->root / (s->root + Kr), 0.0);
     } else {
@@ -895,7 +895,7 @@ double calculate_puptake(control *c, params *p, state *s, fluxes *f) {
         /* P uptake is a saturating function on root biomass, as N */
 
         /* supply rate of available mineral P */
-        U0 = p->prateuptake * s->inorgavlp;
+        U0 = p->prateuptake *  (1.0 - prateloss - p->k1) * s->inorgavlp;
         Kr = p->krp;
         puptake = MAX(U0 * s->root / (s->root + Kr), 0.0);
     } else {
