@@ -37,7 +37,7 @@ inferpfVL_expl_min <- function(nf, a, Pin=0.02, Nin=0.4,
                       nwood=0.005, pwood=0.0003, 
                       pwvar = TRUE, nrho = 0.7, prho = 0.7,
                       nretrans = 0.5, pretrans = 0.6,
-                      nuptakerate = 0.96884, puptakerate = 1.9) {
+                      nuptakerate = 0.96884, puptakerate = 0.82395) {
     # allocation parameters
     ar <- 0.2
     af <- 0.2
@@ -52,7 +52,7 @@ inferpfVL_expl_min <- function(nf, a, Pin=0.02, Nin=0.4,
     Pleach <- (leachp/(1-leachp-k1)) 
     Pocc <- (k3/(k2+k3))*(k1/(1-k1-leachp)) 
     
-    Pg <- ((Pin * puptakerate * Nleach)/(Nin * nuptakerate)) / (Pocc + Pleach)
+    Pg <- (Pin * Nleach) / ((Nin * nuptakerate) * (Pocc + Pleach))
     
     if(pwvar == FALSE) {
         pf <- (Pg - pwood * aw) / ((1.0 - pretrans) * af + prho * ar)

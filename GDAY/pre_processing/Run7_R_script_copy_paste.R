@@ -16,9 +16,9 @@ Run7_copy_paste <- function() {
                 "        \"nuptake_model\", \"1\",",
                 spinup)
     
-    out <- sub( "        \"puptake_model\", \"0\",", 
-                "        \"puptake_model\", \"1\",",
-                out)
+    #out <- sub( "        \"puptake_model\", \"0\",", 
+    #            "        \"puptake_model\", \"1\",",
+    #            out)
     
     # swap parameter locations
     out[32] <- "    param_dir <- paste0(d, \"/params/Run7\")"

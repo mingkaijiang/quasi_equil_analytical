@@ -86,7 +86,7 @@ equilpL_expl_min <- function(equildf, Pin = 0.02, leachp = 0.05, Cpass=CpassVLon
                     pretrans = 0.6, pcp = 0.005, Tsoil = 15,
                     Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
                     k1 = 0.01, k2 = 0.01, k3 = 0.05, 
-                    puptakerate = 1.9) {
+                    puptakerate = 0.82395) {
     # prepare allocation partitioning
     ar <- 0.2
     af <- 0.2
@@ -109,7 +109,7 @@ equilpL_expl_min <- function(equildf, Pin = 0.02, leachp = 0.05, Cpass=CpassVLon
     NPP_PC <- equilNPP*10^3     # convert to g C m-2 yr-1
     
     # Calculate equilnf, based on equilNPP_P
-    Y1 <- U0 * puptakerate /NPP_PC - pburial
+    Y1 <- U0 /NPP_PC - pburial
     
     if(pwvar == FALSE) {
         pf <- (((Y1 - pwood * aw) / (pleach+pocc)) - pwood * aw) / ((1.0-pretrans)*af + prho * ar)

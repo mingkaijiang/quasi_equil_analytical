@@ -94,7 +94,7 @@ inferpfL_expl_min <- function(nf, a, Pin = 0.02, Nin = 0.4,
                      pretrans = 0.6, pcp = 0.005, ncp = 0.1,
                      Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
                      k1 = 0.01, k2 = 0.01, k3 = 0.05, nuptakerate = 0.96884,
-                     puptakerate = 1.9) {
+                     puptakerate = 0.82395) {
     # prepare allocation partitioning
     ar <- 0.2
     af <- 0.2
@@ -119,7 +119,7 @@ inferpfL_expl_min <- function(nf, a, Pin = 0.02, Nin = 0.4,
     pocc <- (k3/(k2+k3))*(k1/(1-k1-leachp))
     
     # Calculate pf, based on NPP from nf
-    Y1 <- P0 * puptakerate /NPP - pburial
+    Y1 <- P0 / NPP - pburial
     
     if(pwvar == FALSE) {
         pf <- (((Y1 - pwood * aw) / (pleach+pocc)) - pwood * aw) / ((1.0-pretrans)*af + prho * ar)

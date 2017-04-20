@@ -159,7 +159,7 @@ Run_GDAY_spinup <- function(site) {
         "pcrfac", "0.7",                      # match against analytical
         "rateuptake", "0.96884",              # 0.96884 
         "rateloss", "0.05",                   # match against analytical
-        "prateuptake", "1.9",                 # 0.82395
+        "prateuptake", "0.82395",                 # 0.82395
         "prateloss", "0.05",                  # match against analytical
         "p_rate_par_weather", "1.0",          # Assumes all p_atm_dep into parent pool transfers into inorgavlp
         "nuptakez", "0.01",                   #

@@ -33,7 +33,7 @@ equilpVL <- function(equilNPP, Pin = 0.02, leachp=0.05,
 # specifically for explicit mineral N and P pool
 equilpVL_expl_min <- function(equilNPP, Pin = 0.02, leachp=0.05,
                               pwvar = TRUE, pwood = 0.0003, prho = 0.7,
-                              pretrans = 0.6, k1 = 0.01, k2 = 0.01, k3 = 0.05, puptakerate = 1.9) {
+                              pretrans = 0.6, k1 = 0.01, k2 = 0.01, k3 = 0.05, puptakerate = 0.82395) {
     # prepare allocation partitioning
     ar <- 0.2
     af <- 0.2
@@ -48,7 +48,7 @@ equilpVL_expl_min <- function(equilNPP, Pin = 0.02, leachp=0.05,
     NPP_PC <- equilNPP*10^3     # convert to g C m-2 yr-1
     
     # Calculate equilnf, based on equilNPP_P
-    Y <- U0 * puptakerate /(NPP_PC*(pleach+pocc))
+    Y <- U0 / (NPP_PC*(pleach+pocc))
     if(pwvar == FALSE) {
         pf <- (Y - pwood * aw) / ((1.0 - pretrans) * af + prho * ar)
     } else {
