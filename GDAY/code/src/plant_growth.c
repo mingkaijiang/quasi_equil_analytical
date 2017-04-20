@@ -861,6 +861,14 @@ double calculate_nuptake(control *c, params *p, state *s, fluxes *f) {
         U0 = p->rateuptake * (1.0 - (p->rateloss * NMONTHS_IN_YR)) * s->inorgn;
         Kr = p->kr;
         nuptake = MAX(U0 * s->root / (s->root + Kr), 0.0);
+    } else if (c->nuptake_model == 3) {
+        /* N uptake is a saturating function on mineral N and root biomass following
+        O-CN model */
+        
+        /* supply rate of available mineral N */
+        U0 = p->rateuptake * (1.0 - (p->rateloss * NMONTHS_IN_YR)) * s->inorgn;
+        Kr = p->kr;
+        nuptake = MAX(U0 * s->root / (U0 + Kr), 0.0);
     } else {
         fprintf(stderr, "Unknown N uptake option\n");
         exit(EXIT_FAILURE);

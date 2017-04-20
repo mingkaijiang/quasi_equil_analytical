@@ -26,7 +26,7 @@ void initialise_control(control *c) {
     c->fixleafpc = FALSE;           /* fixed leaf P C ? */
     c->ncycle = TRUE;               /* Nitrogen cycle on or off? */
     c->pcycle = TRUE;               /* Phosphorus cycle on or off? */
-    c->nuptake_model = 1;           /* 0=constant uptake, 1=func of N inorgn, 2=depends on rate of soil N availability */
+    c->nuptake_model = 1;           /* 0=constant uptake, 1=func of N inorgn, 2=depends on rate of soil N availability, 3=O-CN approach */
     c->puptake_model = 1;           /* 0=constant uptake, 1=func of P inorgp, 2=depends on rate of soil P availability */
     c->passiveconst = FALSE;        /* hold passive pool at passivesoil */
     c->print_options = ANNUAL;      /* ANNUAL=every timestep, END=end of run */
