@@ -886,21 +886,11 @@ double calculate_puptake(control *c, params *p, state *s, fluxes *f) {
     double prateloss = p->prateloss * NMONTHS_IN_YR;
 
     if (c->puptake_model == 0) {
-        /* Constant P uptake */
-        //puptake = p->puptakez;
-        //pleach = prateloss / (1.0 - prateloss);
-        //pocc = (k3 / (k2 + k3)) * (k1 / (1.0 - k1));
-        //puptake = (1.0 - pleach - pocc - 0.109) * s->inorgavlp; 
-         pleach = ((prateloss) / (1.0 - prateloss));
-         pocc = (k3 / (k2 + k3)) * (k1 / (1.0 - k1));
          puptake = (1.0 - prateloss - p->k1) * s->inorgavlp;
         
     } else if (c->puptake_model == 1) {
-        // evaluate puptake : proportional to lab P pool that is
-        // available to plant uptake
-        pleach = ((prateloss) / (1.0 - prateloss));
-        pocc = (k3 / (k2 + k3)) * (k1 / (1.0 - k1));
-        puptake = p->prateuptake * (1.0 - prateloss - p->k1) *s->inorgavlp;
+        puptake = p->prateuptake * (1.0 - p->prateloss - p->k1) *s->inorgavlp;
+        
     } else if (c->puptake_model == 2) {
         /* P uptake is a saturating function on root biomass, as N */
 
