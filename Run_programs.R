@@ -84,9 +84,7 @@ source("R/Check_analytical_gday_matches.R")
 
 
 
-#### --------- Perform the necessary plottings and statistics -------------- #####
-### Need to be run specific, e.g. Run 4 - respiration as a function of tissue N, needs gday CUE and analytical CUE
-
+#### --- Perform the necessary run-specific plottings and statistics ------- #####
 ### Run 4 CUE output, save into a table
 source("R/CUE_check.R")
 
