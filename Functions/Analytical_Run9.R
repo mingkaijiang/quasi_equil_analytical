@@ -1,14 +1,14 @@
 
-#### Analytical script to match GDAY Run 8 settings
+#### Analytical script to match GDAY Run 9 settings
 ####
-#### Same as Run 7, except
-#### 1. N uptake rates as a function of root biomass - O-CN approach: saturaing function of mineral N
+#### Same as Run 8, except
+#### 1. N uptake rates as a function of root biomass - GDAY approach: saturating function of root biomass
 ####
 ################################################################################
 
 
 #### Functions
-Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
+Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
     #### Function to perform analytical run 1 simulations
     #### eDF: stores equilibrium points
     #### cDF: stores constraint points (curves)
@@ -26,7 +26,7 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
     nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq,nwvar=T))
     
-    pfseq <- inferpfVL_root_ocn(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=T)
+    pfseq <- inferpfVL_root_gday(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=T)
     a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
     
     ##### CO2 = 350
@@ -34,12 +34,12 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
     NC350 <- solveNC(nfseq, a_nf$af, co2=CO2_1)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong_root_ocn(df=nfseq,a=a_nf,Nin=0.4)
+    NCVLONG <- NConsVLong_root_gday(df=nfseq,a=a_nf,Nin=0.4)
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLongN_root_ocn(co2=CO2_1, nwvar=T)
+    VLongN <- solveVLongN_root_gday(co2=CO2_1, nwvar=T)
     equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL_root_ocn(equilNPP,Pin = 0.02,pwvar=T)   
+    equilpf <- equilpVL_root_gday(equilNPP,Pin = 0.02,pwvar=T)   
     VLongNP <- data.frame(VLongN, equilpf)
     
     # Get Cpassive from very-long nutrient cycling solution
@@ -54,16 +54,16 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0
     
     # Calculate pf based on nf of long-term nutrient exchange
-    pfseqL <- inferpfL_root_ocn(nfseq, a_nf, Pin = 0.02+PrelwoodVLong,
+    pfseqL <- inferpfL_root_gday(nfseq, a_nf, Pin = 0.02+PrelwoodVLong,
                                 Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
     
     # Calculate long term nutrieng constraint
-    NCHUGH <- NConsLong_root_ocn(df=nfseq, a=a_nf,Cpass=CpassVLong,
+    NCHUGH <- NConsLong_root_gday(df=nfseq, a=a_nf,Cpass=CpassVLong,
                                  Nin = 0.4+NrelwoodVLong)
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_root_ocn(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T)
-    equilpf <- equilpL_root_ocn(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
+    LongN <- solveLongN_root_gday(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T)
+    equilpf <- equilpL_root_gday(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
                                 nwvar=T, pwvar=T)   
     LongNP <- data.frame(LongN, equilpf)
     
@@ -76,8 +76,8 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
                               "nc_L", "NPP_L", "pc_L")
     
     # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 8 & cDF$CO2 == 350, 3:13] <- out350DF
-    eDF[eDF$Run == 8 & eDF$CO2 == 350, 3:8] <- equil350DF
+    cDF[cDF$Run == 9 & cDF$CO2 == 350, 3:13] <- out350DF
+    eDF[eDF$Run == 9 & eDF$CO2 == 350, 3:8] <- equil350DF
     
     ##### CO2 = 700
     
@@ -85,19 +85,19 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
     nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq, nwvar=T))
     
-    pfseq <- inferpfVL_root_ocn(nfseq, a_nf,Pin=0.02, Nin=0.4,pwvar=T)
+    pfseq <- inferpfVL_root_gday(nfseq, a_nf,Pin=0.02, Nin=0.4,pwvar=T)
     a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
     
     # calculate NC vs. NPP at CO2 = 350 respectively
     NC700 <- solveNC(nfseq, a_nf$af, co2=CO2_2)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong_root_ocn(df=nfseq,a=a_nf,Nin=0.4)
+    NCVLONG <- NConsVLong_root_gday(df=nfseq,a=a_nf,Nin=0.4)
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLongN_root_ocn(co2=CO2_2, nwvar=T)
+    VLongN <- solveVLongN_root_gday(co2=CO2_2, nwvar=T)
     equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL_root_ocn(equilNPP,Pin = 0.02, pwvar=T)   
+    equilpf <- equilpVL_root_gday(equilNPP,Pin = 0.02, pwvar=T)   
     VLongNP <- data.frame(VLongN, equilpf)
     
     out700DF <- data.frame(nfseq, pfseq, pfseqL, NC700, NCVLONG, NCHUGH)
@@ -106,11 +106,11 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
                             "nleach_L", "aw")
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_root_ocn(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
+    LongN <- solveLongN_root_gday(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
     equilNPP <- LongN$equilNPP
     
     a_new <- allocn(LongN$equilnf, nwvar=T)
-    equilpf <- inferpfVL_root_ocn(LongN$equilnf, a_new, pwvar=T)
+    equilpf <- inferpfVL_root_gday(LongN$equilnf, a_new, pwvar=T)
     
     LongNP <- data.frame(LongN, equilpf)
     
@@ -119,8 +119,8 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
                               "nc_L", "NPP_L", "pc_L")
     
     # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 8 & cDF$CO2 == 700, 3:13] <- out700DF
-    eDF[eDF$Run == 8 & eDF$CO2 == 700, 3:8] <- equil700DF
+    cDF[cDF$Run == 9 & cDF$CO2 == 700, 3:13] <- out700DF
+    eDF[eDF$Run == 9 & eDF$CO2 == 700, 3:8] <- equil700DF
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), NC700))
@@ -133,7 +133,7 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
         
         ######### Plotting
         
-        tiff("Plots/Analytical_Run8.tiff",
+        tiff("Plots/Analytical_Run9.tiff",
              width = 8, height = 7, units = "in", res = 300)
         par(mar=c(5.1,5.1,2.1,2.1))
         

@@ -46,10 +46,25 @@ solveLongN_expl_min <- function(co2=350,Cpass,Nin, nwvar=T) {
 }
 
 # Find the long term equilibrium nf and NPP under standard conditions - by finding the root
-# specifically for nuptake ~ root biomass
-solveLongN_root <- function(co2=350,Cpass,Nin, nwvar=T) {
+# specifically for nuptake ~ root biomass  - O-CN approach
+# i.e. N uptake as a saturating function of mineral N
+solveLongN_root_ocn <- function(co2=350,Cpass,Nin, nwvar=T) {
     fn <- function(nf) {
-        solveNC(nf,allocn(nf,nwvar=nwvar)$af,co2=co2) - NConsLong_root(nf,allocn(nf,nwvar=nwvar),Cpass=Cpass,Nin=Nin)$NPP
+        solveNC(nf,allocn(nf,nwvar=nwvar)$af,co2=co2) - NConsLong_root_ocn(nf,allocn(nf,nwvar=nwvar),Cpass=Cpass,Nin=Nin)$NPP
+    }
+    equilnf <- uniroot(fn,interval=c(0.01,0.05))$root
+    equilNPP <- solveNC(equilnf,af=allocn(equilnf,nwvar=nwvar)$af, co2=co2)
+    ans <- data.frame(equilnf,equilNPP)
+    return(ans)
+}
+
+
+# Find the long term equilibrium nf and NPP under standard conditions - by finding the root
+# specifically for nuptake ~ root biomass  - O-CN approach
+# i.e. N uptake as a saturating function of mineral N
+solveLongN_root_gday <- function(co2=350,Cpass,Nin, nwvar=T) {
+    fn <- function(nf) {
+        solveNC(nf,allocn(nf,nwvar=nwvar)$af,co2=co2) - NConsLong_root_gday(nf,allocn(nf,nwvar=nwvar),Cpass=Cpass,Nin=Nin)$NPP
     }
     equilnf <- uniroot(fn,interval=c(0.01,0.05))$root
     equilNPP <- solveNC(equilnf,af=allocn(equilnf,nwvar=nwvar)$af, co2=co2)

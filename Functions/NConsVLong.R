@@ -45,10 +45,42 @@ NConsVLong_expl_min <- function(df, a, Nin=0.4,
 
 ### Calculate the very long term nutrient cycling constraint for N, i.e. passive pool equilibrated
 # it is just Nin = Nleach
-# specifically for nuptake as a function of root biomass
-NConsVLong_root <- function(df, a, Nin=0.4, 
-                            leachn=0.05, nuptakerate=0.96884,
-                            sr = 1.5, kr = 50) {                   # why this small?
+# specifically for nuptake as a function of root biomass - O-CN approach
+# i.e. N uptake as a saturating function of mineral N
+NConsVLong_root_ocn <- function(df, a, Nin=0.4, 
+                                leachn=0.05, nuptakerate=0.96884,
+                                sr = 1.5, k = 0.08, vmax = 1.0) {                   
+    # passed are bf and nf, the allocation and plant N:C ratios
+    # parameters : 
+    # Nin is fixed N inputs (N fixed and deposition) in g m-2 yr-1 (could vary fixation)
+    # leachn is the rate of leaching of the mineral N pool (per year)
+    # nuptakerate is the rate of N uptake [yr-1] 
+    # Nmin is the mineral N pool
+    # sr is the decay rate of root in yr-1
+    # k - empirically dervied for now
+    # vmax
+    
+    # compute N mineral pool
+    Nmin <- k * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) / (a$ar / sr - (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw))
+    
+    # equation for N constraint with just leaching
+    U0 <- Nin
+    nleach <- leachn/(1-leachn) * Nmin
+    
+    NPP_NC <- U0 / nleach
+    NPP_N <- NPP_NC*10^-3     # returned in kg C m-2 yr-1
+    
+    df <- data.frame(NPP_N,nleach)
+    return(df)   
+}
+
+### Calculate the very long term nutrient cycling constraint for N, i.e. passive pool equilibrated
+# it is just Nin = Nleach
+# specifically for nuptake as a function of root biomass - GDAY approach
+# i.e. N uptake as a saturating function of root biomass
+NConsVLong_root_gday <- function(df, a, Nin=0.4, 
+                                leachn=0.05, nuptakerate=0.96884,
+                                sr = 1.5, kr = 0.5) {                   # why this small?
     # passed are bf and nf, the allocation and plant N:C ratios
     # parameters : 
     # Nin is fixed N inputs (N fixed and deposition) in g m-2 yr-1 (could vary fixation)
@@ -62,10 +94,11 @@ NConsVLong_root <- function(df, a, Nin=0.4,
     U0 <- Nin
     nleach <- leachn/(1-leachn) * (a$nfl*a$af + a$nr*(a$ar) + a$nw*a$aw)
     
-    Nmin <- U0 / nleach
-    NPP_NC <- (U0 * nuptakerate * a$ar - nleach * kr * sr) / (nleach * a$ar)
+    NPP_NC <- ((U0 * a$ar) / (((a$nfl*a$af + a$nr*a$ar + a$nw*a$aw)) * a$ar)) - kr
     NPP_N <- NPP_NC*10^-3     # returned in kg C m-2 yr-1
     
-    df <- data.frame(NPP_N,nleach)
+    df <- data.frame(NPP_N)
     return(df)   
 }
+
+
