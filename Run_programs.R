@@ -78,6 +78,7 @@ source("GDAY/post_processing/Plot_GDAY_quasi_equil_constraints.R")
 #### ------------------------ Run analytical stuffs ------------------------ #####
 ### To run analytical solution solutions for various model assumptions
 ### Currently 10 cases, for details see the comments in the source code
+### Two dataframe are generated: equilDF and constraintDF
 source("R/Run_analytical_solutions.R")
 
 
