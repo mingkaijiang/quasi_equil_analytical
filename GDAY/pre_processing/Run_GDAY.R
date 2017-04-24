@@ -10,9 +10,6 @@
 #### Run 5: same as Run4, but fixed wood stoichiometry and increased nutrient supply
 #### Run 6: same as Run1, but with separate coarse woody debris pool
 #### Run 7: same as Run1, but with explicit mineral N pool
-#### Run 8: same as Run1, but with explicit mineral N pool, and nuptake ~ root biomass
-#### Run 9: same as Run7, but with passive NC ratio ~ mineral N pool
-#### Run 10: same as Run1, but with priming effect
 #### 
 
 ################################################################################

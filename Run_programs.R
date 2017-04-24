@@ -40,6 +40,8 @@ source("GDAY/pre_processing/Paste_R_script_to_folders.R")
 #### ------------------------ Run GDAY simulations ------------------------- #####
 ### Run GDAY simulations, using either the python or R wrapper file
 ### Current setting use R
+### Only needs GDAY simulation to verify the analytical solution
+### Currently only implemented GDAY simulations for Run 1 - 7
 source("GDAY/pre_processing/Run_GDAY.R")
 
 
@@ -71,10 +73,14 @@ source("GDAY/post_processing/Check_continuity_transient.R")
 ###       better to consider an automatic process to pick these years
 source("GDAY/post_processing/Plot_GDAY_quasi_equil_constraints.R")
 
+
+
 #### ------------------------ Run analytical stuffs ------------------------ #####
-### To run analytical solution codes for each gday simulations
+### To run analytical solution solutions for various model assumptions
+### Currently 10 cases, for details see the comments in the source code
 source("R/Run_analytical_solutions.R")
-### Need to store all the dataframe and outputs separately
+
+
 
 #### ------------- Checking GDAY matches with analytical results ----------- #####
 ### generate a table for comparison of the equilibrium points
@@ -92,6 +98,9 @@ source("R/CUE_check.R")
 
 
 ### Run 10 sensitivity tests of vx, ae, omegae, omegaw influences on equilibrium behaviors
+
+
+### CLM analysis
 
 
 

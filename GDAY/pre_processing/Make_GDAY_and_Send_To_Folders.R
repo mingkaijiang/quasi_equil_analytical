@@ -64,9 +64,9 @@ if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run4", sep="")))dir.create(paste(ge
 if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run5", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run5", sep=""))
 if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run6", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run6", sep=""))
 if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run7", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run7", sep=""))
-#if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run8", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run8", sep=""))
-#if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run9", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run9", sep=""))
-#if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run10", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run10", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run8", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run8", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run9", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run9", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run10", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run10", sep=""))
 
 
 #### paste gday executive program to simulation folders

@@ -98,7 +98,7 @@ run_gday_quasi_equil_plot <- function() {
     cwd <- getwd()
     
     #### Setting working directory
-    setwd("GDAY/analyses")
+    setwd("GDAY/simulations")
     
     #### Count number of simulations runs by counting the # folders
     dirFile <- list.dirs(path=".", full.names = TRUE, recursive = FALSE)

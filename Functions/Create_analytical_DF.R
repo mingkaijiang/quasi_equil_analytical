@@ -9,7 +9,7 @@
 create_constraint_DF <- function() {
     
     # obtain number of model simulations
-    f.list <- list.files(path=paste0(getwd(), "/GDAY/simulations"))
+    f.list <- list.files(path=paste0(getwd(), "/GDAY/analyses"))
     l <- length(f.list)
     
     # create the matrix
@@ -32,7 +32,7 @@ create_constraint_DF <- function() {
 create_equil_DF <- function() {
     
     # obtain number of model simulations
-    f.list <- list.files(path=paste0(getwd(), "/GDAY/simulations"))
+    f.list <- list.files(path=paste0(getwd(), "/GDAY/analyses"))
     l <- length(f.list)
     
     # create the matrix
