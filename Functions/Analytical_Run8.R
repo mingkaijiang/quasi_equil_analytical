@@ -2,7 +2,8 @@
 #### Analytical script to match GDAY Run 8 settings
 ####
 #### Same as Run 7, except
-#### 1. N uptake rates as a function of root biomass - O-CN approach: saturaing function of mineral N
+#### 1. fixed wood stoichiometry
+#### 2. N uptake rates as a function of root biomass - O-CN approach: saturaing function of mineral N
 ####
 ################################################################################
 
@@ -24,10 +25,10 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
     
     # create nc and pc for shoot to initiate
     nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq,nwvar=T))
+    a_nf <- as.data.frame(allocn(nfseq,nwvar=F))
     
-    pfseq <- inferpfVL_root_ocn(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=T)
-    a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
+    pfseq <- inferpfVL_root_ocn(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=F)
+    a_pf <- as.data.frame(allocp(pfseq, pwvar=F))
     
     ##### CO2 = 350
     # calculate NC vs. NPP at CO2 = 350 respectively
@@ -37,14 +38,14 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
     NCVLONG <- NConsVLong_root_ocn(df=nfseq,a=a_nf,Nin=0.4)
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLongN_root_ocn(co2=CO2_1, nwvar=T)
+    VLongN <- solveVLongN_root_ocn(co2=CO2_1, nwvar=F)
     equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL_root_ocn(equilNPP,Pin = 0.02,pwvar=T)   
+    equilpf <- equilpVL_root_ocn(equilNPP,Pin = 0.02,pwvar=F)   
     VLongNP <- data.frame(VLongN, equilpf)
     
     # Get Cpassive from very-long nutrient cycling solution
-    aequiln <- allocn(VLongNP$equilnf,nwvar=T)
-    aequilp <- allocp(VLongNP$equilpf,pwvar=T)
+    aequiln <- allocn(VLongNP$equilnf,nwvar=F)
+    aequilp <- allocp(VLongNP$equilpf,pwvar=F)
     pass <- passive(df=VLongNP$equilnf, a=aequiln)
     omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
     CpassVLong <- omega*VLongNP$equilNPP/pass$decomp/(1-pass$qq)*1000.0
@@ -55,16 +56,16 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
     
     # Calculate pf based on nf of long-term nutrient exchange
     pfseqL <- inferpfL_root_ocn(nfseq, a_nf, Pin = 0.02+PrelwoodVLong,
-                                Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
+                                Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=F, pwvar=F)
     
     # Calculate long term nutrieng constraint
     NCHUGH <- NConsLong_root_ocn(df=nfseq, a=a_nf,Cpass=CpassVLong,
                                  Nin = 0.4+NrelwoodVLong)
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_root_ocn(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T)
+    LongN <- solveLongN_root_ocn(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=F)
     equilpf <- equilpL_root_ocn(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
-                                nwvar=T, pwvar=T)   
+                                nwvar=F, pwvar=F)   
     LongNP <- data.frame(LongN, equilpf)
     
     out350DF <- data.frame(nfseq, pfseq, pfseqL, NC350, NCVLONG, NCHUGH)
@@ -83,10 +84,10 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
     
     # N:C and P:C ratio
     nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq, nwvar=T))
+    a_nf <- as.data.frame(allocn(nfseq, nwvar=F))
     
-    pfseq <- inferpfVL_root_ocn(nfseq, a_nf,Pin=0.02, Nin=0.4,pwvar=T)
-    a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
+    pfseq <- inferpfVL_root_ocn(nfseq, a_nf,Pin=0.02, Nin=0.4,pwvar=F)
+    a_pf <- as.data.frame(allocp(pfseq, pwvar=F))
     
     # calculate NC vs. NPP at CO2 = 350 respectively
     NC700 <- solveNC(nfseq, a_nf$af, co2=CO2_2)
@@ -95,9 +96,9 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
     NCVLONG <- NConsVLong_root_ocn(df=nfseq,a=a_nf,Nin=0.4)
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLongN_root_ocn(co2=CO2_2, nwvar=T)
+    VLongN <- solveVLongN_root_ocn(co2=CO2_2, nwvar=F)
     equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL_root_ocn(equilNPP,Pin = 0.02, pwvar=T)   
+    equilpf <- equilpVL_root_ocn(equilNPP,Pin = 0.02, pwvar=F)   
     VLongNP <- data.frame(VLongN, equilpf)
     
     out700DF <- data.frame(nfseq, pfseq, pfseqL, NC700, NCVLONG, NCHUGH)
@@ -106,11 +107,11 @@ Perform_Analytical_Run8 <- function(f.flag = 1, cDF, eDF) {
                             "nleach_L", "aw")
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_root_ocn(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
+    LongN <- solveLongN_root_ocn(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=F)
     equilNPP <- LongN$equilNPP
     
-    a_new <- allocn(LongN$equilnf, nwvar=T)
-    equilpf <- inferpfVL_root_ocn(LongN$equilnf, a_new, pwvar=T)
+    a_new <- allocn(LongN$equilnf, nwvar=F)
+    equilpf <- inferpfVL_root_ocn(LongN$equilnf, a_new, pwvar=F)
     
     LongNP <- data.frame(LongN, equilpf)
     

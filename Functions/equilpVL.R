@@ -63,7 +63,7 @@ equilpVL_expl_min <- function(equilNPP, Pin = 0.02, leachp=0.05,
 # specifically for N uptake as a function of biomass - OCN approach
 # i.e. N uptake as a saturating function of mineral N
 equilpVL_root_ocn <- function(equilNPP, Pin = 0.02, leachp=0.05,
-                              pwvar = TRUE, pwood = 0.0003, prho = 0.7,
+                              pwvar =F, pwood = 0.0003, prho = 0.7,
                               pretrans = 0.6, k1 = 0.01, k2 = 0.01, k3 = 0.05, 
                               puptakerate = 0.82395) {
     # prepare allocation partitioning

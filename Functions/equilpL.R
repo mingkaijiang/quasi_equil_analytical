@@ -126,7 +126,7 @@ equilpL_expl_min <- function(equildf, Pin = 0.02, leachp = 0.05, Cpass=CpassVLon
 # specifically for N uptake ~ root biomass - O-CN approach
 # i.e. N uptake as a saturating function of mineral N
 equilpL_root_ocn <- function(equildf, Pin = 0.02, leachp = 0.05, Cpass=CpassVLong,
-                              nwvar=TRUE,pwvar = TRUE, pwood = 0.0003, prho = 0.7, 
+                              nwvar=F,pwvar =F, pwood = 0.0003, prho = 0.7, 
                               pretrans = 0.6, pcp = 0.005, Tsoil = 15,
                               Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
                               k1 = 0.01, k2 = 0.01, k3 = 0.05) {

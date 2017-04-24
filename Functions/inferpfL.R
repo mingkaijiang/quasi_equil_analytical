@@ -136,7 +136,7 @@ inferpfL_expl_min <- function(nf, a, Pin = 0.02, Nin = 0.4,
 # i.e. N uptake as a saturating function of mineral N
 inferpfL_root_ocn <- function(nf, a, Pin = 0.02, Nin = 0.4,
                               leachn = 0.05, leachp = 0.05, Cpass=CpassVLong, 
-                              pwvar = TRUE, nwvar = TRUE, pwood = 0.0003, prho = 0.7, 
+                              pwvar = F, nwvar = F, pwood = 0.0003, prho = 0.7, 
                               pretrans = 0.6, pcp = 0.005, ncp = 0.1,
                               Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
                               k1 = 0.01, k2 = 0.01, k3 = 0.05, nuptakerate = 0.96884,

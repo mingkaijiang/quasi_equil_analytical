@@ -52,5 +52,3 @@ solveNC_respiration <- function(nf, adf, co2=350,
     }
     return(ans)
 }
-
-

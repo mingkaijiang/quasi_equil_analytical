@@ -48,7 +48,7 @@ solveLongN_expl_min <- function(co2=350,Cpass,Nin, nwvar=T) {
 # Find the long term equilibrium nf and NPP under standard conditions - by finding the root
 # specifically for nuptake ~ root biomass  - O-CN approach
 # i.e. N uptake as a saturating function of mineral N
-solveLongN_root_ocn <- function(co2=350,Cpass,Nin, nwvar=T) {
+solveLongN_root_ocn <- function(co2=350,Cpass,Nin, nwvar=F) {
     fn <- function(nf) {
         solveNC(nf,allocn(nf,nwvar=nwvar)$af,co2=co2) - NConsLong_root_ocn(nf,allocn(nf,nwvar=nwvar),Cpass=Cpass,Nin=Nin)$NPP
     }
