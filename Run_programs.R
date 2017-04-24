@@ -91,6 +91,8 @@ source("R/CUE_check.R")
 ### Run 8 two methods on deriving nuptake ~ root biomass * nmin (e.g. O-CN vs. GDAY)
 
 
+### Run 10 sensitivity tests of vx, ae, omegae, omegaw influences on equilibrium behaviors
+
 
 
 #### ---------------- Generate manuscript figures and tables --------------- #####

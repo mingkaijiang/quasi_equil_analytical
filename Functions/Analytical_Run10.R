@@ -24,29 +24,29 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
     
     # create nc and pc for shoot to initiate
     nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq,nwvar=T))
+    a_nf <- as.data.frame(allocn_exudation(nfseq,nwvar=T))
     
-    pfseq <- inferpfVL_expl_min(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=T)
-    a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
+    pfseq <- inferpfVL_exudation(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=T)
+    a_pf <- as.data.frame(allocp_exudation(pfseq, pwvar=T))
     
     ##### CO2 = 350
     # calculate NC vs. NPP at CO2 = 350 respectively
     NC350 <- solveNC(nfseq, a_nf$af, co2=CO2_1)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_nf,Nin=0.4)
+    NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=0.4)
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLongN_expl_min(co2=CO2_1, nwvar=T)
+    VLongN <- solveVLongN_exudation(co2=CO2_1, nwvar=T)
     equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL_expl_min(equilNPP,Pin = 0.02,pwvar=T)   
+    equilpf <- equilpVL_exudation(equilNPP,Pin = 0.02,pwvar=T)   
     VLongNP <- data.frame(VLongN, equilpf)
     
     # Get Cpassive from very-long nutrient cycling solution
-    aequiln <- allocn(VLongNP$equilnf,nwvar=T)
-    aequilp <- allocp(VLongNP$equilpf,pwvar=T)
-    pass <- passive(df=VLongNP$equilnf, a=aequiln)
-    omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
+    aequiln <- allocn_exudation(VLongNP$equilnf,nwvar=T)
+    aequilp <- allocp_exudation(VLongNP$equilpf,pwvar=T)
+    pass <- passive_exudation(df=VLongNP$equilnf, a=aequiln)
+    omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar + aequiln$aw*pass$omegaw + aequiln$ae*pass$omegae
     CpassVLong <- omega*VLongNP$equilNPP/pass$decomp/(1-pass$qq)*1000.0
     
     # Calculate nutrient release from recalcitrant pools
@@ -54,17 +54,16 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0
     
     # Calculate pf based on nf of long-term nutrient exchange
-    pfseqL <- inferpfL_variable_pass(nfseq, a_nf, Pin = 0.02+PrelwoodVLong, NPP = equilNPP,
-                                     Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
+    pfseqL <- inferpfL_exudation(nfseq, a_nf, Pin = 0.02+PrelwoodVLong, 
+                                 Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
     
     # Calculate long term nutrieng constraint
-    NCHUGH <- NConsLong_variable_pass(df=nfseq, a=a_nf,Cpass=CpassVLong,
-                                      Nin = 0.4+NrelwoodVLong, eqNPP = equilNPP)
+    NCHUGH <- NConsLong_exudation(df=nfseq, a=a_nf,Cpass=CpassVLong,
+                                  Nin = 0.4+NrelwoodVLong)
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_variable_pass(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T,
-                                      eqNPP= equilNPP)
-    equilpf <- equilpL_variable_pass(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
+    LongN <- solveLongN_exudation(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T)
+    equilpf <- equilpL_exudation(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
                                 nwvar=T, pwvar=T)   
     LongNP <- data.frame(LongN, equilpf)
     
@@ -84,21 +83,21 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
     
     # N:C and P:C ratio
     nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq, nwvar=T))
+    a_nf <- as.data.frame(allocn_exudation(nfseq, nwvar=T))
     
-    pfseq <- inferpfVL_expl_min(nfseq, a_nf,Pin=0.02, Nin=0.4,pwvar=T)
-    a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
+    pfseq <- inferpfVL_exudation(nfseq, a_nf,Pin=0.02, Nin=0.4,pwvar=T)
+    a_pf <- as.data.frame(allocp_exudation(pfseq, pwvar=T))
     
     # calculate NC vs. NPP at CO2 = 350 respectively
     NC700 <- solveNC(nfseq, a_nf$af, co2=CO2_2)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_nf,Nin=0.4)
+    NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=0.4)
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLongN_expl_min(co2=CO2_2, nwvar=T)
+    VLongN <- solveVLongN_exudation(co2=CO2_2, nwvar=T)
     equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL_expl_min(equilNPP,Pin = 0.02, pwvar=T)   
+    equilpf <- equilpVL_exudation(equilNPP,Pin = 0.02, pwvar=T)   
     VLongNP <- data.frame(VLongN, equilpf)
     
     out700DF <- data.frame(nfseq, pfseq, pfseqL, NC700, NCVLONG, NCHUGH)
@@ -107,11 +106,11 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
                             "nleach_L", "aw")
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_variable_pass(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T, eqNPP=equilNPP)
+    LongN <- solveLongN_exudation(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
     equilNPP <- LongN$equilNPP
     
-    a_new <- allocn(LongN$equilnf, nwvar=T)
-    equilpf <- inferpfVL_expl_min(LongN$equilnf, a_new, pwvar=T)
+    a_new <- allocn_exudation(LongN$equilnf, nwvar=T)
+    equilpf <- inferpfVL_exudation(LongN$equilnf, a_new, pwvar=T)
     
     LongNP <- data.frame(LongN, equilpf)
     

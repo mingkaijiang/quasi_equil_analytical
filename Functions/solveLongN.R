@@ -83,3 +83,16 @@ solveLongN_variable_pass <- function(co2=350,Cpass,Nin, nwvar=T, eqNPP) {
     ans <- data.frame(equilnf,equilNPP)
     return(ans)
 }
+
+
+# Find the long term equilibrium nf and NPP under standard conditions - by finding the root
+# specifically for exudation
+solveLongN_exudation <- function(co2=350,Cpass,Nin, nwvar=T) {
+    fn <- function(nf) {
+        solveNC(nf,allocn_exudation(nf,nwvar=nwvar)$af,co2=co2) - NConsLong_exudation(nf,allocn_exudation(nf,nwvar=nwvar),Cpass=Cpass,Nin=Nin)$NPP
+    }
+    equilnf <- uniroot(fn,interval=c(0.01,0.05))$root
+    equilNPP <- solveNC(equilnf,af=allocn_exudation(equilnf,nwvar=nwvar)$af, co2=co2)
+    ans <- data.frame(equilnf,equilNPP)
+    return(ans)
+}
