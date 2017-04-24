@@ -184,9 +184,9 @@ NConsLong_root_gday <- function(df, a, Nin=0.4, leachn=0.05,
 
 ### Function for nutrient N constraint in longterm ie passive, leaching, wood considered
 ### specifically for the case of passive NC ratio depends on soil mineral N
-NConsLong_variable_pass <- function(df, a, Nin=0.4, leachn=0.05, 
+NConsLong_variable_pass <- function(df, a, Nin=0.4, leachn=0.05, eqNPP,
                                     Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
-                                    Cpass = 2680, nup = 1.0, n1 = 0.0001, n2 = 10000) {
+                                    Cpass = 2680, nuptakerate = 0.96884) {
     # passed are df and a, the allocation and plant N:C ratios
     # parameters : 
     # Nin is fixed N inputs (N deposition annd fixation) in g m-2 yr-1 (could vary fixation)
@@ -205,25 +205,17 @@ NConsLong_variable_pass <- function(df, a, Nin=0.4, leachn=0.05,
     omegap <- a$af*pass$omegaf + a$ar*pass$omegar 
     
     # calculate ncp (a linear function of mineral N)
-    ncp_star <- n2 * (a$nfl*a$af + a$nr*(a$ar) + a$nw*a$aw) / nup
-    ncp <- ncp_star - n1
+    ncp <- calc_passive_nc(equilNPP=eqNPP, adf = a, nuptake = nuptakerate)
     
     # equation for N constraint with passive, wood, and leaching
-    U0 <- Nin + (1-pass$qq) * pass$decomp * Cpass * ncp   
+    U0 <- Nin + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
     nwood <- a$aw*a$nw
     nburial <- omegap*ncp
     nleach <- leachn/(1-leachn) * (a$nfl*a$af + a$nr*(a$ar) + a$nw*a$aw)
     
-    # solve the quadratic equation
-    NPP_1 <- (-(nwood + nleach) + sqrt((nwood+nleach)^2 - 4.0*nburial*(-U0)))/(-U0)
-    NPP_2 <- (-(nwood + nleach) - sqrt((nwood+nleach)^2 - 4.0*nburial*(-U0)))/(-U0)
-    
-    # check for positive and negatives
-    NPP_NC <- ifelse(NPP_1[46] >= 0, NPP_1, NPP_2)
-    
-    # unit conversion
+    NPP_NC <- U0 * nuptakerate / (nwood + nburial + nleach)   # will be in g C m-2 yr-1
     NPP_N <- NPP_NC*10^-3 # returned in kg C m-2 yr-1
-
+    
     df <- data.frame(NPP_N, nwood,nburial,nleach,a$aw)
     return(df)   
 }

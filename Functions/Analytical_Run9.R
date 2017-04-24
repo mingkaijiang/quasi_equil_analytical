@@ -1,8 +1,8 @@
 
 #### Analytical script to match GDAY Run 9 settings
 ####
-#### Same as Run 8, except
-#### 1. N uptake rates as a function of root biomass - GDAY approach: saturating function of root biomass
+#### Same as Run 7, except
+#### 1. passive pool NC ratio as a function of mineral N content
 ####
 ################################################################################
 
@@ -26,7 +26,7 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
     nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq,nwvar=T))
     
-    pfseq <- inferpfVL_root_gday(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=T)
+    pfseq <- inferpfVL_expl_min(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=T)
     a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
     
     ##### CO2 = 350
@@ -34,12 +34,12 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
     NC350 <- solveNC(nfseq, a_nf$af, co2=CO2_1)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong_root_gday(df=nfseq,a=a_nf,Nin=0.4)
+    NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_nf,Nin=0.4)
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLongN_root_gday(co2=CO2_1, nwvar=T)
+    VLongN <- solveVLongN_expl_min(co2=CO2_1, nwvar=T)
     equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL_root_gday(equilNPP,Pin = 0.02,pwvar=T)   
+    equilpf <- equilpVL_expl_min(equilNPP,Pin = 0.02,pwvar=T)   
     VLongNP <- data.frame(VLongN, equilpf)
     
     # Get Cpassive from very-long nutrient cycling solution
@@ -54,16 +54,17 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0
     
     # Calculate pf based on nf of long-term nutrient exchange
-    pfseqL <- inferpfL_root_gday(nfseq, a_nf, Pin = 0.02+PrelwoodVLong,
-                                Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
+    pfseqL <- inferpfL_variable_pass(nfseq, a_nf, Pin = 0.02+PrelwoodVLong, NPP = equilNPP,
+                                     Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
     
     # Calculate long term nutrieng constraint
-    NCHUGH <- NConsLong_root_gday(df=nfseq, a=a_nf,Cpass=CpassVLong,
-                                 Nin = 0.4+NrelwoodVLong)
+    NCHUGH <- NConsLong_variable_pass(df=nfseq, a=a_nf,Cpass=CpassVLong,
+                                      Nin = 0.4+NrelwoodVLong, eqNPP = equilNPP)
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_root_gday(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T)
-    equilpf <- equilpL_root_gday(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
+    LongN <- solveLongN_variable_pass(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T,
+                                      eqNPP= equilNPP)
+    equilpf <- equilpL_variable_pass(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
                                 nwvar=T, pwvar=T)   
     LongNP <- data.frame(LongN, equilpf)
     
@@ -85,19 +86,19 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
     nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq, nwvar=T))
     
-    pfseq <- inferpfVL_root_gday(nfseq, a_nf,Pin=0.02, Nin=0.4,pwvar=T)
+    pfseq <- inferpfVL_expl_min(nfseq, a_nf,Pin=0.02, Nin=0.4,pwvar=T)
     a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
     
     # calculate NC vs. NPP at CO2 = 350 respectively
     NC700 <- solveNC(nfseq, a_nf$af, co2=CO2_2)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong_root_gday(df=nfseq,a=a_nf,Nin=0.4)
+    NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_nf,Nin=0.4)
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLongN_root_gday(co2=CO2_2, nwvar=T)
+    VLongN <- solveVLongN_expl_min(co2=CO2_2, nwvar=T)
     equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL_root_gday(equilNPP,Pin = 0.02, pwvar=T)   
+    equilpf <- equilpVL_expl_min(equilNPP,Pin = 0.02, pwvar=T)   
     VLongNP <- data.frame(VLongN, equilpf)
     
     out700DF <- data.frame(nfseq, pfseq, pfseqL, NC700, NCVLONG, NCHUGH)
@@ -106,11 +107,11 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
                             "nleach_L", "aw")
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_root_gday(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
+    LongN <- solveLongN_variable_pass(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T, eqNPP=equilNPP)
     equilNPP <- LongN$equilNPP
     
     a_new <- allocn(LongN$equilnf, nwvar=T)
-    equilpf <- inferpfVL_root_gday(LongN$equilnf, a_new, pwvar=T)
+    equilpf <- inferpfVL_expl_min(LongN$equilnf, a_new, pwvar=T)
     
     LongNP <- data.frame(LongN, equilpf)
     

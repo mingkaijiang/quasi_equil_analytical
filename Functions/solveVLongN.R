@@ -64,3 +64,15 @@ solveVLongN_root_gday <- function(co2=350, nwvar=TRUE) {
     return(ans)
 }
 
+# Find the very-long term equilibrium nf and NPP under standard conditions - by finding the root
+# specifically for variable passive pool
+solveVLongN_variable_pass <- function(co2=350, nwvar=TRUE, equilNPP) {
+    fn <- function(nf) {
+        solveNC(nf,allocn(nf, nwvar=nwvar)$af,co2=co2) - NConsVLong_expl_min(nf,allocn(nf, nwvar=nwvar, equilNPP=equilNPP))$NPP
+    }
+    equilnf <- uniroot(fn,interval=c(0.01,0.05))$root
+    equilNPP_N <- solveNC(equilnf,af=allocn(equilnf, nwvar=nwvar)$af, co2=co2)
+    
+    ans <- data.frame(equilnf,equilNPP_N)
+    return(ans)
+}
