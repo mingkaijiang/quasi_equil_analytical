@@ -173,7 +173,7 @@ Perform_Analytical_Run7 <- function(f.flag = 1, cDF, eDF) {
                      type="h", col="orange", pch = 19)
         
         # equilibrated NPP for long term nutrient and CO2 = 700
-        s3d$points3d(equil700DF$nc_L, equil700DF$pc_VL, equil700DF$NPP_L,
+        s3d$points3d(equil700DF$nc_L, equil700DF$pc_L, equil700DF$NPP_L,
                      type="h", col="red", pch = 19)
         
         

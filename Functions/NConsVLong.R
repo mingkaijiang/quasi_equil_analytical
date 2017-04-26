@@ -31,10 +31,10 @@ NConsVLong_expl_min <- function(df, a, Nin=0.4,
     
     # equation for N constraint with just leaching
     U0 <- Nin
-    nleach <- leachn/(1-leachn) 
+    nleach <- leachn
     
     Nmin <- U0 / nleach
-    NPP_NC <- Nmin * nuptakerate / (a$nfl*a$af + a$nr*(a$ar) + a$nw*a$aw)
+    NPP_NC <- Nmin * nuptakerate / (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw)
     # The above equation is the same as:
     # NPP_NC <- U0 * nuptakerate / (nleach * (a$nfl*a$af + a$nr*(a$ar) + a$nw*a$aw))
     NPP_N <- NPP_NC*10^-3     # returned in kg C m-2 yr-1

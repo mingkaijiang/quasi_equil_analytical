@@ -45,14 +45,17 @@ inferpfVL_expl_min <- function(nf, a, Pin=0.02, Nin=0.4,
     
     # output nf, based on F(nf) = F(pf)
     pf <- c()
+    # equation for N constraint with just leaching
+    U0 <- Nin
+    nleach <- leachn
     
-    Nleach <- (leachn/(1-leachn)) * (a$nfl * a$af + a$nr * a$ar +
-                                         a$nw *a$aw)
+    Nmin <- U0 / nleach
+    NPP <- Nmin * nuptakerate / (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw)
     
-    Pleach <- (leachp/(1-leachp-k1)) 
-    Pocc <- (k3/(k2+k3))*(k1/(1-k1-leachp)) 
+    pleach <- (leachp/(1-leachp-k1)) 
+    pocc <- (k3/(k2+k3))*(k1/(1-k1-leachp)) 
     
-    Pg <- (Pin * Nleach) / ((Nin * nuptakerate) * (Pocc + Pleach))
+    Pg <- Pin / (NPP * (pleach + pocc))
     
     if(pwvar == FALSE) {
         pf <- (Pg - pwood * aw) / ((1.0 - pretrans) * af + prho * ar)

@@ -104,13 +104,13 @@ inferpfL_expl_min <- function(nf, a, Pin = 0.02, Nin = 0.4,
     pass <- passive(nf, allocn(nf, nwvar=nwvar), Tsoil, Texture, ligfl, ligrl)
     omega <- allocn(nf, nwvar=nwvar)$af*pass$omegaf + allocn(nf, nwvar=nwvar)$ar*pass$omegar 
     
-    # prepare long term nitrogen fluxes
-    N0 = Nin  + (1-pass$qq) * pass$decomp * Cpass * ncp
-    nleach <- leachn/(1-leachn) * (a$af*a$nfl + a$aw*a$nw + a$ar*a$nr)
-    nburial <- omega*ncp
+    # equation for N constraint with passive, wood, and leaching
+    U0 <- Nin + (1-pass$qq) * pass$decomp * Cpass * ncp   
     nwood <- a$aw*a$nw
+    nburial <- omega*ncp
     
-    NPP <- N0 * nuptakerate / (nleach + nburial + nwood)
+    # NPP <- ((U0 - nwood - nburial) / leachn) * nuptakerate / (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw)  
+    NPP <- (nuptakerate * U0) / ((a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) * leachn + nuptakerate * nwood + nuptakerate * nburial)
     
     # prepare long term phosphorus fluxes
     P0 = Pin + (1-pass$qq) * pass$decomp * Cpass * pcp

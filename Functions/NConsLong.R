@@ -91,10 +91,13 @@ NConsLong_expl_min <- function(df, a, Nin=0.4, leachn=0.05,
     U0 <- Nin + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
     nwood <- a$aw*a$nw
     nburial <- omegap*ncp
-    nleach <- leachn/(1-leachn) * (a$nfl*a$af + a$nr*(a$ar) + a$nw*a$aw)
+
+    #NPP_NC <- ((U0 - nwood - nburial) / leachn) * nuptakerate / (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw)   # will be in g C m-2 yr-1
+    NPP_NC <- (nuptakerate * U0) / ((a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) * leachn + nuptakerate * nwood + nuptakerate * nburial)
     
-    NPP_NC <- U0 * nuptakerate / (nwood + nburial + nleach)   # will be in g C m-2 yr-1
     NPP_N <- NPP_NC*10^-3 # returned in kg C m-2 yr-1
+    
+    nleach <- leachn * (NPP_NC * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw)) /nuptakerate
     
     df <- data.frame(NPP_N, nwood,nburial,nleach,a$aw)
     return(df)   
