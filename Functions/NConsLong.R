@@ -108,7 +108,7 @@ NConsLong_expl_min <- function(df, a, Nin=0.4, leachn=0.05,
 # i.e. N uptake as a saturating function of mineral N
 NConsLong_root_ocn <- function(df, a, Nin=0.4, leachn=0.05, 
                                Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
-                               Cpass = 2680, ncp = 0.1, nuptakerate = 0.96884,
+                               ncp = 0.1, nuptakerate = 0.96884,
                                sr = 1.5, k = 0.08, vmax = 1.0) {
     # passed are df and a, the allocation and plant N:C ratios
     # parameters : 
@@ -123,6 +123,7 @@ NConsLong_root_ocn <- function(df, a, Nin=0.4, leachn=0.05,
     # sr is the decay rate of root in yr-1
     # k - empirically derived
     # vmax = assumes 1
+    # NPP = (Nin - λloss A K nf / (ar / sr Vmax – A nf)) / Ωp (nf) np
     
     # passive pool burial 
     pass <- passive(df, a, Tsoil, Texture, ligfl, ligrl)
@@ -132,16 +133,13 @@ NConsLong_root_ocn <- function(df, a, Nin=0.4, leachn=0.05,
     Nmin <- k * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) / (a$ar / sr - (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw))
     
     # equation for N constraint with passive, wood, and leaching
-    U0 <- Nin + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
-    nwood <- a$aw*a$nw
-    nburial <- omegap*ncp
-    nleach <- leachn * Nmin
+    U0 <- Nin 
     
-    NPP_NC <- U0 / (nwood + nburial + nleach)   # will be in g C m-2 yr-1
-
+    NPP_NC <- (U0 - leachn * Nmin) / (omegap * ncp)
+    
     NPP_N <- NPP_NC*10^-3 # returned in kg C m-2 yr-1
     
-    df <- data.frame(NPP_N, nwood,nburial,nleach,a$aw)
+    df <- data.frame(NPP_N, Nmin, a$aw)
     return(df)   
 }
 
