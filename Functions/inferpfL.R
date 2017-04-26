@@ -153,7 +153,7 @@ inferpfL_root_ocn <- function(nf, a, Pin = 0.02, Nin = 0.4,
     # prepare long term nitrogen fluxes
     N0 <- Nin  + (1-pass$qq) * pass$decomp * Cpass * ncp
     Nmin <- k * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) / (a$ar / sr - (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw))
-    nleach <- leachn/(1-leachn) * Nmin
+    nleach <- leachn * Nmin
     nburial <- omega*ncp
     nwood <- a$aw*a$nw
     

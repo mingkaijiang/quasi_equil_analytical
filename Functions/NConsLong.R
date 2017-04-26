@@ -132,7 +132,7 @@ NConsLong_root_ocn <- function(df, a, Nin=0.4, leachn=0.05,
     U0 <- Nin + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
     nwood <- a$aw*a$nw
     nburial <- omegap*ncp
-    nleach <- leachn/(1-leachn) * Nmin
+    nleach <- leachn * Nmin
     
     NPP_NC <- U0 / (nwood + nburial + nleach)   # will be in g C m-2 yr-1
 

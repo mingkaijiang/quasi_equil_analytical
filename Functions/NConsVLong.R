@@ -65,7 +65,7 @@ NConsVLong_root_ocn <- function(df, a, Nin=0.4,
     
     # equation for N constraint with just leaching
     U0 <- Nin
-    nleach <- leachn/(1-leachn) * Nmin
+    nleach <- leachn * Nmin
     
     NPP_NC <- U0 / nleach
     NPP_N <- NPP_NC*10^-3     # returned in kg C m-2 yr-1
