@@ -90,27 +90,19 @@ NConsVLong_root_gday <- function(df, a, Nin=0.4,
     # sr is the decay rate of root in yr-1
     # kr is the value of root carbon at which 50% of the available N is taken up  
     
-    # mineral N pool function
-     solve_npp_nmin <- function (a, NPP, kr = 0.5) {
-         return((NPP + kr) * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw))
-     }
-    
-     # solve for mineral N 
-     ans <- c()
-     len <- length(df)
-    for (i in 1:len) {
-        fPC <- function(NPP) solve_npp_nmin(a[i,], NPP) - NPP
-        ans[i] <- uniroot(fPC,interval=c(0.1,20), trace=T)$root
-    }
     
     # equation for N constraint with just leaching
     U0 <- Nin
-    nleach <- leachn/(1-leachn) * Nmin
+    Nmin <- Nin / leachn
+    A_NF <- a$nfl*a$af + a$nr*a$ar + a$nw*a$aw
+    root_biomass <- a$ar / sr
+    nleach <- Nmin * leachn
     
-    NPP_NC <- U0 / nleach
+    # equation for NPP
+    NPP_NC <- (root_biomass * Nmin - (A_NF * kr)) / (A_NF * root_biomass)
     NPP_N <- NPP_NC*10^-3     # returned in kg C m-2 yr-1
     
-    df <- data.frame(NPP_N)
+    df <- data.frame(NPP_N, nleach)
     return(df)   
 }
 

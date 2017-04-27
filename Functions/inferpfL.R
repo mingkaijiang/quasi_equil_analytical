@@ -187,7 +187,7 @@ inferpfL_root_gday <- function(nf, a, Pin = 0.02, Nin = 0.4,
                               pretrans = 0.6, pcp = 0.005, ncp = 0.1,
                               Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
                               k1 = 0.01, k2 = 0.01, k3 = 0.05, nuptakerate = 0.96884,
-                              puptakerate = 0.82395, sr = 1.5, k = 0.08, vmax = 1.0) {
+                              puptakerate = 0.82395, sr = 1.5, kr = 0.5) {
     # prepare allocation partitioning
     ar <- 0.2
     af <- 0.2
@@ -198,14 +198,15 @@ inferpfL_root_gday <- function(nf, a, Pin = 0.02, Nin = 0.4,
     omega <- allocn(nf, nwvar=nwvar)$af*pass$omegaf + allocn(nf, nwvar=nwvar)$ar*pass$omegar 
     
     # prepare long term nitrogen fluxes
-    N0 <- Nin  + (1-pass$qq) * pass$decomp * Cpass * ncp
-    Nmin <- k * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) / (a$ar / sr - (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw))
-    nleach <- leachn/(1-leachn) * Nmin
-    nburial <- omega*ncp
+    U0 <- Nin + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
     nwood <- a$aw*a$nw
+    nburial <- omega*ncp
     
-    NPP <- N0 / (nleach + nburial + nwood)
+    A_NF <- a$nfl*a$af + a$nr*a$ar + a$nw*a$aw
     
+    # equation for NPP
+    NPP <- (U0 - A_NF * leachn * kr * (sr / a$ar)) / (nwood + nburial + A_NF*leachn)
+
     # prepare long term phosphorus fluxes
     P0 = Pin + (1-pass$qq) * pass$decomp * Cpass * pcp
     pleach <- leachp/(1-leachp-k1) 

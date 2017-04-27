@@ -149,7 +149,7 @@ NConsLong_root_ocn <- function(df, a, Nin=0.4, leachn=0.05,
 NConsLong_root_gday <- function(df, a, Nin=0.4, leachn=0.05, 
                                Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
                                Cpass = 2680, ncp = 0.1, nuptakerate = 0.96884,
-                               sr = 1.5, kr = 3.0) {
+                               sr = 1.5, kr = 0.5) {
     # passed are df and a, the allocation and plant N:C ratios
     # parameters : 
     # Nin is fixed N inputs (N deposition annd fixation) in g m-2 yr-1 (could vary fixation)
@@ -171,11 +171,15 @@ NConsLong_root_gday <- function(df, a, Nin=0.4, leachn=0.05,
     U0 <- Nin + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
     nwood <- a$aw*a$nw
     nburial <- omegap*ncp
-    nleach <- leachn/(1-leachn) * (a$nfl*a$af + a$nr*(a$ar) + a$nw*a$aw)
     
-    NPP_NC <- U0 * nuptakerate / (nwood + nburial + nleach)   # will be in g C m-2 yr-1
+    A_NF <- a$nfl*a$af + a$nr*a$ar + a$nw*a$aw
+
+    # equation for NPP
+    NPP_NC <- (U0 - A_NF * leachn * kr * (sr / a$ar)) / (nwood + nburial + A_NF*leachn)
     
     NPP_N <- NPP_NC*10^-3 # returned in kg C m-2 yr-1
+    
+    nleach <- leachn * (U0 - nwood * NPP_N - nburial * NPP_N)
     
     df <- data.frame(NPP_N, nwood,nburial,nleach,a$aw)
     return(df)   

@@ -109,7 +109,7 @@ inferpfVL_root_gday <- function(nf, a, Pin=0.02, Nin=0.4,
                                pwvar = TRUE, nrho = 0.7, prho = 0.7,
                                nretrans = 0.5, pretrans = 0.6,
                                nuptakerate = 0.96884, puptakerate = 0.82395,
-                               sr = 1.5, k = 0.08, vmax = 1.0) {
+                               sr = 1.5, kr = 0.5) {
     # allocation parameters
     ar <- 0.2
     af <- 0.2
@@ -117,13 +117,20 @@ inferpfVL_root_gday <- function(nf, a, Pin=0.02, Nin=0.4,
     
     # output nf, based on F(nf) = F(pf)
     pf <- c()
-    Nmin <- k * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) / (a$ar / sr - (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw))
-    Nleach <- (leachn/(1-leachn)) * Nmin
+    # equation for N constraint with just leaching
+    U0 <- Nin
+    Nmin <- Nin / leachn
+    A_NF <- a$nfl*a$af + a$nr*a$ar + a$nw*a$aw
+    root_biomass <- a$ar / sr
+    nleach <- Nmin * leachn
     
-    Pleach <- (leachp/(1-leachp-k1)) 
-    Pocc <- (k3/(k2+k3))*(k1/(1-k1-leachp)) 
+    # equation for NPP
+    NPP <- (root_biomass * Nmin - (A_NF * kr)) / (A_NF * root_biomass)
     
-    Pg <- (Pin * Nleach) / (Nin * (Pocc + Pleach))
+    pleach <- (leachp/(1-leachp-k1)) 
+    pocc <- (k3/(k2+k3))*(k1/(1-k1-leachp)) 
+    
+    Pg <- Pin / (NPP * (pleach + pocc))
     
     if(pwvar == FALSE) {
         pf <- (Pg - pwood * aw) / ((1.0 - pretrans) * af + prho * ar)
