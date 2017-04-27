@@ -61,9 +61,9 @@ Perform_Analytical_Run8_2 <- function() {
         
     ######### Plotting
     
-    tiff("Plots/Analytical_Run8_2.tiff",
-         width = 8, height = 7, units = "in", res = 300)
-    par(mar=c(5.1,5.1,2.1,2.1))
+    #tiff("Plots/Analytical_Run8_2.tiff",
+    #     width = 8, height = 7, units = "in", res = 300)
+    #par(mar=c(5.1,5.1,2.1,2.1))
     
     
     # NPP constraint by CO2 = 350
@@ -74,7 +74,7 @@ Perform_Analytical_Run8_2 <- function() {
          col="cyan", lwd = 3)
     
     # NPP constraint by long term nutrient availability
-    points(out350DF$nc, out350DF$NPP_350_L, type="l", col="tomato", lwd = 3)
+    points(out350DF$nc, out350DF$NPP_350_L, type="b", col="tomato", lwd = 3)
     
     # equilibrated NPP for very long term nutrient and CO2 = 350
     points(LongN350$equilnf, LongN350$equilNPP,
@@ -96,7 +96,7 @@ Perform_Analytical_Run8_2 <- function() {
            lwd=c(2,2,2,NA,NA), pch=c(NA,NA,NA,19,19), cex = 1.0, 
            bg = adjustcolor("grey", 0.8))
     
-    dev.off()    
+    #dev.off()    
 
     
 }

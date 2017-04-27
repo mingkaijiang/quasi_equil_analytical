@@ -109,7 +109,7 @@ NConsLong_expl_min <- function(df, a, Nin=0.4, leachn=0.05,
 NConsLong_root_ocn <- function(df, a, Nin=0.4, leachn=0.05, 
                                Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
                                ncp = 0.1, nuptakerate = 0.96884,
-                               sr = 1.5, k = 0.08, vmax = 1.0) {
+                               sr = 1.5, k = 0.8, vmax = 1.0) {
     # passed are df and a, the allocation and plant N:C ratios
     # parameters : 
     # Nin is fixed N inputs (N deposition annd fixation) in g m-2 yr-1 (could vary fixation)
@@ -132,12 +132,18 @@ NConsLong_root_ocn <- function(df, a, Nin=0.4, leachn=0.05,
     # N mineral pool
     Nmin <- k * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) / (a$ar / sr - (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw))
     
-    # equation for N constraint with passive, wood, and leaching
+    # equation for N constraint with passive, and leaching
+    nburial <- omegap*ncp
+    nleach <- leachn * Nmin
+    
+    # calculating NPP
     U0 <- Nin 
-    
-    NPP_NC <- (U0 - leachn * Nmin) / (omegap * ncp)
-    
+    NPP_NC <- (U0 - nleach) / nburial     
     NPP_N <- NPP_NC*10^-3 # returned in kg C m-2 yr-1
+
+    #X <- (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) * (sr/a$ar)
+    #NPP_NC <- (-X * (U0 + leachn * k) + U0) / ((omegap * ncp) * (1.0 + X))
+    #NPP_N <- NPP_NC*10^-3 # returned in kg C m-2 yr-1
     
     df <- data.frame(NPP_N, Nmin, a$aw)
     return(df)   
