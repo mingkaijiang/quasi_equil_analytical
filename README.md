@@ -22,7 +22,14 @@ Folder GDAY includes numerous sub-folders:
 
 Quasi-equilibrium analysis:
 Comins and McMurtrie (1993)
+Kirschbaum et al. (1994)
 Kirschbaum et al. (1998)
 etc.
+
+Key model assumptions:
+Reich et al. (2008)
+
+GDAY model:
+
 
 Contact Mingkai Jiang for more information (m.jiang@westernsydney.edu.au).
