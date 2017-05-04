@@ -154,7 +154,7 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
         
         # NPP constraint by CO2 = 350
         s3d <- scatterplot3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_350, xlim=c(0.0, 0.05),
-                             ylim = c(0.0, 0.002), zlim=c(0, 5), 
+                             ylim = c(0.0, 0.002), zlim=c(0, 3), 
                              type = "l", xlab = "Shoot N:C ratio", ylab = "Shoot P:C ratio", 
                              zlab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
                              color="cyan", lwd = 3, angle=24)
