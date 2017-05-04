@@ -14,7 +14,8 @@
 #### Run 5: same as Run4, but fixed wood stoichiometry and increased nutrient supply
 #### Run 6: same as Run1, but with separate coarse woody debris pool
 #### Run 7: same as Run1, but with explicit mineral N pool
-#### Run 8: same as Run1, but with explicit mineral N pool, and nuptake ~ root biomass
+#### Run 8.1: same as Run7, but with passive SOM fixed stoichiometry, and nuptake ~ root biomass - GDAY approach
+#### Run 8.2, same as Run8.1, but with O-CN approach (i.e. saturating function of mineral N)
 #### Run 9: same as Run7, but with passive NC ratio ~ mineral N pool
 #### Run 10: same as Run1, but turned exudation on
 ################################################################################
