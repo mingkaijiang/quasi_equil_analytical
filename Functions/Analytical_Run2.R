@@ -21,7 +21,7 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     # N:C ratios for x-axis
     nfseq <- seq(0.01,0.05,by=0.001)
     # need allocation fractions here
-    a_vec <- allocn(nfseq,nwvar=FALSE)
+    a_vec <- allocn(nfseq,nwvar=TRUE)
     
     # plot photosynthetic constraints
     PC350 <- solveNC(nfseq,a_vec$af,co2=350)
