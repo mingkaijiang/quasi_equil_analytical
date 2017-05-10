@@ -17,3 +17,6 @@ pacman::p_load(scatterplot3d,
 #### Sourcing all R files in the function subdirectory
 sourcefiles <- dir("Functions", pattern="[.]R$", recursive = TRUE, full.names = TRUE)
 for(z in sourcefiles)source(z)
+
+
+op <- par()

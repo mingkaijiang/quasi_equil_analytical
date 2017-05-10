@@ -167,7 +167,7 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
                      type="h", col="orange", pch = 19)
         
         # equilibrated NPP for long term nutrient and CO2 = 700
-        s3d$points3d(equil700DF$nc_L, equil700DF$pc_VL, equil700DF$NPP_L,
+        s3d$points3d(equil700DF$nc_L, equil700DF$pc_L, equil700DF$NPP_L,
                      type="h", col="red", pch = 19)
         
         
@@ -180,6 +180,58 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
                bg = adjustcolor("grey", 0.8))
         
         dev.off()
+        
+        ### plot 2-d plots of nf vs. npp and nf vs. pf
+        tiff("Plots/Analytical_Run10_2d.tiff",
+             width = 10, height = 5, units = "in", res = 300)
+        par(mfrow=c(1,2))
+        
+        # shoot nc vs. NPP
+        plot(out350DF$nc, out350DF$NPP_350, xlim=c(0.0, 0.05),
+             ylim=c(0, 3), 
+             type = "l", xlab = "Shoot N:C ratio", 
+             ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
+             col="cyan", lwd = 3)
+        points(out350DF$nc, out350DF$NPP_VL, type="l", col="tomato", lwd = 3)
+        points(equil350DF$nc_VL, equil350DF$NPP_VL, type="p", pch = 19, col = "blue")
+        points(out350DF$nc, out350DF$NPP_350_L, type='l',col="violet", lwd = 3)
+        points(out700DF$nc, out700DF$NPP_700, col="green", type="l", lwd = 3)
+        points(equil350DF$nc_VL, inst700$equilNPP, type="p", col = "darkgreen", pch=19)
+        points(equil700DF$nc_VL, equil700DF$NPP_VL, type="p", col="orange", pch = 19)
+        points(equil700DF$nc_L, equil700DF$NPP_L,type="p", col="red", pch = 19)
+
+        
+        # shoot nc vs. shoot pc
+        plot(out350DF$nc, out350DF$pc_VL, xlim=c(0.0, 0.05),
+             ylim=c(0, 0.005), 
+             type = "l", xlab = "Shoot N:C ratio", 
+             ylab = "Shoot P:C ratio",
+             col="cyan", lwd = 3)
+        points(out350DF$nc, out350DF$pc_VL, type="l", col="tomato", lwd = 3)
+        
+        points(equil350DF$nc_VL, equil350DF$pc_VL, type="p", pch = 19, col = "blue")
+        
+        points(out350DF$nc, out350DF$pc_VL, type='l',col="violet", lwd = 3)
+        
+        points(out700DF$nc, out700DF$pc_VL, col="green", type="l", lwd = 3)
+        
+        points(equil350DF$nc_VL, equil350DF$pc_VL, type="p", col = "darkgreen", pch=19)
+        
+        points(equil700DF$nc_VL, equil700DF$pc_VL, type="p", col="orange", pch = 19)
+        
+        points(equil700DF$nc_L, equil700DF$pc_L, type="p", col="red", pch = 19)
+        
+        legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
+                            expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
+                            "VL nutrient constraint", "L nutrient constraint",
+                            "A", "B", "C", "D"),
+               col=c("cyan","green", "tomato", "violet","blue", "darkgreen","red", "orange"), 
+               lwd=c(2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,19,19,19,19), cex = 0.7, 
+               bg = adjustcolor("grey", 0.8))
+        
+        
+        dev.off()
+        
     } else if (f.flag == 2) {
         return(cDF)
     } else if (f.flag == 3) {

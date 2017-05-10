@@ -117,9 +117,11 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
         legend(0.04, 3.55, c("C", "D"),
                col=c("red", "orange"), 
                lwd=c(NA,NA), pch=c(19,19), cex = 1.0, border=FALSE, bty="n",
-               bg = adjustcolor("grey", 0.8))      
+               bg = adjustcolor("grey", 0.8))  
+
         
         dev.off()
+        
     } else if (f.flag == 2) {
         return(cDF)
     } else if (f.flag == 3) {

@@ -181,6 +181,9 @@ Perform_Analytical_Run8_1 <- function(f.flag = 1, cDF, eDF) {
                bg = adjustcolor("grey", 0.8))
         
         dev.off()
+        
+        
+        
     } else if (f.flag == 2) {
         return(cDF)
     } else if (f.flag == 3) {
