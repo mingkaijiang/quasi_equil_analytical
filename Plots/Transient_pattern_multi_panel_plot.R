@@ -37,7 +37,7 @@ panelDF <- melt(subset(tranDF, select=c("year", "npp", "shoot", "shootcn", "shoo
 ## Plot
 xyplot(value~year|variable, data=panelDF, type="l", lwd = 2.5, col = "blue",
              scales=list(y=list(relation="free")),
-             layout=c(4,3), ylab = "", xlab = "Year", title = c("test", "test"))
+             layout=c(4,3), ylab = "", xlab = "Year")
 
 
 dev.off()
@@ -75,7 +75,10 @@ panelDF <- melt(subset(tranDF, select=c("year", "npp", "shoot", "shootcn", "shoo
 ## Plot
 xyplot(value~year|variable, data=panelDF, type="l", lwd = 2.5, col = "blue",
        scales=list(y=list(relation="free")),
-       layout=c(4,3), ylab = "", xlab = "Year", title = c("test", "test"))
+       layout=c(4,3), ylab = "", xlab = "Year",
+       ylim = list(c(9, 12), c(3.7, 4.2), c(40, 70), c(1390, 1800),
+                c(0.06, 0.08), c(572, 575), c(190, 210), c(3320, 3340), 
+                c(0.0029, 0.0033), c(1.2, 1.5), c(65, 100), c(2000, 2900)))
 
 
 dev.off()

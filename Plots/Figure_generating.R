@@ -25,3 +25,11 @@ source("Plots/Figure3.R")
 #### specifically focuses on aCO2 condition where shoot P:C is constrained by
 #### both VL and L constraints. 
 source("Plots/Figure4.R")
+
+
+
+
+#### Figure x:
+#### To plot multi-panel transient model behaviors over the first 100 years of doubling CO2
+#### comparing both fixed and variable wood stoichiometry
+source("Plots/Transient_pattern_multi_panel_plot.R")
