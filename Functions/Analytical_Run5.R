@@ -143,7 +143,7 @@ Perform_Analytical_Run5 <- function(f.flag = 1, cDF, eDF) {
         
         # NPP constraint by CO2 = 350
         s3d <- scatterplot3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_350, xlim=c(0.0, 0.05),
-                             ylim = c(0.0, 0.002), zlim=c(0, 5), 
+                             ylim = c(0.0, 0.01), zlim=c(0, 5), 
                              type = "l", xlab = "Shoot N:C ratio", ylab = "Shoot P:C ratio", 
                              zlab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
                              color="cyan", lwd = 3, angle=24)
@@ -175,7 +175,7 @@ Perform_Analytical_Run5 <- function(f.flag = 1, cDF, eDF) {
                      type="h", col="orange", pch = 19)
         
         # equilibrated NPP for long term nutrient and CO2 = 700
-        s3d$points3d(equil700DF$nc_L, equil700DF$pc_L, equil700DF$NPP_L,
+        s3d$points3d(equil700DF$nc_L, equil700DF$pc_VL, equil700DF$NPP_L,
                      type="h", col="red", pch = 19)
         
         
@@ -227,7 +227,7 @@ Perform_Analytical_Run5 <- function(f.flag = 1, cDF, eDF) {
         
         points(equil700DF$nc_VL, equil700DF$pc_VL, type="p", col="orange", pch = 19)
         
-        points(equil700DF$nc_L, equil700DF$pc_L, type="p", col="red", pch = 19)
+        points(equil700DF$nc_L, equil700DF$pc_VL, type="p", col="red", pch = 19)
         
         legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
                             expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 

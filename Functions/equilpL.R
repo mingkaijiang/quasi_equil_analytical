@@ -14,7 +14,7 @@ equilpL <- function(equildf, Pin = 0.02, leachp = 0.05, Cpass=CpassVLong,
     
     # passive pool burial 
     pass <- passive(df, allocn(df,nwvar=nwvar), Tsoil, Texture, ligfl, ligrl)
-    omegap <- allocn(df, nwvar=nwvar)$af*pass$omegaf + allocn(df)$ar*pass$omegar 
+    omegap <- allocn(df, nwvar=nwvar)$af*pass$omegaf + allocn(df, nwvar=nwvar)$ar*pass$omegar 
     
     # prepare very long term nitrogen fluxes
     U0 = Pin + (1-pass$qq) * pass$decomp * Cpass * pcp
