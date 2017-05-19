@@ -63,8 +63,8 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
     # where the term cwd_decay is 0.7904 yr-1, as in Table 1 of Kirschbaum and Paul, 2002
     # additionally, the term cwd_decay should be multiplying a temperature factor
     # overall, the net change to NrelwoodVLong is very small < 0.01 net difference
-    PrelwoodVLong <- aequilp$aw*aequilp$pw*VLongNP$equilNPP_N*1000.0
-    NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0
+    PrelwoodVLong <- aequilp$aw*aequilp$pw*VLongNP$equilNPP_N*1000.0*0.02
+    NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0*0.02
     
     # Calculate pf based on nf of long-term nutrient exchange
     pfseqL <- inferpfL_CWD(nfseq, a_nf, Pin = 0.02+PrelwoodVLong,
@@ -83,7 +83,7 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
     out350DF <- data.frame(nfseq, pfseq, pfseqL, NC350, NCVLONG, NCHUGH)
     colnames(out350DF) <- c("nc", "pc_VL", "pc_350_L", "NPP_350", "NPP_VL",
                             "nleach_VL", "NPP_350_L", "nwood_L", "nburial_L",
-                            "nleach_L", "aw", "ncwd")
+                            "nleach_L", "aw")
     equil350DF <- data.frame(VLongNP, LongNP)
     colnames(equil350DF) <- c("nc_VL", "NPP_VL", "pc_VL",
                               "nc_L", "NPP_L", "pc_L")
@@ -116,7 +116,7 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
     out700DF <- data.frame(nfseq, pfseq, pfseqL, NC700, NCVLONG, NCHUGH)
     colnames(out700DF) <- c("nc", "pc_VL", "pc_700_L", "NPP_700", "NPP_VL",
                             "nleach_VL", "NPP_700_L", "nwood_L", "nburial_L",
-                            "nleach_L", "aw", "ncwd")
+                            "nleach_L", "aw")
     
     # Find equilibrate intersection and plot
     LongN <- solveLongN_CWD(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)

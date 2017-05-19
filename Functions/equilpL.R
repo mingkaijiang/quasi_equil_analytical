@@ -70,9 +70,9 @@ equilpL_CWD <- function(equildf, Pin = 0.02, leachp = 0.05, Cpass=CpassVLong,
     Y1 <- U0/NPP_PC - pburial
     
     if(pwvar == FALSE) {
-        pf <- (((Y1 - pwood * aw - pwood * aw * sw) / (pleach+pocc)) - pwood * aw) / ((1.0-pretrans)*af + prho * ar)
+        pf <- (((Y1 - pwood * aw - pwood * aw) / (pleach+pocc)) - pwood * aw) / ((1.0-pretrans)*af + prho * ar)
     } else {
-        pf <- Y1 / (pwood * aw + pwood * aw * sw + (pleach+pocc) * ((1.0-pretrans)*af + prho * ar + pwood * aw))
+        pf <- Y1 / (pwood * aw + pwood * aw + (pleach+pocc) * ((1.0-pretrans)*af + prho * ar + pwood * aw))
     }
     
     # obtain equilnf  
