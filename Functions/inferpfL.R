@@ -63,8 +63,9 @@ inferpfL_CWD <- function(nf, a, Pin = 0.02, Nin = 0.4,
     nleach <- leachn/(1-leachn) * (a$af*a$nfl + a$aw*a$nw + a$ar*a$nr)
     nburial <- omega*ncp
     nwood <- a$aw*a$nw
+    ncwd <- nwood * sw
 
-    NPP <- N0 / (nleach + nburial + nwood)
+    NPP <- N0 / (nleach + nburial + ncwd)
     
     # prepare long term phosphorus fluxes
     P0 = Pin + (1-pass$qq) * pass$decomp * Cpass * pcp
@@ -76,9 +77,9 @@ inferpfL_CWD <- function(nf, a, Pin = 0.02, Nin = 0.4,
     Y1 <- P0/NPP - pburial
     
     if(pwvar == FALSE) {
-        pf <- (((Y1 - pwood * aw - pwood * aw) / (pleach+pocc)) - pwood * aw) / ((1.0-pretrans)*af + prho * ar)
+        pf <- (((Y1 - pwood * aw - pwood * aw * sw) / (pleach+pocc)) - pwood * aw) / ((1.0-pretrans)*af + prho * ar)
     } else {
-        pf <- Y1 / (pwood * aw + pwood * aw + (pleach + pocc) * ((1.0-pretrans)*af + prho * ar + pwood * aw))
+        pf <- Y1 / (pwood * aw + pwood * aw * sw + (pleach + pocc) * ((1.0-pretrans)*af + prho * ar + pwood * aw))
     }
     
     # obtain equilpf  
