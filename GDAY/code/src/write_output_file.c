@@ -502,6 +502,15 @@ int ohandler(char *section, char *name, char *value, control *c, params *p,
     } else if (MATCH("state", "soilp")) {
       fprintf(c->ofp, "soilp = %.10f\n", s->soilp);
       *match = TRUE;
+    } else if (MATCH("state", "cwd")) {
+        fprintf(c->ofp, "cwd = %.10f\n", s->cwd);
+        *match = TRUE;
+    } else if (MATCH("state", "cwdn")) {
+        fprintf(c->ofp, "cwdn = %.10f\n", s->cwdn);
+        *match = TRUE;
+    } else if (MATCH("state", "cwdp")) {
+        fprintf(c->ofp, "cwdp = %.10f\n", s->cwdp);
+        *match = TRUE;
     } 
 
     return (1);

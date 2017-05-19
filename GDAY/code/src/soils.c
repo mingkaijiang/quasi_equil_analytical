@@ -339,7 +339,9 @@ void partition_plant_litter(control *c, fluxes *f, params *p) {
     if (c->cwd_pool) {
         wood_material = 0.0;
     } else {
-        wood_material = f->deadstems;
+        //wood_material = f->deadstems;
+        
+        wood_material = 0.0;
     }
     f->surf_struct_litter = leaf_material + wood_material;         
 
