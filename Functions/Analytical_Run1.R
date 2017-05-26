@@ -32,7 +32,7 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     
     ##### CO2 = 350
     # calculate NC vs. NPP at CO2 = 350 respectively
-    NC350 <- solveNC(nfseq, a_nf$af, co2=CO2_1)
+    NC350 <- solveNC(nfseq, pfseq, a_nf$af, co2=CO2_1)
     
     # calculate very long term NC and PC constraint on NPP, respectively
     NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=0.4)
