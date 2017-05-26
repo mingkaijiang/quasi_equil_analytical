@@ -23,11 +23,25 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     CO2_1 <- 350.0
     CO2_2 <- 700.0
     
-    # create nc and pc for shoot to initiate
+    #### define parameters
+    nwood = 0.005        
+    nrho = 0.7
+    nretrans = 0.5
+    nwvar = TRUE
+    LUE0=1.4
+    I0=3
+    Nref=0.04
+    kext=0.5
+    SLA=5
+    sf=0.5
+    w = 0.45
+    cue = 0.5
+    
+    # create a range of nc and pc for shoot to initiate
     nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq,nwvar=T))
     
-    pfseq <- inferpfVL(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=T)
+    pfseq <- round(seq(0.001, 0.005, by = 0.0001), 5)
     a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
     
     ##### CO2 = 350
