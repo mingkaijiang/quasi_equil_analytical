@@ -1,8 +1,8 @@
 ### Following two functions calculate NPP - will later need to be replaced by full model
 ### LUE function of N & Ca
-LUE <- function(nf, pf, co2, LUE0, Nref) {
+LUE <- function(nf, pf, CO2) {
     
-    CaResp <- 1.632 * (co2-60.9) / (co2+121.8)    ##RCO2
+    CaResp <- 1.632 * (CO2-60.9) / (CO2+121.8)    ##RCO2
     # Nresp <- min(df/Nref, 1)                      ##Rate-limiting effect of low N
     
     assim <- 16.848 + 178.664 * nf + 1418.722 * pf
@@ -15,17 +15,15 @@ LUE <- function(nf, pf, co2, LUE0, Nref) {
 
 ### NPP as function of nf and LAI (which is calculated from NPP)
 ### basic function: CUE dependent
-eqNC <- function(nf, pf, NPP, co2, LUE0, Nref, I0, kext, SLA, af, sf, cfrac, CUE) {
+eqPC <- function(nf, pf, pfdf, NPP, CO2) {
     
     ##Returns G: total C production (i.e. NPP)
-    return(LUE(nf, pf, co2, LUE0, Nref) * I0 * (1 - exp(-kext*SLA*af*NPP/sf/cfrac)) * CUE)
+    return(LUE(nf, pf, CO2) * I0 * (1 - exp(-kext*SLA*pfdf*NPP/sf/cfrac)) * cue)
     
 }
 
 ### This function implements photosynthetic constraint - solve by finding the root
-solveNC <- function(nf, pf, af, co2=350,
-                    LUE0=1.4, I0=3, Nref=0.04, 
-                    kext=0.5, SLA=5, sf=0.5, w = 0.45, cue = 0.5) {
+photo_constraint <- function(nf, pf, nfdf, pfdf, CO2) {
     # parameters
     # nf is variable
     # making it pass af (fractional allocation to foliage) because this may also be variable
@@ -39,13 +37,20 @@ solveNC <- function(nf, pf, af, co2=350,
     # w = C content of biomass - needed to convert SLA from DM to C
     # cue = carbon use efficiency
     
-    # solve implicit equation
-    ans <- c()
     len <- length(nf)
+    
+    ans <- matrix(ncol=len, nrow=len)
+    
     for (i in 1:len) {
-        fPC <- function(NPP) eqNC(nf[i], pf[i], NPP, co2, LUE0, Nref, I0, kext, SLA, af[i], sf, w, cue) - NPP
-        #ans[i] <- tryCatch(uniroot(fPC,interval=c(0.1,20), trace=T)$root, error=function(e) NULL)
-        ans[i] <- uniroot(fPC,interval=c(0.1,20), trace=T)$root
+        nf_sub <- nf[i]
+        for (j in 1:len) {
+            fPC <- function(NPP) eqPC(nf_sub, pf[j], pfdf$af[j], NPP, CO2) - NPP
+            ans[i,j] <- uniroot(fPC,interval=c(0.1,20), trace=T)$root
+        }
     }
+    
     return(ans)
 }
+
+
+

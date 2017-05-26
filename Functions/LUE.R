@@ -1,8 +1,8 @@
 ### Following two functions calculate NPP - will later need to be replaced by full model
 ### LUE function of N & Ca
-LUE <- function(nf, pf, co2, LUE0, Nref) {
+LUE <- function(nf, pf, CO2) {
     
-    CaResp <- 1.632 * (co2-60.9) / (co2+121.8)    ##RCO2
+    CaResp <- 1.632 * (CO2-60.9) / (CO2+121.8)    ##RCO2
     # Nresp <- min(df/Nref, 1)                      ##Rate-limiting effect of low N
     
     assim <- 16.848 + 178.664 * nf + 1418.722 * pf

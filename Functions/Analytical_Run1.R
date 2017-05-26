@@ -36,6 +36,7 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     sf=0.5
     w = 0.45
     cue = 0.5
+    cfrac <- 0.5
     
     # create a range of nc and pc for shoot to initiate
     nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
@@ -44,11 +45,11 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     pfseq <- round(seq(0.001, 0.005, by = 0.0001), 5)
     a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
     
-    ##### CO2 = 350
-    # calculate NC vs. NPP at CO2 = 350 respectively
-    NC350 <- solveNC(nfseq, pfseq, a_nf$af, co2=CO2_1)
+    #### CO2 = 350
+    ### Calculate NC, PC and NPP surface at CO2 = 350
+    Photo350 <- photo_constraint(nfseq, pfseq, a_nf, a_pf, CO2_1)
     
-    # calculate very long term NC and PC constraint on NPP, respectively
+    ### calculate very long term NC and PC constraint on NPP, respectively
     NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=0.4)
     
     # solve very-long nutrient cycling constraint
@@ -140,6 +141,13 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), NC700))
     inst700 <- inst_NPP(equil350DF$nc_VL, df700)
+    
+    
+    
+    library(plotly)
+    # volcano is a numeric matrix that ships with R
+    p <- plot_ly(z = ~Photo350) %>% add_surface()
+    
     
     if (f.flag == 1) {
         
