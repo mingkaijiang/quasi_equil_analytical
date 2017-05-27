@@ -8,7 +8,7 @@ solveLong <- function(CO2,Cpass,NinL, PinL, nwvar, pwvar) {
                                          NinL = NinL, Cpass=Cpass, nwvar=nwvar, pwvar=pwvar), pwvar=pwvar), 
                          CO2) - Long_constraint_N(nf,allocn(nf,nwvar=nwvar),Cpass=Cpass,NinL)$NPP
     }
-    equilnf <- uniroot(fn,interval=c(0.01,0.05))$root
+    equilnf <- uniroot(fn,interval=c(0.001,0.05))$root
     equilpf <- inferpfL(equilnf, allocn(equilnf, nwvar=nwvar), PinL = PinL,
                         NinL = NinL, Cpass=Cpass, nwvar=nwvar, pwvar=pwvar)
     equilNPP <- photo_constraint(equilnf, equilpf, 

@@ -18,8 +18,8 @@ solveNC <- function(nf, af, CO2) {
     len <- length(nf)
     for (i in 1:len) {
         fPC <- function(NPP) eqNC(nf[i], NPP, CO2, af[i]) - NPP
-        #ans[i] <- tryCatch(uniroot(fPC,interval=c(0.1,20), trace=T)$root, error=function(e) NULL)
-        ans[i] <- uniroot(fPC,interval=c(0.1,20), trace=T)$root
+        ans[i] <- tryCatch(uniroot(fPC,interval=c(0.1,20), trace=T)$root, error=function(e) NULL)
+        #ans[i] <- uniroot(fPC,interval=c(0.1,20), trace=T)$root
     }
     return(ans)
 }

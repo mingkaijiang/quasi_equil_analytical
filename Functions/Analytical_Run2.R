@@ -20,7 +20,7 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     source("Parameters/Analytical_Run2_Parameters.R")
     
     # N:C ratios for x-axis
-    nfseq <- seq(0.01,0.05,by=0.001)
+    nfseq <- seq(0.001,0.05,by=0.001)
     # need allocation fractions here
     a_vec <- allocn(nfseq,nwvar=nwvar)
     

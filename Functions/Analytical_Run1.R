@@ -22,7 +22,7 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     
     
     # create a range of nc for shoot to initiate
-    nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
+    nfseq <- round(seq(0.001, 0.05, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq,nwvar=nwvar))
     
     # using very long term relationship to calculate pf from nf
@@ -84,7 +84,7 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     ##### CO2 = 700
     
     # N:C and P:C ratio
-    nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
+    nfseq <- round(seq(0.001, 0.05, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq,nwvar=nwvar))
     
     # using very long term relationship to calculate pf from nf
