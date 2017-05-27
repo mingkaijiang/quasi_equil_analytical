@@ -108,10 +108,15 @@ double lue_simplified(params *p, state *s, double co2) {
      * Nref: leaf N:C for saturation of photosynthesis   
      * LUE0: maximum gross LUE in kg C GJ-1
      */
-    double lue, CaResp, Nresp, conv;
+    double lue, CaResp, Nresp, conv, assim, assim_max;
   
     CaResp = 1.632 * (co2 - 60.9) / (co2 + 121.8);
-    Nresp = MIN(s->shootnc / p->nref, 1);
+    //Nresp = MIN(s->shootnc / p->nref, 1);
+    
+    assim = 16.848 + 178.664 * s->shootnc + 1418.722 * s->shootpc;
+    assim_max = 16.848 + 178.664 * 0.1 + 1418.722 * 0.004;
+    
+    Nresp = assim/assim_max;
     
     /* converting unit for lue0 from kg C GJ-1 to umol C umol -1 PAR */
     conv = (KG_AS_G / MOL_C_TO_GRAMS_C * MOL_TO_UMOL) / (J_2_UMOL * GJ_TO_J);

@@ -120,3 +120,7 @@ rm(list=ls(all=TRUE))
 
 #### End
 
+library(plotly)
+# volcano is a numeric matrix that ships with R
+p <- plot_ly(z = ~Photo350) %>% add_surface()
+

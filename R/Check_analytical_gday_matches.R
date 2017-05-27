@@ -84,25 +84,25 @@ run_check_matches <- function() {
         ## add gday equilibrium values onto the dataframe
         # VL aCO2
         matchDF[matchDF$Run == i & matchDF$CO2 == 350, "NC_VL_GDAY"] <- gdayDF2[1, "shootn"]/gdayDF2[1, "shoot"]
-        matchDF[matchDF$Run == i & matchDF$CO2 == 350, "NPP_VL_GDAY"] <- gdayDF2[1, "npp"]/10
         matchDF[matchDF$Run == i & matchDF$CO2 == 350, "PC_VL_GDAY"] <- gdayDF2[1, "shootp"]/gdayDF2[1, "shoot"]
-        
+        matchDF[matchDF$Run == i & matchDF$CO2 == 350, "NPP_VL_GDAY"] <- gdayDF2[1, "npp"]/10
+
         # L aCO2
         matchDF[matchDF$Run == i & matchDF$CO2 == 350, "NC_L_GDAY"] <- gdayDF1[yr1, "shootn"]/gdayDF1[yr1, "shoot"]
-        matchDF[matchDF$Run == i & matchDF$CO2 == 350, "NPP_L_GDAY"] <- gdayDF1[yr1, "npp"]/10
         matchDF[matchDF$Run == i & matchDF$CO2 == 350, "PC_L_GDAY"] <- gdayDF1[yr1, "shootp"]/gdayDF1[yr1, "shoot"]
+        matchDF[matchDF$Run == i & matchDF$CO2 == 350, "NPP_L_GDAY"] <- gdayDF1[yr1, "npp"]/10
         matchDF[matchDF$Run == i & matchDF$CO2 == 350, "Equil_Year"] <- yr1
         
         
         # VL eCO2
         matchDF[matchDF$Run == i & matchDF$CO2 == 700, "NC_VL_GDAY"] <- gdayDF2[l2, "shootn"]/gdayDF2[l2, "shoot"]
-        matchDF[matchDF$Run == i & matchDF$CO2 == 700, "NPP_VL_GDAY"] <- gdayDF2[l2, "npp"]/10
         matchDF[matchDF$Run == i & matchDF$CO2 == 700, "PC_VL_GDAY"] <- gdayDF2[l2, "shootp"]/gdayDF2[l2, "shoot"]
-        
+        matchDF[matchDF$Run == i & matchDF$CO2 == 700, "NPP_VL_GDAY"] <- gdayDF2[l2, "npp"]/10
+
         # L eCO2
         matchDF[matchDF$Run == i & matchDF$CO2 == 700, "NC_L_GDAY"] <- gdayDF2[yr2, "shootn"]/gdayDF2[yr2, "shoot"]
-        matchDF[matchDF$Run == i & matchDF$CO2 == 700, "NPP_L_GDAY"] <- gdayDF2[yr2, "npp"]/10
         matchDF[matchDF$Run == i & matchDF$CO2 == 700, "PC_L_GDAY"] <- gdayDF2[yr2, "shootp"]/gdayDF2[yr2, "shoot"]
+        matchDF[matchDF$Run == i & matchDF$CO2 == 700, "NPP_L_GDAY"] <- gdayDF2[yr2, "npp"]/10
         matchDF[matchDF$Run == i & matchDF$CO2 == 700, "Equil_Year"] <- yr2
         
         

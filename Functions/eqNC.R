@@ -25,6 +25,6 @@ eqNC_respiration <- function(df, NPP, co2, LUE0, Nref, I0, kext, SLA, ADF, sf, c
 eqPC <- function(nf, pf, pfdf, NPP, CO2) {
     
     ##Returns G: total C production (i.e. NPP)
-    return(LUE(nf, pf, CO2) * I0 * (1 - exp(-kext*SLA*pfdf*NPP/sf/cfrac)) * cue)
+    return(LUE_np(nf, pf, CO2) * I0 * (1 - exp(-kext*SLA*pfdf*NPP/sf/cfrac)) * cue)
     
 }

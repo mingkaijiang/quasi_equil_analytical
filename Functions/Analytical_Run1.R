@@ -95,7 +95,7 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     NCLONG <- Long_constraint_N(nfseq, a_nf, CpassVLong,
                                 NinL = Nin+NrelwoodVLong)
     
-    PCLONG <- Long_constraint_P(pfseqL, allocp(pfseqL, pwvar=pwvar),
+    PCLONG <- Long_constraint_P(nfseq, pfseqL, allocp(pfseqL, pwvar=pwvar),
                                 CpassVLong, PinL=Pin+PrelwoodVLong)
     
     # Find long term equilibrium point
@@ -159,12 +159,7 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     df700 <- as.data.frame(cbind(round(nfseq,3), Photo700))
     inst700 <- inst_NPP(equil350DF$nc_VL, df700)
     
-    
-    library(plotly)
-    # volcano is a numeric matrix that ships with R
-    p <- plot_ly(z = ~Photo350) %>% add_surface()
-    
-    
+
     if (f.flag == 1) {
         
         #### Library

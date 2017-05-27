@@ -38,8 +38,8 @@ create_equil_DF <- function() {
     # create the matrix
     cDF <- matrix(nrow = l*2, ncol = 8)
     cDF <- as.data.frame(cDF)
-    colnames(cDF) <- c("Run", "CO2", "NC_VL", "NPP_VL", "PC_VL",
-                       "NC_L", "NPP_L", "PC_L")
+    colnames(cDF) <- c("Run", "CO2", "NC_VL", "PC_VL","NPP_VL",
+                       "NC_L", "PC_L", "NPP_L")
     
     # add Run information into Run column
     cDF$Run <- rep(c(1:l), each=2)

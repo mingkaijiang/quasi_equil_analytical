@@ -252,14 +252,14 @@ void np_allocation(control *c, fluxes *f, params *p, state *s,
     /* If we have allocated more N than we have avail, cut back C prodn */
     arg = f->npstem;
     if (arg > ntot && c->fixleafnc == FALSE && c->ncycle) {
-      fprintf(stderr, "in cut back n \n");
+      //fprintf(stderr, "in cut back n \n");
       cut_back_production_n(c, f, p, s, ntot, ncwnew, pcwnew);
     }
     
     /* If we have allocated more P than we have avail, cut back C prodn */
     arg = f->ppstem;
     if (arg > ptot && c->fixleafpc == FALSE && c->pcycle) {
-      fprintf(stderr, "in cut back p \n");
+      //fprintf(stderr, "in cut back p \n");
       cut_back_production_p(c, f, p, s, ptot, ncwnew, pcwnew);
     }
     
