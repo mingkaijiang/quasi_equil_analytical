@@ -1,7 +1,5 @@
 ### This function implements photosynthetic constraint - solve by finding the root
-solveNC <- function(nf, pf, af, co2=350,
-                    LUE0=1.4, I0=3, Nref=0.04, 
-                    kext=0.5, SLA=5, sf=0.5, w = 0.45, cue = 0.5) {
+solveNC <- function(nf, af, CO2) {
     # parameters
     # nf is variable
     # making it pass af (fractional allocation to foliage) because this may also be variable
@@ -19,7 +17,7 @@ solveNC <- function(nf, pf, af, co2=350,
     ans <- c()
     len <- length(nf)
     for (i in 1:len) {
-        fPC <- function(NPP) eqNC(nf[i], pf[i], NPP, co2, LUE0, Nref, I0, kext, SLA, af[i], sf, w, cue) - NPP
+        fPC <- function(NPP) eqNC(nf[i], NPP, CO2, af[i]) - NPP
         #ans[i] <- tryCatch(uniroot(fPC,interval=c(0.1,20), trace=T)$root, error=function(e) NULL)
         ans[i] <- uniroot(fPC,interval=c(0.1,20), trace=T)$root
     }
