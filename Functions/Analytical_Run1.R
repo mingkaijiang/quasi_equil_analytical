@@ -24,10 +24,14 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     CO2_2 <- 700.0
     
     #### define parameters
-    nwood = 0.005        
+    nwood = 0.005 
+    pwood = 0.0003
     nrho = 0.7
+    prho = 0.7
     nretrans = 0.5
+    pretrans = 0.6
     nwvar = TRUE
+    pwvar = TRUE
     LUE0=1.4
     I0=3
     Nref=0.04
@@ -36,7 +40,15 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     sf=0.5
     w = 0.45
     cue = 0.5
-    cfrac <- 0.5
+    cfrac = 0.5
+    leachn = 0.05
+    leachp = 0.05
+    Nin = 0.4
+    Pin = 0.02
+    k1=0.01
+    k2=0.01
+    k3=0.05
+    
     
     # create a range of nc and pc for shoot to initiate
     nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
@@ -50,10 +62,12 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     Photo350 <- photo_constraint(nfseq, pfseq, a_nf, a_pf, CO2_1)
     
     ### calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=0.4)
+    NCVLONG <- VLong_constraint_N(nf=nfseq, nfdf=a_nf)
+    PCVLONG <- VLong_constraint_P(pf=pfseq, pfdf=a_pf)
+    
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLongN(co2=CO2_1, nwvar=T)
+    VLongN <- solveVLongN(CO2=CO2_1, nwvar=T)
     equilNPP <- VLongN$equilNPP_N   
     equilpf <- equilpVL(equilNPP,Pin = 0.02,pwvar=T)   
     VLongNP <- data.frame(VLongN, equilpf)
