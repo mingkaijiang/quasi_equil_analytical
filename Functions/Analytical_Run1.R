@@ -38,9 +38,8 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     kext=0.5
     SLA=5
     sf=0.5
-    w = 0.45
+    cfrac = 0.45
     cue = 0.5
-    cfrac = 0.5
     leachn = 0.05
     leachp = 0.05
     Nin = 0.4
@@ -48,62 +47,69 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     k1=0.01
     k2=0.01
     k3=0.05
+    Tsoil = 15
+    Texture = 0.5
+    ligfl = 0.2
+    ligrl = 0.16
+    pcp = 0.005
+    ncp = 0.1
     
     
-    # create a range of nc and pc for shoot to initiate
+    # create a range of nc for shoot to initiate
     nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq,nwvar=T))
+    a_nf <- as.data.frame(allocn(nfseq,nwvar=nwvar))
     
-    pfseq <- round(seq(0.001, 0.005, by = 0.0001), 5)
-    a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
+    # using very long term relationship to calculate pf from nf
+    pfseq <- inferpfVL(nfseq, a_nf)
+    a_pf <- as.data.frame(allocp(pfseq, pwvar=pwvar))
     
-    #### CO2 = 350
-    ### Calculate NC, PC and NPP surface at CO2 = 350
+    # calculate photosynthetic constraint at CO2 = 350
     Photo350 <- photo_constraint(nfseq, pfseq, a_nf, a_pf, CO2_1)
     
     ### calculate very long term NC and PC constraint on NPP, respectively
     NCVLONG <- VLong_constraint_N(nf=nfseq, nfdf=a_nf)
+    
+    ### NPP derived from PCVLONG should match NPP from NCVLONG
     PCVLONG <- VLong_constraint_P(pf=pfseq, pfdf=a_pf)
     
+    ### finding the equilibrium point between photosynthesis and very long term nutrient constraints
+    VLong_equil <- solveVLong(CO2=CO2_1, nwvar=nwvar, pwvar=pwvar)
     
-    # solve very-long nutrient cycling constraint
-    VLongN <- solveVLongN(CO2=CO2_1, nwvar=T)
-    equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL(equilNPP,Pin = 0.02,pwvar=T)   
-    VLongNP <- data.frame(VLongN, equilpf)
-    
-    # Get Cpassive from very-long nutrient cycling solution
-    aequiln <- allocn(VLongNP$equilnf,nwvar=T)
-    aequilp <- allocp(VLongNP$equilpf,pwvar=T)
-    pass <- passive(df=VLongNP$equilnf, a=aequiln)
+    ### Get Cpassive from very-long nutrient cycling solution
+    aequiln <- allocn(VLong_equil$equilnf,nwvar=nwvar)
+    aequilp <- allocp(VLong_equil$equilpf,pwvar=pwvar)
+    pass <- passive(df=VLong_equil$equilnf, a=aequiln)
     omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
-    CpassVLong <- omega*VLongNP$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+    CpassVLong <- omega*VLong_equil$equilNPP/pass$decomp/(1-pass$qq)*1000.0
     
-    # Calculate nutrient release from recalcitrant pools
-    PrelwoodVLong <- aequilp$aw*aequilp$pw*VLongNP$equilNPP_N*1000.0
-    NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0
+    ### Calculate nutrient release from recalcitrant pools
+    PrelwoodVLong <- aequilp$aw*aequilp$pw*VLong_equil$equilNPP*1000.0
+    NrelwoodVLong <- aequiln$aw*aequiln$nw*VLong_equil$equilNPP*1000.0
     
     # Calculate pf based on nf of long-term nutrient exchange
-    pfseqL <- inferpfL(nfseq, a_nf, Pin = 0.02+PrelwoodVLong,
-                       Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
+    pfseqL <- inferpfL(nfseq, a_nf, PinL = Pin+PrelwoodVLong,
+                       NinL = Nin+NrelwoodVLong,
+                       Cpass=CpassVLong, nwvar=nwvar, pwvar=pwvar)
     
     # Calculate long term nutrieng constraint
-    NCHUGH <- NConsLong(df=nfseq, a=a_nf,Cpass=CpassVLong,
-                        Nin = 0.4+NrelwoodVLong)
+    NCLONG <- Long_constraint_N(nfseq, a_nf, CpassVLong,
+                                NinL = Nin+NrelwoodVLong)
     
-    # Find equilibrate intersection and plot
-    LongN <- solveLongN(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T)
-    equilpf <- equilpL(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
-                       nwvar=T, pwvar=T)   
-    LongNP <- data.frame(LongN, equilpf)
+    PCLONG <- Long_constraint_P(pfseqL, allocp(pfseqL, pwvar=pwvar),
+                                CpassVLong, PinL=Pin+PrelwoodVLong)
     
-    out350DF <- data.frame(nfseq, pfseq, pfseqL, NC350, NCVLONG, NCHUGH)
+    # Find long term equilibrium point
+    Long_equil <- solveLong(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong, 
+                       PinL=Pin+PrelwoodVLong, nwvar=nwvar, pwvar=pwvar)
+
+
+    out350DF <- data.frame(nfseq, pfseq, pfseqL, Photo350, NCVLONG, NCLONG)
     colnames(out350DF) <- c("nc", "pc_VL", "pc_350_L", "NPP_350", "NPP_VL",
                             "nleach_VL", "NPP_350_L", "nwood_L", "nburial_L",
                             "nleach_L", "aw")
-    equil350DF <- data.frame(VLongNP, LongNP)
-    colnames(equil350DF) <- c("nc_VL", "NPP_VL", "pc_VL",
-                              "nc_L", "NPP_L", "pc_L")
+    equil350DF <- data.frame(VLong_equil, Long_equil)
+    colnames(equil350DF) <- c("nc_VL", "pc_VL", "NPP_VL", 
+                              "nc_L","pc_L", "NPP_L")
     
     # store constraint and equil DF onto their respective output df
     cDF[cDF$Run == 1 & cDF$CO2 == 350, 3:13] <- out350DF
@@ -113,49 +119,45 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     
     # N:C and P:C ratio
     nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq, nwvar=T))
+    a_nf <- as.data.frame(allocn(nfseq,nwvar=nwvar))
     
-    pfseq <- inferpfVL(nfseq, a_nf,Pin=0.02, Nin=0.4,pwvar=T)
-    a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
+    # using very long term relationship to calculate pf from nf
+    pfseq <- inferpfVL(nfseq, a_nf)
+    a_pf <- as.data.frame(allocp(pfseq, pwvar=pwvar))
     
     # calculate NC vs. NPP at CO2 = 350 respectively
-    NC700 <- solveNC(nfseq, a_nf$af, co2=CO2_2)
+    Photo700 <- photo_constraint(nfseq, pfseq, a_nf, a_pf, CO2_2)
     
-    # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=0.4)
+    ### calculate very long term NC and PC constraint on NPP, respectively
+    NCVLONG <- VLong_constraint_N(nf=nfseq, nfdf=a_nf)
     
-    # solve very-long nutrient cycling constraint
-    VLongN <- solveVLongN(co2=CO2_2, nwvar=T)
-    equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL(equilNPP,Pin = 0.02, pwvar=T)   
-    VLongNP <- data.frame(VLongN, equilpf)
+    ### NPP derived from PCVLONG should match NPP from NCVLONG
+    PCVLONG <- VLong_constraint_P(pf=pfseq, pfdf=a_pf)
     
-    out700DF <- data.frame(nfseq, pfseq, pfseqL, NC700, NCVLONG, NCHUGH)
+    ### finding the equilibrium point between photosynthesis and very long term nutrient constraints
+    VLong_equil <- solveVLong(CO2=CO2_2, nwvar=nwvar, pwvar=pwvar)
+    
+    # Find long term equilibrium point
+    Long_equil <- solveLong(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong, 
+                            PinL=Pin+PrelwoodVLong, nwvar=nwvar, pwvar=pwvar)
+    
+    out700DF <- data.frame(nfseq, pfseq, pfseqL, Photo700, NCVLONG, NCLONG)
     colnames(out700DF) <- c("nc", "pc_VL", "pc_700_L", "NPP_700", "NPP_VL",
                             "nleach_VL", "NPP_700_L", "nwood_L", "nburial_L",
                             "nleach_L", "aw")
     
-    # Find equilibrate intersection and plot
-    LongN <- solveLongN(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
-    equilNPP <- LongN$equilNPP
+    equil700DF <- data.frame(VLong_equil, Long_equil)
+    colnames(equil700DF) <- c("nc_VL", "pc_VL", "NPP_VL", 
+                              "nc_L","pc_L", "NPP_L")
     
-    a_new <- allocn(LongN$equilnf, nwvar=T)
-    equilpf <- inferpfVL(LongN$equilnf, a_new, pwvar=T)
-    
-    LongNP <- data.frame(LongN, equilpf)
-    
-    equil700DF <- data.frame(VLongNP, LongNP)
-    colnames(equil700DF) <- c("nc_VL", "NPP_VL", "pc_VL",
-                              "nc_L", "NPP_L", "pc_L")
     
     # store constraint and equil DF onto their respective output df
     cDF[cDF$Run == 1 & cDF$CO2 == 700, 3:13] <- out700DF
     eDF[eDF$Run == 1 & eDF$CO2 == 700, 3:8] <- equil700DF
     
     # get the point instantaneous NPP response to doubling of CO2
-    df700 <- as.data.frame(cbind(round(nfseq,3), NC700))
+    df700 <- as.data.frame(cbind(round(nfseq,3), Photo700))
     inst700 <- inst_NPP(equil350DF$nc_VL, df700)
-    
     
     
     library(plotly)

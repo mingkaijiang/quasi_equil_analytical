@@ -1,5 +1,5 @@
 ### Following two functions calculate NPP - will later need to be replaced by full model
-### LUE function of N & Ca
+### LUE function of N, P & Ca
 LUE <- function(nf, pf, CO2) {
     
     CaResp <- 1.632 * (CO2-60.9) / (CO2+121.8)    ##RCO2

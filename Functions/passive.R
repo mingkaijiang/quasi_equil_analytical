@@ -1,5 +1,5 @@
 ### Burial fractions from passive pool
-passive <- function(df, a, Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16) {
+passive <- function(df, a) {
     
     len <- length(df)
     
@@ -22,7 +22,6 @@ passive <- function(df, a, Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16)
     
     
     # transfer coefficients among litter and soil pools
-    cfrac <- 0.45
     for (i in 1:len) {
         muf[i] <- max(0,min(0.85 - 0.018*ligfl/cfrac/a[i, "nfl"],1))    
         mur[i] <- max(0,min(0.85 - 0.018*ligrl/cfrac/a[i, "nr"],1))
