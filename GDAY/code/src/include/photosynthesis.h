@@ -8,7 +8,7 @@
 /* Daily funcs */
 void simple_photosynthesis(control *, fluxes *, met *, params *, state *);
 
-double  lue_simplified(params *, state *, double);
+double  lue_simplified(control *, params *, state *, double);
 
 
 #endif /* PHOTOSYNTHESIS */

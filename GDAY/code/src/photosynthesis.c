@@ -34,7 +34,7 @@ void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s) {
     m->par *= conv1;
     
     /* lue in umol C umol-1 PAR */
-    lue_avg = lue_simplified(p, s, m->Ca);
+    lue_avg = lue_simplified(c, p, s, m->Ca);
     
     /* absorbed photosynthetically active radiation (umol m-2 m-1) */
     if (float_eq(s->lai, 0.0))
@@ -98,7 +98,7 @@ void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s) {
   
 }
 
-double lue_simplified(params *p, state *s, double co2) {
+double lue_simplified(control *c, params *p, state *s, double co2) {
     /*
      * New LUE function replacing epsilon function for a simplified calculation
      * of LUE
@@ -111,12 +111,15 @@ double lue_simplified(params *p, state *s, double co2) {
     double lue, CaResp, Nresp, conv, assim, assim_max;
   
     CaResp = 1.632 * (co2 - 60.9) / (co2 + 121.8);
-    //Nresp = MIN(s->shootnc / p->nref, 1);
     
-    assim = 16.848 + 178.664 * s->shootnc + 1418.722 * s->shootpc;
-    assim_max = 16.848 + 178.664 * 0.1 + 1418.722 * 0.004;
-    
-    Nresp = assim/assim_max;
+    if (c->pcycle) {
+        assim = 16.848 + 178.664 * s->shootnc + 1418.722 * s->shootpc;
+        assim_max = 16.848 + 178.664 * 0.1 + 1418.722 * 0.004;
+        Nresp = assim/assim_max;
+    } else {
+        Nresp = MIN(s->shootnc / p->nref, 1);
+    }
+
     
     /* converting unit for lue0 from kg C GJ-1 to umol C umol -1 PAR */
     conv = (KG_AS_G / MOL_C_TO_GRAMS_C * MOL_TO_UMOL) / (J_2_UMOL * GJ_TO_J);
