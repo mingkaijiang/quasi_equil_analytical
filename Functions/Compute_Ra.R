@@ -1,6 +1,5 @@
 #### To compute autotrophic respiration
-Compute_Ra <- function(a, a1=2.753, b1=1.411, a2=1.053, b2=1.315,
-                       a3=0.915, b3=1.597, sf=0.5, ss = 0.01, sr = 1.5, NPP) {
+Compute_Ra <- function(a, NPP) {
     
     # parameters
     # a is variable

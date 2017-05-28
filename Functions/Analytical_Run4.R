@@ -31,8 +31,14 @@ Perform_Analytical_Run4 <- function(f.flag = 1, cDF, eDF) {
     # calculate photosynthetic constraint at CO2 = 350
     Photo350 <- photo_constraint_respiration(nfseq, pfseq, a_nf, a_pf, CO2_1)
     
-    # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong(df=nfseq,a=a_nf,Nin=0.4)
+    ### calculate very long term NC and PC constraint on NPP, respectively
+    NCVLONG <- VLong_constraint_N(nf=nfseq, nfdf=a_nf)
+    
+    ### NPP derived from PCVLONG should match NPP from NCVLONG
+    PCVLONG <- VLong_constraint_P(pf=pfseq, pfdf=a_pf)
+    
+    ### finding the equilibrium point between photosynthesis and very long term nutrient constraints
+    VLong_equil <- solveVLong(CO2=CO2_1, nwvar=nwvar, pwvar=pwvar)
     
     # solve very-long nutrient cycling constraint
     VLongN <- solveVLongN_respiration(co2=CO2_1, nwvar=T)
