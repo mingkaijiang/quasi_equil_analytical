@@ -4,7 +4,7 @@ CO2_2 <- 700.0
 
 #### define parameters
 nwood = 0.005 
-pwood = 0.000003
+pwood = 0.00003   
 nrho = 0.7
 prho = 0.7
 nretrans = 0.5
@@ -30,5 +30,5 @@ Tsoil = 15
 Texture = 0.5
 ligfl = 0.2
 ligrl = 0.16
-pcp = 0.005   # 0.01
+pcp = 0.005   
 ncp = 0.1

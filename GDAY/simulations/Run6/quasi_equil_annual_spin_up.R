@@ -155,7 +155,7 @@ Run_GDAY_spinup <- function(site) {
         "ncrfac", "0.7",                      # match against analytical
         "nref", "0.04",                       # N saturation threshold for photosynthesis
         "pcmaxf", "0.005",                    # 
-        "pcwnewz", "0.0003",                  # C:P", "3333.33 match analytical
+        "pcwnewz", "0.00003",                  # C:P", "33333.33 match analytical
         "pcrfac", "0.7",                      # match against analytical
         "rateuptake", "0.96884",              # 0.96884 
         "rateloss", "0.05",                   # match against analytical

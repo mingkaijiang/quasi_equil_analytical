@@ -4,7 +4,7 @@ CO2_2 <- 700.0
 
 #### define parameters
 nwood = 0.005 
-pwood = 0.0003
+pwood = 0.00003
 nrho = 0.7
 prho = 0.7
 nretrans = 0.5
