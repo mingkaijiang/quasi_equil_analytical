@@ -25,3 +25,20 @@ photo_constraint <- function(nf, pf, nfdf, pfdf, CO2) {
     
     return(ans)
 }
+
+### This function implements photosynthetic constraint - solve by finding the root
+### for respiration as a function of N and P
+photo_constraint_respiration <- function(nf, pf, nfdf, pfdf, CO2) {
+    
+    len <- length(nf)
+    
+    ans <- c()
+    
+    for (i in 1:len) {
+        fPC <- function(NPP) eqPC_respiration(nf[i], pf[i], nfdf[i,], pfdf[i,], NPP, CO2) - NPP
+        ans[i] <- uniroot(fPC,interval=c(0.1,20), trace=T)$root
+        
+    }
+    
+    return(ans)
+}

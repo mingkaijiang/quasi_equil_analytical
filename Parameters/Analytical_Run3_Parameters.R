@@ -30,5 +30,5 @@ Tsoil = 15
 Texture = 0.5
 ligfl = 0.2
 ligrl = 0.16
-pcp = 0.005
+pcp = 0.005   # 0.01
 ncp = 0.1
