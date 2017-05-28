@@ -77,11 +77,11 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
                               "nc_L","pc_L", "NPP_L")
     
     # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 3 & cDF$CO2 == 350, 3:13] <- out350DF
-    eDF[eDF$Run == 3 & eDF$CO2 == 350, 3:8] <- equil350DF
+    #cDF[cDF$Run == 3 & cDF$CO2 == 350, 3:13] <- out350DF
+    #eDF[eDF$Run == 3 & eDF$CO2 == 350, 3:8] <- equil350DF
     
     ##### CO2 = 700
-    
+    source("Parameters/Analytical_Run3_Parameters.R")
     # N:C and P:C ratio
     nfseq <- round(seq(0.001, 0.05, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq,nwvar=nwvar))
@@ -116,8 +116,8 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
                               "nc_L","pc_L", "NPP_L")
     
     # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 3 & cDF$CO2 == 700, 3:13] <- out700DF
-    eDF[eDF$Run == 3 & eDF$CO2 == 700, 3:8] <- equil700DF
+    #cDF[cDF$Run == 3 & cDF$CO2 == 700, 3:13] <- out700DF
+    #eDF[eDF$Run == 3 & eDF$CO2 == 700, 3:8] <- equil700DF
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), Photo700))
