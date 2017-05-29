@@ -25,14 +25,14 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     a_vec <- allocn(nfseq,nwvar=nwvar)
     
     # plot photosynthetic constraints
-    PC350 <- solveNC(nfseq,a_vec$af,CO2=CO2_1)
-    PC700 <- solveNC(nfseq,a_vec$af,CO2=CO2_2)
+    PC350 <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_1)
+    PC700 <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_2)
     
     #plot very-long nutrient cycling constraint
-    NCVLONG <- NConsVLong(df=nfseq,a=a_vec,Nin=Nin)
+    NCVLONG <- VLong_constraint_N(nfseq,a_vec)
     
     #solve very-long nutrient cycling constraint
-    VLong <- solveVLongN(CO2=CO2_1, nwvar=nwvar)
+    VLong <- solveVLong_full_cn(CO2=CO2_1, nwvar=nwvar)
     #get Cpassive from very-long nutrient cycling solution
     aequil <- allocn(VLong$equilnf, nwvar=nwvar)
     pass <- passive(df=VLong$equilnf, a=aequil)
@@ -41,18 +41,18 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     NrelwoodVLong <- aequil$aw*aequil$nw*VLong$equilNPP*1000
     
     #now plot long-term constraint with this Cpassive
-    NCHUGH <- NConsLong(df = nfseq,a = a_vec, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    NCHUGH <- Long_constraint_N(nfseq,a_vec,Cpass=CpassVLong,Nin+NrelwoodVLong)
     
     # Solve longterm equilibrium
-    equil_long_350 <- solveLongN(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong,nwvar=nwvar)
-    equil_long_700 <- solveLongN(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong,nwvar=nwvar)
+    equil_long_350 <- solveLong_full_cn(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong,nwvar=nwvar)
+    equil_long_700 <- solveLong_full_cn(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong,nwvar=nwvar)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
     inst700 <- inst_NPP(VLong$equilnf, df700)
     
     ## locate the intersect between VL nutrient constraint and CO2 = 700
-    VLong700 <- solveVLong(CO2=CO2_2,nwvar=nwvar)
+    VLong700 <- solveVLong_full_cn(CO2=CO2_2,nwvar=nwvar)
     
     # store constraint and equil DF onto their respective output df
     cDF[cDF$Run == 2 & cDF$CO2 == 350, 3:13] <- cbind(nfseq, 0, 0, PC350, NCVLONG, NCHUGH)
@@ -90,7 +90,7 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
         points(nfseq,NCVLONG$NPP_N,type='l',col="tomato", lwd = 2.5)
         
         # L nutrient constraint curve
-        points(nfseq,NCHUGH$NPP_N,type='l',col="violet", lwd = 2.5)
+        points(nfseq,NCHUGH$NPP,type='l',col="violet", lwd = 2.5)
         
         # VL intersect with CO2 = 350 ppm
         points(VLong$equilnf,VLong$equilNPP, pch = 19, cex = 2.0, col = "blue")
