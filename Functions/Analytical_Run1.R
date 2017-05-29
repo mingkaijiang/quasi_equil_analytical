@@ -30,7 +30,7 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     a_pf <- as.data.frame(allocp(pfseq,pwvar=pwvar))
     
     # calculate photosynthetic constraint at CO2 = 350
-    Photo350 <- photo_constraint(nfseq, pfseq, a_nf, a_pf, CO2_1)
+    Photo350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
     
     ### calculate very long term NC and PC constraint on NPP, respectively
     NCVLONG <- VLong_constraint_N(nf=nfseq, nfdf=a_nf)

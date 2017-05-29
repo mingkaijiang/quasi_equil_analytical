@@ -45,8 +45,6 @@ LUE_full_cnp <- function(nf, pfdf, pf, CO2, NPP) {
     wtfac_root <- 1.0
     g1 <- 3.8667
     alpha_j <- 0.308
-    N0 <- 1.0
-    P0 <- 0.1
     daylen <- 12.0
     PAR_MJ <- 12.0
     J_2_UMOL <- 4.57
@@ -56,6 +54,9 @@ LUE_full_cnp <- function(nf, pfdf, pf, CO2, NPP) {
     MOL_C_TO_GRAMS_C <- 12.0
     conv <- UMOL_TO_MOL * MOL_C_TO_GRAMS_C
 
+    N0 <- nf * NPP * pfdf$af / sf / cfrac
+    P0 <- pf * NPP * pfdf$af / sf / cfrac
+    
     gamma_star <- arrh(mt, gamstar25, eag, tk)
     
     # Michaelis-Menten coefficents for carboxylation by Rubisco 
@@ -87,14 +88,7 @@ LUE_full_cnp <- function(nf, pfdf, pf, CO2, NPP) {
     
     asat <- min(aj, ac)
     
-    lue_calc <- 365.0 * epsilon(asat, par, alpha, daylen)
-    
-    lai <- 1.2
-    fipar <- (1.0 - exp(-kext * lai))
-    apar <- par * fipar
-    
-    gpp_gCm2 <- apar * lue_calc * conv
-    
+    lue_calc <- 365.0 * epsilon(asat, par, alpha, daylen) / 1000.0
     
     return(lue_calc)
 }
