@@ -29,6 +29,15 @@ eqPC <- function(nf, pf, pfdf, NPP, CO2) {
     
 }
 
+### NPP as function of nf and LAI (which is calculated from NPP)
+### basic function: CUE dependent and based on the full model
+eqPC_full_cnp <- function(nf, pf, pfdf, NPP, CO2) {
+    
+    ##Returns G: total C production (i.e. NPP)
+    return(LUE_np(nf, pf, CO2) * I0 * (1 - exp(-kext*SLA*pfdf*NPP/sf/cfrac)) * cue)
+    
+}
+
 ### NPP as function of nf, pf and LAI (which is calculated from NPP),
 ### Autotrophic respiration as a function of plant tissue N content
 eqPC_respiration <- function(nf, pf, nfdf, pfdf, NPP, CO2) {
