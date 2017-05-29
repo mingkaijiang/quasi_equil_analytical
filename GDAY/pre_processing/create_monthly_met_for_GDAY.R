@@ -9,7 +9,7 @@
 ######### Functions
 create_dataset <- function(outName,
                            nyear=20000.0, tsoil=15.0, co2 = 350.0, ndep = 0.002, nfix = 0.002,
-                           pdep = 0.0002, par = 3000.0) {
+                           pdep = 0.0002, par = 1440.0) {
     #### Create hypothetical monthly input data for simplfied gday transient runs
     #### outName: Out File name
     #### nyear: number of years for met forcing data
