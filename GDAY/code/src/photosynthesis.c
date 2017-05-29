@@ -15,7 +15,8 @@
 * =========================================================================== */
 #include "photosynthesis.h"
 
-void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s) {
+void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s, 
+                           double ncontent, double pcontent) {
     /* 
     Modifies mate_C3_photosynthesis using a simplier approach 
     
@@ -46,7 +47,7 @@ void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s) {
     
     gamma_star = calculate_co2_compensation_point(p, Tk, mt);
 
-    Km_am = calculate_michaelis_menten_parameter(p, Tk, mt);
+    Km = calculate_michaelis_menten_parameter(p, Tk, mt);
 
     if (c->pcycle == TRUE) {
         calculate_jmax_and_vcmax_with_p(c, p, s, Tk, N0, P0, &jmax,
@@ -180,10 +181,11 @@ double calculate_top_of_canopy_n(params *p, state *s, double ncontent)  {
     
     */
     double N0;
+    double kn = 0.3;
     
     if (s->lai > 0.0) {
         /* calculation for canopy N content at the top of the canopy */
-        N0 = ncontent * p->kn / (1.0 - exp(-p->kn * s->lai));
+        N0 = ncontent * kn / (1.0 - exp(-kn * s->lai));
     } else {
         N0 = 0.0;
     }
@@ -206,10 +208,11 @@ double calculate_top_of_canopy_p(params *p, state *s, double pcontent)  {
     
     */
     double P0;
+    double kn = 0.3;
     
     if (s->lai > 0.0) {
         /* calculation for canopy P content at the top of the canopy */
-        P0 = pcontent * p->kn / (1.0 - exp(-p->kn * s->lai));
+        P0 = pcontent * kn / (1.0 - exp(-kn * s->lai));
     } else {
         P0 = 0.0;
     }
@@ -233,7 +236,10 @@ double calculate_co2_compensation_point(params *p, double Tk, double mt) {
     gamma_star : float
     CO2 compensation point in the abscence of mitochondrial respiration
     */
-    return (arrh(mt, p->gamstar25, p->eag, Tk));
+    double gamstar25 = 42.75;
+    double eag = 37830.0;
+    
+    return (arrh(mt, gamstar25, eag, Tk));
 }
 
 double arrh(double mt, double k25, double Ea, double Tk) {
@@ -286,15 +292,20 @@ double calculate_michaelis_menten_parameter(params *p, double Tk, double mt) {
     */
     
     double Kc, Ko;
+    double kc25 = 404.9;
+    double ko25 = 278400.0;
+    double eac = 79430.0;
+    double eao = 36380.0;
+    double oi = 210000.0;
     
     /* Michaelis-Menten coefficents for carboxylation by Rubisco */
-    Kc = arrh(mt, p->kc25, p->eac, Tk);
+    Kc = arrh(mt, kc25, eac, Tk);
     
     /* Michaelis-Menten coefficents for oxygenation by Rubisco */
-    Ko = arrh(mt, p->ko25, p->eao, Tk);
+    Ko = arrh(mt, ko25, eao, Tk);
     
     /* return effective Michaelis-Menten coefficient for CO2 */
-    return ( Kc * (1.0 + p->oi / Ko) ) ;
+    return ( Kc * (1.0 + oi / Ko) ) ;
     
 }
 
@@ -407,14 +418,13 @@ double calculate_ci(control *c, params *p, state *s, double vpd, double Ca) {
     */
     
     double g1w, cica, ci=0.0;
+    double g1 = 3.8667;
+    double wtfac_root = 1.0;
     
-    if (c->gs_model == MEDLYN) {
-        g1w = p->g1 * s->wtfac_root;
-        cica = g1w / (g1w + sqrt(vpd * PA_2_KPA));
-        ci = cica * Ca;
-    } else {
-        prog_error("Only Belindas gs model is implemented", __LINE__);
-    }
+    g1w = g1 * wtfac_root;
+    cica = g1w / (g1w + sqrt(vpd * PA_2_KPA));
+    ci = cica * Ca;
+
     
     return (ci);
 }
@@ -444,7 +454,9 @@ double calculate_quantum_efficiency(params *p, double ci, double gamma_star) {
     * McMurtrie and Wang (1993) PCE, 16, 1-13.
     
     */
-    return (assim(ci, gamma_star, p->alpha_j/4.0, 2.0*gamma_star));
+    double alpha_j = 0.308;
+    
+    return (assim(ci, gamma_star, alpha_j/4.0, 2.0*gamma_star));
 }
 
 double assim(double ci, double gamma_star, double a1, double a2) {
@@ -536,6 +548,8 @@ double epsilon(params *p, double asat, double par, double alpha,
     /* number of seconds of daylight */
     h = daylen * SECS_IN_HOUR;
     
+    double theta = 0.7;
+    
     if (asat > 0.0) {
         /* normalised daily irradiance */
         q = M_PI * p->kext * alpha * par / (2.0 * h * asat);
@@ -544,7 +558,7 @@ double epsilon(params *p, double asat, double par, double alpha,
             sinx = sin(M_PI * i / 24.);
             arg1 = sinx;
             arg2 = 1.0 + q * sinx;
-            arg3 = (sqrt(pow((1.0 + q * sinx), 2) - 4.0 * p->theta * q * sinx));
+            arg3 = (sqrt(pow((1.0 + q * sinx), 2) - 4.0 * theta * q * sinx));
             integral_g += arg1 / (arg2 + arg3);
         }
         integral_g *= delta;

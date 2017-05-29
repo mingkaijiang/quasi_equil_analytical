@@ -115,6 +115,23 @@ void carbon_annual_production(control *c, fluxes *f, met *m, params *p, state *s
        and Palmer (1979). */
     
     double lue_avg, conv1, conv2;
+    double leafn, leafp, fc, ncontent, pcontent;
+  
+  if (s->lai > 0.0) {
+      /* average leaf nitrogen content (g N m-2 leaf) */
+      leafn = (s->shootnc * p->cfracts / p->sla * KG_AS_G);
+      /* average leaf phosphorus content (g P m-2 leaf) */
+      leafp = (s->shootpc * p->cfracts / p->sla * KG_AS_G);
+      
+      /* total nitrogen content of the canopy */
+      ncontent = leafn * s->lai;
+      /* total phosphorus content of the canopy */
+      pcontent = leafp * s->lai;
+      
+  } else {
+      ncontent = 0.0;
+      pcontent = 0.0;
+  }
   
     if (s->lai > 0.0)
         s->fipar = 1.0 - exp(-p->kext * s->lai);
@@ -122,7 +139,7 @@ void carbon_annual_production(control *c, fluxes *f, met *m, params *p, state *s
         s->fipar = 0.0;
  
     /* Estimate photosynthesis */
-    simple_photosynthesis(c, f, m, p, s);
+    simple_photosynthesis(c, f, m, p, s, ncontent, pcontent);
     
 
     return;

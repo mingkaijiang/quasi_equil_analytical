@@ -6,7 +6,8 @@
 #include "utilities.h"
 
 /* Daily funcs */
-void simple_photosynthesis(control *, fluxes *, met *, params *, state *);
+void simple_photosynthesis(control *, fluxes *, met *, params *, state *,
+                           double, double);
 
 double  lue_simplified(control *, params *, state *, double);
 
