@@ -45,17 +45,21 @@ LUE_full_cnp <- function(nf, pfdf, pf, CO2, NPP) {
     wtfac_root <- 1.0
     g1 <- 3.8667
     alpha_j <- 0.308
-    daylen <- 12.0
-    PAR_MJ <- 12.0
+    daylen <- 8.0
+    PAR_MJ <- 2.0
     J_2_UMOL <- 4.57
     MJ_TO_J <- 1000000.0
     par <- MJ_TO_J * J_2_UMOL * PAR_MJ
     UMOL_TO_MOL <- 0.000001
     MOL_C_TO_GRAMS_C <- 12.0
     conv <- UMOL_TO_MOL * MOL_C_TO_GRAMS_C
+    kn <- 0.3
 
-    N0 <- nf * NPP * pfdf$af / sf / cfrac
-    P0 <- pf * NPP * pfdf$af / sf / cfrac
+    ncontent <- NPP * pfdf$af / sf * nf
+    pcontent <- NPP * pfdf$af / sf * pf
+    
+    N0 <- ncontent * kn / (1.0 - exp(-kn * SLA*pfdf$af*NPP/sf/cfrac))
+    P0 <- pcontent * kn / (1.0 - exp(-kn * SLA*pfdf$af*NPP/sf/cfrac))
     
     gamma_star <- arrh(mt, gamstar25, eag, tk)
     
