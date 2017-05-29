@@ -3,11 +3,12 @@ solveLongN <- function(CO2,Cpass,NinL, nwvar) {
     fn <- function(nf) {
         solveNC(nf,allocn(nf,nwvar=nwvar)$af,CO2) - NConsLong(nf,allocn(nf,nwvar=nwvar),Cpass=Cpass,NinL)$NPP
     }
-    equilnf <- uniroot(fn,interval=c(0.001,0.05))$root
+    equilnf <- uniroot(fn,interval=c(0.01,0.05))$root
     equilNPP <- solveNC(equilnf,af=allocn(equilnf,nwvar=nwvar)$af, CO2)
     ans <- data.frame(equilnf,equilNPP)
     return(ans)
 }
+
 
 # Find the long term equilibrium nf and NPP under standard conditions - by finding the root
 # Specifically for respiration related calculations

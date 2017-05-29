@@ -20,7 +20,7 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     source("Parameters/Analytical_Run2_Parameters.R")
     
     # N:C ratios for x-axis
-    nfseq <- seq(0.001,0.05,by=0.001)
+    nfseq <- seq(0.01,0.05,by=0.001)
     # need allocation fractions here
     a_vec <- allocn(nfseq,nwvar=nwvar)
     
@@ -52,7 +52,7 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     inst700 <- inst_NPP(VLong$equilnf, df700)
     
     ## locate the intersect between VL nutrient constraint and CO2 = 700
-    VLong700 <- solveVLongN(CO2=CO2_2,nwvar=nwvar)
+    VLong700 <- solveVLong(CO2=CO2_2,nwvar=nwvar)
     
     # store constraint and equil DF onto their respective output df
     cDF[cDF$Run == 2 & cDF$CO2 == 350, 3:13] <- cbind(nfseq, 0, 0, PC350, NCVLONG, NCHUGH)
