@@ -34,7 +34,7 @@ eqPC <- function(nf, pf, pfdf, NPP, CO2) {
 eqPC_full_cnp <- function(nf, pf, pfdf, NPP, CO2) {
     
     ##Returns G: total C production (i.e. NPP)
-    return(LUE_np(nf, pf, CO2) * I0 * (1 - exp(-kext*SLA*pfdf*NPP/sf/cfrac)) * cue)
+    return(LUE_np(nf, pfdf, pf, CO2, NPP) * I0 * (1 - exp(-kext*SLA*pfdf*NPP/sf/cfrac)) * cue)
     
 }
 
