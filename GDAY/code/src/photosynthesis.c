@@ -23,7 +23,7 @@ void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s,
     */
     double lue_avg, conv1, conv2;
     double leafn, stemn, rootn, respl, resps, respr;
-    double a1 = 2.753;    /* original value 0.753, changed so that CUE = ~ 50% */
+    double a1 = 2.753;   /* original value 0.753, changed so that CUE = ~ 50% */
     double b1 = 1.411;   /* Reich et al. 2008 Ecol. Let. Table 1, Leaves */
     double a2 = 1.053;
     double b2 = 1.315;   /* Reich et al. 2008 Ecol. Let. Table 1, Stems */
@@ -45,6 +45,8 @@ void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s,
         P0 = 0.0;
     }
     
+    //fprintf(stderr, "ncontent %f, pcontent %f, N0 %f, P0 %f\n", ncontent, pcontent, N0, P0);
+    
     gamma_star = calculate_co2_compensation_point(p, Tk, mt);
 
     Km = calculate_michaelis_menten_parameter(p, Tk, mt);
@@ -56,6 +58,8 @@ void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s,
         calculate_jmax_and_vcmax(c, p, s, Tk, N0, &jmax,
                                  &vcmax, mt);
     }
+    
+    //fprintf(stderr, "jmax %f, vcmax %f", jmax, vcmax);
     
     ci = calculate_ci(c, p, s, vpd, m->Ca);
 
@@ -75,19 +79,19 @@ void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s,
     m->par *= conv;
     
     /* LUE (umol C umol-1 PAR) ; note conversion in epsilon */
-    lue_avg = epsilon(p, asat, m->par, alpha, daylen);
+    lue_avg = epsilon(p, asat, m->par/30.0, alpha, daylen);
     
     /* absorbed photosynthetically active radiation (umol m-2 s-1) */
-    f->apar = m->par * s->fipar;
+    f->apar = m->par/30.0 * s->fipar;
     
     /* convert umol m-2 d-1 -> gC m-2 d-1 */
     conv = UMOL_TO_MOL * MOL_C_TO_GRAMS_C;
-    f->gpp_gCm2 = f->apar * lue_avg * conv;
+    f->gpp_gCm2 = f->apar * lue_avg * conv *30.0;
     
     /* g C m-2 to tonnes hectare-1 day-1 */
     f->gpp = f->gpp_gCm2 * G_AS_TONNES / M2_AS_HA;
     
-    
+
     /* calculate plant respiration */
     if (c->respiration_model == FIXED) {
       /* use cue to obtain gpp and auto_resp */

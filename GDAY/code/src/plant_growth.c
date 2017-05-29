@@ -133,6 +133,8 @@ void carbon_annual_production(control *c, fluxes *f, met *m, params *p, state *s
       pcontent = 0.0;
   }
   
+  //fprintf(stderr, "ncontent %f, pcontent %f, leafn %f, leafp %f\n", ncontent, pcontent, leafn, leafp);
+  
     if (s->lai > 0.0)
         s->fipar = 1.0 - exp(-p->kext * s->lai);
     else
