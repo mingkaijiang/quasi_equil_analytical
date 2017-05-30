@@ -76,11 +76,14 @@ Compute_Rdark <- function(nfdf, pfdf, NPP) {
     twq <- tk - 273.5
     
     ## calculate jmax and vcmax
-    ncontent <- NPP * nfdf$af / sf * nfdf$nf
-    pcontent <- NPP * pfdf$af / sf * pfdf$pf
+    ncontent <- nfdf$nf * NPP * nfdf$af / sf    # g N m-2
+    pcontent <- pfdf$pf * NPP * pfdf$af / sf
     
-    N0 <- ncontent * kn / (1.0 - exp(-kn * SLA*nfdf$af*NPP/sf/cfrac))
-    P0 <- pcontent * kn / (1.0 - exp(-kn * SLA*pfdf$af*NPP/sf/cfrac))
+    # convert SLA from m2 kg-1 to m2 g-1
+    sla_m2_per_g <- SLA / 1000.0
+    
+    N0 <- ncontent * kn / (1.0 - exp(-kn * sla_m2_per_g*nfdf$af*NPP/sf/cfrac))
+    P0 <- pcontent * kn / (1.0 - exp(-kn * sla_m2_per_g*pfdf$af*NPP/sf/cfrac))
     
     log_vcmax <- 3.946 + 0.921 * log(N0) + 0.121 * log(P0) + 0.282 * log(N0) * log(P0)
     vcmax <- exp(log_vcmax)
@@ -88,13 +91,12 @@ Compute_Rdark <- function(nfdf, pfdf, NPP) {
     vcmax25 <- vcmax
     
     ## calculate rdark leaf at 25 C
+    r_leaf_dark_25 <- 1.2636 + 0.0728 * N0 + 0.015 * P0 + 0.0095 * vcmax25 - 0.0358 * twq
     
-    leafn <- nfdf$nf * NPP * nfdf$af / sf
-    leafp <- pfdf$pf * NPP * pfdf$af / sf
+    # convert unit from umol CO2 m-2 s-1 to kg C m-2 month-1
+    r_leaf_dark_25_out <- r_leaf_dark_25 * 10E-6 * 12.0 * 3600 * 24 * 30 / 1000.0
     
-    r_leaf_dark_25 <- 1.2636 + 0.0728 * leafn + 0.015 * leafp + 0.0095 * vcmax25 - 0.0358 * twq
-    
-    return(r_leaf_dark_25)
+    return(r_leaf_dark_25_out)
     
     
 }

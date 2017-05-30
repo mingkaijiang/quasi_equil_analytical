@@ -31,11 +31,14 @@ LUE_np <- function(nf, pf, CO2) {
 ### LUE function of N, P & Ca, based on full photosynthesis model
 LUE_full_cnp <- function(nf, pfdf, pf, CO2, NPP) {
 
-    ncontent <- NPP * pfdf$af / sf * nf
+    ncontent <- NPP * pfdf$af / sf * nf  # g N m-2
     pcontent <- NPP * pfdf$af / sf * pf
     
-    N0 <- ncontent * kn / (1.0 - exp(-kn * SLA*pfdf$af*NPP/sf/cfrac))
-    P0 <- pcontent * kn / (1.0 - exp(-kn * SLA*pfdf$af*NPP/sf/cfrac))
+    # update sla unit from m2 kg-1 DM to m2 g-1
+    sla <- SLA / 1000.0
+    
+    N0 <- ncontent * kn / (1.0 - exp(-kn * sla*pfdf$af*NPP/sf/cfrac))
+    P0 <- pcontent * kn / (1.0 - exp(-kn * sla*pfdf$af*NPP/sf/cfrac))
     
     gamma_star <- arrh(mt, gamstar25, eag, tk)
     
@@ -78,8 +81,11 @@ LUE_full_cnp <- function(nf, pfdf, pf, CO2, NPP) {
 LUE_full_cn <- function(nf, nfdf, CO2, NPP) {
     
     ncontent <- NPP * nfdf$af / sf * nf
+    
+    # update sla unit from m2 kg-1 DM to m2 g-1
+    sla_m2_per_g <- SLA / 1000.0
 
-    N0 <- ncontent * kn / (1.0 - exp(-kn * SLA*nfdf$af*NPP/sf/cfrac))
+    N0 <- ncontent * kn / (1.0 - exp(-kn * sla_m2_per_g*nfdf$af*NPP/sf/cfrac))
 
     gamma_star <- arrh(mt, gamstar25, eag, tk)
     
@@ -92,8 +98,6 @@ LUE_full_cn <- function(nf, nfdf, CO2, NPP) {
     # return effective Michaelis-Menten coefficient for CO2 
     km <- (Kc * (1.0 + oi / Ko))
     
-    # sla unit conversion: from m2 kg-1 DW to m2 g-1
-    sla_m2_per_g <- SLA / 1000.0
     
     log_vcmax <- 1.993 + 2.555 * log(N0) - 0.372 * log(sla_m2_per_g) + 0.422 * log(N0) * log(sla_m2_per_g)
     vcmax <- exp(log_vcmax)
