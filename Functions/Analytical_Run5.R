@@ -4,8 +4,7 @@
 #### Assumptions:
 #### Same as Run 4, except
 #### 1. Fixed wood stoichiometry
-#### 2. the fixed nc ratio changed from 0.005 to 0.0005 
-#### 3. the fixed pc ratio changed from 0.0003 to 0.00003
+
 ################################################################################
 
 #### Functions

@@ -18,16 +18,18 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
 
     ######### Main program
     
-    #### setting CO2 concentrations
-    CO2_1 <- 350.0
-    CO2_2 <- 700.0
+    ######### Main program
+    source("Parameters/Analytical_Run6_Parameters.R")
     
-    # create nc and pc for shoot to initiate
+    
+    # create a range of nc for shoot to initiate
     nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq,nwvar=T))
+    a_nf <- as.data.frame(allocn(nfseq,nwvar=nwvar))
     
-    pfseq <- inferpfVL(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=T)
-    a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
+    # using very long term relationship to calculate pf from nf
+    pfseq <- inferpfVL(nfseq, a_nf)
+    a_pf <- as.data.frame(allocp(pfseq,pwvar=pwvar))
+    
     
     ##### CO2 = 350
     # calculate NC vs. NPP at CO2 = 350 respectively
