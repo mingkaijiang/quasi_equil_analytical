@@ -97,7 +97,7 @@ Run_GDAY_spinup <- function(site) {
         "lai", "5.5111756545",
         ############## PARAMETERS ############
         "co2_in", "350.0",                    # spin-up value
-        "I0", "3000.0",                       # spin-up value, annual rate, unit MJ/m2/yr
+        "I0", "1440.0",                       # spin-up value, annual rate, unit MJ/m2/yr
         "ndep_in", "0.002",                   # spin-up value, annual rate, unit t/ha/yr
         "nfix_in", "0.002",                   # spin-up value, annual rate, unit t/ha/yr 
         "pdep_in", "0.0002",                  # spin-up value, annual rate, unit t/ha/yr
