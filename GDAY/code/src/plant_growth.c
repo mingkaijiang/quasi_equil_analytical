@@ -132,13 +132,13 @@ void carbon_annual_production(control *c, fluxes *f, met *m, params *p, state *s
       ncontent = 0.0;
       pcontent = 0.0;
   }
-  
-  //fprintf(stderr, "ncontent %f, pcontent %f, leafn %f, leafp %f\n", ncontent, pcontent, leafn, leafp);
-  
+
     if (s->lai > 0.0)
         s->fipar = 1.0 - exp(-p->kext * s->lai);
     else
         s->fipar = 0.0;
+    
+    fprintf(stderr, "par %f\n", m->par);
  
     /* Estimate photosynthesis */
     simple_photosynthesis(c, f, m, p, s, ncontent, pcontent);

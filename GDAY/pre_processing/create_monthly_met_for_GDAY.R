@@ -38,7 +38,7 @@ create_dataset <- function(outName,
     ndep_b_m <- 0.002/12.0
     nfix_b_m <- 0.002/12.0
     pdep_b_m <- 0.0002/12.0
-    par_b_m <- 3000/12.0
+    par_b_m <- 1440/12.0
     
     ### assign baseline met to first 5 years of the dataframe
     outDF[1:60,"tsoil"] <- tsoil_b

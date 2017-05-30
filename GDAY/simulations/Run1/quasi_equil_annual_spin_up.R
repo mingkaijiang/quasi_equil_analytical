@@ -97,7 +97,7 @@ Run_GDAY_spinup <- function(site) {
         "lai", "5.5111756545",
         ############## PARAMETERS ############
         "co2_in", "350.0",                    # spin-up value
-        "I0", "3000.0",                       # spin-up value, annual rate, unit MJ/m2/yr
+        "I0", "1440.0",                       # spin-up value, annual rate, unit MJ/m2/yr
         "ndep_in", "0.002",                   # spin-up value, annual rate, unit t/ha/yr
         "nfix_in", "0.002",                   # spin-up value, annual rate, unit t/ha/yr 
         "pdep_in", "0.0002",                  # spin-up value, annual rate, unit t/ha/yr
@@ -207,7 +207,7 @@ Run_GDAY_spinup <- function(site) {
     adjust_gday_params(cfg_fname, rDF)
 
     #### Run the spin up model
-    system(paste0(GDAY_SPIN, " ", cfg_fname), ignore.stderr=T)
+    system(paste0(GDAY_SPIN, " ", cfg_fname), ignore.stderr=F)
     
     #### Call external function to transform the raw GDAY output into something more readable, NOT NEEDED
     #source(paste0(script_path, "/translate_GDAY_output_to_NCEAS_format.R"))
