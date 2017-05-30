@@ -74,7 +74,7 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
         
         # Photosynthetic constraint CO2 = 350 ppm
         plot(nfseq,PC350,axes=F,
-             type='l',xlim=c(0,0.05),ylim=c(0,4), 
+             type='l',xlim=c(0,0.05),ylim=c(0,3), 
              ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]"))
              , xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex = 2.0, bg = "black")
         rect(0,0,0.05,8,border=NA, col=adjustcolor("lightgrey", 0.2))
