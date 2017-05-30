@@ -66,7 +66,7 @@ LUE_full_cnp <- function(nf, pfdf, pf, CO2, NPP) {
     
     aj = assim(ci, gamma_star, jmax/4.0, 2.0*gamma_star)
     
-    asat <- min(aj, ac)
+    asat <- pmin(aj, ac)
     
     lue_calc <- 365.0 * epsilon(asat, par, alpha, daylen) / 1000.0
     
