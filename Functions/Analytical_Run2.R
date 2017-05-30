@@ -55,10 +55,10 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     VLong700 <- solveVLong_full_cn(CO2=CO2_2,nwvar=nwvar)
     
     # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 2 & cDF$CO2 == 350, 3:13] <- cbind(nfseq, 0, 0, PC350, NCVLONG, NCHUGH)
-    eDF[eDF$Run == 2 & eDF$CO2 == 350, 3:8] <- cbind(VLong, 0, equil_long_350, 0)
+    cDF[cDF$Run == 2 & cDF$CO2 == 350, 3:13] <- test <- cbind(nfseq, 0, 0, PC350, NCVLONG, NCHUGH)
+    eDF[eDF$Run == 2 & eDF$CO2 == 350, 3:8] <- cbind(VLong, equil_long_350)
     cDF[cDF$Run == 2 & cDF$CO2 == 700, 3:13] <- cbind(nfseq, 0, 0, PC700, NCVLONG, NCHUGH)
-    eDF[eDF$Run == 2 & eDF$CO2 == 700, 3:8] <- cbind(VLong700, 0, equil_long_700, 0)
+    eDF[eDF$Run == 2 & eDF$CO2 == 700, 3:8] <- cbind(VLong700, equil_long_700)
     
     if (f.flag ==1 ) {
         

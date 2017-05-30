@@ -88,8 +88,8 @@ source("R/Run_analytical_solutions.R")
 source("R/Check_analytical_gday_matches.R")
 
 
-
-
+#### ------------- Checking effect of P limitation in analytical solution ----------- #####
+source("R/Effect_of_P_limitation.R")
 
 #### --- Perform the necessary run-specific plottings and statistics ------- #####
 ### Run 4 CUE output, save into a table
