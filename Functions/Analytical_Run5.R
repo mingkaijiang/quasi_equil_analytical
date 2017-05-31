@@ -190,21 +190,21 @@ Perform_Analytical_Run5 <- function(f.flag = 1, cDF, eDF) {
         ### plot 2-d plots of nf vs. npp and nf vs. pf
         tiff("Plots/Analytical_Run5_2d.tiff",
              width = 10, height = 5, units = "in", res = 300)
-        par(mfrow=c(1,2))
+        par(mfrow=c(1,2), mar=c(5.1,6.1,2.1,2.1))
         
         # shoot nc vs. NPP
         plot(out350DF$nc, out350DF$NPP_350, xlim=c(0.0, 0.05),
              ylim=c(0, 5), 
              type = "l", xlab = "Shoot N:C ratio", 
              ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
-             col="cyan", lwd = 3)
+             col="cyan", lwd = 3,cex.lab=1.5)
         points(out350DF$nc, out350DF$NPP_VL, type="l", col="tomato", lwd = 3)
-        points(equil350DF$nc_VL, equil350DF$NPP_VL, type="p", pch = 19, col = "blue")
+        points(equil350DF$nc_VL, equil350DF$NPP_VL, type="p", pch = 19, col = "blue",cex=2)
         points(out350DF$nc, out350DF$NPP_350_L, type='l',col="violet", lwd = 3)
         points(out700DF$nc, out700DF$NPP_700, col="green", type="l", lwd = 3)
-        points(equil350DF$nc_VL, inst700$equilNPP, type="p", col = "darkgreen", pch=19)
-        points(equil700DF$nc_VL, equil700DF$NPP_VL, type="p", col="orange", pch = 19)
-        points(equil700DF$nc_L, equil700DF$NPP_L,type="p", col="red", pch = 19)
+        points(equil350DF$nc_VL, inst700$equilNPP, type="p", col = "darkgreen", pch=19,cex=2)
+        points(equil700DF$nc_VL, equil700DF$NPP_VL, type="p", col="orange", pch = 19,cex=2)
+        points(equil700DF$nc_L, equil700DF$NPP_L,type="p", col="red", pch = 19,cex=2)
 
         
         # shoot nc vs. shoot pc
@@ -212,20 +212,20 @@ Perform_Analytical_Run5 <- function(f.flag = 1, cDF, eDF) {
              ylim=c(0, 0.005), 
              type = "l", xlab = "Shoot N:C ratio", 
              ylab = "Shoot P:C ratio",
-             col="cyan", lwd = 3)
+             col="cyan", lwd = 3,cex.lab=1.5)
         points(out350DF$nc, out350DF$pc_VL, type="l", col="tomato", lwd = 3)
         
-        points(equil350DF$nc_VL, equil350DF$pc_VL, type="p", pch = 19, col = "blue")
+        points(equil350DF$nc_VL, equil350DF$pc_VL, type="p", pch = 19, col = "blue",cex=2)
         
         points(out350DF$nc, out350DF$pc_VL, type='l',col="violet", lwd = 3)
         
         points(out700DF$nc, out700DF$pc_VL, col="green", type="l", lwd = 3)
         
-        points(equil350DF$nc_VL, equil350DF$pc_VL, type="p", col = "darkgreen", pch=19)
+        points(equil350DF$nc_VL, equil350DF$pc_VL, type="p", col = "darkgreen", pch=19,cex=2)
         
-        points(equil700DF$nc_VL, equil700DF$pc_VL, type="p", col="orange", pch = 19)
+        points(equil700DF$nc_VL, equil700DF$pc_VL, type="p", col="orange", pch = 19,cex=2)
         
-        points(equil700DF$nc_L, equil700DF$pc_VL, type="p", col="red", pch = 19)
+        points(equil700DF$nc_L, equil700DF$pc_VL, type="p", col="red", pch = 19,cex=2)
         
         legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
                             expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
