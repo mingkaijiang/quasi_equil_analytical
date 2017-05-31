@@ -91,6 +91,11 @@ source("R/Check_analytical_gday_matches.R")
 #### ------------- Checking effect of P limitation in analytical solution ----------- #####
 source("R/Effect_of_P_limitation.R")
 
+
+#### ------------- Checking effect of P limitation in GDAY key variables ----------- #####
+source("R/Effect_of_P_GDAY.R")
+
+
 #### --- Perform the necessary run-specific plottings and statistics ------- #####
 ### Run 4 CUE output, save into a table
 source("R/CUE_check.R")

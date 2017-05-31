@@ -43,28 +43,28 @@ source("quasi_equil_annual_simulations.R")
 setwd(cwd)
 
 ### Run4
-setwd("GDAY/simulations/Run4")
-source("quasi_equil_annual_spin_up.R")
-source("quasi_equil_annual_simulations.R")
-setwd(cwd)
+#setwd("GDAY/simulations/Run4")
+#source("quasi_equil_annual_spin_up.R")
+#source("quasi_equil_annual_simulations.R")
+#setwd(cwd)
 
 ### Run5
-setwd("GDAY/simulations/Run5")
-source("quasi_equil_annual_spin_up.R")
-source("quasi_equil_annual_simulations.R")
-setwd(cwd)
+#setwd("GDAY/simulations/Run5")
+#source("quasi_equil_annual_spin_up.R")
+#source("quasi_equil_annual_simulations.R")
+#setwd(cwd)
 
 ### Run6
-setwd("GDAY/simulations/Run6")
-source("quasi_equil_annual_spin_up.R")
-source("quasi_equil_annual_simulations.R")
-setwd(cwd)
+#setwd("GDAY/simulations/Run6")
+#source("quasi_equil_annual_spin_up.R")
+#source("quasi_equil_annual_simulations.R")
+#setwd(cwd)
 
 ### Run7
-setwd("GDAY/simulations/Run7")
-source("quasi_equil_annual_spin_up.R")
-source("quasi_equil_annual_simulations.R")
-setwd(cwd)
+#setwd("GDAY/simulations/Run7")
+#source("quasi_equil_annual_spin_up.R")
+#source("quasi_equil_annual_simulations.R")
+#setwd(cwd)
 
 
 #### We only need to show a few examples that gday solution matches with the analytical solution
