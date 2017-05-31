@@ -60,6 +60,9 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     cDF[cDF$Run == 2 & cDF$CO2 == 700, 3:13] <- cbind(nfseq, 0, 0, PC700, NCVLONG, NCHUGH)
     eDF[eDF$Run == 2 & eDF$CO2 == 700, 3:8] <- cbind(VLong700, equil_long_700)
     
+    eDF[eDF$Run == 2 & eDF$CO2 == 350, 9] <- inst700$equilNPP
+    eDF[eDF$Run == 2 & eDF$CO2 == 700, 9] <- inst700$equilNPP
+    
     if (f.flag ==1 ) {
         
         #### Library

@@ -125,7 +125,9 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     df700 <- as.data.frame(cbind(round(nfseq,3), Photo700))
     inst700 <- inst_NPP(equil350DF$nc_VL, df700)
     
-
+    eDF[eDF$Run == 1 & eDF$CO2 == 350, 9] <- inst700$equilNPP
+    eDF[eDF$Run == 1 & eDF$CO2 == 700, 9] <- inst700$equilNPP
+    
     if (f.flag == 1) {
         
         #### Library

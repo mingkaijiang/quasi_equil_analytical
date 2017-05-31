@@ -36,10 +36,10 @@ create_equil_DF <- function() {
     l <- length(f.list)
     
     # create the matrix
-    cDF <- matrix(nrow = l*2, ncol = 8)
+    cDF <- matrix(nrow = l*2, ncol = 9)
     cDF <- as.data.frame(cDF)
     colnames(cDF) <- c("Run", "CO2", "NC_VL", "PC_VL","NPP_VL",
-                       "NC_L", "PC_L", "NPP_L")
+                       "NC_L", "PC_L", "NPP_L", "NPP_inst")
     
     # add Run information into Run column
     cDF$Run <- rep(c(1:l), each=2)

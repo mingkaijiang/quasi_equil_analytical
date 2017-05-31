@@ -71,7 +71,7 @@ LUE_full_cnp <- function(nf, pfdf, pf, CO2, NPP) {
     
     asat <- pmin(aj, ac)
     
-    lue_calc <- 365.0 * epsilon(asat, par, alpha, daylen) / 1000.0
+    lue_calc <- epsilon(asat, par, alpha, daylen) 
     
     return(lue_calc)
 }
@@ -119,7 +119,7 @@ LUE_full_cn <- function(nf, nfdf, CO2, NPP) {
     
     asat <- min(aj, ac)
     
-    lue_calc <- 365.0 * epsilon(asat, par, alpha, daylen) / 1000.0
+    lue_calc <- epsilon(asat, par, alpha, daylen)
     
     return(lue_calc)
 }

@@ -41,6 +41,13 @@ Perform_Analytical_Run5 <- function(f.flag = 1, cDF, eDF) {
     ### finding the equilibrium point between photosynthesis and very long term nutrient constraints
     VLong_equil <- solveVLong_respiration(CO2=CO2_1, nwvar=nwvar, pwvar=pwvar)
     
+    ### Compute CUE at VL equilibrium point
+    cue_VL_CO2_1 <- cue_compute(VLong_equil$equilnf, VLong_equil$equilpf, 
+                                allocn(VLong_equil$equilnf, nwvar=nwvar),
+                                allocp(VLong_equil$equilpf, pwvar=pwvar),
+                                NPP=VLong_equil$equilNPP,
+                                CO2=CO2_1)
+    
     ### Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn(VLong_equil$equilnf,nwvar=nwvar)
     aequilp <- allocp(VLong_equil$equilpf,pwvar=pwvar)
@@ -69,6 +76,12 @@ Perform_Analytical_Run5 <- function(f.flag = 1, cDF, eDF) {
     Long_equil <- solveLong_respiration(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong, 
                                         PinL=Pin+PrelwoodVLong, nwvar=nwvar, pwvar=pwvar)
     
+    ### Compute CUE at L equilibrium point
+    cue_L_CO2_1 <- cue_compute(Long_equil$equilnf, Long_equil$equilpf, 
+                               allocn(Long_equil$equilnf, nwvar=nwvar),
+                               allocp(Long_equil$equilpf, pwvar=pwvar),
+                               NPP=Long_equil$equilNPP,
+                               CO2=CO2_1)
     
     out350DF <- data.frame(nfseq, pfseq, pfseqL, Photo350, NCVLONG, NCLONG)
     colnames(out350DF) <- c("nc", "pc_VL", "pc_350_L", "NPP_350", "NPP_VL",
@@ -108,6 +121,20 @@ Perform_Analytical_Run5 <- function(f.flag = 1, cDF, eDF) {
     Long_equil <- solveLong_respiration(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong, 
                                         PinL=Pin+PrelwoodVLong, nwvar=nwvar, pwvar=pwvar)
     
+    ### Compute CUE at VL equilibrium point
+    cue_VL_CO2_2 <- cue_compute(VLong_equil$equilnf, VLong_equil$equilpf, 
+                                allocn(VLong_equil$equilnf, nwvar=nwvar),
+                                allocp(VLong_equil$equilpf, pwvar=pwvar),
+                                NPP=VLong_equil$equilNPP,
+                                CO2=CO2_2)
+    
+    ### Compute CUE at L equilibrium point
+    cue_L_CO2_2 <- cue_compute(Long_equil$equilnf, Long_equil$equilpf, 
+                               allocn(Long_equil$equilnf, nwvar=nwvar),
+                               allocp(Long_equil$equilpf, pwvar=pwvar),
+                               NPP=Long_equil$equilNPP,
+                               CO2=CO2_2)
+    
     out700DF <- data.frame(nfseq, pfseq, pfseqL, Photo700, NCVLONG, NCLONG)
     colnames(out700DF) <- c("nc", "pc_VL", "pc_700_L", "NPP_700", "NPP_VL",
                             "nleach_VL", "NPP_700_L", "nwood_L", "nburial_L",
@@ -125,6 +152,10 @@ Perform_Analytical_Run5 <- function(f.flag = 1, cDF, eDF) {
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), Photo700))
     inst700 <- inst_NPP(equil350DF$nc_VL, df700)
+    
+    # combine all cue result
+    cue_out <- cbind(cue_VL_CO2_1, cue_L_CO2_1,
+                     cue_VL_CO2_2, cue_L_CO2_2)
     
     if (f.flag == 1) {
         

@@ -95,6 +95,9 @@ source("R/Effect_of_P_limitation.R")
 #### ------------- Checking effect of P limitation in GDAY key variables ----------- #####
 source("R/Effect_of_P_GDAY.R")
 
+#### ------------- Plotting CO2 fertilization effect through time ----------- #####
+source("R/CO2_fertilization_summary.R")
+
 
 #### --- Perform the necessary run-specific plottings and statistics ------- #####
 ### Run 4 CUE output, save into a table
