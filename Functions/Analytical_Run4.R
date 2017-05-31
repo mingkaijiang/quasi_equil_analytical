@@ -40,6 +40,13 @@ Perform_Analytical_Run4 <- function(f.flag = 1, cDF, eDF) {
     ### finding the equilibrium point between photosynthesis and very long term nutrient constraints
     VLong_equil <- solveVLong_respiration(CO2=CO2_1, nwvar=nwvar, pwvar=pwvar)
     
+    ### Compute CUE at VL equilibrium point
+    cue_VL_CO2_1 <- cue_compute(VLong_equil$equilnf, VLong_equil$equilpf, 
+                                allocn(VLong_equil$equilnf, nwvar=nwvar),
+                                allocp(VLong_equil$equilpf, pwvar=pwvar),
+                                NPP=VLong_equil$equilNPP,
+                                CO2=CO2_1)
+    
     ### Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn(VLong_equil$equilnf,nwvar=nwvar)
     aequilp <- allocp(VLong_equil$equilpf,pwvar=pwvar)
