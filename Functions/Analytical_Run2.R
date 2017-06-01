@@ -71,20 +71,20 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
         ######### Plotting
         
         tiff("Plots/Analytical_Run2.tiff",
-             width = 8, height = 7, units = "in", res = 300)
-        par(mar=c(5.1,5.1,2.1,2.1))
+             width = 10, height = 5, units = "in", res = 300)
+        par(mfrow=c(1,2),mar=c(5.1,6.1,2.1,2.1))
         
         
         # Photosynthetic constraint CO2 = 350 ppm
-        plot(nfseq,PC350,axes=F,
+        plot(nfseq,PC350,axes=T,
              type='l',xlim=c(0,0.05),ylim=c(0,3), 
-             ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]"))
-             , xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex = 2.0, bg = "black")
-        rect(0,0,0.05,8,border=NA, col=adjustcolor("lightgrey", 0.2))
-        axis(1)
-        axis(2)
+             ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
+             xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex.lab = 1.5)
+        #rect(0,0,0.05,8,border=NA, col=adjustcolor("lightgrey", 0.2))
+        #axis(1)
+        #axis(2)
         # add abline to show instantaneous effect of doubling CO2
-        abline(v=VLong$equilnf, lwd = 2, lty = 5, col = "gray73")
+        #abline(v=VLong$equilnf, lwd = 2, lty = 5, col = "gray73")
         
         # Photosynthetic constraint CO2 = 700 ppm
         points(nfseq,PC700,type='l',col="green", lwd = 2.5)
@@ -110,19 +110,19 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
         # VL intersect with CO2 = 700 ppm
         points(VLong700$equilnf, VLong700$equilNPP, cex = 2.0, col = "orange", pch = 19)
         
-        legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
-                             expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-                             "VL nutrient constraint", "L nutrient constraint",
-                             "A", "B"),
-               col=c("cyan","green", "tomato", "violet","blue", "darkgreen"), 
-               lwd=c(2,2,2,2,NA,NA), pch=c(NA,NA,NA,NA,19,19), cex = 1.0, 
-               bg = adjustcolor("grey", 0.8))
-        
-        legend(0.04, 3.55, c("C", "D"),
-               col=c("red", "orange"), 
-               lwd=c(NA,NA), pch=c(19,19), cex = 1.0, border=FALSE, bty="n",
-               bg = adjustcolor("grey", 0.8))  
-
+#        legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
+#                             expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
+#                             "VL nutrient constraint", "L nutrient constraint",
+#                             "A", "B"),
+#               col=c("cyan","green", "tomato", "violet","blue", "darkgreen"), 
+#               lwd=c(2,2,2,2,NA,NA), pch=c(NA,NA,NA,NA,19,19), cex = 1.0, 
+#               bg = adjustcolor("grey", 0.8))
+#        
+#        legend(0.04, 3.55, c("C", "D"),
+#               col=c("red", "orange"), 
+#               lwd=c(NA,NA), pch=c(19,19), cex = 1.0, border=FALSE, bty="n",
+#               bg = adjustcolor("grey", 0.8))  
+#
         
         dev.off()
         
