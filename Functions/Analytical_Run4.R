@@ -226,7 +226,7 @@ Perform_Analytical_Run4 <- function(f.flag = 1, cDF, eDF) {
         
         # shoot nc vs. NPP
         plot(out350DF$nc, out350DF$NPP_350, xlim=c(0.0, 0.05),
-             ylim=c(0, 5), 
+             ylim=c(0, 3), 
              type = "l", xlab = "Shoot N:C ratio", 
              ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
              col="cyan", lwd = 3, cex.lab=1.5)
