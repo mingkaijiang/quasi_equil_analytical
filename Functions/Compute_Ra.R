@@ -91,6 +91,8 @@ Compute_Rdark <- function(nfdf, pfdf, NPP) {
 
     vcmax25 <- vcmax
     
+    #browser()
+    
     ## calculate rdark leaf at 25 C
     r_leaf_dark_25 <- 1.2636 + 0.0728 * N0 + 0.015 * P0 + 0.0095 * vcmax25 - 0.0358 * twq
     
@@ -122,8 +124,10 @@ Compute_Rdark <- function(nfdf, pfdf, NPP) {
     ## Compute autotrophic respiration
     r_autotrophic <- r_leaf_dark_25_out + rleaf + rstem + rroot
     
+    r_new_root <- r_leaf_dark_25_out
+    
     ## r_auto 
-    r_auto <- r_leaf_dark_25_out #+ rstem + rroot
+    r_auto <- r_leaf_dark_25_out + rstem + r_new_root
     
 
     return(r_auto)

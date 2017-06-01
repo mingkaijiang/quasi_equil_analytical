@@ -277,7 +277,7 @@ Perform_Analytical_Run4 <- function(f.flag = 1, cDF, eDF) {
         par(mfrow=c(1,2), mar=c(5.1,6.1,2.1,2.1))
         
         test<- barplot(cue_out, names.arg = c("A", "A", "C", "D"),beside=T,xpd=F,
-                ylim=c(0.7,0.85), col=c("blue", "blue", "red", "orange"),
+                ylim=c(0.5,0.7), col=c("blue", "blue", "red", "orange"),
                 ylab = "CUE", cex.lab=1.5)
         
         dev.off()

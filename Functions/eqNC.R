@@ -38,7 +38,7 @@ eqPC_full_cnp <- function(nf, pf, pfdf, NPP, CO2) {
     
     # return gpp as kg m-2 yr-1
     gpp <- lue_yr * (1 - exp(-kext*SLA*pfdf$af*NPP/sf/cfrac)) * conv * 30 * 12 / 1000.0
-        
+    
     ##Returns G: total C production (i.e. NPP)
     return( gpp * cue)
     
@@ -72,6 +72,8 @@ eqPC_respiration <- function(nf, pf, nfdf, pfdf, NPP, CO2) {
     
     # return gpp as kg m-2 yr-1
     gpp <- lue_yr * (1 - exp(-kext*SLA*nfdf$af*NPP/sf/cfrac)) * conv * 30 * 12 / 1000.0
+
+    #browser()
     
     ##Returns G: total C production (i.e. NPP)
     return(gpp - Ra)
