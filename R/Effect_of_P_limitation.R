@@ -20,6 +20,7 @@ P_limitation_effect <- function() {
     
     ### finding the equilibrium point between photosynthesis and very long term nutrient constraints
     VLong_equil_cnp <- solveVLong_full_cnp(CO2=CO2_1, nwvar=nwvar, pwvar=pwvar)
+    VLong_equil_cnp_new <- solveVLong_full_cnp(CO2=CO2_2, nwvar=nwvar, pwvar=pwvar)
     
     #### Perform CN only analysis of VL pools
     source("Parameters/Analytical_Run2_Parameters.R")
@@ -38,7 +39,10 @@ P_limitation_effect <- function() {
     
     #solve very-long nutrient cycling constraint
     VLong_equil_cn <- solveVLong_full_cn(CO2=CO2_1, nwvar=nwvar)
+    VLong_equil_cn_new <- solveVLong_full_cn(CO2=CO2_2, nwvar=nwvar)
     
+    co2_effect_cnp <- (VLong_equil_cnp_new$equilNPP - VLong_equil_cnp$equilNPP) / VLong_equil_cnp$equilNPP * 100
+    co2_effect_cn <- (VLong_equil_cn_new$equilNPP - VLong_equil_cn$equilNPP) / VLong_equil_cn$equilNPP * 100
     
     #### Plotting
     tiff("Plots/Effect_of_P_limitation.tiff",
@@ -63,6 +67,39 @@ P_limitation_effect <- function() {
                          "A", "B"),
            col=c("blue","blue", "tomato", "green","red"), 
            lwd=c(2,2,2,NA,NA), pch=c(NA,NA,NA,19,19), lty=c(1,3,1, NA,NA), cex = 1.2, 
+           bg = adjustcolor("grey", 0.8))
+    
+    dev.off()
+    
+    #### Plotting
+    tiff("Plots/Effect_of_P_limitation_on_CO2_fertilization.tiff",
+         width = 8, height = 7, units = "in", res = 300)
+    par(mar=c(5.1,6.1,2.1,2.1))
+    
+    # shoot nc vs. NPP
+    plot(nfseq, photo_350_cnp, xlim=c(0.0, 0.05),
+         ylim=c(0.5, 3), 
+         type = "l", xlab = "Shoot N:C ratio", 
+         ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
+         col="blue", lwd = 3, cex.lab = 1.5)
+    points(nfseq, vlong_cnp$NPP_N, type="l", col="tomato", lwd = 3)
+    points(VLong_equil_cnp$equilnf, VLong_equil_cnp$equilNPP, type="p", pch = 19, col = "green", cex = 2.5)
+    points(nfseq, photo_350_cn, type="l", col = "blue", lty = 3, lwd = 3)
+    points(VLong_equil_cn$equilnf, VLong_equil_cn$equilNPP, type="p", pch = 19, col = "red", cex = 2.5)
+    
+    points(nfseq, photo_700_cnp, type="l", col="darkgreen", lwd=3)
+    points(nfseq, photo_700_cn, type="l", col="darkgreen", lwd=3, lty=3)
+    points(VLong_equil_cnp_new$equilnf, VLong_equil_cnp_new$equilNPP, type="p", pch = 15, col = "green", cex=2.5)
+    points(VLong_equil_cn_new$equilnf, VLong_equil_cn_new$equilNPP, type="p", pch = 15, col = "red", cex=2.5)
+    
+    legend("bottomright", c("CNP constraint on photosynthesis, aCO2", 
+                         "CN constraint on photosynthesis, aCO2", 
+                         "CNP constraint on photosynthesis, eCO2", 
+                         "CN constraint on photosynthesis, eCO2", 
+                         "VL nutrient constraint", 
+                         "A", "B","C","D"),
+           col=c("blue","blue", "darkgreen", "darkgreen", "tomato", "green","green", "red", "red"), 
+           lwd=c(2,2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,15,19,15), lty=c(1,3,1,3,1,NA,NA,NA,NA), cex = 0.8, 
            bg = adjustcolor("grey", 0.8))
     
     dev.off()
