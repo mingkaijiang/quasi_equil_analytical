@@ -9,7 +9,7 @@
 
 
 #### Functions
-Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
+Perform_Analytical_Run1_EucFACE <- function(f.flag = 1, cDF, eDF) {
     #### Function to perform analytical run 1 simulations
     #### eDF: stores equilibrium points
     #### cDF: stores constraint points (curves)
@@ -18,7 +18,7 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     #### f.flag: = 3 return eDF
 
     ######### Main program
-    source("Parameters/Analytical_Run1_Parameters.R")
+    source("Parameters/Analytical_Run1_Parameters_EucFACE.R")
     
     
     # create a range of nc for shoot to initiate
@@ -78,8 +78,8 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
                               "nc_L","pc_L", "NPP_L")
     
     # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 1 & cDF$CO2 == 350, 3:13] <- out350DF
-    eDF[eDF$Run == 1 & eDF$CO2 == 350, 3:8] <- equil350DF
+#    cDF[cDF$Run == 1 & cDF$CO2 == 350, 3:13] <- out350DF
+#    eDF[eDF$Run == 1 & eDF$CO2 == 350, 3:8] <- equil350DF
     
     ##### CO2 = 700
     
@@ -118,24 +118,24 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     
     
     # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 1 & cDF$CO2 == 700, 3:13] <- out700DF
-    eDF[eDF$Run == 1 & eDF$CO2 == 700, 3:8] <- equil700DF
+#    cDF[cDF$Run == 1 & cDF$CO2 == 700, 3:13] <- out700DF
+#    eDF[eDF$Run == 1 & eDF$CO2 == 700, 3:8] <- equil700DF
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), Photo700))
     inst700 <- inst_NPP(equil350DF$nc_VL, df700)
     
-    eDF[eDF$Run == 1 & eDF$CO2 == 350, 9] <- inst700$equilNPP
-    eDF[eDF$Run == 1 & eDF$CO2 == 700, 9] <- inst700$equilNPP
+#    eDF[eDF$Run == 1 & eDF$CO2 == 350, 9] <- inst700$equilNPP
+#    eDF[eDF$Run == 1 & eDF$CO2 == 700, 9] <- inst700$equilNPP
     
-    if (f.flag == 1) {
+#    if (f.flag == 1) {
         
         #### Library
         require(scatterplot3d)
         
         ######### Plotting
         
-        tiff("Plots/Analytical_Run1.tiff",
+        tiff("Plots/Analytical_Run1_EucFACE.tiff",
              width = 8, height = 7, units = "in", res = 300)
         
         
@@ -190,7 +190,7 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
         dev.off()
         
         ### plot 2-d plots of nf vs. npp and nf vs. pf
-        tiff("Plots/Analytical_Run1_2d.tiff",
+        tiff("Plots/Analytical_Run1_2d_EucFACE.tiff",
              width = 10, height = 5, units = "in", res = 300)
         par(mfrow=c(1,2), mar=c(5.1,6.1,2.1,2.1))
         
@@ -210,7 +210,7 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
 
         dev.off()
         
-        tiff("Plots/implicit_PC.tiff",
+        tiff("Plots/implicit_PC_EucFACE.tiff",
              width = 8, height = 7, units = "in", res = 300)
         par(mar=c(5.1,6.1,2.1,2.1))
         
@@ -245,10 +245,10 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
         
         dev.off()
         
-    } else if (f.flag == 2) {
-        return(cDF)
-    } else if (f.flag == 3) {
-        return(eDF)
-    }
+#    } else if (f.flag == 2) {
+#        return(cDF)
+#    } else if (f.flag == 3) {
+#        return(eDF)
+#    }
     
 }
