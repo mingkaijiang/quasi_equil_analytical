@@ -83,24 +83,36 @@ P_limitation_effect <- function() {
          ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
          col="blue", lwd = 3, cex.lab = 1.5)
     points(nfseq, vlong_cnp$NPP_N, type="l", col="tomato", lwd = 3)
-    points(VLong_equil_cnp$equilnf, VLong_equil_cnp$equilNPP, type="p", pch = 19, col = "green", cex = 2.5)
+    points(VLong_equil_cnp$equilnf, VLong_equil_cnp$equilNPP, type="p", pch = 15, col = "orange", cex = 2.5)
     points(nfseq, photo_350_cn, type="l", col = "blue", lty = 3, lwd = 3)
-    points(VLong_equil_cn$equilnf, VLong_equil_cn$equilNPP, type="p", pch = 19, col = "red", cex = 2.5)
+    points(VLong_equil_cn$equilnf, VLong_equil_cn$equilNPP, type="p", pch = 15, col = "blue", cex = 2.5)
     
     points(nfseq, photo_700_cnp, type="l", col="darkgreen", lwd=3)
     points(nfseq, photo_700_cn, type="l", col="darkgreen", lwd=3, lty=3)
     points(VLong_equil_cnp_new$equilnf, VLong_equil_cnp_new$equilNPP, type="p", pch = 15, col = "green", cex=2.5)
     points(VLong_equil_cn_new$equilnf, VLong_equil_cn_new$equilNPP, type="p", pch = 15, col = "red", cex=2.5)
     
-    legend("bottomright", c("CNP constraint on photosynthesis, aCO2", 
-                         "CN constraint on photosynthesis, aCO2", 
-                         "CNP constraint on photosynthesis, eCO2", 
-                         "CN constraint on photosynthesis, eCO2", 
-                         "VL nutrient constraint", 
-                         "A", "B","C","D"),
-           col=c("blue","blue", "darkgreen", "darkgreen", "tomato", "green","green", "red", "red"), 
-           lwd=c(2,2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,15,19,15), lty=c(1,3,1,3,1,NA,NA,NA,NA), cex = 0.8, 
-           bg = adjustcolor("grey", 0.8))
+#    legend("bottomright", c("CNP constraint on photosynthesis, aCO2", 
+#                         "CN constraint on photosynthesis, aCO2", 
+#                         "CNP constraint on photosynthesis, eCO2", 
+#                         "CN constraint on photosynthesis, eCO2", 
+#                         "VL nutrient constraint", 
+#                         "A", "B","C","D"),
+#           col=c("blue","blue", "darkgreen", "darkgreen", "tomato", "orange","green", "blue", "red"), 
+#           lwd=c(2,2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,15,15,15,15), lty=c(1,3,1,3,1,NA,NA,NA,NA), cex = 0.8, 
+#           bg = adjustcolor("grey", 0.8))
+    
+    legend("bottomleft", c("NP constraint on photosynthesis, aCO2", 
+                         "N constraint on photosynthesis, aCO2", 
+                         "NP constraint on photosynthesis, eCO2", 
+                         "N constraint on photosynthesis, eCO2", 
+                         "VL nutrient constraint"),
+           col=c("blue","blue", "darkgreen", "darkgreen", "tomato"), 
+           lwd=c(2,2,2,2,2),  lty=c(1,3,1,3,1), cex = 1.0)
+    
+    legend("topright", c("A", "B","C","D"),
+           col=c("orange","green", "blue", "red"), 
+           pch=c(15,15,15,15), cex = 1.0)   
     
     dev.off()
     
