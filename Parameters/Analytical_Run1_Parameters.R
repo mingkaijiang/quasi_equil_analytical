@@ -1,16 +1,16 @@
 #### setting CO2 concentrations
-CO2_1 <- 350.0
-CO2_2 <- 700.0
+CO2_1 <- 350.0  # 350
+CO2_2 <- 700.0  # 700
 
 #### define parameters
-nwood = 0.005 
-pwood = 0.00003
+nwood = 0.005      # 0.005 
+pwood = 0.00003   # 0.00003
 nrho = 0.7
 prho = 0.7
 nretrans = 0.5
 pretrans = 0.6
-nwvar = TRUE
-pwvar = TRUE
+nwvar = TRUE     # TRUE
+pwvar = TRUE     # TRUE
 LUE0=1.4
 I0=3
 Nref=0.04
@@ -20,11 +20,11 @@ sf=0.5
 cfrac = 0.45
 cue = 0.5
 leachn = 0.05
-leachp = 0.05
-Nin = 0.4
+leachp = 0.05    # 0.05
+Nin = 0.4        # 0.4
 Pin = 0.02
-k1=0.01
-k2=0.01
+k1=0.048
+k2=0.0146
 k3=0.05
 Tsoil = 15
 Texture = 0.5

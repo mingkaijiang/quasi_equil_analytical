@@ -4,13 +4,13 @@ CO2_2 <- 550.0
 
 #### define parameters
 nwood = 0.003 
-pwood = 0.00014
+pwood = 0.00014     # 0.00014
 nrho = 0.7
 prho = 0.7
 nretrans = 0.5
 pretrans = 0.6
-nwvar = FALSE
-pwvar = FALSE
+nwvar = TRUE
+pwvar = TRUE
 LUE0=1.4
 I0=3
 Nref=0.04
@@ -19,8 +19,8 @@ SLA=5.1
 sf=0.5
 cfrac = 0.45
 cue = 0.5
-leachn = 0.05
-leachp = 0.1
+leachn = 0.05     # This should also increase
+leachp = 0.05
 Nin = 0.2
 Pin = 0.02          #0.0086
 k1=0.048            # 0.096  # default in full GDAY = 0.048, and 0.4-0.8 of the labile is available to uptake
@@ -53,5 +53,5 @@ PA_2_KPA <- 0.001
 wtfac_root <- 1.0
 g1 <- 3.8667
 alpha_j <- 0.308
-daylen <- 5.0
+daylen <- 8.0
 kn <- 0.3

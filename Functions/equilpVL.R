@@ -4,8 +4,8 @@ equilpVL <- function(equilNPP, Pin = 0.02, leachp=0.05,
                      pwvar = TRUE, pwood = 0.0003, prho = 0.7,
                      pretrans = 0.6, k1 = 0.01, k2 = 0.01, k3 = 0.05) {
     # prepare allocation partitioning
-    ar <- 0.2
-    af <- 0.2
+    ar <- 0.15
+    af <- 0.15
     aw <- 1 - ar - af
     
     # prepare very long term phosphorus fluxes
