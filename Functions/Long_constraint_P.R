@@ -4,7 +4,7 @@ Long_constraint_P <- function(nf, df, a, Cpass, PinL) {
     
     
     # passive pool burial 
-    pass <- passive(nf, allocn(nf, nwvar=nwvar))
+    pass <- passive(nf, allocn(nf))
     omegap <- a$af*pass$omegaf + a$ar*pass$omegar 
     
     # equation for P constraint with passive, wood, and leaching

@@ -19,12 +19,12 @@ SLA=5.1
 sf=0.5
 cfrac = 0.45
 cue = 0.5
-leachn = 0.05     # This should also increase
-leachp = 0.05
-Nin = 0.2
-Pin = 0.02          #0.0086
-k1=0.048            # 0.096  # default in full GDAY = 0.048, and 0.4-0.8 of the labile is available to uptake
-k2=0.0146           # 0.0146 At EucfACE, based on pH = 4.5, k2 = 0.0146 yr-1, and only half into labile
+leachn = 0.1     
+leachp = 0.1
+Nin = 0.4
+Pin = 0.02          # 0.0086
+k1=0.01            # 0.096  # default in full GDAY = 0.048, and 0.4-0.8 of the labile is available to uptake
+k2=0.01            # 0.0146 At EucfACE, based on pH = 4.5, k2 = 0.0146 yr-1, and only half into labile
 k3=0.05
 Tsoil = 15
 Texture = 0.5
@@ -53,5 +53,5 @@ PA_2_KPA <- 0.001
 wtfac_root <- 1.0
 g1 <- 3.8667
 alpha_j <- 0.308
-daylen <- 8.0
+daylen <- 6.0
 kn <- 0.3

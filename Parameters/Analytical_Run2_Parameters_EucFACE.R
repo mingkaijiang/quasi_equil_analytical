@@ -19,12 +19,12 @@ SLA=5.1
 sf=0.5
 cfrac = 0.45
 cue = 0.5
-leachn = 0.05
-leachp = 0.05
-Nin = 0.2
+leachn = 0.1
+leachp = 0.1
+Nin = 0.4
 Pin = 0.02
-k1=0.048
-k2=0.0146
+k1=0.01
+k2=0.01
 k3=0.05
 Tsoil = 15
 Texture = 0.5
@@ -53,5 +53,8 @@ PA_2_KPA <- 0.001
 wtfac_root <- 1.0
 g1 <- 3.8667
 alpha_j <- 0.308
-daylen <- 8.0
+daylen <- 6.0
 kn <- 0.3
+ar <- 0.15
+af <- 0.15
+aw <- 0.7

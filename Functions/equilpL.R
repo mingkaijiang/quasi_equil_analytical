@@ -1,13 +1,6 @@
 # Find long term equilibrated pf based on equilibrated NPP calculated from equilnf profile
-equilpL <- function(equildf, Pin = 0.02, leachp = 0.05, Cpass=CpassVLong,
-                    nwvar=TRUE,pwvar = TRUE, pwood = 0.0003, prho = 0.7, 
-                    pretrans = 0.6, pcp = 0.005, Tsoil = 15,
-                    Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
-                    k1 = 0.01, k2 = 0.01, k3 = 0.05) {
-    # prepare allocation partitioning
-    ar <- 0.2
-    af <- 0.2
-    aw <- 1 - ar - af
+equilpL <- function(equildf, Cpass=CpassVLong,
+                    ar, af, aw) {
     
     df <- equildf[1,1]
     equilNPP <- equildf[1,2]

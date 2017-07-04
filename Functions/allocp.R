@@ -1,5 +1,5 @@
 ### Allocation and plant P concentrations - required for both PS constraint and PC constraint
-allocp <- function(pf, pwvar) {
+allocp <- function(pf) {
     # parameters
     # pf is the PC ratio of foliage
     # pw is the PC ratio of wood if fixed; otherwise the ratio of wood P:C to foliage P:C
