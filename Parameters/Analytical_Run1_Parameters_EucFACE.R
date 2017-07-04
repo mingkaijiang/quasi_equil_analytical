@@ -1,12 +1,12 @@
 #### setting CO2 concentrations
-CO2_1 <- 350.0
-CO2_2 <- 700.0
+CO2_1 <- 400.0
+CO2_2 <- 550.0
 
 #### define parameters
 nwood = 0.003 
-pwood = 0.00005
-nrho = 1
-prho = 1
+pwood = 0.00014
+nrho = 0.7
+prho = 0.7
 nretrans = 0.5
 pretrans = 0.6
 nwvar = FALSE

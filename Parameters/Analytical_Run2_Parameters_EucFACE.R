@@ -1,10 +1,10 @@
 #### setting CO2 concentrations
-CO2_1 <- 350.0
-CO2_2 <- 700.0
+CO2_1 <- 400.0
+CO2_2 <- 550.0
 
 #### define parameters
 nwood = 0.003 
-pwood = 0.00003
+pwood = 0.00014
 nrho = 0.7
 prho = 0.7
 nretrans = 0.5
@@ -22,7 +22,7 @@ cue = 0.5
 leachn = 0.05
 leachp = 0.1
 Nin = 0.2
-Pin = 0.0086
+Pin = 0.02
 k1=0.048
 k2=0.0146
 k3=0.05

@@ -49,32 +49,32 @@ P_limitation_effect <- function() {
     #     width = 8, height = 7, units = "in", res = 300)
     #par(mar=c(5.1,6.1,2.1,2.1))
 
-    # shoot nc vs. NPP
-    plot(nfseq, photo_350_cnp, xlim=c(0.0, 0.05),
-         ylim=c(0.0, 3), 
-         type = "l", xlab = "Shoot N:C ratio", 
-         ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
-         col="blue", lwd = 3, cex.lab = 2.0)
-    points(nfseq, vlong_cnp$NPP_N, type="l", col="tomato", lwd = 3)
-    points(VLong_equil_cnp$equilnf, VLong_equil_cnp$equilNPP, type="p", pch = 19, col = "green", cex = 2.5)
-    points(nfseq, photo_350_cn, type="l", col = "blue", lty = 3, lwd = 3)
-    points(VLong_equil_cn$equilnf, VLong_equil_cn$equilNPP, type="p", pch = 19, col = "red", cex = 2.5)
-    
-    
-    legend("topright", c("CNP constraint on photosynthesis", 
-                         "CN constraint on photosynthesis", 
-                         "VL nutrient constraint", 
-                         "A", "B"),
-           col=c("blue","blue", "tomato", "green","red"), 
-           lwd=c(2,2,2,NA,NA), pch=c(NA,NA,NA,19,19), lty=c(1,3,1, NA,NA), cex = 1.2, 
-           bg = adjustcolor("grey", 0.8))
-    
-    dev.off()
-    
-    #### Plotting
-    tiff("Plots/Effect_of_P_limitation_on_CO2_fertilization_EucFACE.tiff",
-         width = 8, height = 7, units = "in", res = 300)
-    par(mar=c(5.1,6.1,2.1,2.1))
+#    # shoot nc vs. NPP
+#    plot(nfseq, photo_350_cnp, xlim=c(0.0, 0.05),
+#         ylim=c(0.0, 3), 
+#         type = "l", xlab = "Shoot N:C ratio", 
+#         ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
+#         col="blue", lwd = 3, cex.lab = 2.0)
+#    points(nfseq, vlong_cnp$NPP_N, type="l", col="tomato", lwd = 3)
+#    points(VLong_equil_cnp$equilnf, VLong_equil_cnp$equilNPP, type="p", pch = 19, col = "green", cex = 2.5)
+#    points(nfseq, photo_350_cn, type="l", col = "blue", lty = 3, lwd = 3)
+#    points(VLong_equil_cn$equilnf, VLong_equil_cn$equilNPP, type="p", pch = 19, col = "red", cex = 2.5)
+#    
+#    
+#    legend("topright", c("CNP constraint on photosynthesis", 
+#                         "CN constraint on photosynthesis", 
+#                         "VL nutrient constraint", 
+#                         "A", "B"),
+#           col=c("blue","blue", "tomato", "green","red"), 
+#           lwd=c(2,2,2,NA,NA), pch=c(NA,NA,NA,19,19), lty=c(1,3,1, NA,NA), cex = 1.2, 
+#           bg = adjustcolor("grey", 0.8))
+#    
+#    dev.off()
+#    
+#    #### Plotting
+#    tiff("Plots/Effect_of_P_limitation_on_CO2_fertilization_EucFACE.tiff",
+#         width = 8, height = 7, units = "in", res = 300)
+#    par(mar=c(5.1,6.1,2.1,2.1))
     
     # shoot nc vs. NPP
     plot(nfseq, photo_350_cnp, xlim=c(0.0, 0.05),
