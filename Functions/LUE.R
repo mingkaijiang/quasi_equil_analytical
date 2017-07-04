@@ -94,8 +94,11 @@ LUE_full_cn_ellsworth <- function(nf, nfdf, CO2, NPP) {
     
     # update sla unit from m2 kg-1 DM to m2 g-1
     sla_m2_per_g <- SLA / 1000.0
+    
+    # compute LAI m2 m-2
+    lai <- sla_m2_per_g * NPP * nfdf$af / sf / cfrac
 
-    N0 <- ncontent * kn / (1.0 - exp(-kn * sla_m2_per_g*nfdf$af*NPP/sf/cfrac))
+    N0 <- ncontent * kn / (1.0 - exp(-kn *lai))
 
     #gamma_star <- arrh(mt, gamstar25, eag, tk)
     gamma_star <- 32.97
@@ -153,8 +156,11 @@ LUE_full_cnp_walker <- function(nf, pfdf, pf, CO2, NPP) {
     # update sla unit from m2 kg-1 DM to m2 g-1
     sla <- SLA / 1000.0
     
-    N0 <- ncontent * kn / (1.0 - exp(-kn * sla*pfdf$af*NPP/sf/cfrac))
-    P0 <- pcontent * kn / (1.0 - exp(-kn * sla*pfdf$af*NPP/sf/cfrac))
+    # compute LAI m2 m-2
+    lai <- sla * NPP * pfdf$af / sf / cfrac
+
+    N0 <- ncontent * kn / (1.0 - exp(-kn * lai))
+    P0 <- pcontent * kn / (1.0 - exp(-kn * lai))
     
     #gamma_star <- arrh(mt, gamstar25, eag, tk)
     gamma_star <- 32.97
@@ -191,7 +197,8 @@ LUE_full_cnp_walker <- function(nf, pfdf, pf, CO2, NPP) {
     
     asat <- pmin(aj, ac)
     
-    lue_calc <- epsilon_simplified(asat, PAR_MJ, alpha, daylen)
+    #lue_calc <- epsilon_simplified(asat, PAR_MJ, alpha, daylen)
+    lue_calc <- epsilon(asat, par, alpha, daylen)
     
     return(lue_calc)
 }
@@ -205,7 +212,11 @@ LUE_full_cn_walker <- function(nf, nfdf, CO2, NPP) {
     # update sla unit from m2 kg-1 DM to m2 g-1
     sla_m2_per_g <- SLA / 1000.0
     
-    N0 <- ncontent * kn / (1.0 - exp(-kn * sla_m2_per_g*nfdf$af*NPP/sf/cfrac))
+    # compute LAI m2 m-2
+    lai <- sla_m2_per_g * NPP * nfdf$af / sf / cfrac
+    
+    #N0 <- ncontent * kn / (1.0 - exp(-kn * sla_m2_per_g*nfdf$af*NPP/sf/cfrac))
+    N0 <- ncontent * kn / (1.0 - exp(-kn * lai))
     
     #gamma_star <- arrh(mt, gamstar25, eag, tk)
     gamma_star <- 32.97
@@ -243,7 +254,8 @@ LUE_full_cn_walker <- function(nf, nfdf, CO2, NPP) {
     
     asat <- pmin(aj, ac)
     
-    lue_calc <- epsilon_simplified(asat, PAR_MJ, alpha, daylen)
+    #lue_calc <- epsilon_simplified(asat, PAR_MJ, alpha, daylen)
+    lue_calc <- epsilon(asat, par, alpha, daylen)
     
     return(lue_calc)
 }

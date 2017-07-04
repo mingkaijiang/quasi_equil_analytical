@@ -137,6 +137,7 @@ LUE_full_cnp_walker <- function(nf, pfdf, pf, CO2, NPP) {
     N0 <- ncontent * kn / (1.0 - exp(-kn * sla*pfdf$af*NPP/sf/cfrac))
     P0 <- pcontent * kn / (1.0 - exp(-kn * sla*pfdf$af*NPP/sf/cfrac))
     
+    browser()
     #gamma_star <- arrh(mt, gamstar25, eag, tk)
     gamma_star <- 32.97
     
@@ -177,7 +178,8 @@ LUE_full_cnp_walker <- function(nf, pfdf, pf, CO2, NPP) {
     return(lue_calc)
 }
 
-
+cue <- 0.5
+kext <- 0.5
 nfseq <- seq(0.001, 0.1, by = 0.001)
 nrho <- 1.0
 CO2 <- 400.0
@@ -231,12 +233,20 @@ eqPC_full_cnp <- function(nf, pf, pfdf, NPP, CO2) {
 }
 
 
-len <- length(nf)
+
+
+nfseq <- 0.1
+a_nf <- allocn(nfseq, nwvar=FALSE)
+pfseq <- inferpfVL(nfseq, a_nf)
+a_pf <- as.data.frame(allocp(pfseq,pwvar=FALSE))
+NPP <- seq(0.1, 20)
+
+len <- length(nfseq)
 
 ans <- c()
 
-for (i in 1:len) {
-    fPC <- function(NPP) eqPC_full_cnp(nfseq[i], pfseq[i], a_pf[i,], NPP, CO2) - NPP
-    ans[i] <- uniroot(fPC,interval=c(0.1,20), trace=T)$root
-    
-}
+eqPC_full_cnp(nfseq[i], pfseq[i], a_pf[i,], NPP, CO2) - NPP
+
+
+
+rm(list=ls(all=TRUE))

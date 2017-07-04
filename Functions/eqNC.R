@@ -37,7 +37,7 @@ eqPC_full_cnp <- function(nf, pf, pfdf, NPP, CO2) {
     lue_yr <- LUE_full_cnp_walker(nf, pfdf, pf, CO2, NPP*1000.0/365) * par 
     
     # return gpp as kg m-2 yr-1
-    gpp <- lue_yr * (1 - exp(-kext*SLA*pfdf$af*NPP*1000/365/sf/cfrac)) * conv * 365 / 1000.0
+    gpp <- lue_yr * (1 - exp(-kext*SLA*pfdf$af*NPP/sf/cfrac)) * conv * 365 / 1000.0
     
     ##Returns G: total C production (i.e. NPP)
     return( gpp * cue)
@@ -53,7 +53,7 @@ eqPC_full_cn <- function(nf, nfdf, NPP, CO2) {
     lue_yr <- LUE_full_cn_walker(nf, nfdf, CO2, NPP*1000.0/365) * par 
     
     # return gpp as kg m-2 yr-1
-    gpp <- lue_yr * (1 - exp(-kext*SLA*nfdf$af*NPP*1000/365/sf/cfrac)) * conv * 365 / 1000.0
+    gpp <- lue_yr * (1 - exp(-kext*SLA*nfdf$af*NPP/sf/cfrac)) * conv * 365 / 1000.0
     
     ##Returns G: total C production (i.e. NPP)
     return( gpp * cue)
