@@ -1,13 +1,16 @@
 # Find long term equilibrated pf based on equilibrated NPP calculated from equilnf profile
-equilpL <- function(equildf, Cpass=CpassVLong,
-                    ar, af, aw) {
+equilpL <- function(equildf, Cpass=CpassVLong) {
+    
+    ar <- aroot
+    af <- aleaf
+    aw <- 1 - ar - af
     
     df <- equildf[1,1]
     equilNPP <- equildf[1,2]
     
     # passive pool burial 
-    pass <- passive(df, allocn(df,nwvar=nwvar), Tsoil, Texture, ligfl, ligrl)
-    omegap <- allocn(df, nwvar=nwvar)$af*pass$omegaf + allocn(df, nwvar=nwvar)$ar*pass$omegar 
+    pass <- passive(df, allocn(df), Tsoil, Texture, ligfl, ligrl)
+    omegap <- allocn(df)$af*pass$omegaf + allocn(df)$ar*pass$omegar 
     
     # prepare very long term nitrogen fluxes
     U0 = Pin + (1-pass$qq) * pass$decomp * Cpass * pcp

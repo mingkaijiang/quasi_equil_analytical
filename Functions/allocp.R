@@ -10,8 +10,8 @@ allocp <- function(pf) {
     len <- length(pf)
     ar <- af <- aw <- pw <- pr <- rep(0,len)  # initialise
     for (i in 1:len) {
-        ar[i] <- 0.15
-        af[i] <- 0.15
+        ar[i] <- aroot
+        af[i] <- aleaf
         aw[i] <- 1 - ar[i] - af[i]
     }
     

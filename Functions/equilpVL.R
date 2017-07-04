@@ -1,7 +1,11 @@
 
 # Find very-long term equilibrated pf based on equilibrated NPP calculated from equilnf profile
-equilpVL <- function(equilNPP, ar, af, aw) {
+equilpVL <- function(equilNPP) {
 
+    ar <- aroot
+    af <- aleaf
+    aw <- 1 - ar - af
+    
     # prepare very long term phosphorus fluxes
     U0 = Pin
     pleach <- leachp/(1-leachp-k1)
