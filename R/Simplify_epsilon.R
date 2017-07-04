@@ -82,3 +82,7 @@ outDF <- rbind(outDF1, outDF2, outDF3, outDF4)
 
 fit.equ <- lm(lue ~ asat + par + alpha + daylen, data=outDF)
 summary(fit.equ)
+
+
+
+

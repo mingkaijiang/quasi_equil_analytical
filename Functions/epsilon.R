@@ -11,8 +11,8 @@ epsilon <- function(asat, par, alpha, daylen) {
     # LUE: integrated light use efficiency over the canopy (umol C umol -1 PAR)
     
     # subintervals scalar, i.e. 6 intervals 
-    #delta <- 0.16666666667
-    delta <- 0.0833333
+    delta <- 0.16666666667
+    #delta <- 0.0833333
         
     # number of seconds of daylight 
     h <- daylen * 3600.0;
@@ -24,8 +24,8 @@ epsilon <- function(asat, par, alpha, daylen) {
     q <- pi * kext * alpha * par / (2 * h * asat);
     integral_g <- 0.0
     
-    for (i in c(1,3,5,7,9,11,13,15,17,19,21,23)) {
-    sinx <- sin(pi * i / 24.)
+    for (i in c(1,3,5,7,9,11)) {
+    sinx <- sin(pi * i / 12.)
     arg1 <- sinx
     arg2 <- 1.0 + q * sinx
     arg3 <- (sqrt(((1.0 + q * sinx)^2) - 4.0 * theta * q * sinx))
@@ -35,4 +35,11 @@ epsilon <- function(asat, par, alpha, daylen) {
     lue = alpha * integral_g * pi
 
     return (lue)
+}
+
+epsilon_simplified <- function(asat, par, alpha, daylen) {
+    # simplified function for computing LUE, for using annual results
+    lue <- 2.595e-2 + 8.955e-4 * asat - 1.53e-3 * par - 1.118e-1 * alpha
+    return(lue)
+    
 }

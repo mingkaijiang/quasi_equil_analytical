@@ -3,7 +3,7 @@ CO2_1 <- 400.0
 CO2_2 <- 550.0
 
 #### define parameters
-nwood = 0.005 
+nwood = 0.003 
 pwood = 0.00003
 nrho = 0.7
 prho = 0.7
@@ -20,11 +20,11 @@ sf=0.5
 cfrac = 0.45
 cue = 0.5
 leachn = 0.05
-leachp = 0.05
-Nin = 0.3
+leachp = 0.1
+Nin = 0.2
 Pin = 0.0086
-k1=0.01
-k2=0.01
+k1=0.048
+k2=0.0146
 k3=0.05
 Tsoil = 15
 Texture = 0.5

@@ -45,13 +45,13 @@ P_limitation_effect <- function() {
     co2_effect_cn <- (VLong_equil_cn_new$equilNPP - VLong_equil_cn$equilNPP) / VLong_equil_cn$equilNPP * 100
     
     #### Plotting
-    tiff("Plots/Effect_of_P_limitation_EucFACE.tiff",
-         width = 8, height = 7, units = "in", res = 300)
-    par(mar=c(5.1,6.1,2.1,2.1))
+    #tiff("Plots/Effect_of_P_limitation_EucFACE.tiff",
+    #     width = 8, height = 7, units = "in", res = 300)
+    #par(mar=c(5.1,6.1,2.1,2.1))
 
     # shoot nc vs. NPP
     plot(nfseq, photo_350_cnp, xlim=c(0.0, 0.05),
-         ylim=c(0.5, 3), 
+         ylim=c(0.0, 3), 
          type = "l", xlab = "Shoot N:C ratio", 
          ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
          col="blue", lwd = 3, cex.lab = 2.0)
@@ -78,7 +78,7 @@ P_limitation_effect <- function() {
     
     # shoot nc vs. NPP
     plot(nfseq, photo_350_cnp, xlim=c(0.0, 0.05),
-         ylim=c(0.5, 3), 
+         ylim=c(0.0, 3), 
          type = "l", xlab = "Shoot N:C ratio", 
          ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
          col="blue", lwd = 3, cex.lab = 1.5)

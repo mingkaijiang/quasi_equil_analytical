@@ -10,8 +10,8 @@ allocp <- function(pf, pwvar) {
     len <- length(pf)
     ar <- af <- aw <- pw <- pr <- rep(0,len)  # initialise
     for (i in 1:len) {
-        ar[i] <- 0.2
-        af[i] <- 0.2
+        ar[i] <- 0.15
+        af[i] <- 0.15
         aw[i] <- 1 - ar[i] - af[i]
     }
     
@@ -21,7 +21,7 @@ allocp <- function(pf, pwvar) {
     } else {
         pw <- pwood*pf 
     }
-    prho <- 0.7
+    #prho <- 0.7
     pr <- prho*pf
     pfl <- (1.0-pretrans)*pf
     

@@ -1,6 +1,6 @@
 ### Allocation and plant N concentrations - required for both PS constraint and NC constraint
 allocn <- function(nf,  nwvar = TRUE,
-                   nwood = 0.005, nrho = 0.7,
+                   nwood = 0.005, #nrho = 0.7,
                    nretrans = 0.5) {
     # parameters
     # nf is the NC ratio of foliage
@@ -12,8 +12,8 @@ allocn <- function(nf,  nwvar = TRUE,
     len <- length(nf)
     ar <- af <- aw <- nw <- nr <- rep(0,len)  # initialise
     for (i in 1:len) {
-        ar[i] <- 0.2
-        af[i] <- 0.2
+        ar[i] <- 0.15
+        af[i] <- 0.15
         aw[i] <- 1 - ar[i] - af[i]
     }
     
@@ -23,7 +23,7 @@ allocn <- function(nf,  nwvar = TRUE,
     } else {
         nw <- nwood*nf 
     }
-    nrho <- 0.7
+    #nrho <- 0.7
     nr <- nrho*nf
     nfl <- (1.0-nretrans)*nf     
     
