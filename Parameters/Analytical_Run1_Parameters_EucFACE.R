@@ -1,12 +1,12 @@
 #### setting CO2 concentrations
-CO2_1 <- 400.0
-CO2_2 <- 550.0
+CO2_1 <- 350.0
+CO2_2 <- 700.0
 
 #### define parameters
 nwood = 0.003 
-pwood = 0.00014
-nrho = 0.7
-prho = 0.7
+pwood = 0.00005
+nrho = 1
+prho = 1
 nretrans = 0.5
 pretrans = 0.6
 nwvar = FALSE
@@ -22,7 +22,7 @@ cue = 0.5
 leachn = 0.05
 leachp = 0.1
 Nin = 0.2
-Pin = 0.0086        #0.0086
+Pin = 0.02          #0.0086
 k1=0.048            # 0.096  # default in full GDAY = 0.048, and 0.4-0.8 of the labile is available to uptake
 k2=0.0146           # 0.0146 At EucfACE, based on pH = 4.5, k2 = 0.0146 yr-1, and only half into labile
 k3=0.05
@@ -32,7 +32,7 @@ ligfl = 0.2
 ligrl = 0.16
 pcp = 0.005
 ncp = 0.1
-PAR_MJ <- 8.0*365.0
+PAR_MJ <- 4.0
 J_2_UMOL <- 4.57
 MJ_TO_J <- 1000000.0
 par <- MJ_TO_J * J_2_UMOL * PAR_MJ

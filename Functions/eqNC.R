@@ -34,7 +34,7 @@ eqPC <- function(nf, pf, pfdf, NPP, CO2) {
 eqPC_full_cnp <- function(nf, pf, pfdf, NPP, CO2) {
     
     # in umol C 
-    lue_yr <- LUE_full_cnp(nf, pfdf, pf, CO2, NPP*1000.0/365) * par 
+    lue_yr <- LUE_full_cnp_walker(nf, pfdf, pf, CO2, NPP*1000.0/365) * par 
     
     # return gpp as kg m-2 yr-1
     gpp <- lue_yr * (1 - exp(-kext*SLA*pfdf$af*NPP*1000/365/sf/cfrac)) * conv * 365 / 1000.0
@@ -50,7 +50,7 @@ eqPC_full_cnp <- function(nf, pf, pfdf, NPP, CO2) {
 eqPC_full_cn <- function(nf, nfdf, NPP, CO2) {
     
     # in umol C
-    lue_yr <- LUE_full_cn(nf, nfdf, CO2, NPP*1000.0/365) * par 
+    lue_yr <- LUE_full_cn_walker(nf, nfdf, CO2, NPP*1000.0/365) * par 
     
     # return gpp as kg m-2 yr-1
     gpp <- lue_yr * (1 - exp(-kext*SLA*nfdf$af*NPP*1000/365/sf/cfrac)) * conv * 365 / 1000.0
