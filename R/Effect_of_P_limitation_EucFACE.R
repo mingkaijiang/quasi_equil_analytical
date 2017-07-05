@@ -102,17 +102,17 @@ P_limitation_effect_EucFACE <- function() {
 #           lwd=c(2,2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,15,15,15,15), lty=c(1,3,1,3,1,NA,NA,NA,NA), cex = 0.8, 
 #           bg = adjustcolor("grey", 0.8))
     
-    legend("bottomleft", c("NP constraint on photosynthesis, aCO2", 
-                         "N constraint on photosynthesis, aCO2", 
-                         "NP constraint on photosynthesis, eCO2", 
-                         "N constraint on photosynthesis, eCO2", 
-                         "VL nutrient constraint"),
-           col=c("blue","blue", "darkgreen", "darkgreen", "tomato"), 
-           lwd=c(2,2,2,2,2),  lty=c(1,3,1,3,1), cex = 1.0)
-    
-    legend("topright", c("A", "B","C","D"),
-           col=c("orange","green", "blue", "red"), 
-           pch=c(15,15,15,15), cex = 1.0)   
+#    legend("bottomleft", c("NP constraint on photosynthesis, aCO2", 
+#                         "N constraint on photosynthesis, aCO2", 
+#                         "NP constraint on photosynthesis, eCO2", 
+#                         "N constraint on photosynthesis, eCO2", 
+#                         "VL nutrient constraint"),
+#           col=c("blue","blue", "darkgreen", "darkgreen", "tomato"), 
+#           lwd=c(2,2,2,2,2),  lty=c(1,3,1,3,1), cex = 1.0)
+#    
+#    legend("topright", c("A", "B","C","D"),
+#           col=c("orange","green", "blue", "red"), 
+#           pch=c(15,15,15,15), cex = 1.0)   
     
     dev.off()
     

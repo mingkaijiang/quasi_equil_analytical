@@ -4,7 +4,7 @@ CO2_2 <- 600.0
 
 #### define parameters
 nwood = 0.003 
-pwood = 0.00014
+pwood = 0.00003
 nrho = 0.7
 prho = 0.7
 nretrans = 0.5
@@ -15,24 +15,24 @@ LUE0=1.4
 I0=3
 Nref=0.04
 kext=0.5
-SLA=9.8
+SLA=9.7
 sf=0.5
 cfrac = 0.45
 cue = 0.4
 leachn = 0.05
 leachp = 0.05
-Nin = 0.6
-Pin = 0.02
+Nin = 2.4
+Pin = 0.1
 k1=0.01
 k2=0.01
 k3=0.05
 Tsoil = 20
-Texture = 0.5
-ligfl = 0.2
-ligrl = 0.16
+Texture = 0.7562
+ligfl = 0.24
+ligrl = 0.33
 pcp = 0.005
 ncp = 0.1
-PAR_MJ <- 6.0
+PAR_MJ <- 8.0
 J_2_UMOL <- 4.57
 MJ_TO_J <- 1000000.0
 par <- MJ_TO_J * J_2_UMOL * PAR_MJ
@@ -51,8 +51,8 @@ oi <- 210000.0
 vpd <- 2.4
 PA_2_KPA <- 0.001
 wtfac_root <- 1.0
-g1 <- 3.8667
-alpha_j <- 0.308
+g1 <- 4.4
+alpha_j <- 0.26
 daylen <- 10.0
 kn <- 0.3
 aroot <- 0.3
