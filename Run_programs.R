@@ -91,14 +91,14 @@ source("R/Check_analytical_gday_matches.R")
 #### ------------- Checking effect of P limitation in analytical solution ----------- #####
 source("R/Effect_of_P_limitation.R")
 
+source("R/Effect_of_P_limitation_EucFACE.R")
+source("R/Effect_of_P_limitation_AmazonFACE.R")
 
 #### ------------- Checking effect of P limitation in GDAY key variables ----------- #####
 source("R/Effect_of_P_GDAY.R")
 
 #### ------------- Plotting CO2 fertilization effect through time ----------- #####
 source("R/CO2_fertilization_summary.R")
-
-
 
 rm(list=ls(all=TRUE))
 
