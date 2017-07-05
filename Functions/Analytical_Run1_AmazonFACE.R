@@ -9,7 +9,7 @@
 
 
 #### Functions
-Perform_Analytical_Run1_EucFACE <- function(f.flag = 1, cDF, eDF) {
+Perform_Analytical_Run1_AmazonFACE <- function(f.flag = 1, cDF, eDF) {
     #### Function to perform analytical run 1 simulations
     #### eDF: stores equilibrium points
     #### cDF: stores constraint points (curves)
@@ -18,7 +18,7 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag = 1, cDF, eDF) {
     #### f.flag: = 3 return eDF
 
     ######### Main program
-    source("Parameters/Analytical_Run1_Parameters_EucFACE.R")
+    source("Parameters/Analytical_Run1_Parameters_AmazonFACE.R")
     
     
     # create a range of nc for shoot to initiate
@@ -135,7 +135,7 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag = 1, cDF, eDF) {
         
         ######### Plotting
         
-        tiff("Plots/Analytical_Run1_EucFACE.tiff",
+        tiff("Plots/Analytical_Run1_AmazonFACE.tiff",
              width = 8, height = 7, units = "in", res = 300)
         
         
@@ -190,7 +190,7 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag = 1, cDF, eDF) {
         dev.off()
         
         ### plot 2-d plots of nf vs. npp and nf vs. pf
-        tiff("Plots/Analytical_Run1_2d_EucFACE.tiff",
+        tiff("Plots/Analytical_Run1_2d_AmazonFACE.tiff",
              width = 10, height = 5, units = "in", res = 300)
         par(mfrow=c(1,2), mar=c(5.1,6.1,2.1,2.1))
         
@@ -210,7 +210,7 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag = 1, cDF, eDF) {
 
         dev.off()
         
-        tiff("Plots/implicit_PC_EucFACE.tiff",
+        tiff("Plots/implicit_PC_AmazonFACE.tiff",
              width = 8, height = 7, units = "in", res = 300)
         par(mar=c(5.1,6.1,2.1,2.1))
         

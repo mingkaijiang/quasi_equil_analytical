@@ -99,6 +99,24 @@ source("R/Effect_of_P_GDAY.R")
 source("R/CO2_fertilization_summary.R")
 
 
+
+rm(list=ls(all=TRUE))
+
+### Get current date
+date<-Sys.Date()
+
+### read in all R packages
+source("R/prepare_R.R")
+
+
+source("R/Run_analytical_solutions_EucFACE.R")
+
+source("R/CO2_fertilization_summary_EucFACE.R")
+
+source("R/Run_analytical_solutions_AmazonFACE.R")
+
+source("R/CO2_fertilization_summary_AmazonFACE.R")
+
 #### --- Perform the necessary run-specific plottings and statistics ------- #####
 ### Run 4 CUE output, save into a table
 source("R/CUE_check.R")
