@@ -3,7 +3,7 @@
 *
 * Simple version for quasi-equilibrium analysis
 * 
-* This version runs at monthly timestep by using met forcing data averaged annually
+* This version runs at daily timestep by using met forcing data averaged annually
 * 
 *
 * Paramaeter descriptions are in gday.h
@@ -107,8 +107,8 @@ int main(int argc, char **argv)
         /* save spin-up simulations and end state parameters */
         spin_up_annual(c, f, m, p, s, nr);     
     } else {
-        /* read transient monthly met data */
-        read_monthly_met_data(argv, c, ma);
+        /* read transient daily met data */
+        read_daily_met_data(argv, c, ma);
       
         /* Run simulation, forced by transient met input */
         run_sim(c, f, ma, m, p, s, nr);
@@ -120,7 +120,7 @@ int main(int argc, char **argv)
     free(c);
     if (! c->spin_up) {
         free(ma->year);
-        free(ma->prjmonth);
+        free(ma->prjday);
         free(ma->tsoil);
         free(ma->co2);
         free(ma->ndep);
@@ -140,7 +140,7 @@ int main(int argc, char **argv)
 void run_sim(control *c, fluxes *f,  met_arrays *ma, met *m, 
              params *p, state *s, nrutil *nr){
 
-    int    nyr, i, moy;
+    int    nyr, i, doy;
 
     double year, current_limitation, npitfac;
 
@@ -157,17 +157,17 @@ void run_sim(control *c, fluxes *f,  met_arrays *ma, met *m,
     /* ====================== **
      **   Y E A R    L O O P   **
      ** ====================== */
-    c->month_idx = 0;
+    c->day_idx = 0;
     
     for (nyr = 0; nyr < c->num_years; nyr++) {
-        year = ma->year[c->month_idx];
+        year = ma->year[c->day_idx];
 
         /* =================== **
          ** M O N T H   L O O P   **
          ** =================== */
-        for (moy = 0; moy < c->num_months; moy++) {
+        for (doy = 0; doy < c->num_days; doy++) {
         
-          /* read in transient monthly met data from input files */
+          /* read in transient daily met data from input files */
           unpack_met_data_transient(c, f, ma, m, p);
           
           /* correct annual rate */
@@ -199,7 +199,7 @@ void run_sim(control *c, fluxes *f,  met_arrays *ma, met *m,
           year_end_calculations(c, p, s);
           
           if (c->print_options == ANNUAL && c->spin_up == FALSE) {
-            write_annual_outputs_ascii(c, f, s, year, moy+1);
+            write_annual_outputs_ascii(c, f, s, year, doy+1);
           }      
           
           correct_rate_constants(p, TRUE);
@@ -207,7 +207,7 @@ void run_sim(control *c, fluxes *f,  met_arrays *ma, met *m,
           /* ======================= **
           ** E N D   O F   M O N T H **
           ** ======================= */
-          c->month_idx++;
+          c->day_idx++;
         }
         
         /* ========================= **
@@ -239,9 +239,9 @@ void spin_up_annual(control *c, fluxes *f, met *m,
     * Murty, D and McMurtrie, R. E. (2000) Ecological Modelling, 134,
     185-205, specifically page 196.
     */
-    double tol_c = 1E-04;  // 1E-06
-    double tol_n = 1E-04;  // 1E-06 
-    double tol_p = 1E-04;  // 1E-04
+    double tol_c = 1E-02;  // 1E-04
+    double tol_n = 1E-02;  // 1E-04 
+    double tol_p = 1E-02;  // 1E-04
     double prev_plantc = 99999.9;
     double prev_soilc = 99999.9;
     double prev_plantn = 99999.9;
@@ -251,7 +251,7 @@ void spin_up_annual(control *c, fluxes *f, met *m,
 
     /* run simulation variables */
     int    year = 0; 
-    int    moy = 0;
+    int    doy = 0;
 
     /* Setup output file */
       /* Annual outputs */
@@ -275,7 +275,7 @@ void spin_up_annual(control *c, fluxes *f, met *m,
             prev_plantp = s->plantp;
             prev_soilp = s->soilp-s->inorgoccp;
             
-            for(moy = 0; moy < 12; moy++) {
+            for(doy = 0; doy < 365; doy++) {
                 /* read in simple annual met data from parameter files */
                 unpack_met_data_simple(f, m, p);
                 
@@ -313,13 +313,13 @@ void spin_up_annual(control *c, fluxes *f, met *m,
                 if (c->pcycle) {
                   /* Have we reached a steady state? */
                   fprintf(stderr,
-                          "Spinup: Iteration %d, moy %d, lai %f, shootnc %f, shootpc %f, shootc %f, shootn %f, shootp %f, gpp %f\n",
-                          year, moy,  s->lai, s->shootnc, s->shootpc, s->shoot, s->shootn, s->shootp, f->gpp);
+                          "Spinup: Iteration %d, doy %d, lai %f, shootnc %f, shootpc %f, shootc %f, shootn %f, shootp %f, gpp %f\n",
+                          year, doy,  s->lai, s->shootnc, s->shootpc, s->shoot, s->shootn, s->shootp, f->gpp);
                 } else if (c->ncycle) {
                   /* Have we reached a steady state? */
                   fprintf(stderr,
-                          "Spinup: Iteration %d, moy %d, Plant C %f, Leaf NC %f, InorgN %f\n",
-                          year, moy, s->plantc, s->shootnc,s->inorgn);
+                          "Spinup: Iteration %d, doy %d, Plant C %f, Leaf NC %f, InorgN %f\n",
+                          year, doy, s->plantc, s->shootnc,s->inorgn);
                 } else {
                   /* Have we reached a steady state? */
                   fprintf(stderr,
@@ -328,10 +328,10 @@ void spin_up_annual(control *c, fluxes *f, met *m,
                 }   // Print to screen end;
                 
                 /* save spin-up fluxes and stocks */
-                  write_annual_outputs_ascii(c, f, s, year, moy+1);
+                  write_annual_outputs_ascii(c, f, s, year, doy+1);
                 
             
-            }  /* end month loop */
+            }  /* end daily loop */
             
             /* continue at annual timestep */
             year += 1;
@@ -648,11 +648,11 @@ void unpack_met_data_simple(fluxes *f, met *m, params *p) {
   
   /* unpack met forcing */
   m->Ca = p->co2_in;
-  m->par = p->I0 / NMONTHS_IN_YR;       // convert annual input to monthly
+  m->par = p->I0 / NDAYS_IN_YR;       // convert annual input to daily
   
-  m->ndep = p->ndep_in / NMONTHS_IN_YR; // convert annual input to monthly
-  m->nfix = p->nfix_in / NMONTHS_IN_YR; // convert annual input to monthly
-  m->pdep = p->pdep_in / NMONTHS_IN_YR; // convert annual input to monthly
+  m->ndep = p->ndep_in / NDAYS_IN_YR; // convert annual input to daily
+  m->nfix = p->nfix_in / NDAYS_IN_YR; // convert annual input to daily
+  m->pdep = p->pdep_in / NDAYS_IN_YR; // convert annual input to daily
   m->tsoil = p->tsoil_in;
   
   f->ninflow = (m->ndep + m->nfix);
@@ -664,12 +664,12 @@ void unpack_met_data_simple(fluxes *f, met *m, params *p) {
 void unpack_met_data_transient(control *c, fluxes *f, met_arrays *ma, met *m, params *p) {
   
   /* unpack met forcing */
-  m->Ca = ma->co2[c->month_idx];
-  m->par = ma->par[c->month_idx];
-  m->ndep = ma->ndep[c->month_idx];
-  m->nfix = ma->nfix[c->month_idx];
-  m->pdep = ma->pdep[c->month_idx];
-  m->tsoil = ma->tsoil[c->month_idx];
+  m->Ca = ma->co2[c->day_idx];
+  m->par = ma->par[c->day_idx];
+  m->ndep = ma->ndep[c->day_idx];
+  m->nfix = ma->nfix[c->day_idx];
+  m->pdep = ma->pdep[c->day_idx];
+  m->tsoil = ma->tsoil[c->day_idx];
 
   
   f->ninflow = (m->ndep + m->nfix);
@@ -679,60 +679,60 @@ void unpack_met_data_transient(control *c, fluxes *f, met_arrays *ma, met *m, pa
 }
 
 void correct_rate_constants(params *p, int output) {
-  /* adjust rate constants for the number of months in years */
+  /* adjust rate constants for the number of days in years */
   
   if (output) {
-    p->rateuptake *= NMONTHS_IN_YR;
-    p->prateuptake *= NMONTHS_IN_YR;
-    p->rateloss *= NMONTHS_IN_YR;
-    p->prateloss *= NMONTHS_IN_YR;
-    //p->fretransn *= NMONTHS_IN_YR;  // commented out because deadleaf nc should be half of leaf nc
-    //p->fretransp *= NMONTHS_IN_YR;
-    //p->rretrans *= NMONTHS_IN_YR;
-    //p->wretrans *= NMONTHS_IN_YR;
-    p->fdecay *= NMONTHS_IN_YR;
-    p->rdecay *= NMONTHS_IN_YR;
-    p->wdecay *= NMONTHS_IN_YR;
-    p->sapturnover *= NMONTHS_IN_YR;
-    p->kdec1 *= NMONTHS_IN_YR;
-    p->kdec2 *= NMONTHS_IN_YR;
-    p->kdec3 *= NMONTHS_IN_YR;
-    p->kdec4 *= NMONTHS_IN_YR;
-    p->kdec5 *= NMONTHS_IN_YR;
-    p->kdec6 *= NMONTHS_IN_YR;
-    p->kdec7 *= NMONTHS_IN_YR;
-    p->kdec8 *= NMONTHS_IN_YR;
-    //p->k1 *= NMONTHS_IN_YR;
-    //p->k2 *= NMONTHS_IN_YR;
-    //p->k3 *= NMONTHS_IN_YR;
-    p->nuptakez *= NMONTHS_IN_YR;
-    p->puptakez *= NMONTHS_IN_YR;
+    p->rateuptake *= NDAYS_IN_YR;
+    p->prateuptake *= NDAYS_IN_YR;
+    p->rateloss *= NDAYS_IN_YR;
+    p->prateloss *= NDAYS_IN_YR;
+    //p->fretransn *= NDAYS_IN_YR;  // commented out because deadleaf nc should be half of leaf nc
+    //p->fretransp *= NDAYS_IN_YR;
+    //p->rretrans *= NDAYS_IN_YR;
+    //p->wretrans *= NDAYS_IN_YR;
+    p->fdecay *= NDAYS_IN_YR;
+    p->rdecay *= NDAYS_IN_YR;
+    p->wdecay *= NDAYS_IN_YR;
+    p->sapturnover *= NDAYS_IN_YR;
+    p->kdec1 *= NDAYS_IN_YR;
+    p->kdec2 *= NDAYS_IN_YR;
+    p->kdec3 *= NDAYS_IN_YR;
+    p->kdec4 *= NDAYS_IN_YR;
+    p->kdec5 *= NDAYS_IN_YR;
+    p->kdec6 *= NDAYS_IN_YR;
+    p->kdec7 *= NDAYS_IN_YR;
+    p->kdec8 *= NDAYS_IN_YR;
+    //p->k1 *= NDAYS_IN_YR;
+    //p->k2 *= NDAYS_IN_YR;
+    //p->k3 *= NDAYS_IN_YR;
+    p->nuptakez *= NDAYS_IN_YR;
+    p->puptakez *= NDAYS_IN_YR;
   } else {
-    p->rateuptake /= NMONTHS_IN_YR;
-    p->prateuptake /= NMONTHS_IN_YR;
-    p->rateloss /= NMONTHS_IN_YR;
-    p->prateloss /= NMONTHS_IN_YR;
-    //p->fretransn /= NMONTHS_IN_YR;
-    //p->fretransp /= NMONTHS_IN_YR;
-    //p->rretrans /= NMONTHS_IN_YR;
-    //p->wretrans /= NMONTHS_IN_YR;
-    p->fdecay /= NMONTHS_IN_YR;
-    p->rdecay /= NMONTHS_IN_YR;
-    p->wdecay /= NMONTHS_IN_YR;
-    p->sapturnover /= NMONTHS_IN_YR;
-    p->kdec1 /= NMONTHS_IN_YR;
-    p->kdec2 /= NMONTHS_IN_YR;
-    p->kdec3 /= NMONTHS_IN_YR;
-    p->kdec4 /= NMONTHS_IN_YR;
-    p->kdec5 /= NMONTHS_IN_YR;
-    p->kdec6 /= NMONTHS_IN_YR;
-    p->kdec7 /= NMONTHS_IN_YR;
-    p->kdec8 /= NMONTHS_IN_YR;
-    //p->k1 /= NMONTHS_IN_YR;
-    //p->k2 /= NMONTHS_IN_YR;
-    //p->k3 /= NMONTHS_IN_YR;
-    p->nuptakez /= NMONTHS_IN_YR;
-    p->puptakez /= NMONTHS_IN_YR;
+    p->rateuptake /= NDAYS_IN_YR;
+    p->prateuptake /= NDAYS_IN_YR;
+    p->rateloss /= NDAYS_IN_YR;
+    p->prateloss /= NDAYS_IN_YR;
+    //p->fretransn /= NDAYS_IN_YR;
+    //p->fretransp /= NDAYS_IN_YR;
+    //p->rretrans /= NDAYS_IN_YR;
+    //p->wretrans /= NDAYS_IN_YR;
+    p->fdecay /= NDAYS_IN_YR;
+    p->rdecay /= NDAYS_IN_YR;
+    p->wdecay /= NDAYS_IN_YR;
+    p->sapturnover /= NDAYS_IN_YR;
+    p->kdec1 /= NDAYS_IN_YR;
+    p->kdec2 /= NDAYS_IN_YR;
+    p->kdec3 /= NDAYS_IN_YR;
+    p->kdec4 /= NDAYS_IN_YR;
+    p->kdec5 /= NDAYS_IN_YR;
+    p->kdec6 /= NDAYS_IN_YR;
+    p->kdec7 /= NDAYS_IN_YR;
+    p->kdec8 /= NDAYS_IN_YR;
+    //p->k1 /= NDAYS_IN_YR;
+    //p->k2 /= NDAYS_IN_YR;
+    //p->k3 /= NDAYS_IN_YR;
+    p->nuptakez /= NDAYS_IN_YR;
+    p->puptakez /= NDAYS_IN_YR;
   }
   
   return;

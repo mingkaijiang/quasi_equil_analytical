@@ -30,13 +30,13 @@ typedef struct {
     int   print_options;
     int   som_nc_calc;
     int   som_pc_calc;
-    int   num_months;
+    int   num_days;
     int   respiration_model;
-    int   total_num_months;
+    int   total_num_days;
     char  git_code_ver[STRING_LENGTH];
     int   spin_up;
     int   PRINT_GIT;
-    long  month_idx;
+    long  day_idx;
 
 } control;
 
@@ -215,7 +215,7 @@ typedef struct {
 typedef struct {
 
     double *year;
-    double *prjmonth;
+    double *prjday;
     double *par;
     double *tsoil;
     double *co2;

@@ -239,7 +239,7 @@ void np_allocation(control *c, fluxes *f, params *p, state *s,
     
     /* Mineralised nitrogen lost from the system by volatilisation/leaching */
     if(c->nuptake_model == 0) {
-      f->nloss = (p->rateloss * NMONTHS_IN_YR) * s->inorgn;
+      f->nloss = (p->rateloss * NDAYS_IN_YR) * s->inorgn;
     } else if (c->nuptake_model == 1) {
       f->nloss = p->rateloss * s->inorgn;
     } else if (c->nuptake_model == 2) {
@@ -248,7 +248,7 @@ void np_allocation(control *c, fluxes *f, params *p, state *s,
 
     /* Mineralised P lost from the system by leaching */
     if(c->puptake_model == 0) {
-      f->ploss = (p->prateloss * NMONTHS_IN_YR) * s->inorgavlp; 
+      f->ploss = (p->prateloss * NDAYS_IN_YR) * s->inorgavlp; 
     } else if (c->puptake_model == 1) {
       f->ploss = p->prateloss * s->inorgavlp;
     } else if (c->puptake_model == 2) {
@@ -866,16 +866,16 @@ double calculate_nuptake(control *c, params *p, state *s, fluxes *f) {
     if (c->nuptake_model == 0) {
         /* Constant N uptake */
         //nuptake = p->nuptakez;
-        nuptake = (1.0 - (p->rateloss * NMONTHS_IN_YR)) * s->inorgn;
+        nuptake = (1.0 - (p->rateloss * NDAYS_IN_YR)) * s->inorgn;
     } else if (c->nuptake_model == 1) {
         /* evaluate nuptake : proportional to dynamic inorganic N pool */
-        nuptake = p->rateuptake * (1.0 - (p->rateloss * NMONTHS_IN_YR)) * s->inorgn;
+        nuptake = p->rateuptake * (1.0 - (p->rateloss * NDAYS_IN_YR)) * s->inorgn;
     } else if (c->nuptake_model == 2) {
         /* N uptake is a saturating function on root biomass following
            Dewar and McMurtrie, 1996. */
 
         /* supply rate of available mineral N */
-        U0 = p->rateuptake * (1.0 - (p->rateloss * NMONTHS_IN_YR)) * s->inorgn;
+        U0 = p->rateuptake * (1.0 - (p->rateloss * NDAYS_IN_YR)) * s->inorgn;
         Kr = p->kr;
         nuptake = MAX(U0 * s->root / (s->root + Kr), 0.0);
     } else {
@@ -897,10 +897,10 @@ double calculate_puptake(control *c, params *p, state *s, fluxes *f) {
         P uptake
     */
     double puptake, U0, Kr, pocc, pleach;
-    double k1 = p->k1 * NMONTHS_IN_YR;
-    double k2 = p->k2 * NMONTHS_IN_YR;
-    double k3 = p->k3 * NMONTHS_IN_YR;
-    double prateloss = p->prateloss * NMONTHS_IN_YR;
+    double k1 = p->k1 * NDAYS_IN_YR;
+    double k2 = p->k2 * NDAYS_IN_YR;
+    double k3 = p->k3 * NDAYS_IN_YR;
+    double prateloss = p->prateloss * NDAYS_IN_YR;
 
     if (c->puptake_model == 0) {
          puptake = (1.0 - prateloss - p->k1) * s->inorgavlp;

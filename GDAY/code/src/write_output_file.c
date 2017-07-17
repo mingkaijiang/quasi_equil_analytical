@@ -34,7 +34,7 @@ void write_output_header(control *c, params *p, FILE **fp) {
     fprintf(*fp, "#Git_revision_code:%s\n", c->git_code_ver);
 
     /* time stuff */
-    fprintf(*fp, "year,month,");
+    fprintf(*fp, "year,doy,");
 
     /*
     ** STATE
@@ -103,7 +103,7 @@ void write_output_header(control *c, params *p, FILE **fp) {
     return;
 }
 
-void write_annual_outputs_ascii(control *c, fluxes *f, state *s, int year, int month) {
+void write_annual_outputs_ascii(control *c, fluxes *f, state *s, int year, int doy) {
     /*
         Write annual state and fluxes headers to an output CSV file. Note we
         are not writing anything useful like units as there is a wrapper
@@ -113,7 +113,7 @@ void write_annual_outputs_ascii(control *c, fluxes *f, state *s, int year, int m
 
 
     /* time stuff */
-    fprintf(c->ofp, "%.10f,%.10f,", (double)year, (double)month);
+    fprintf(c->ofp, "%.10f,%.10f,", (double)year, (double)doy);
 
     /*
     ** STATE

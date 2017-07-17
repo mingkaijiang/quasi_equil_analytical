@@ -37,7 +37,7 @@ void initialise_control(control *c) {
 
     /* Internal calculated */
     c->num_years = 0;               /* Total number of years simulated */
-    c->num_months = 12;            /* Number of months in a year */
+    c->num_days = 365;            /* Number of days in a year */
     c->PRINT_GIT = FALSE;           /* print the git hash to the cmd line and exit? Called from cmd line parsar */
 
         return;

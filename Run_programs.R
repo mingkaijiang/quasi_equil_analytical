@@ -28,7 +28,8 @@ source("R/prepare_R.R")
 
 #### ------------------------ Prepare GDAY stuffs -------------------------- #####
 ### Create met data for gday simulations
-source("GDAY/pre_processing/create_monthly_met_for_GDAY.R")
+#source("GDAY/pre_processing/create_monthly_met_for_GDAY.R")
+source("GDAY/pre_processing/create_daily_met_for_GDAY.R")
 
 ### compile gday program and send to simulation folders
 source("GDAY/pre_processing/Make_GDAY_and_Send_To_Folders.R")
@@ -48,7 +49,8 @@ source("GDAY/pre_processing/Run_GDAY.R")
 #### ------------------ Post-processing GDAY simulations ------------------- #####
 ### Convert from monthly to annual data and save to analyses subfolders
 ### This step is the only "must-run" step for post-processing purpose
-source("GDAY/post_processing/Convert_GDAY_monthly_to_annual.R")   
+#source("GDAY/post_processing/Convert_GDAY_monthly_to_annual.R")   
+source("GDAY/post_processing/Convert_GDAY_daily_to_annual.R")   
 
 
 ### delete all raw GDAY output files as they are large

@@ -716,7 +716,7 @@ void adjust_residence_time_of_slow_pool(fluxes *f, params *p) {
   
   if (float_eq(f->factive, 0.0)) {
     /* Need to correct units of rate constant */
-    rt_slow_pool = 1.0 / (p->kdec6 * NMONTHS_IN_YR);
+    rt_slow_pool = 1.0 / (p->kdec6 * NDAYS_IN_YR);
   } else {
     rt_slow_pool = (1.0 / p->prime_y) / \
       MAX(0.3, (f->factive / (f->factive + p->prime_z)));
@@ -728,7 +728,7 @@ void adjust_residence_time_of_slow_pool(fluxes *f, params *p) {
     p->kdec6 = 1.0 / rt_slow_pool;
     
     /* rate constant needs to be per day inside GDAY */
-    p->kdec6 /= NMONTHS_IN_YR;
+    p->kdec6 /= NDAYS_IN_YR;
     
   }
   

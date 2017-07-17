@@ -20,7 +20,7 @@ void read_annual_met_data_simple(char **argv, control *c, met *m, params *p)
 }
 
 
-void read_monthly_met_data(char **argv, control *c, met_arrays *ma)
+void read_daily_met_data(char **argv, control *c, met_arrays *ma)
 {
   FILE  *fp;
   char   line[STRING_LENGTH];
@@ -31,7 +31,7 @@ void read_monthly_met_data(char **argv, control *c, met_arrays *ma)
   double current_yr = -999.9;
   
   if ((fp = fopen(c->met_fname, "r")) == NULL) {
-    fprintf(stderr, "Error: couldn't open monthly Met file %s for read\n",
+    fprintf(stderr, "Error: couldn't open daily Met file %s for read\n",
             c->met_fname);
     exit(EXIT_FAILURE);
   }
@@ -52,8 +52,8 @@ void read_monthly_met_data(char **argv, control *c, met_arrays *ma)
     exit(EXIT_FAILURE);
   }
   
-  if ((ma->prjmonth = (double *)calloc(file_len, sizeof(double))) == NULL) {
-    fprintf(stderr,"Error allocating space for prjmonth array\n");
+  if ((ma->prjday = (double *)calloc(file_len, sizeof(double))) == NULL) {
+    fprintf(stderr,"Error allocating space for prjday array\n");
     exit(EXIT_FAILURE);
   }
   
@@ -100,7 +100,7 @@ void read_monthly_met_data(char **argv, control *c, met_arrays *ma)
     if (sscanf(line, "%lf,%lf,                                          \
                  %lf,%lf,%lf,                                           \
                  %lf,%lf,%lf",                                          \
-                 &(ma->year[i]), &(ma->prjmonth[i]),                    \
+                 &(ma->year[i]), &(ma->prjday[i]),                      \
                  &(ma->tsoil[i]), &(ma->co2[i]), &(ma->ndep[i]),        \
                  &(ma->nfix[i]),  &(ma->pdep[i]), &(ma->par[i])) != nvars) {
                  fprintf(stderr, "%s: badly formatted input in met file on line %d %d\n", \

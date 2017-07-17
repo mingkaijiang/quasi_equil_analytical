@@ -8,8 +8,8 @@
 #define MOL_2_MMOL 1000.0
 #define MMOL_2_MOL 1E-03
 #define NMOL_2_MOL 1E-09
-#define NDAYS_IN_YR 365.25
-#define NMONTHS_IN_YR 12.0
+#define NDAYS_IN_YR 365.0
+//#define NMONTHS_IN_YR 12.0
 #define DEG_TO_KELVIN 273.15
 #define RGAS 8.314
 #define SECS_IN_HOUR 3600.0
@@ -30,8 +30,8 @@
 #define UMOL_2_GRAMS_C  UMOL_TO_MOL * MOL_C_TO_GRAMS_C
 #define TONNES_HA_2_KG_M2 0.1
 #define TONNES_HA_2_G_M2 100.0
-#define YRS_IN_DAYS 1.0 / 365.25
-#define DAYS_IN_YRS 365.25
+#define YRS_IN_DAYS 1.0 / 365.0
+#define DAYS_IN_YRS 365.0
 #define G_M2_2_TONNES_HA 0.01
 #define KG_M2_2_TONNES_HA 10.0
 #define KPA_2_MPA 0.001
