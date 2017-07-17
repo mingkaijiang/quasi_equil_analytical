@@ -34,7 +34,11 @@ for (i in 1999:2100) {
     aDF_p[aDF_p$Year == i, "LMA"] <- amazDF_P[amazDF_P$YEAR == i & amazDF_P$DOY == 1, "LMA"]
 }
 
+#### prepare other variables based on calculations
+# PAR in mol m-2 to GJ
+
+
 
 #### Compute relationships
-
-
+lm.n <- lm(GPP~CO2+PAR+CL+NL+LAI, data=aDF_n)
+summary(lm.n)

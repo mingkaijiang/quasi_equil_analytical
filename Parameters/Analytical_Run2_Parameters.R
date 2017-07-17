@@ -55,3 +55,5 @@ g1 <- 3.8667
 alpha_j <- 0.308
 daylen <- 8.0
 kn <- 0.3
+aroot <- 0.2
+aleaf <- 0.2

@@ -23,11 +23,11 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     
     # create a range of nc for shoot to initiate
     nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq,nwvar=nwvar))
+    a_nf <- as.data.frame(allocn(nfseq))
     
     # using very long term relationship to calculate pf from nf
     pfseq <- inferpfVL(nfseq, a_nf)
-    a_pf <- as.data.frame(allocp(pfseq,pwvar=pwvar))
+    a_pf <- as.data.frame(allocp(pfseq))
     
     # calculate photosynthetic constraint at CO2 = 350
     Photo350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
@@ -39,7 +39,7 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     PCVLONG <- VLong_constraint_P(pf=pfseq, pfdf=a_pf)
     
     ### finding the equilibrium point between photosynthesis and very long term nutrient constraints
-    VLong_equil <- solveVLong_full_cnp(CO2=CO2_1, nwvar=nwvar, pwvar=pwvar)
+    VLong_equil <- solveVLong_full_cnp(CO2=CO2_1)
     
     ### Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn(VLong_equil$equilnf,nwvar=nwvar)

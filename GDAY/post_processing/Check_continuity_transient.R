@@ -109,7 +109,7 @@ run_transient_continuity <- function() {
     cwd <- getwd()
     
     #### Setting working directory
-    setwd("GDAY/simulations")
+    setwd("GDAY/outputs")
     
     #### Count number of simulations runs by counting the # folders
     dirFile <- list.dirs(path=".", full.names = TRUE, recursive = FALSE)

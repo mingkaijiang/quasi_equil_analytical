@@ -32,3 +32,5 @@ ligfl = 0.2
 ligrl = 0.16
 pcp = 0.005
 ncp = 0.1
+aroot <- 0.2
+aleaf <- 0.2
