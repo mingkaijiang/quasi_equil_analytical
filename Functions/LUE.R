@@ -197,8 +197,10 @@ LUE_full_cnp_walker <- function(nf, pfdf, pf, CO2, NPP) {
     
     asat <- pmin(aj, ac)
     
-    #lue_calc <- epsilon_simplified(asat, PAR_MJ, alpha, daylen)
-    lue_calc <- epsilon(asat, par, alpha, daylen)
+    lue_calc <- epsilon_simplified(asat, PAR_MJ, alpha, daylen)
+    #lue_calc <- epsilon(asat, par, alpha, daylen)
+    
+    browser()
     
     return(lue_calc)
 }

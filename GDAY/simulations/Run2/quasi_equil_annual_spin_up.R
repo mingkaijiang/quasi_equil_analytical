@@ -148,7 +148,7 @@ Run_GDAY_spinup <- function(site) {
         "passncmin", "0.1",                   # C:N = 10
         "passpcmin", "0.005",                 # C:P = 200
         "passpcmax", "0.005",                 # C:P = 200
-        "lue0", "1.4",                        # 2.8 for GPP, 1.4 for NPP
+        "lue0", "2.8",                        # 2.8 for GPP, 1.4 for NPP
         "cue", "0.5",                         # 
         "ncmaxf", "0.05",                     # 0.05
         "ncwnewz", "0.005",                   # C:N = 200, match analytical 

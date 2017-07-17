@@ -76,6 +76,7 @@ void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s,
     
     /* LUE (umol C umol-1 PAR) ; note conversion in epsilon */
     lue_avg = epsilon(p, asat, m->par, alpha, daylen);
+    //lue_avg = lue_simplified(c, p, s, m->Ca);
     
     /* absorbed photosynthetically active radiation (umol m-2 s-1) */
     f->apar = m->par * s->fipar;
