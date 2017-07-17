@@ -55,7 +55,7 @@ solveVLong_full_cn <- function(CO2) {
     equilnf <- uniroot(fn,interval=c(0.01,0.1))$root
     equilNPP <- photo_constraint_full_cn(equilnf, allocn(equilnf), CO2)
     equilpf <- "NA"
-    ans <- data.frame(equilnf, equilpf, equilNPP)
+    ans <- data.frame(equilnf, "NA", equilNPP)
     return(ans)
 }
 

@@ -20,9 +20,9 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     source("Parameters/Analytical_Run2_Parameters.R")
     
     # N:C ratios for x-axis
-    nfseq <- seq(0.01,0.05,by=0.001)
+    nfseq <- seq(0.01,0.1,by=0.001)
     # need allocation fractions here
-    a_vec <- allocn(nfseq,nwvar=nwvar)
+    a_vec <- allocn(nfseq)
     
     # plot photosynthetic constraints
     PC350 <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_1)
@@ -32,9 +32,9 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     NCVLONG <- VLong_constraint_N(nfseq,a_vec)
     
     #solve very-long nutrient cycling constraint
-    VLong <- solveVLong_full_cn(CO2=CO2_1, nwvar=nwvar)
+    VLong <- solveVLong_full_cn(CO2=CO2_1)
     #get Cpassive from very-long nutrient cycling solution
-    aequil <- allocn(VLong$equilnf, nwvar=nwvar)
+    aequil <- allocn(VLong$equilnf)
     pass <- passive(df=VLong$equilnf, a=aequil)
     omegap <- aequil$af*pass$omegaf + aequil$ar*pass$omegar
     CpassVLong <- omegap*VLong$equilNPP/pass$decomp/(1-pass$qq)*1000.0
@@ -44,18 +44,18 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     NCHUGH <- Long_constraint_N(nfseq,a_vec,Cpass=CpassVLong,Nin+NrelwoodVLong)
     
     # Solve longterm equilibrium
-    equil_long_350 <- solveLong_full_cn(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong,nwvar=nwvar)
-    equil_long_700 <- solveLong_full_cn(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong,nwvar=nwvar)
+    equil_long_350 <- solveLong_full_cn(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_700 <- solveLong_full_cn(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
     inst700 <- inst_NPP(VLong$equilnf, df700)
     
     ## locate the intersect between VL nutrient constraint and CO2 = 700
-    VLong700 <- solveVLong_full_cn(CO2=CO2_2,nwvar=nwvar)
+    VLong700 <- solveVLong_full_cn(CO2=CO2_2)
     
     # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 2 & cDF$CO2 == 350, 3:13] <- test <- cbind(nfseq, 0, 0, PC350, NCVLONG, NCHUGH)
+    cDF[cDF$Run == 2 & cDF$CO2 == 350, 3:13] <- cbind(nfseq, 0, 0, PC350, NCVLONG, NCHUGH)
     eDF[eDF$Run == 2 & eDF$CO2 == 350, 3:8] <- cbind(VLong, equil_long_350)
     cDF[cDF$Run == 2 & cDF$CO2 == 700, 3:13] <- cbind(nfseq, 0, 0, PC700, NCVLONG, NCHUGH)
     eDF[eDF$Run == 2 & eDF$CO2 == 700, 3:8] <- cbind(VLong700, equil_long_700)
