@@ -702,9 +702,9 @@ void correct_rate_constants(params *p, int output) {
     p->kdec6 *= NDAYS_IN_YR;
     p->kdec7 *= NDAYS_IN_YR;
     p->kdec8 *= NDAYS_IN_YR;
-    //p->k1 *= NDAYS_IN_YR;
-    //p->k2 *= NDAYS_IN_YR;
-    //p->k3 *= NDAYS_IN_YR;
+    p->k1 *= NDAYS_IN_YR;
+    p->k2 *= NDAYS_IN_YR;
+    p->k3 *= NDAYS_IN_YR;
     p->nuptakez *= NDAYS_IN_YR;
     p->puptakez *= NDAYS_IN_YR;
   } else {
@@ -728,9 +728,9 @@ void correct_rate_constants(params *p, int output) {
     p->kdec6 /= NDAYS_IN_YR;
     p->kdec7 /= NDAYS_IN_YR;
     p->kdec8 /= NDAYS_IN_YR;
-    //p->k1 /= NDAYS_IN_YR;
-    //p->k2 /= NDAYS_IN_YR;
-    //p->k3 /= NDAYS_IN_YR;
+    p->k1 /= NDAYS_IN_YR;
+    p->k2 /= NDAYS_IN_YR;
+    p->k3 /= NDAYS_IN_YR;
     p->nuptakez /= NDAYS_IN_YR;
     p->puptakez /= NDAYS_IN_YR;
   }
