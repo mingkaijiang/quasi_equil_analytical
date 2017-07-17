@@ -98,3 +98,7 @@ GDAY/code/src/*.o
 
 # ignore all the DS_store files
 .DS_Store
+
+
+# ignore test files
+GDAY/simulations/Run1/*.txt

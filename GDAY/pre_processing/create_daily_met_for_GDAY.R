@@ -40,13 +40,16 @@ create_dataset_daily <- function(outName,
     pdep_b_m <- 0.0002/365.0
     par_b_m <- 1440/365.0
     
+    s <- 5*365
+    e <- s+1
+    
     ### assign baseline met to first 5 years of the dataframe
-    outDF[1:60,"tsoil"] <- tsoil_b
-    outDF[1:60,"co2"] <- co2_b
-    outDF[1:60,"ndep"] <- ndep_b_m
-    outDF[1:60,"nfix"] <- nfix_b_m
-    outDF[1:60,"pdep"] <- pdep_b_m
-    outDF[1:60,"par"] <- par_b_m
+    outDF[1:s,"tsoil"] <- tsoil_b
+    outDF[1:s,"co2"] <- co2_b
+    outDF[1:s,"ndep"] <- ndep_b_m
+    outDF[1:s,"nfix"] <- nfix_b_m
+    outDF[1:s,"pdep"] <- pdep_b_m
+    outDF[1:s,"par"] <- par_b_m
     
     ### conver from annual to daily rates, for those needed
     ndep_m <- ndep/365.0
@@ -55,12 +58,12 @@ create_dataset_daily <- function(outName,
     par_m <- par/365.0
     
     ### Assign met data defined by user onto the rest years 
-    outDF[61:ny,"tsoil"] <- tsoil
-    outDF[61:ny,"co2"] <- co2
-    outDF[61:ny,"ndep"] <- ndep_m
-    outDF[61:ny,"nfix"] <- nfix_m
-    outDF[61:ny,"pdep"] <- pdep_m
-    outDF[61:ny,"par"] <- par_m
+    outDF[e:ny,"tsoil"] <- tsoil
+    outDF[e:ny,"co2"] <- co2
+    outDF[e:ny,"ndep"] <- ndep_m
+    outDF[e:ny,"nfix"] <- nfix_m
+    outDF[e:ny,"pdep"] <- pdep_m
+    outDF[e:ny,"par"] <- par_m
     
     ### rows
     row1 <- "# simplified gday met forcing transient"
