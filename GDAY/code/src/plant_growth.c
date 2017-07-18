@@ -904,7 +904,7 @@ double calculate_puptake(control *c, params *p, state *s, fluxes *f) {
     
 
     if (c->puptake_model == 0) {
-         puptake = (1.0 - p->prateloss - p->k1) * s->inorgavlp;
+         puptake = rateuptake * s->inorgavlp;
          //puptake = f->p_atm_dep / ((prateloss) / (1.0 - prateloss - k1));
 
     } else if (c->puptake_model == 1) {

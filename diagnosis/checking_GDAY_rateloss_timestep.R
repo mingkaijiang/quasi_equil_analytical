@@ -47,3 +47,14 @@ with(myDF, plot(lai))
 summary(myDF$inorgn)
 summary(myDF$inorgavlp)
 
+# at daily time step check mass balance for inorgn
+subDF$tot_in <- subDF$ninflow + subDF$nmineralisation
+subDF$tot_out <- subDF$nloss + subDF$nuptake
+net <- subDF$tot_in - subDF$tot_out
+
+diff <- subDF[ , list(year,inorgn,Diff=diff(inorgn))  ]
+diff <- diff(subDF$inorgn)
+
+## check if Nin = Nloss at VL equilibrium
+test <- subDF$ninflow - subDF$nloss
+summary(test)
