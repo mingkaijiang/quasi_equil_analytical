@@ -865,11 +865,11 @@ double calculate_nuptake(control *c, params *p, state *s, fluxes *f) {
 
     if (c->nuptake_model == 0) {
         /* Constant N uptake */
-        nuptake = (1.0 - (p->rateloss * NDAYS_IN_YR)) * s->inorgn;
+        nuptake = (1.0 - (p->rateloss)) * s->inorgn;
         //nuptake = f->ninflow / ((p->rateloss * NDAYS_IN_YR) / (1.0 - p->rateloss * NDAYS_IN_YR));
     } else if (c->nuptake_model == 1) {
         /* evaluate nuptake : proportional to dynamic inorganic N pool */
-        nuptake = p->rateuptake * (1.0 - (p->rateloss * NDAYS_IN_YR)) * s->inorgn;
+        nuptake = p->rateuptake * (1.0 - (p->rateloss)) * s->inorgn;
     } else if (c->nuptake_model == 2) {
         /* N uptake is a saturating function on root biomass following
            Dewar and McMurtrie, 1996. */
@@ -903,7 +903,7 @@ double calculate_puptake(control *c, params *p, state *s, fluxes *f) {
     double prateloss = p->prateloss * NDAYS_IN_YR;
 
     if (c->puptake_model == 0) {
-         puptake = (1.0 - prateloss - k1) * s->inorgavlp;
+         puptake = (1.0 - p->prateloss - p->k1) * s->inorgavlp;
          //puptake = f->p_atm_dep / ((prateloss) / (1.0 - prateloss - k1));
 
     } else if (c->puptake_model == 1) {
