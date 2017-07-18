@@ -91,7 +91,12 @@ void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s,
     /* g C m-2 to tonnes hectare-1 day-1 */
     f->gpp = f->gpp_gCm2 * G_AS_TONNES / M2_AS_HA;
     
-    //fprintf(stderr, "ci %f, ac %f, aj %f, asat %f\n", ci, ac, aj, asat);
+    //fprintf(stderr, "N0 %f, P0 %f, gamma_star %f, shootnc %f, shootpc %f\n",
+    //        N0, P0, gamma_star, s->shootnc, s->shootpc);
+    //fprintf(stderr, "Km %f, jmax %f, vcmax %f, ci %f, alpha %f\n", 
+    //        Km, jmax, vcmax, ci, alpha);
+    //fprintf(stderr, "ac %f, aj %f, asat %f, lue_avg %f, gpp %f\n", 
+    //        ac, aj, asat, lue_avg, f->gpp);
     
     /* calculate plant respiration */
     if (c->respiration_model == FIXED) {
