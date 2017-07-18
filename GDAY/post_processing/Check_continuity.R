@@ -34,7 +34,8 @@ continuity_pool_plot <- function(spinDF, tranDF1, tranDF2) {
     DF2 <- integrate_DF(spinDF, tranDF2)
     
     #### Identify fluxes and stocks: 0 is other, 1 is flux, 2 is stock
-    fop<-c(rep(0,2),rep(2,35),rep(1,36),rep(0,1),rep(1,23))
+    fop<-c(rep(0,2),rep(2,35),rep(1,18),#rep(0,1),
+           rep(1,2))
     
     fop<-fop[-2] 
     varnames <- names(DF1)[fop==2]

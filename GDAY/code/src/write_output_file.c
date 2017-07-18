@@ -57,18 +57,18 @@ void write_output_header(control *c, params *p, FILE **fp) {
     */
 
     /* litter */
-    fprintf(*fp, "deadleaves,deadstems,deadroots,");
-    fprintf(*fp, "deadleafn,deadstemn,deadrootn,");
-    fprintf(*fp, "deadleafp,deadstemp,deadrootp,");
+    //fprintf(*fp, "deadleaves,deadstems,deadroots,");
+    //fprintf(*fp, "deadleafn,deadstemn,deadrootn,");
+    //fprintf(*fp, "deadleafp,deadstemp,deadrootp,");
 
 
     /* C fluxes */
     fprintf(*fp, "nep,gpp,npp,hetero_resp,auto_resp,apar,");
 
     /* C, N and P growth */
-    fprintf(*fp, "cpleaf,cpstem,cproot,");
-    fprintf(*fp, "npleaf,npstem,nproot,");
-    fprintf(*fp, "ppleaf,ppstem,pproot,");
+    //fprintf(*fp, "cpleaf,cpstem,cproot,");
+    //fprintf(*fp, "npleaf,npstem,nproot,");
+    //fprintf(*fp, "ppleaf,ppstem,pproot,");
 
 
     /* N stuff */
@@ -78,26 +78,26 @@ void write_output_header(control *c, params *p, FILE **fp) {
     fprintf(*fp, "p_atm_dep,puptake,pgross,pmineralisation,ploss,plittrelease,");
 
     /* traceability stuff */
-    fprintf(*fp, "tfac_soil_decomp,c_into_active,c_into_slow,");
-    fprintf(*fp, "c_into_passive,active_to_slow,active_to_passive,");
-    fprintf(*fp, "slow_to_active,slow_to_passive,passive_to_active,");
-    fprintf(*fp, "co2_rel_from_surf_struct_litter,");
-    fprintf(*fp, "co2_rel_from_soil_struct_litter,");
-    fprintf(*fp, "co2_rel_from_surf_metab_litter,");
-    fprintf(*fp, "co2_rel_from_soil_metab_litter,");
-    fprintf(*fp, "co2_rel_from_active_pool,");
-    fprintf(*fp, "co2_rel_from_slow_pool,");
-    fprintf(*fp, "co2_rel_from_passive_pool,");
+    //fprintf(*fp, "tfac_soil_decomp,c_into_active,c_into_slow,");
+    //fprintf(*fp, "c_into_passive,active_to_slow,active_to_passive,");
+    //fprintf(*fp, "slow_to_active,slow_to_passive,passive_to_active,");
+    //fprintf(*fp, "co2_rel_from_surf_struct_litter,");
+    //fprintf(*fp, "co2_rel_from_soil_struct_litter,");
+    //fprintf(*fp, "co2_rel_from_surf_metab_litter,");
+    //fprintf(*fp, "co2_rel_from_soil_metab_litter,");
+    //fprintf(*fp, "co2_rel_from_active_pool,");
+    //fprintf(*fp, "co2_rel_from_slow_pool,");
+    //fprintf(*fp, "co2_rel_from_passive_pool,");
 
     /* Misc */
     fprintf(*fp, "leafretransn,");
-    fprintf(*fp, "leafretransp,");
-    fprintf(*fp, "rootretransn,");
-    fprintf(*fp, "rootretransp,");
-    fprintf(*fp, "stemretransn,");
-    fprintf(*fp, "stemretransp,");
-    fprintf(*fp, "retransn,");
-    fprintf(*fp, "retransp\n");
+    fprintf(*fp, "leafretransp\n");
+    //fprintf(*fp, "rootretransn,");
+    //fprintf(*fp, "rootretransp,");
+    //fprintf(*fp, "stemretransn,");
+    //fprintf(*fp, "stemretransp,");
+    //fprintf(*fp, "retransn,");
+    //fprintf(*fp, "retransp\n");
     
 
     return;
@@ -155,12 +155,12 @@ void write_annual_outputs_ascii(control *c, fluxes *f, state *s, int year, int d
     */
 
     /* litter */
-    fprintf(c->ofp, "%.10f,%.10f,%.10f,",
-                    f->deadleaves,f->deadstems,f->deadroots);
-    fprintf(c->ofp, "%.10f,%.10f,%.10f,",
-                    f->deadleafn,f->deadstemn,f->deadrootn);
-    fprintf(c->ofp, "%.10f,%.10f,%.10f,",
-                    f->deadleafp,f->deadstemp,f->deadrootp);
+    //fprintf(c->ofp, "%.10f,%.10f,%.10f,",
+    //                f->deadleaves,f->deadstems,f->deadroots);
+    //fprintf(c->ofp, "%.10f,%.10f,%.10f,",
+    //                f->deadleafn,f->deadstemn,f->deadrootn);
+    //fprintf(c->ofp, "%.10f,%.10f,%.10f,",
+    //                f->deadleafp,f->deadstemp,f->deadrootp);
 
     /* C fluxes */
     fprintf(c->ofp, "%.10f,%.10f,%.10f,%.10f,%.10f,%.10f,",
@@ -168,12 +168,12 @@ void write_annual_outputs_ascii(control *c, fluxes *f, state *s, int year, int d
                     f->apar);
 
     /* C N and P growth */
-    fprintf(c->ofp, "%.10f,%.10f,%.10f,",
-                    f->cpleaf,f->cpstem,f->cproot);
-    fprintf(c->ofp, "%.10f,%.10f,%.10f,",
-                    f->npleaf,f->npstem,f->nproot);
-    fprintf(c->ofp, "%.10f,%.10f,%.10f,",
-                    f->ppleaf,f->ppstem,f->pproot);
+    //fprintf(c->ofp, "%.10f,%.10f,%.10f,",
+    //                f->cpleaf,f->cpstem,f->cproot);
+    //fprintf(c->ofp, "%.10f,%.10f,%.10f,",
+    //                f->npleaf,f->npstem,f->nproot);
+    //fprintf(c->ofp, "%.10f,%.10f,%.10f,",
+    //                f->ppleaf,f->ppstem,f->pproot);
 
     /* N stuff */
     fprintf(c->ofp, "%.10f,%.10f,%.10f,%.10f,%.10f,%.10f,",
@@ -185,29 +185,29 @@ void write_annual_outputs_ascii(control *c, fluxes *f, state *s, int year, int d
 
 
     /* traceability stuff */
-    fprintf(c->ofp, "%.10f,%.10f,%.10f,",
-                    f->tfac_soil_decomp,f->c_into_active,f->c_into_slow);
-    fprintf(c->ofp, "%.10f,%.10f,%.10f,",
-                    f->c_into_passive,f->active_to_slow,f->active_to_passive);
-    fprintf(c->ofp, "%.10f,%.10f,%.10f,",
-                    f->slow_to_active,f->slow_to_passive,f->passive_to_active);
-    fprintf(c->ofp, "%.10f,", f->co2_rel_from_surf_struct_litter);
-    fprintf(c->ofp, "%.10f,", f->co2_rel_from_soil_struct_litter);
-    fprintf(c->ofp, "%.10f,", f->co2_rel_from_surf_metab_litter);
-    fprintf(c->ofp, "%.10f,", f->co2_rel_from_soil_metab_litter);
-    fprintf(c->ofp, "%.10f,", f->co2_rel_from_active_pool);
-    fprintf(c->ofp, "%.10f,", f->co2_rel_from_slow_pool);
-    fprintf(c->ofp, "%.10f,", f->co2_rel_from_passive_pool);
+    //fprintf(c->ofp, "%.10f,%.10f,%.10f,",
+    //                f->tfac_soil_decomp,f->c_into_active,f->c_into_slow);
+    //fprintf(c->ofp, "%.10f,%.10f,%.10f,",
+    //                f->c_into_passive,f->active_to_slow,f->active_to_passive);
+    //fprintf(c->ofp, "%.10f,%.10f,%.10f,",
+    //                f->slow_to_active,f->slow_to_passive,f->passive_to_active);
+    //fprintf(c->ofp, "%.10f,", f->co2_rel_from_surf_struct_litter);
+    //fprintf(c->ofp, "%.10f,", f->co2_rel_from_soil_struct_litter);
+    //fprintf(c->ofp, "%.10f,", f->co2_rel_from_surf_metab_litter);
+    //fprintf(c->ofp, "%.10f,", f->co2_rel_from_soil_metab_litter);
+    //fprintf(c->ofp, "%.10f,", f->co2_rel_from_active_pool);
+    //fprintf(c->ofp, "%.10f,", f->co2_rel_from_slow_pool);
+    //fprintf(c->ofp, "%.10f,", f->co2_rel_from_passive_pool);
 
     /* Misc */
     fprintf(c->ofp, "%.10f,", f->leafretransn);
-    fprintf(c->ofp, "%.10f,", f->leafretransp);
-    fprintf(c->ofp, "%.10f,", f->rootretransn);
-    fprintf(c->ofp, "%.10f,", f->rootretransp);
-    fprintf(c->ofp, "%.10f,", f->stemretransn);
-    fprintf(c->ofp, "%.10f,", f->stemretransp);
-    fprintf(c->ofp, "%.10f,", f->retransn);
-    fprintf(c->ofp, "%.10f\n", f->retransp);
+    fprintf(c->ofp, "%.10f\n", f->leafretransp);
+    //fprintf(c->ofp, "%.10f,", f->rootretransn);
+    //fprintf(c->ofp, "%.10f,", f->rootretransp);
+    //fprintf(c->ofp, "%.10f,", f->stemretransn);
+    //fprintf(c->ofp, "%.10f,", f->stemretransp);
+    //fprintf(c->ofp, "%.10f,", f->retransn);
+    //fprintf(c->ofp, "%.10f\n", f->retransp);
     
     return;
 }

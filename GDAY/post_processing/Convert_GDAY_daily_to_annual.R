@@ -16,18 +16,19 @@ d_to_a <- function(inDF) {
     dimension <- dim(inDF)
     n <- names(inDF)
     yvars <- n[-c(1:2)]
+    e <- ncol(inDF)
     
     #### Identify fluxes and stocks: 0 is other, 1 is flux, 2 is stock
     fop1<-c(rep(0,2),    # 1 - 2
             rep(2,35),   # 3 - 37
-            rep(1,36),   # 38 - 73
-            rep(0,1),    # 74
-            rep(1,23))   # 75 - 97
+            rep(1,18),   # 38 - 73
+            #rep(0,1),    # 74
+            rep(1,2))   # 75 - 97
     match <- data.frame(fop1,n)
     #print(match)
     
     ## extract stock df and flux df
-    fDF <- cbind(inDF[1:2], inDF[,38:97])
+    fDF <- cbind(inDF[1:2], inDF[,38:e])
     sDF <- cbind(inDF[,1:37])
     
     ## update year list for calculation of delta
@@ -46,12 +47,12 @@ d_to_a <- function(inDF) {
     faDF <- aggregate(. ~ year, data = fDF, FUN = "sum")
     faDF$year <- NULL
     faDF$doy <- NULL
-    ann[,38:97] <- faDF
+    ann[,38:e] <- faDF
     
     ## Finishing touch
     ann$year<-as.numeric(ann$year)
     ann$doy <- NULL
-    ann$tfac_soil_decomp <- ann$tfac_soil_decomp/365.0
+    #ann$tfac_soil_decomp <- ann$tfac_soil_decomp/365.0
     
     return(ann)
     
