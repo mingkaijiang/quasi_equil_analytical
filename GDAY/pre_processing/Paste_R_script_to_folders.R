@@ -4,7 +4,7 @@
 #### Note: swap parameters and model settings on the run
 ################################################################################
 source("GDAY/pre_processing/Run2_R_script_copy_paste.R")
-#source("GDAY/pre_processing/Run3_R_script_copy_paste.R")
+source("GDAY/pre_processing/Run3_R_script_copy_paste.R")
 #source("GDAY/pre_processing/Run4_R_script_copy_paste.R")
 #source("GDAY/pre_processing/Run5_R_script_copy_paste.R")
 #source("GDAY/pre_processing/Run6_R_script_copy_paste.R")

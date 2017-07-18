@@ -20,7 +20,7 @@ setwd(cwd)
 #### Create output folders if not exist
 if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run1", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run1", sep=""))
 if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run2", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run2", sep=""))
-#if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run3", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run3", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run3", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run3", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run4", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run4", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run5", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run5", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run6", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run6", sep=""))
@@ -32,7 +32,7 @@ if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run2", sep="")))dir.create(paste
 #### Create output folders if not exist
 if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run1", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run1", sep=""))
 if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run2", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run2", sep=""))
-#if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run3", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run3", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run3", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run3", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run4", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run4", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run5", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run5", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run6", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run6", sep=""))
@@ -46,7 +46,7 @@ if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run2", sep="")))dir.create(paste(get
 #### Create params folders at the same time for each subfolders of output
 if(!dir.exists(paste(getwd(),"/GDAY/params/Run1", sep="")))dir.create(paste(getwd(), "/GDAY/params/Run1", sep=""))
 if(!dir.exists(paste(getwd(),"/GDAY/params/Run2", sep="")))dir.create(paste(getwd(), "/GDAY/params/Run2", sep=""))
-#if(!dir.exists(paste(getwd(),"/GDAY/params/Run3", sep="")))dir.create(paste(getwd(), "/GDAY/params/Run3", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/params/Run3", sep="")))dir.create(paste(getwd(), "/GDAY/params/Run3", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/params/Run4", sep="")))dir.create(paste(getwd(), "/GDAY/params/Run4", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/params/Run5", sep="")))dir.create(paste(getwd(), "/GDAY/params/Run5", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/params/Run6", sep="")))dir.create(paste(getwd(), "/GDAY/params/Run6", sep=""))
@@ -59,7 +59,7 @@ if(!dir.exists(paste(getwd(),"/GDAY/params/Run2", sep="")))dir.create(paste(getw
 #### Create analyses folders at the same time for each subfolders of output
 if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run1", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run1", sep=""))
 if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run2", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run2", sep=""))
-#if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run3", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run3", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run3", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run3", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run4", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run4", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run5", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run5", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run6", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run6", sep=""))
@@ -72,7 +72,7 @@ if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run2", sep="")))dir.create(paste(ge
 #### paste gday executive program to simulation folders
 system("cp GDAY/code/src/gday GDAY/simulations/Run1/")
 system("cp GDAY/code/src/gday GDAY/simulations/Run2/")
-#system("cp GDAY/code/src/gday GDAY/simulations/Run3/")
+system("cp GDAY/code/src/gday GDAY/simulations/Run3/")
 #system("cp GDAY/code/src/gday GDAY/simulations/Run4/")
 #system("cp GDAY/code/src/gday GDAY/simulations/Run5/")
 #system("cp GDAY/code/src/gday GDAY/simulations/Run6/")

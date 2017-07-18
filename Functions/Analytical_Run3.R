@@ -19,14 +19,13 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
     ######### Main program
     source("Parameters/Analytical_Run3_Parameters.R")
     
-    
     # create a range of nc for shoot to initiate
-    nfseq <- round(seq(0.001, 0.041, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq,nwvar=nwvar))
+    nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
+    a_nf <- as.data.frame(allocn(nfseq))
     
     # using very long term relationship to calculate pf from nf
     pfseq <- inferpfVL(nfseq, a_nf)
-    a_pf <- as.data.frame(allocp(pfseq,pwvar=pwvar))
+    a_pf <- as.data.frame(allocp(pfseq))
     
     # calculate photosynthetic constraint at CO2 = 350
     Photo350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
@@ -38,11 +37,11 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
     PCVLONG <- VLong_constraint_P(pf=pfseq, pfdf=a_pf)
     
     ### finding the equilibrium point between photosynthesis and very long term nutrient constraints
-    VLong_equil <- solveVLong_full_cnp_fix_wood(CO2=CO2_1, nwvar=nwvar, pwvar=pwvar)
+    VLong_equil <- solveVLong_full_cnp(CO2=CO2_1)
     
     ### Get Cpassive from very-long nutrient cycling solution
-    aequiln <- allocn(VLong_equil$equilnf,nwvar=nwvar)
-    aequilp <- allocp(VLong_equil$equilpf,pwvar=pwvar)
+    aequiln <- allocn(VLong_equil$equilnf)
+    aequilp <- allocp(VLong_equil$equilpf)
     pass <- passive(df=VLong_equil$equilnf, a=aequiln)
     omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
     CpassVLong <- omega*VLong_equil$equilNPP/pass$decomp/(1-pass$qq)*1000.0
@@ -54,18 +53,18 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
     # Calculate pf based on nf of long-term nutrient exchange
     pfseqL <- inferpfL(nfseq, a_nf, PinL = Pin+PrelwoodVLong,
                        NinL = Nin+NrelwoodVLong,
-                       Cpass=CpassVLong, nwvar=nwvar, pwvar=pwvar)
+                       Cpass=CpassVLong)
     
     # Calculate long term nutrieng constraint
     NCLONG <- Long_constraint_N(nfseq, a_nf, CpassVLong,
                                 NinL = Nin+NrelwoodVLong)
     
-    PCLONG <- Long_constraint_P(nfseq, pfseqL, allocp(pfseqL, pwvar=pwvar),
+    PCLONG <- Long_constraint_P(nfseq, pfseqL, allocp(pfseqL),
                                 CpassVLong, PinL=Pin+PrelwoodVLong)
     
     # Find long term equilibrium point
-    Long_equil <- solveLong_full_cnp_fix_wood(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong, 
-                                     PinL=Pin+PrelwoodVLong, nwvar=nwvar, pwvar=pwvar)
+    Long_equil <- solveLong_full_cnp(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong, 
+                                     PinL=Pin+PrelwoodVLong)
     
     
     out350DF <- data.frame(nfseq, pfseq, pfseqL, Photo350, NCVLONG, NCLONG)
@@ -82,12 +81,12 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
     
     ##### CO2 = 700
     # N:C and P:C ratio
-    nfseq <- round(seq(0.001, 0.041, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq,nwvar=nwvar))
+    nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
+    a_nf <- as.data.frame(allocn(nfseq))
     
     # using very long term relationship to calculate pf from nf
     pfseq <- inferpfVL(nfseq, a_nf)
-    a_pf <- as.data.frame(allocp(pfseq, pwvar=pwvar))
+    a_pf <- as.data.frame(allocp(pfseq))
     
     # calculate NC vs. NPP at CO2 = 350 respectively
     Photo700 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_2)
@@ -99,11 +98,11 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
     PCVLONG <- VLong_constraint_P(pf=pfseq, pfdf=a_pf)
     
     ### finding the equilibrium point between photosynthesis and very long term nutrient constraints
-    VLong_equil <- solveVLong_full_cnp_fix_wood(CO2=CO2_2, nwvar=nwvar, pwvar=pwvar)
+    VLong_equil <- solveVLong_full_cnp(CO2=CO2_2)
     
     # Find long term equilibrium point
-    Long_equil <- solveLong_full_cnp_fix_wood(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong, 
-                                     PinL=Pin+PrelwoodVLong, nwvar=nwvar, pwvar=pwvar)
+    Long_equil <- solveLong_full_cnp(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong, 
+                                     PinL=Pin+PrelwoodVLong)
     
     out700DF <- data.frame(nfseq, pfseq, pfseqL, Photo700, NCVLONG, NCLONG)
     colnames(out700DF) <- c("nc", "pc_VL", "pc_700_L", "NPP_700", "NPP_VL",

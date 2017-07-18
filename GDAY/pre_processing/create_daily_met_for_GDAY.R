@@ -107,7 +107,7 @@ create_dataset_daily <- function(outName,
   met2 <- paste(f.Path, "/Quasi_equil_met_forcing_transient_co2_ele.csv", sep="")
   
   create_dataset_daily(met1, co2=350, nyear = 100)   # no need of running for a very long time as the model equilibrates already in spinup
-  create_dataset_daily(met2, co2=700, nyear = 1000)
+  create_dataset_daily(met2, co2=700, nyear = 2000)
 
 
 

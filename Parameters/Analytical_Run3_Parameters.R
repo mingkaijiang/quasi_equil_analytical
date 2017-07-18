@@ -3,8 +3,8 @@ CO2_1 <- 350.0
 CO2_2 <- 700.0
 
 #### define parameters
-nwood = 0.005 
-pwood = 0.00003
+nwood = 0.0005       # either lower nwood and pwood or set the nc and pc range to smaller side
+pwood = 0.00003      # otherwise won't be able to find uniroot
 nrho = 0.7
 prho = 0.7
 nretrans = 0.5
