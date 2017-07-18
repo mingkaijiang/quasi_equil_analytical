@@ -27,6 +27,12 @@ Run3_copy_paste <- function() {
 
     # swap swp_fname locations
     out[44] <- "    swp_fname <- paste0(d, \"/simulations/Run3/replace_params.cfg\")"
+    
+    # update nwood value to match with analytical
+    out[154] <- "        \"ncwnewz\", \"0.0005\",                   # C:N = 2000, match analytical "
+    
+    # update nwood value to match with analytical
+    out[158] <- "        \"pcwnewz\", \"0.000003\",                  # C:P\", \"333333.33 match analytical"
         
     # write
     writeLines(out, "GDAY/simulations/Run3/quasi_equil_annual_spin_up.R")
