@@ -18,14 +18,32 @@ c.nuptake <- round(nuptake - subDF$nuptake, 5)
 summary(c.nuptake)    # this is what went into GDAY simulation
 
 #### annual nuptake ~ total inorgn
-yr <- 2524
+subDF[1:6,1:6]
+yr <- 383
 inorgn <- subDF[subDF$year == yr & subDF$doy == 365, "inorgn"]
 nup.flux <- sum(subDF[subDF$year == yr, "nuptake"])
 frac <- nup.flux / inorgn
-frac.orign <- (1.0 - rateloss) * NDAYS_IN_YR
-# too much uptake
+frac.orign <- (1.0 - rateloss) 
+
+frac
+frac.orign
+# at annual timestep, looks good
 
 #### Check nuptake rate calculations
-nuptake <- (1.0 - rateloss / NDAYS_IN_YR) * subDF$inorgn   # considering daily loss rate
+nuptake <- (1.0 - rateloss) / NDAYS_IN_YR * subDF$inorgn   # considering daily loss rate
+c.nuptake <- round(nuptake - subDF$nuptake, 5)
+summary(c.nuptake)    # this is what went into GDAY simulation
 
+# I may be confused with annual rate and daily rate for nuptake
+# right now, I set rateloss = 0.05 with a unit of yr-1
+# the left-overs of inorgn will be uptaken by plants
+# so on annual timestep, uptake rate = 0.95 yr-1
+# but inorgn is a pool, whereas nuptake is a flux, so
+# at each time step (daily), we need to have uptake rate divided by 365.
+
+
+with(subDF, plot(lai))
+with(myDF, plot(lai))
+summary(myDF$inorgn)
+summary(myDF$inorgavlp)
 

@@ -861,11 +861,13 @@ double calculate_nuptake(control *c, params *p, state *s, fluxes *f) {
         * Raich et al. 1991, Ecological Applications, 1, 399-429.
 
     */
-    double nuptake, U0, Kr;
+    double nuptake, U0, Kr, rateuptake;
 
+    rateuptake = (1.0 - p->rateloss * NDAYS_IN_YR) / NDAYS_IN_YR; 
+    
     if (c->nuptake_model == 0) {
         /* Constant N uptake */
-        nuptake = (1.0 - (p->rateloss)) * s->inorgn;
+        nuptake = rateuptake * s->inorgn;
         //nuptake = f->ninflow / ((p->rateloss * NDAYS_IN_YR) / (1.0 - p->rateloss * NDAYS_IN_YR));
     } else if (c->nuptake_model == 1) {
         /* evaluate nuptake : proportional to dynamic inorganic N pool */
@@ -896,11 +898,10 @@ double calculate_puptake(control *c, params *p, state *s, fluxes *f) {
         puptake : float
         P uptake
     */
-    double puptake, U0, Kr, pocc, pleach;
-    double k1 = p->k1 * NDAYS_IN_YR;
-    double k2 = p->k2 * NDAYS_IN_YR;
-    double k3 = p->k3 * NDAYS_IN_YR;
-    double prateloss = p->prateloss * NDAYS_IN_YR;
+    double puptake, U0, Kr, pocc, pleach, rateuptake;
+    
+    rateuptake = (1.0 - (p->prateloss + p->k1) * NDAYS_IN_YR) / NDAYS_IN_YR; 
+    
 
     if (c->puptake_model == 0) {
          puptake = (1.0 - p->prateloss - p->k1) * s->inorgavlp;
@@ -913,7 +914,7 @@ double calculate_puptake(control *c, params *p, state *s, fluxes *f) {
         /* P uptake is a saturating function on root biomass, as N */
 
         /* supply rate of available mineral P */
-        U0 = p->prateuptake *  (1.0 - prateloss - p->k1) * s->inorgavlp;
+        U0 = p->prateuptake *  (1.0 - p->prateloss - p->k1) * s->inorgavlp;
         Kr = p->krp;
         puptake = MAX(U0 * s->root / (s->root + Kr), 0.0);
     } else {
