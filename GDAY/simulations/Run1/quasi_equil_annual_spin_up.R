@@ -87,11 +87,11 @@ Run_GDAY_spinup <- function(site) {
         "structsurf", "0.0",         # 
         "structsurfn", "0.0",         # C:N = 150
         "structsurfp", "0.0",       # C:P = 500
-        "inorgn", "0.0001",           # annual input = 0.01 t/ha
-        "inorgavlp", "0.000004",       # annual input = 0.0004 t/ha 
+        "inorgn", "1.0",           # annual input = 0.01 t/ha
+        "inorgavlp", "0.04",       # annual input = 0.0004 t/ha 
         "inorgssorbp", "0.0",    # 
         "inorgoccp", "0.0",        # 
-        "inorgparp", "0.000004",      # annual input = 0.0004 t/ha, monthly rate 
+        "inorgparp", "0.04",      # annual input = 0.0004 t/ha, monthly rate 
         "canht", "30.0",              # 
         "sapwood", "0.0",         # initialize value, needed it for initialize alloc_stuffs
         "lai", "0.1",

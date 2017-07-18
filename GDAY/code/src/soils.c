@@ -1165,14 +1165,18 @@ void calculate_npools(control *c, fluxes *f, params *p, state *s) {
     fixn = nc_flux(f->c_into_passive, n_into_passive, pass_nc);
     s->passivesoiln += n_into_passive + fixn - n_out_of_passive;
     
-    //fprintf(stderr, "net inorgN = %f, tot_in %f\n", 
-    //        (f->nloss + f->nuptake - s->inorgn), (f->ninflow+f->nmineralisation));
-    
     /* Daily increment of soil inorganic N pool, diff btw in and effluxes
        (grazer urine n goes directly into inorganic pool) nb inorgn may be
        unstable if rateuptake is large */
-    s->inorgn += f->ninflow + f->nmineralisation - f->nloss - f->nuptake;  
     
+    //double test= s->inorgn;
+    s->inorgn += f->ninflow + f->nmineralisation - f->nloss - f->nuptake;  
+    //fprintf(stderr, "net %f, inorgn_prev %f, inorgn_end %f, final %f\n",
+    //        f->ninflow + f->nmineralisation - f->nloss - f->nuptake,
+    //        test, s->inorgn, test + f->ninflow + f->nmineralisation - f->nloss - f->nuptake);
+    
+    //fprintf(stderr, "ninflow in t/ha/d %f, ninflow in t/ha/yr %f\n", f->ninflow,
+    //        f->ninflow*NDAYS_IN_YR);
     
     return;
 }

@@ -138,6 +138,9 @@ void carbon_annual_production(control *c, fluxes *f, met *m, params *p, state *s
     else
         s->fipar = 0.0;
     
+    //fprintf(stderr, "leafn %f, leafnc %f, ncontent %f, lai %f\n",
+    //        leafn, s->shootnc, ncontent, s->lai);
+    
     /* Estimate photosynthesis */
     simple_photosynthesis(c, f, m, p, s, ncontent, pcontent);
     
@@ -239,7 +242,7 @@ void np_allocation(control *c, fluxes *f, params *p, state *s,
     
     /* Mineralised nitrogen lost from the system by volatilisation/leaching */
     if(c->nuptake_model == 0) {
-      f->nloss = (p->rateloss * NDAYS_IN_YR) * s->inorgn;
+      f->nloss = p->rateloss * s->inorgn;
     } else if (c->nuptake_model == 1) {
       f->nloss = p->rateloss * s->inorgn;
     } else if (c->nuptake_model == 2) {
@@ -248,7 +251,7 @@ void np_allocation(control *c, fluxes *f, params *p, state *s,
 
     /* Mineralised P lost from the system by leaching */
     if(c->puptake_model == 0) {
-      f->ploss = (p->prateloss * NDAYS_IN_YR) * s->inorgavlp; 
+      f->ploss = p->prateloss * s->inorgavlp; 
     } else if (c->puptake_model == 1) {
       f->ploss = p->prateloss * s->inorgavlp;
     } else if (c->puptake_model == 2) {
@@ -885,6 +888,8 @@ double calculate_nuptake(control *c, params *p, state *s, fluxes *f) {
         exit(EXIT_FAILURE);
     }
 
+    //fprintf(stderr, "rateuptake %f, rateloss %f, inorgn %f, nuptake %f\n",
+    //        rateuptake, p->rateloss, s->inorgn, nuptake);
     return (nuptake);
 }
 
@@ -902,7 +907,6 @@ double calculate_puptake(control *c, params *p, state *s, fluxes *f) {
     
     rateuptake = (1.0 - (p->prateloss + p->k1) * NDAYS_IN_YR) / NDAYS_IN_YR; 
     
-
     if (c->puptake_model == 0) {
          puptake = rateuptake * s->inorgavlp;
          //puptake = f->p_atm_dep / ((prateloss) / (1.0 - prateloss - k1));

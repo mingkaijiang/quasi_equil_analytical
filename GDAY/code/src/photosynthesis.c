@@ -57,6 +57,9 @@ void simple_photosynthesis(control *c, fluxes *f, met *m, params *p, state *s,
                                  &vcmax, mt);
     }
     
+    //fprintf(stderr, "ncontent %f, N0 %f, jmax %f, vcmax %f\n",
+    //        ncontent, N0, jmax, vcmax);
+    
     ci = calculate_ci(c, p, s, vpd, m->Ca);
 
     /* quantum efficiency calculated for C3 plants */
@@ -191,6 +194,9 @@ double calculate_top_of_canopy_n(params *p, state *s, double ncontent)  {
     } else {
         N0 = 0.0;
     }
+    
+    //fprintf(stderr, "N0 %f, ncontent %f, kn %f, lai %f\n",
+    //        N0, ncontent, kn, s->lai);
     
     return (N0);
 }
@@ -390,6 +396,8 @@ void calculate_jmax_and_vcmax_with_p(control *c, params *p, state *s, double Tk,
      log_jmax = 1.246 + 0.886 * log_vcmax + 0.089 * log(P0);
      *jmax = exp(log_jmax);
         
+    //fprintf(stderr, "N0 %f, P0 %f, vcmax %f, jmax %f\n",
+    //        N0, P0, *vcmax, *jmax);
 
     return;
     
