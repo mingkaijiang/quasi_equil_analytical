@@ -66,8 +66,6 @@ photo_constraint_respiration <- function(nf, pf, nfdf, pfdf, CO2) {
     
     for (i in 1:len) {
         fPC <- function(NPP) eqPC_respiration(nf[i], pf[i], nfdf[i,], pfdf[i,], NPP, CO2) - NPP
-        #browser()
-        
         ans[i] <- uniroot(fPC,interval=c(1,20), trace=T)$root
     }
     
@@ -96,7 +94,6 @@ photo_constraint_full_cn <- function(nf, nfdf, CO2) {
     
     for (i in 1:len) {
         fPC <- function(NPP) eqPC_full_cn(nf[i], nfdf[i,], NPP, CO2) - NPP
-        #browser()
         ans[i] <- uniroot(fPC,interval=c(0.1,20), trace=T)$root
     }
 

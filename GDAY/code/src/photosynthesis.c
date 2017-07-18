@@ -346,14 +346,15 @@ void calculate_jmax_and_vcmax(control *c, params *p, state *s, double Tk,
     the maximum rate of electron transport at 25 degC
     */
     double jmax25, vcmax25;
-    double conv;
+    double conv, sla_in_g;
     double log_jmax, log_vcmax;
     
     *vcmax = 0.0;
     *jmax = 0.0;
     
+    sla_in_g = p->sla / KG_AS_G;
 
-    log_vcmax = 1.993 + 2.555 * log(N0) - 0.372 * log(p->sla) + 0.422 * log(N0) * log(p->sla);
+    log_vcmax = 1.993 + 2.555 * log(N0) - 0.372 * log(sla_in_g) + 0.422 * log(N0) * log(sla_in_g);
     *vcmax = exp(log_vcmax);
     
     log_jmax = 1.197 + 0.847 * log_vcmax;
