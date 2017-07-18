@@ -65,10 +65,13 @@ eqPC_full_cn <- function(nf, nfdf, NPP, CO2) {
 eqPC_respiration <- function(nf, pf, nfdf, pfdf, NPP, CO2) {
     
     # LUE in umol C umol-1 PAR * umol PAR = umol C
-    lue_yr <-  LUE_full_cnp(nf, pfdf, pf, CO2, NPP*1000.0) * par 
+    lue_yr <- LUE_full_cnp_walker(nf, pfdf, pf, CO2, NPP*1000.0) * par
     
     # return ra as kg m-2 yr-1
-    Ra <- Compute_Rdark(nfdf, pfdf, NPP*1000.0)
+    Rd <- Compute_Rdark(nfdf, pfdf, NPP*1000.0)
+    
+    # assumes wood + root respiration = 0.5 leaf dark respiration
+    Ra <- Rd * 2.5
     
     # return gpp as kg m-2 yr-1
     gpp <- lue_yr * (1 - exp(-kext*SLA*nfdf$af*NPP/sf/cfrac)) * conv * 365 / 1000.0

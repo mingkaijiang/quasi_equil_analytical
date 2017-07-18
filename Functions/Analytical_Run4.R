@@ -4,7 +4,8 @@
 #### Assumptions:
 #### Same as Run 1, except
 #### 1. Autotrophic respiration is a function of tissue N:C ratio
-####
+#### 2. only empirical relationship for dark respiration was provided; 
+####    so need to make some assumptions about others
 ################################################################################
 
 #### Functions
@@ -19,14 +20,13 @@ Perform_Analytical_Run4 <- function(f.flag = 1, cDF, eDF) {
     ######### Main program
     source("Parameters/Analytical_Run4_Parameters.R")
     
-    
     # create a range of nc for shoot to initiate
-    nfseq <- round(seq(0.001, 0.041, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq,nwvar=nwvar))
+    nfseq <- round(seq(0.01, 0.04, by = 0.001),5)
+    a_nf <- as.data.frame(allocn(nfseq))
     
     # using very long term relationship to calculate pf from nf
     pfseq <- inferpfVL(nfseq, a_nf)
-    a_pf <- as.data.frame(allocp(pfseq,pwvar=pwvar))
+    a_pf <- as.data.frame(allocp(pfseq))
     
     # calculate photosynthetic constraint at CO2 = 350
     Photo350 <- photo_constraint_respiration(nfseq, pfseq, a_nf, a_pf, CO2_1)
@@ -38,18 +38,18 @@ Perform_Analytical_Run4 <- function(f.flag = 1, cDF, eDF) {
     PCVLONG <- VLong_constraint_P(pf=pfseq, pfdf=a_pf)
     
     ### finding the equilibrium point between photosynthesis and very long term nutrient constraints
-    VLong_equil <- solveVLong_respiration(CO2=CO2_1, nwvar=nwvar, pwvar=pwvar)
+    VLong_equil <- solveVLong_respiration(CO2=CO2_1)
     
     ### Compute CUE at VL equilibrium point
     cue_VL_CO2_1 <- cue_compute(VLong_equil$equilnf, VLong_equil$equilpf, 
-                                allocn(VLong_equil$equilnf, nwvar=nwvar),
-                                allocp(VLong_equil$equilpf, pwvar=pwvar),
+                                allocn(VLong_equil$equilnf),
+                                allocp(VLong_equil$equilpf),
                                 NPP=VLong_equil$equilNPP,
                                 CO2=CO2_1)
     
     ### Get Cpassive from very-long nutrient cycling solution
-    aequiln <- allocn(VLong_equil$equilnf,nwvar=nwvar)
-    aequilp <- allocp(VLong_equil$equilpf,pwvar=pwvar)
+    aequiln <- allocn(VLong_equil$equilnf)
+    aequilp <- allocp(VLong_equil$equilpf)
     pass <- passive(df=VLong_equil$equilnf, a=aequiln)
     omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
     CpassVLong <- omega*VLong_equil$equilNPP/pass$decomp/(1-pass$qq)*1000.0
@@ -61,24 +61,24 @@ Perform_Analytical_Run4 <- function(f.flag = 1, cDF, eDF) {
     # Calculate pf based on nf of long-term nutrient exchange
     pfseqL <- inferpfL(nfseq, a_nf, PinL = Pin+PrelwoodVLong,
                        NinL = Nin+NrelwoodVLong,
-                       Cpass=CpassVLong, nwvar=nwvar, pwvar=pwvar)
+                       Cpass=CpassVLong)
     
     # Calculate long term nutrieng constraint
     NCLONG <- Long_constraint_N(nfseq, a_nf, CpassVLong,
                                 NinL = Nin+NrelwoodVLong)
     
-    PCLONG <- Long_constraint_P(nfseq, pfseqL, allocp(pfseqL, pwvar=pwvar),
+    PCLONG <- Long_constraint_P(nfseq, pfseqL, allocp(pfseqL),
                                 CpassVLong, PinL=Pin+PrelwoodVLong)
     
     
     # Find long term equilibrium point
     Long_equil <- solveLong_respiration(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong, 
-                                        PinL=Pin+PrelwoodVLong, nwvar=nwvar, pwvar=pwvar)
+                                        PinL=Pin+PrelwoodVLong)
     
     ### Compute CUE at L equilibrium point
     cue_L_CO2_1 <- cue_compute(Long_equil$equilnf, Long_equil$equilpf, 
-                                allocn(Long_equil$equilnf, nwvar=nwvar),
-                                allocp(Long_equil$equilpf, pwvar=pwvar),
+                                allocn(Long_equil$equilnf),
+                                allocp(Long_equil$equilpf),
                                 NPP=Long_equil$equilNPP,
                                 CO2=CO2_1)
     
@@ -97,12 +97,12 @@ Perform_Analytical_Run4 <- function(f.flag = 1, cDF, eDF) {
     ##### CO2 = 700
     
     # N:C and P:C ratio
-    nfseq <- round(seq(0.001, 0.041, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq,nwvar=nwvar))
+    nfseq <- round(seq(0.01, 0.04, by = 0.001),5)
+    a_nf <- as.data.frame(allocn(nfseq))
     
     # using very long term relationship to calculate pf from nf
     pfseq <- inferpfVL(nfseq, a_nf)
-    a_pf <- as.data.frame(allocp(pfseq, pwvar=pwvar))
+    a_pf <- as.data.frame(allocp(pfseq))
     
     # calculate NC vs. NPP at CO2 = 350 respectively
     Photo700 <- photo_constraint_respiration(nfseq, pfseq, a_nf, a_pf, CO2_2)
@@ -114,23 +114,23 @@ Perform_Analytical_Run4 <- function(f.flag = 1, cDF, eDF) {
     PCVLONG <- VLong_constraint_P(pf=pfseq, pfdf=a_pf)
     
     ### finding the equilibrium point between photosynthesis and very long term nutrient constraints
-    VLong_equil <- solveVLong_respiration(CO2=CO2_2, nwvar=nwvar, pwvar=pwvar)
+    VLong_equil <- solveVLong_respiration(CO2=CO2_2)
     
     # Find long term equilibrium point
     Long_equil <- solveLong_respiration(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong, 
-                                     PinL=Pin+PrelwoodVLong, nwvar=nwvar, pwvar=pwvar)
+                                     PinL=Pin+PrelwoodVLong)
     
     ### Compute CUE at VL equilibrium point
     cue_VL_CO2_2 <- cue_compute(VLong_equil$equilnf, VLong_equil$equilpf, 
-                                allocn(VLong_equil$equilnf, nwvar=nwvar),
-                                allocp(VLong_equil$equilpf, pwvar=pwvar),
+                                allocn(VLong_equil$equilnf),
+                                allocp(VLong_equil$equilpf),
                                 NPP=VLong_equil$equilNPP,
                                 CO2=CO2_2)
     
     ### Compute CUE at L equilibrium point
     cue_L_CO2_2 <- cue_compute(Long_equil$equilnf, Long_equil$equilpf, 
-                               allocn(Long_equil$equilnf, nwvar=nwvar),
-                               allocp(Long_equil$equilpf, pwvar=pwvar),
+                               allocn(Long_equil$equilnf),
+                               allocp(Long_equil$equilpf),
                                NPP=Long_equil$equilNPP,
                                CO2=CO2_2)
     

@@ -42,7 +42,8 @@ source("GDAY/pre_processing/Paste_R_script_to_folders.R")
 ### Run GDAY simulations, using either the python or R wrapper file
 ### Current setting use R
 ### Only needs GDAY simulation to verify the analytical solution
-### Currently only implemented GDAY simulations for Run 1 - 7
+### Currently only implemented GDAY simulations for Run 1 - 3
+### i.e. CNP with variable wood, CN with variable wood, CNP with fixed wood stoichiometry
 source("GDAY/pre_processing/Run_GDAY.R")
 
 
@@ -82,7 +83,6 @@ source("GDAY/post_processing/Check_continuity_transient.R")
 ### Currently 10 cases, for details see the comments in the source code
 ### Two dataframe are generated: equilDF and constraintDF
 source("R/Run_analytical_solutions.R")
-
 
 
 #### ------------- Checking GDAY matches with analytical results ----------- #####

@@ -84,7 +84,6 @@ Compute_Rdark <- function(nfdf, pfdf, NPP) {
     
     N0 <- ncontent * kn / (1.0 - exp(-kn * sla_m2_per_g*nfdf$af*NPP/sf/cfrac))
     P0 <- pcontent * kn / (1.0 - exp(-kn * sla_m2_per_g*pfdf$af*NPP/sf/cfrac))
-    #browser()
     
     log_vcmax <- 3.946 + 0.921 * log(N0) + 0.121 * log(P0) + 0.282 * log(N0) * log(P0)
     vcmax <- exp(log_vcmax)
@@ -97,42 +96,9 @@ Compute_Rdark <- function(nfdf, pfdf, NPP) {
     r_leaf_dark_25 <- 1.2636 + 0.0728 * N0 + 0.015 * P0 + 0.0095 * vcmax25 - 0.0358 * twq
     
     # convert unit from umol CO2 m-2 s-1 to kg C m-2 yr-1
-    r_leaf_dark_25_out <- r_leaf_dark_25 * 1E-6 * 12.0 * 3600 * 24 * 30 * 12.0 / 1000.0
+    r_leaf_dark_25_out <- r_leaf_dark_25 * 1E-6 * 12.0 * 3600 * 24 * 365 / 1000.0
     
-    #browser()
-    
-    ## Use shoot and root nc ratio to obtain mmol [N] g-1
-    leafn <- nfdf$nf / MOL_N_TO_GRAMS_N * MOL_2_MMOL
-    stemn <- nfdf$nw / MOL_N_TO_GRAMS_N * MOL_2_MMOL
-    rootn <- nfdf$nr / MOL_N_TO_GRAMS_N * MOL_2_MMOL
-    
-    ## calculate dark respiration for leaf, stem and root, (nmol g-1 s-1)
-    respl <- a1 * (leafn^b1)
-    resps <- a2 * (stemn^b2)
-    respr <- a3 * (rootn^b3)
-    
-    ## unit conversion - per g C allocated to leaf, stem and root (nmol m-2 s-1)
-    respl <- respl * (NPP * nfdf$af / sf) 
-    resps <- resps * (NPP * nfdf$aw / ss)
-    respr <- respr * (NPP * nfdf$ar / sr)
-    
-    ## unit conversion, to kg C m-2 yr-1
-    rleaf <- respl * 3600.0 * 24.0 * 30 * 12 * 10^-9 * 0.012
-    rstem <- resps * 3600.0 * 24.0 * 30 * 12 * 10^-9 * 0.012
-    rroot <- respr * 3600.0 * 24.0 * 30 * 12 * 10^-9 * 0.012
-    
-    ## Compute autotrophic respiration
-    r_autotrophic <- r_leaf_dark_25_out + rleaf + rstem + rroot
-    
-    r_new_root <- r_leaf_dark_25_out
-    
-    ## r_auto 
-    r_auto <- r_leaf_dark_25_out + rstem + r_new_root
-    
-
-    return(r_auto)
-    
-    
+    return(r_leaf_dark_25_out)
 }
 
 
