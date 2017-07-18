@@ -17,9 +17,7 @@ Perform_Analytical_Run5 <- function(f.flag = 1, cDF, eDF) {
     #### f.flag: = 3 return eDF
 
     ######### Main program
-    ######### Main program
     source("Parameters/Analytical_Run5_Parameters.R")
-    
     
     # create a range of nc for shoot to initiate
     nfseq <- round(seq(0.001, 0.041, by = 0.001),5)
