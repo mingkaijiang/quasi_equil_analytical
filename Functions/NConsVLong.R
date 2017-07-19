@@ -45,9 +45,7 @@ NConsVLong_expl_min <- function(df, a) {
 # it is just Nin = Nleach
 # specifically for nuptake as a function of root biomass - O-CN approach
 # i.e. N uptake as a saturating function of mineral N
-NConsVLong_root_ocn <- function(df, a, Nin=0.4, 
-                                leachn=0.05, nuptakerate=0.96884,
-                                sr = 1.5, k = 0.08, vmax = 1.0) {                   
+NConsVLong_root_ocn <- function(df, a) {                   
     # passed are bf and nf, the allocation and plant N:C ratios
     # parameters : 
     # Nin is fixed N inputs (N fixed and deposition) in g m-2 yr-1 (could vary fixation)

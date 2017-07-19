@@ -53,11 +53,10 @@ inferpfVL_expl_min <- function(nf, a) {
 ### Make inference of pf based on nf
 # specifically for N uptake as a function of biomass - OCN approach
 # i.e. N uptake as a saturating function of mineral N
-inferpfVL_root_ocn <- function(nf, a, 
-                               sr = 1.5, k = 0.08, vmax = 1.0) {
+inferpfVL_root_ocn <- function(nf, a) {
     # allocation parameters
-    ar <- 0.2
-    af <- 0.2
+    ar <- aroot
+    af <- aleaf
     aw <- 1 - ar - af
     
     # output nf, based on F(nf) = F(pf)

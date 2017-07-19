@@ -121,20 +121,15 @@ inferpfL_expl_min <- function(nf, a, PinL, NinL,
 # Find long term equilibrated pf based on equilibrated NPP calculated from equilnf profile
 # specifically for N uptake as a function of biomass - OCN approach
 # i.e. N uptake as a saturating function of mineral N
-inferpfL_root_ocn <- function(nf, a, PinL, NinL, Cpass, 
-                              pwvar = F, nwvar = F, pwood = 0.0003, prho = 0.7, 
-                              pretrans = 0.6, pcp = 0.005, ncp = 0.1,
-                              Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
-                              k1 = 0.01, k2 = 0.01, k3 = 0.05, nuptakerate = 0.96884,
-                              puptakerate = 0.82395, sr = 1.5, k = 0.08, vmax = 1.0) {
+inferpfL_root_ocn <- function(nf, a, PinL, NinL, Cpass) {
     # prepare allocation partitioning
     ar <- aroot
     af <- aleaf
     aw <- 1 - ar - af
     
     # passive pool burial 
-    pass <- passive(nf, allocn(nf, nwvar=nwvar), Tsoil, Texture, ligfl, ligrl)
-    omega <- allocn(nf, nwvar=nwvar)$af*pass$omegaf + allocn(nf, nwvar=nwvar)$ar*pass$omegar 
+    pass <- passive(nf, allocn(nf))
+    omega <- allocn(nf)$af*pass$omegaf + allocn(nf)$ar*pass$omegar 
     
     # prepare long term nitrogen fluxes
     N0 <- NinL  + (1-pass$qq) * pass$decomp * Cpass * ncp

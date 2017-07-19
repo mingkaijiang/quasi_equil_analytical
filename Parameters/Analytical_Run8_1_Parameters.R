@@ -57,7 +57,7 @@ daylen <- 8.0
 kn <- 0.3
 aroot <- 0.2
 aleaf <- 0.2
-nuptakerate <- 1.0  # 0.96884
-puptakerate <- 1.0  # 0.82395
+#nuptakerate <- 1.0  # 0.96884
+#puptakerate <- 1.0  # 0.82395
 sr = 1.5
 kr = 0.5

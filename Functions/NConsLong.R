@@ -102,10 +102,7 @@ NConsLong_expl_min <- function(df, a, Cpass, NinL) {
 ### Function for nutrient N constraint in longterm ie passive, leaching, wood considered
 # specifically for uptake as a function of root  - O-CN approach
 # i.e. N uptake as a saturating function of mineral N
-NConsLong_root_ocn <- function(df, a, Nin=0.4, leachn=0.05, 
-                               Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
-                               ncp = 0.1, nuptakerate = 0.96884,
-                               sr = 1.5, k = 0.8, vmax = 1.0) {
+NConsLong_root_ocn <- function(df, a, NinL) {
     # passed are df and a, the allocation and plant N:C ratios
     # parameters : 
     # Nin is fixed N inputs (N deposition annd fixation) in g m-2 yr-1 (could vary fixation)
@@ -122,7 +119,7 @@ NConsLong_root_ocn <- function(df, a, Nin=0.4, leachn=0.05,
     # NPP = (Nin - λloss A K nf / (ar / sr Vmax – A nf)) / Ωp (nf) np
     
     # passive pool burial 
-    pass <- passive(df, a, Tsoil, Texture, ligfl, ligrl)
+    pass <- passive(df, a)
     omegap <- a$af*pass$omegaf + a$ar*pass$omegar 
     
     # N mineral pool
