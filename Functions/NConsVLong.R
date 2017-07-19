@@ -76,9 +76,7 @@ NConsVLong_root_ocn <- function(df, a, Nin=0.4,
 # it is just Nin = Nleach
 # specifically for nuptake as a function of root biomass - GDAY approach
 # i.e. N uptake as a saturating function of root biomass
-NConsVLong_root_gday <- function(df, a, Nin=0.4, 
-                                leachn=0.05, nuptakerate=0.96884,
-                                sr = 1.5, kr = 0.5) {                   # why this small?
+NConsVLong_root_gday <- function(df, a) {                   # why this small?
     # passed are bf and nf, the allocation and plant N:C ratios
     # parameters : 
     # Nin is fixed N inputs (N fixed and deposition) in g m-2 yr-1 (could vary fixation)

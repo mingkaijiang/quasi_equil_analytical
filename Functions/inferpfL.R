@@ -121,16 +121,15 @@ inferpfL_expl_min <- function(nf, a, PinL, NinL,
 # Find long term equilibrated pf based on equilibrated NPP calculated from equilnf profile
 # specifically for N uptake as a function of biomass - OCN approach
 # i.e. N uptake as a saturating function of mineral N
-inferpfL_root_ocn <- function(nf, a, Pin = 0.02, Nin = 0.4,
-                              leachn = 0.05, leachp = 0.05, Cpass=CpassVLong, 
+inferpfL_root_ocn <- function(nf, a, PinL, NinL, Cpass, 
                               pwvar = F, nwvar = F, pwood = 0.0003, prho = 0.7, 
                               pretrans = 0.6, pcp = 0.005, ncp = 0.1,
                               Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
                               k1 = 0.01, k2 = 0.01, k3 = 0.05, nuptakerate = 0.96884,
                               puptakerate = 0.82395, sr = 1.5, k = 0.08, vmax = 1.0) {
     # prepare allocation partitioning
-    ar <- 0.2
-    af <- 0.2
+    ar <- aroot
+    af <- aleaf
     aw <- 1 - ar - af
     
     # passive pool burial 
@@ -138,7 +137,7 @@ inferpfL_root_ocn <- function(nf, a, Pin = 0.02, Nin = 0.4,
     omega <- allocn(nf, nwvar=nwvar)$af*pass$omegaf + allocn(nf, nwvar=nwvar)$ar*pass$omegar 
     
     # prepare long term nitrogen fluxes
-    N0 <- Nin  + (1-pass$qq) * pass$decomp * Cpass * ncp
+    N0 <- NinL  + (1-pass$qq) * pass$decomp * Cpass * ncp
     Nmin <- k * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) / (a$ar / sr - (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw))
     nleach <- leachn * Nmin
     nburial <- omega*ncp
@@ -147,7 +146,7 @@ inferpfL_root_ocn <- function(nf, a, Pin = 0.02, Nin = 0.4,
     NPP <- N0 / (nleach + nburial + nwood)
     
     # prepare long term phosphorus fluxes
-    P0 = Pin + (1-pass$qq) * pass$decomp * Cpass * pcp
+    P0 = PinL + (1-pass$qq) * pass$decomp * Cpass * pcp
     pleach <- leachp/(1-leachp-k1) 
     pburial <- omega*pcp
     pocc <- (k3/(k2+k3))*(k1/(1-k1-leachp))
@@ -168,24 +167,19 @@ inferpfL_root_ocn <- function(nf, a, Pin = 0.02, Nin = 0.4,
 # Find long term equilibrated pf based on equilibrated NPP calculated from equilnf profile
 # specifically for N uptake as a function of biomass - GDAY approach
 # i.e. N uptake as a saturating function of root biomass
-inferpfL_root_gday <- function(nf, a, Pin = 0.02, Nin = 0.4,
-                              leachn = 0.05, leachp = 0.05, Cpass=CpassVLong, 
-                              pwvar = TRUE, nwvar = TRUE, pwood = 0.0003, prho = 0.7, 
-                              pretrans = 0.6, pcp = 0.005, ncp = 0.1,
-                              Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
-                              k1 = 0.01, k2 = 0.01, k3 = 0.05, nuptakerate = 0.96884,
-                              puptakerate = 0.82395, sr = 1.5, kr = 0.5) {
+inferpfL_root_gday <- function(nf, a, PinL, NinL,
+                               Cpass) {
     # prepare allocation partitioning
-    ar <- 0.2
-    af <- 0.2
+    ar <- aroot
+    af <- aleaf
     aw <- 1 - ar - af
     
     # passive pool burial 
-    pass <- passive(nf, allocn(nf, nwvar=nwvar), Tsoil, Texture, ligfl, ligrl)
-    omega <- allocn(nf, nwvar=nwvar)$af*pass$omegaf + allocn(nf, nwvar=nwvar)$ar*pass$omegar 
+    pass <- passive(nf, allocn(nf))
+    omega <- allocn(nf)$af*pass$omegaf + allocn(nf)$ar*pass$omegar 
     
     # prepare long term nitrogen fluxes
-    U0 <- Nin + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
+    U0 <- NinL + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
     nwood <- a$aw*a$nw
     nburial <- omega*ncp
     
@@ -195,7 +189,7 @@ inferpfL_root_gday <- function(nf, a, Pin = 0.02, Nin = 0.4,
     NPP <- (U0 - A_NF * leachn * kr * (sr / a$ar)) / (nwood + nburial + A_NF*leachn)
 
     # prepare long term phosphorus fluxes
-    P0 = Pin + (1-pass$qq) * pass$decomp * Cpass * pcp
+    P0 = PinL + (1-pass$qq) * pass$decomp * Cpass * pcp
     pleach <- leachp/(1-leachp-k1) 
     pburial <- omega*pcp
     pocc <- (k3/(k2+k3))*(k1/(1-k1-leachp))

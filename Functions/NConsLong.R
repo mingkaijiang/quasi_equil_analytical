@@ -148,10 +148,8 @@ NConsLong_root_ocn <- function(df, a, Nin=0.4, leachn=0.05,
 ### Function for nutrient N constraint in longterm ie passive, leaching, wood considered
 # specifically for uptake as a function of root - GDAY approach
 # i.e. N uptake as a saturating function of root biomass
-NConsLong_root_gday <- function(df, a, Nin=0.4, leachn=0.05, 
-                               Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
-                               Cpass = 2680, ncp = 0.1, nuptakerate = 0.96884,
-                               sr = 1.5, kr = 0.5) {
+NConsLong_root_gday <- function(df, a, NinL, 
+                               Cpass) {
     # passed are df and a, the allocation and plant N:C ratios
     # parameters : 
     # Nin is fixed N inputs (N deposition annd fixation) in g m-2 yr-1 (could vary fixation)
@@ -166,11 +164,11 @@ NConsLong_root_gday <- function(df, a, Nin=0.4, leachn=0.05,
     # kr is the value of root carbon at which 50% of the available N is taken up
     
     # passive pool burial 
-    pass <- passive(df, a, Tsoil, Texture, ligfl, ligrl)
+    pass <- passive(df, a)
     omegap <- a$af*pass$omegaf + a$ar*pass$omegar 
     
     # equation for N constraint with passive, wood, and leaching
-    U0 <- Nin + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
+    U0 <- NinL + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
     nwood <- a$aw*a$nw
     nburial <- omegap*ncp
     

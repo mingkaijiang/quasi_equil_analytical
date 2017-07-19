@@ -2,9 +2,9 @@
 #### Analytical script to match GDAY Run 7 settings
 ####
 #### Same as Run 1, except
-#### 1. N and P explicit mineral pools
-#### 2. N and P upake rates are constants (i.e. adjustable parameters)
-####
+#### 1. N mineral pool is explicitly simulated
+#### 2. Added a N uptake rate coefficient (i.e. adjustable parameter)
+#### 
 ################################################################################
 
 
@@ -38,15 +38,15 @@ Perform_Analytical_Run7 <- function(f.flag = 1, cDF, eDF) {
     VLongN <- solveVLong_expl_min(CO2_1)
     
     # Get Cpassive from very-long nutrient cycling solution
-    aequiln <- allocn(VLongNP$equilnf)
-    aequilp <- allocp(VLongNP$equilpf)
-    pass <- passive(df=VLongNP$equilnf, a=aequiln)
+    aequiln <- allocn(VLongN$equilnf)
+    aequilp <- allocp(VLongN$equilpf)
+    pass <- passive(df=VLongN$equilnf, a=aequiln)
     omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
-    CpassVLong <- omega*VLongNP$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+    CpassVLong <- omega*VLongN$equilNPP/pass$decomp/(1-pass$qq)*1000.0
     
     # Calculate nutrient release from recalcitrant pools
-    PrelwoodVLong <- aequilp$aw*aequilp$pw*VLongNP$equilNPP_N*1000.0
-    NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0
+    PrelwoodVLong <- aequilp$aw*aequilp$pw*VLongN$equilNPP_N*1000.0
+    NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN$equilNPP_N*1000.0
     
     # Calculate pf based on nf of long-term nutrient exchange
     pfseqL <- inferpfL_expl_min(nfseq, a_nf, PinL = Pin+PrelwoodVLong,

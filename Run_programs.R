@@ -123,14 +123,6 @@ source("R/CO2_fertilization_summary_AmazonFACE.R")
 ### Run 4 CUE output, save into a table
 source("R/CUE_check.R")
 
-### Run 8 two methods on deriving nuptake ~ root biomass * nmin (e.g. O-CN vs. GDAY)
-Perform_Analytical_Run8_2()
-
-
-### Run 10 sensitivity tests of vx, ae, omegae, omegaw influences on equilibrium behaviors
-
-
-### CLM analysis
 
 
 
@@ -148,7 +140,4 @@ rm(list=ls(all=TRUE))
 
 #### End
 
-library(plotly)
-# volcano is a numeric matrix that ships with R
-p <- plot_ly(z = ~Photo350) %>% add_surface()
 

@@ -18,63 +18,54 @@ Perform_Analytical_Run8_1 <- function(f.flag = 1, cDF, eDF) {
     #### f.flag: = 3 return eDF
 
     ######### Main program
-    
-    #### setting CO2 concentrations
-    CO2_1 <- 350.0
-    CO2_2 <- 700.0
+    source("Parameters/Analytical_Run8_1_Parameters.R")
     
     # create nc and pc for shoot to initiate
-    nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq,nwvar=T))
+    nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
+    a_nf <- as.data.frame(allocn(nfseq))
     
-    pfseq <- inferpfVL_root_gday(nfseq, a_nf, Pin=0.02, Nin=0.4, pwvar=T)
-    a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
+    pfseq <- inferpfVL_root_gday(nfseq, a_nf)
+    a_pf <- as.data.frame(allocp(pfseq))
     
     ##### CO2 = 350
     # calculate NC vs. NPP at CO2 = 350 respectively
-    NC350 <- solveNC(nfseq, a_nf$af, co2=CO2_1)
+    NC350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong_root_gday(df=nfseq,a=a_nf,Nin=0.4)
+    NCVLONG <- NConsVLong_root_gday(df=nfseq,a=a_nf)
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLongN_root_gday(co2=CO2_1, nwvar=T)
-    equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL_root_gday(equilNPP,Pin = 0.02,pwvar=T)   
-    VLongNP <- data.frame(VLongN, equilpf)
+    VLongN <- solveVLong_root_gday(CO2_1)
     
     # Get Cpassive from very-long nutrient cycling solution
-    aequiln <- allocn(VLongNP$equilnf,nwvar=T)
-    aequilp <- allocp(VLongNP$equilpf,pwvar=T)
-    pass <- passive(df=VLongNP$equilnf, a=aequiln)
+    aequiln <- allocn(VLongN$equilnf)
+    aequilp <- allocp(VLongN$equilpf)
+    pass <- passive(df=VLongN$equilnf, a=aequiln)
     omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
-    CpassVLong <- omega*VLongNP$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+    CpassVLong <- omega*VLongN$equilNPP/pass$decomp/(1-pass$qq)*1000.0
     
     # Calculate nutrient release from recalcitrant pools
-    PrelwoodVLong <- aequilp$aw*aequilp$pw*VLongNP$equilNPP_N*1000.0
-    NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongNP$equilNPP_N*1000.0
+    PrelwoodVLong <- aequilp$aw*aequilp$pw*VLongN$equilNPP*1000.0
+    NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN$equilNPP*1000.0
     
     # Calculate pf based on nf of long-term nutrient exchange
-    pfseqL <- inferpfL_root_gday(nfseq, a_nf, Pin = 0.02+PrelwoodVLong,
-                                Nin = 0.4+NrelwoodVLong,Cpass=CpassVLong, nwvar=T, pwvar=T)
+    pfseqL <- inferpfL_root_gday(nfseq, a_nf, PinL = Pin+PrelwoodVLong,
+                                NinL = Nin+NrelwoodVLong,Cpass=CpassVLong)
     
     # Calculate long term nutrieng constraint
     NCHUGH <- NConsLong_root_gday(df=nfseq, a=a_nf,Cpass=CpassVLong,
-                                 Nin = 0.4+NrelwoodVLong)
+                                 NinL = Nin+NrelwoodVLong)
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_root_gday(co2=CO2_1, Cpass=CpassVLong, Nin= 0.4+NrelwoodVLong, nwvar=T)
-    equilpf <- equilpL_root_gday(LongN, Pin = 0.02+PrelwoodVLong, Cpass=CpassVLong, 
-                                nwvar=T, pwvar=T)   
-    LongNP <- data.frame(LongN, equilpf)
+    LongN <- solveLong_root_gday(CO2_1, Cpass=CpassVLong, NinL= Nin+NrelwoodVLong)
     
     out350DF <- data.frame(nfseq, pfseq, pfseqL, NC350, NCVLONG, NCHUGH)
     colnames(out350DF) <- c("nc", "pc_VL", "pc_350_L", "NPP_350", "NPP_VL",
                             "nleach_VL", "NPP_350_L", "nwood_L", "nburial_L",
                             "nleach_L", "aw")
-    equil350DF <- data.frame(VLongNP, LongNP)
-    colnames(equil350DF) <- c("nc_VL", "NPP_VL", "pc_VL",
-                              "nc_L", "NPP_L", "pc_L")
+    equil350DF <- data.frame(VLongN, LongN)
+    colnames(equil350DF) <- c("nc_VL", "pc_VL","NPP_VL", 
+                              "nc_L", "pc_L", "NPP_L")
     
     # store constraint and equil DF onto their respective output df
     cDF[cDF$Run == 8 & cDF$CO2 == 350, 3:13] <- out350DF
@@ -83,23 +74,20 @@ Perform_Analytical_Run8_1 <- function(f.flag = 1, cDF, eDF) {
     ##### CO2 = 700
     
     # N:C and P:C ratio
-    nfseq <- round(seq(0.01, 0.05, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq, nwvar=T))
+    nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
+    a_nf <- as.data.frame(allocn(nfseq))
     
-    pfseq <- inferpfVL_root_gday(nfseq, a_nf,Pin=0.02, Nin=0.4,pwvar=T)
-    a_pf <- as.data.frame(allocp(pfseq, pwvar=T))
+    pfseq <- inferpfVL_root_gday(nfseq, a_nf)
+    a_pf <- as.data.frame(allocp(pfseq))
     
     # calculate NC vs. NPP at CO2 = 350 respectively
-    NC700 <- solveNC(nfseq, a_nf$af, co2=CO2_2)
+    NC700 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_2)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong_root_gday(df=nfseq,a=a_nf,Nin=0.4)
+    NCVLONG <- NConsVLong_root_gday(df=nfseq,a=a_nf)
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLongN_root_gday(co2=CO2_2, nwvar=T)
-    equilNPP <- VLongN$equilNPP_N   
-    equilpf <- equilpVL_root_gday(equilNPP,Pin = 0.02, pwvar=T)   
-    VLongNP <- data.frame(VLongN, equilpf)
+    VLongN <- solveVLong_root_gday(CO2_2)
     
     out700DF <- data.frame(nfseq, pfseq, pfseqL, NC700, NCVLONG, NCHUGH)
     colnames(out700DF) <- c("nc", "pc_VL", "pc_700_L", "NPP_700", "NPP_VL",
@@ -107,17 +95,12 @@ Perform_Analytical_Run8_1 <- function(f.flag = 1, cDF, eDF) {
                             "nleach_L", "aw")
     
     # Find equilibrate intersection and plot
-    LongN <- solveLongN_root_gday(co2=CO2_2, Cpass=CpassVLong, Nin=0.4+NrelwoodVLong, nwvar=T)
-    equilNPP <- LongN$equilNPP
+    LongN <- solveLong_root_gday(CO2_2, Cpass=CpassVLong, NinL=Nin+NrelwoodVLong)
     
-    a_new <- allocn(LongN$equilnf, nwvar=T)
-    equilpf <- inferpfVL_root_gday(LongN$equilnf, a_new, pwvar=T)
+    equil700DF <- data.frame(VLongN, LongN)
+    colnames(equil700DF) <- c("nc_VL", "pc_VL","NPP_VL", 
+                              "nc_L", "pc_L", "NPP_L")
     
-    LongNP <- data.frame(LongN, equilpf)
-    
-    equil700DF <- data.frame(VLongNP, LongNP)
-    colnames(equil700DF) <- c("nc_VL", "NPP_VL", "pc_VL",
-                              "nc_L", "NPP_L", "pc_L")
     
     # store constraint and equil DF onto their respective output df
     cDF[cDF$Run == 8 & cDF$CO2 == 700, 3:13] <- out700DF

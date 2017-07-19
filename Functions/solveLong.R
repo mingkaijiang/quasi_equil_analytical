@@ -92,3 +92,35 @@ solveLong_respiration <- function(CO2,Cpass,NinL, PinL) {
     ans <- data.frame(equilnf, equilpf, equilNPP)
     return(ans)
 }
+
+# Find the long term equilibrium nf and NPP under standard conditions - by finding the root
+# specifically for nuptake ~ root biomass  - O-CN approach
+# i.e. N uptake as a saturating function of mineral N
+solveLong_root_ocn <- function(CO2, NinL) {
+    fn <- function(nf) {
+        solveNC(nf,allocn(nf,nwvar=nwvar)$af,co2=co2) - NConsLong_root_ocn(nf,allocn(nf,nwvar=nwvar),Nin=Nin)$NPP
+    }
+    equilnf <- uniroot(fn,interval=c(0.01,0.05))$root
+    equilNPP <- solveNC(equilnf,af=allocn(equilnf,nwvar=nwvar)$af, co2=co2)
+    ans <- data.frame(equilnf,equilNPP)
+    return(ans)
+}
+
+
+# Find the long term equilibrium nf and NPP under standard conditions - by finding the root
+# specifically for nuptake ~ root biomass  - O-CN approach
+# i.e. N uptake as a saturating function of mineral N
+solveLong_root_gday <- function(CO2,Cpass,NinL) {
+    fn <- function(nf) {
+        photo_constraint_full_cnp(nf, inferpfVL_root_gday(nf, allocn(nf)),
+                                  allocn(nf), 
+                                  allocp(inferpfVL_root_gday(nf, allocn(nf))), 
+                                  CO2) - NConsLong_root_gday(nf,allocn(nf),Cpass=Cpass,NinL)$NPP
+    }
+    equilnf <- uniroot(fn,interval=c(0.01,0.1))$root
+    equilpf <- inferpfVL_root_gday(equilnf, allocn(equilnf))
+    equilNPP <- photo_constraint_full_cnp(equilnf, equilpf, 
+                                          allocn(equilnf), allocp(equilpf), CO2)
+    ans <- data.frame(equilnf,equilpf,equilNPP)
+    return(ans)
+}
