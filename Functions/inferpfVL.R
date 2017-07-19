@@ -22,16 +22,10 @@ inferpfVL <- function(nf, a) {
 
 ### Make inference of pf based on nf
 # specifically for explicit mineral pools
-inferpfVL_expl_min <- function(nf, a, Pin=0.02, Nin=0.4,
-                      leachn=0.05, leachp=0.05,
-                      k1=0.01, k2=0.01, k3=0.05,
-                      nwood=0.005, pwood=0.0003, 
-                      pwvar = TRUE, nrho = 0.7, prho = 0.7,
-                      nretrans = 0.5, pretrans = 0.6,
-                      nuptakerate = 0.96884, puptakerate = 0.82395) {
+inferpfVL_expl_min <- function(nf, a) {
     # allocation parameters
-    ar <- 0.2
-    af <- 0.2
+    ar <- aroot
+    af <- aleaf
     aw <- 1 - ar - af
     
     # output nf, based on F(nf) = F(pf)

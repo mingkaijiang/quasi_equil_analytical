@@ -60,6 +60,24 @@ solveLong_full_cn <- function(CO2,Cpass,NinL) {
 }
 
 # Find the long term equilibrium nf and NPP under standard conditions - by finding the root
+# specifically for explicit mineral pools
+solveLong_expl_min <- function(CO2,Cpass,NinL, PinL) {
+    fn <- function(nf) {
+        photo_constraint_full_cnp(nf, inferpfVL_expl_min(nf, allocn(nf)),
+                                  allocn(nf), 
+                                  allocp(inferpfVL_expl_min(nf, allocn(nf))), 
+                                  CO2) - NConsLong_expl_min(nf,allocn(nf),Cpass,NinL)$NPP
+    
+    }
+    equilnf <- uniroot(fn,interval=c(0.01,0.1))$root
+    equilpf <- inferpfVL_expl_min(equilnf, allocn(equilnf))
+    equilNPP <- photo_constraint_full_cnp(equilnf, equilpf, 
+                                          allocn(equilnf), allocp(equilpf), CO2)
+    ans <- data.frame(equilnf,equilpf,equilNPP)
+    return(ans)
+}
+
+# Find the long term equilibrium nf and NPP under standard conditions - by finding the root
 solveLong_respiration <- function(CO2,Cpass,NinL, PinL) {
     fn <- function(nf) {
         photo_constraint_respiration(nf, inferpfVL(nf, allocn(nf)), 

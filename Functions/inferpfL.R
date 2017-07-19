@@ -80,24 +80,19 @@ inferpfL_CWD <- function(nf, a, Pin = 0.02, Nin = 0.4,
 
 # Find long term equilibrated pf based on equilibrated NPP calculated from equilnf profile
 # specifically for explicit mineral N and P pool 
-inferpfL_expl_min <- function(nf, a, Pin = 0.02, Nin = 0.4,
-                     leachn = 0.05, leachp = 0.05, Cpass=CpassVLong, 
-                     pwvar = TRUE, nwvar = TRUE, pwood = 0.0003, prho = 0.7, 
-                     pretrans = 0.6, pcp = 0.005, ncp = 0.1,
-                     Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16,
-                     k1 = 0.01, k2 = 0.01, k3 = 0.05, nuptakerate = 0.96884,
-                     puptakerate = 0.82395) {
+inferpfL_expl_min <- function(nf, a, PinL, NinL,
+                              Cpass) {
     # prepare allocation partitioning
-    ar <- 0.2
-    af <- 0.2
+    ar <- aroot
+    af <- aleaf
     aw <- 1 - ar - af
     
     # passive pool burial 
-    pass <- passive(nf, allocn(nf, nwvar=nwvar), Tsoil, Texture, ligfl, ligrl)
-    omega <- allocn(nf, nwvar=nwvar)$af*pass$omegaf + allocn(nf, nwvar=nwvar)$ar*pass$omegar 
+    pass <- passive(nf, allocn(nf))
+    omega <- allocn(nf)$af*pass$omegaf + allocn(nf)$ar*pass$omegar 
     
     # equation for N constraint with passive, wood, and leaching
-    U0 <- Nin + (1-pass$qq) * pass$decomp * Cpass * ncp   
+    U0 <- NinL + (1-pass$qq) * pass$decomp * Cpass * ncp   
     nwood <- a$aw*a$nw
     nburial <- omega*ncp
     
@@ -105,7 +100,7 @@ inferpfL_expl_min <- function(nf, a, Pin = 0.02, Nin = 0.4,
     NPP <- (nuptakerate * U0) / ((a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) * leachn + nuptakerate * nwood + nuptakerate * nburial)
     
     # prepare long term phosphorus fluxes
-    P0 = Pin + (1-pass$qq) * pass$decomp * Cpass * pcp
+    P0 = PinL + (1-pass$qq) * pass$decomp * Cpass * pcp
     pleach <- leachp/(1-leachp-k1) 
     pburial <- omega*pcp
     pocc <- (k3/(k2+k3))*(k1/(1-k1-leachp))
