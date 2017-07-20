@@ -35,7 +35,7 @@ Perform_Analytical_Run4(f.flag = 1, constraintDF, equilDF)
 #Perform_Analytical_Run6(f.flag = 1, constraintDF, equilDF)
 Perform_Analytical_Run7(f.flag = 1, constraintDF, equilDF)
 Perform_Analytical_Run8_1(f.flag = 1, constraintDF, equilDF)
-Perform_Analytical_Run8_2(f.flag = 1, constraintDF, equilDF)
+Perform_Analytical_Run8_2()
 
 #Perform_Analytical_Run9(f.flag = 1, constraintDF, equilDF)
 #Perform_Analytical_Run10(f.flag = 1, constraintDF, equilDF)
@@ -43,16 +43,16 @@ Perform_Analytical_Run8_2(f.flag = 1, constraintDF, equilDF)
 #### Step 2 store run 1 - 10 constrainDF dataframe
 
 ### Run 1
-constraintDF <- Perform_Analytical_Run1(f.flag = 2, constraintDF, equilDF)
+#constraintDF <- Perform_Analytical_Run1(f.flag = 2, constraintDF, equilDF)
 
 ### Run 2
-constraintDF <- Perform_Analytical_Run2(f.flag = 2, constraintDF, equilDF)
+#constraintDF <- Perform_Analytical_Run2(f.flag = 2, constraintDF, equilDF)
 
 ### Run 3
-constraintDF <- Perform_Analytical_Run3(f.flag = 2, constraintDF, equilDF)
+#constraintDF <- Perform_Analytical_Run3(f.flag = 2, constraintDF, equilDF)
 
 ### Run 4
-constraintDF <- Perform_Analytical_Run4(f.flag = 2, constraintDF, equilDF)
+#constraintDF <- Perform_Analytical_Run4(f.flag = 2, constraintDF, equilDF)
 
 #### Run 5
 #constraintDF <- Perform_Analytical_Run5(f.flag = 2, constraintDF, equilDF)
@@ -61,11 +61,11 @@ constraintDF <- Perform_Analytical_Run4(f.flag = 2, constraintDF, equilDF)
 #constraintDF <- Perform_Analytical_Run6(f.flag = 2, constraintDF, equilDF)
 #
 #### Run 7
-constraintDF <- Perform_Analytical_Run7(f.flag = 2, constraintDF, equilDF)
+#constraintDF <- Perform_Analytical_Run7(f.flag = 2, constraintDF, equilDF)
 #
 #### Run 8
-constraintDF <- Perform_Analytical_Run8_1(f.flag = 2, constraintDF, equilDF)
-constraintDF <- Perform_Analytical_Run8_2(f.flag = 2, constraintDF, equilDF)
+#constraintDF <- Perform_Analytical_Run8_1(f.flag = 2, constraintDF, equilDF)
+#constraintDF <- Perform_Analytical_Run8_2(f.flag = 2, constraintDF, equilDF)
 
 #
 #### Run 9
@@ -78,16 +78,16 @@ constraintDF <- Perform_Analytical_Run8_2(f.flag = 2, constraintDF, equilDF)
 #### Step 3 store run 1 - 10 equilDF dataframes
 
 ### Run 1
-equilDF <- Perform_Analytical_Run1(f.flag = 3, constraintDF, equilDF)
+#equilDF <- Perform_Analytical_Run1(f.flag = 3, constraintDF, equilDF)
 
 ### Run 2
-equilDF <- Perform_Analytical_Run2(f.flag = 3, constraintDF, equilDF)
+#equilDF <- Perform_Analytical_Run2(f.flag = 3, constraintDF, equilDF)
 
 ### Run 3
-equilDF <- Perform_Analytical_Run3(f.flag = 3, constraintDF, equilDF)
+#equilDF <- Perform_Analytical_Run3(f.flag = 3, constraintDF, equilDF)
 
 ### Run 4
-equilDF <- Perform_Analytical_Run4(f.flag = 3, constraintDF, equilDF)
+#equilDF <- Perform_Analytical_Run4(f.flag = 3, constraintDF, equilDF)
 
 ### Run 5
 #equilDF <- Perform_Analytical_Run5(f.flag = 3, constraintDF, equilDF)
@@ -96,11 +96,11 @@ equilDF <- Perform_Analytical_Run4(f.flag = 3, constraintDF, equilDF)
 #equilDF <- Perform_Analytical_Run6(f.flag = 3, constraintDF, equilDF)
 
 ### Run 7
-equilDF <- Perform_Analytical_Run7(f.flag = 3, constraintDF, equilDF)
+#equilDF <- Perform_Analytical_Run7(f.flag = 3, constraintDF, equilDF)
 
 ### Run 8
-equilDF <- Perform_Analytical_Run8_1(f.flag = 3, constraintDF, equilDF)
-equilDF <- Perform_Analytical_Run8_2(f.flag = 3, constraintDF, equilDF)
+#equilDF <- Perform_Analytical_Run8_1(f.flag = 3, constraintDF, equilDF)
+#equilDF <- Perform_Analytical_Run8_2(f.flag = 3, constraintDF, equilDF)
 
 #### Run 9
 #equilDF <- Perform_Analytical_Run9(f.flag = 3, constraintDF, equilDF)

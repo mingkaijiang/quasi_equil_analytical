@@ -93,15 +93,19 @@ source("R/Check_analytical_gday_matches.R")
 #### ------------- Checking effect of P limitation in analytical solution ----------- #####
 source("R/Effect_of_P_limitation.R")
 
-source("R/Effect_of_P_limitation_EucFACE.R")
-source("R/Effect_of_P_limitation_AmazonFACE.R")
+#### ------------- Checking effect of wood stoichiometry in analytical solution ----------- #####
+source("R/Effect_of_wood_stoichiometry.R")
+
 
 #### ------------- Checking effect of P limitation in GDAY key variables ----------- #####
-source("R/Effect_of_P_GDAY.R")
+#source("R/Effect_of_P_GDAY.R")
 
 #### ------------- Plotting CO2 fertilization effect through time ----------- #####
 source("R/CO2_fertilization_summary.R")
 
+
+
+#### ------------- Case studies - EucFACE and AmazonFACE ----------- #####
 rm(list=ls(all=TRUE))
 
 ### Get current date
@@ -110,6 +114,8 @@ date<-Sys.Date()
 ### read in all R packages
 source("R/prepare_R.R")
 
+source("R/Effect_of_P_limitation_EucFACE.R")
+source("R/Effect_of_P_limitation_AmazonFACE.R")
 
 source("R/Run_analytical_solutions_EucFACE.R")
 

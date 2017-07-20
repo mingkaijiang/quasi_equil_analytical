@@ -21,7 +21,7 @@ Perform_Analytical_Run4 <- function(f.flag = 1, cDF, eDF) {
     source("Parameters/Analytical_Run4_Parameters.R")
     
     # create a range of nc for shoot to initiate
-    nfseq <- round(seq(0.01, 0.04, by = 0.001),5)
+    nfseq <- round(seq(0.01, 0.04, length.out = 91),5)
     a_nf <- as.data.frame(allocn(nfseq))
     
     # using very long term relationship to calculate pf from nf
@@ -97,7 +97,7 @@ Perform_Analytical_Run4 <- function(f.flag = 1, cDF, eDF) {
     ##### CO2 = 700
     
     # N:C and P:C ratio
-    nfseq <- round(seq(0.01, 0.04, by = 0.001),5)
+    nfseq <- round(seq(0.01, 0.04,  length.out = 91),5)
     a_nf <- as.data.frame(allocn(nfseq))
     
     # using very long term relationship to calculate pf from nf
@@ -274,7 +274,7 @@ Perform_Analytical_Run4 <- function(f.flag = 1, cDF, eDF) {
         ### plot bar plot of cue
         tiff("Plots/Analytical_Run4_CUE.tiff",
              width = 10, height = 5, units = "in", res = 300)
-        par(mfrow=c(1,2), mar=c(5.1,6.1,2.1,2.1))
+        #par(mfrow=c(1,2), mar=c(5.1,6.1,2.1,2.1))
         
         test<- barplot(cue_out, names.arg = c("A", "A", "C", "D"),beside=T,xpd=F,
                 ylim=c(0.5,0.7), col=c("blue", "blue", "red", "orange"),

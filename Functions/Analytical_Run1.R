@@ -207,11 +207,11 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
         points(equil700DF$nc_VL, equil700DF$NPP_VL, type="p", col="orange", pch = 19, cex = 2)
         points(equil700DF$nc_L, equil700DF$NPP_L,type="p", col="red", pch = 19, cex = 2)
 
-        dev.off()
+        #dev.off()
         
-        tiff("Plots/implicit_PC.tiff",
-             width = 8, height = 7, units = "in", res = 300)
-        par(mar=c(5.1,6.1,2.1,2.1))
+        #tiff("Plots/implicit_PC.tiff",
+        #     width = 8, height = 7, units = "in", res = 300)
+        #par(mar=c(5.1,6.1,2.1,2.1))
         
         # shoot nc vs. shoot pc
         plot(out350DF$nc, out350DF$pc_VL, xlim=c(0.0, 0.05),
