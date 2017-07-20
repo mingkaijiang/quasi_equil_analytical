@@ -1,0 +1,118 @@
+######### Obtainning relationship between leaf NC and leaf PC and LUE for N and NP models
+
+source("R/prepare_R.R")
+
+#### NP model
+source("Parameters/Analytical_Run1_Parameters.R")
+
+# create a range of nc for shoot to initiate
+nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
+a_nf <- as.data.frame(allocn(nfseq))
+
+# using very long term relationship to calculate pf from nf
+pfseq <- inferpfVL(nfseq, a_nf)
+a_pf <- as.data.frame(allocp(pfseq))
+
+# calculate photosynthetic constraint at CO2 = 350
+Photo350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
+
+LUE_NP <- LUE_full_cnp_walker(nfseq, a_pf, pfseq, CO2=350.0, Photo350*1000.0) 
+
+plot(nfseq, LUE_NP)
+plot(pfseq, LUE_NP)
+
+# trial one
+lm.np <- lm(LUE_NP~nfseq +nfseq:pfseq)
+summary(lm.np)
+
+lue_np_pred <- 0.0288 + 0.82 * nfseq - 118.1 * nfseq * pfseq
+plot(lue_np_pred~LUE_NP)
+abline(a=0,b=1)
+
+# trial two
+lm.np <- lm(LUE_NP~-1+nfseq+nfseq:pfseq)
+summary(lm.np)
+
+lue_np_pred <- 1.92 * nfseq - 309.63 * nfseq * pfseq
+plot(lue_np_pred~LUE_NP)
+abline(a=0,b=1)
+
+# trial three
+lm.np <- lm(LUE_NP~nfseq:pfseq)
+summary(lm.np)
+
+lue_np_pred <- 0.047 +  34.02 * nfseq * pfseq
+plot(lue_np_pred~LUE_NP)
+abline(a=0,b=1)
+
+# trial four
+lm.np <- lm(LUE_NP~nfseq+pfseq+nfseq:pfseq)
+summary(lm.np)
+
+lue_np_pred <- 0.029 + 1946 * nfseq -41540 * pfseq - 117.8 * nfseq * pfseq
+plot(lue_np_pred~LUE_NP)
+abline(a=0,b=1)
+
+# trial 5
+lm.np <- lm(log(LUE_NP)~log(nfseq) + log(nfseq):log(pfseq))
+summary(lm.np)
+
+lue_np_pred <- exp(-3.85 - 1.25 * log(nfseq) - 0.15 * log(pfseq) * log(nfseq))
+plot(lue_np_pred~LUE_NP)
+abline(a=0,b=1)
+
+# trial 6
+lm.np <- lm(log(LUE_NP)~log(pfseq) + log(nfseq):log(pfseq))
+summary(lm.np)
+
+lue_np_pred <- exp(-7.69 - 1.25 * log(pfseq) - 0.15 * log(pfseq) * log(nfseq))
+plot(lue_np_pred~LUE_NP)
+abline(a=0,b=1)
+
+# trial 7
+lm.np <- lm(log(LUE_NP)~log(nfseq):log(pfseq))
+summary(lm.np)
+
+lue_np_pred <- exp(-2.49 - 0.02 * log(pfseq) * log(nfseq))
+plot(lue_np_pred~LUE_NP)
+abline(a=0,b=1)
+
+
+# trial 8
+lm.np <- lm(log(LUE_NP)~log(pfseq) + log(nfseq))
+summary(lm.np)
+
+lue_np_pred <- exp(-17588 - 5745 * log(pfseq) + 5745 * log(nfseq))
+plot(lue_np_pred~LUE_NP)
+abline(a=0,b=1)
+
+# best model: trial 1 or trial 5
+
+#### NP model
+source("Parameters/Analytical_Run2_Parameters.R")
+
+# create a range of nc for shoot to initiate
+nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
+a_nf <- as.data.frame(allocn(nfseq))
+
+# calculate photosynthetic constraint at CO2 = 350
+Photo350 <- photo_constraint_full_cn(nfseq, a_nf, CO2_1)
+
+LUE_N <- LUE_full_cn_walker(nfseq, a_nf, CO2=350.0, Photo350*1000.0) 
+plot(nfseq, LUE_N)
+
+# trial one
+lm.n <- lm(LUE_N~nfseq)
+summary(lm.n)
+
+lue_n_pred <- 0.04 + 0.09 * nfseq
+plot(lue_n_pred~LUE_N)
+abline(a=0,b=1)
+
+# trial two
+lm.n <- lm(log(LUE_N)~log(nfseq))
+summary(lm.n)
+
+lue_n_pred <- exp(-2.76 + 0.09 * log(nfseq))
+plot(lue_n_pred~LUE_N)
+abline(a=0,b=1)

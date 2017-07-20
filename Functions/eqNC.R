@@ -39,6 +39,7 @@ eqPC_full_cnp <- function(nf, pf, pfdf, NPP, CO2) {
     # return gpp as kg m-2 yr-1
     gpp <- lue_yr * (1 - exp(-kext*SLA*pfdf$af*NPP/sf/cfrac)) * conv * 365 / 1000.0
 
+    #browser()
     ##Returns G: total C production (i.e. NPP)
     return( gpp * cue)
     
@@ -80,5 +81,39 @@ eqPC_respiration <- function(nf, pf, nfdf, pfdf, NPP, CO2) {
     
     ##Returns G: total C production (i.e. NPP)
     return(gpp - Ra)
+    
+}
+
+### NPP as function of nf and LAI (which is calculated from NPP)
+### basic function: CUE dependent and based on the full model
+eqPC_simple_cnp <- function(nf, pf, pfdf, NPP, CO2) {
+    
+    # in umol C m-2 d-1
+    #lue_yr <- (0.0288 + 0.82 * nf - 118.1 * nf * pf) * par
+    lue_yr <- exp((-3.85 + -1.25 * log(nf) - 0.15 * log(nf) * log(pf))) * par
+    
+    # return gpp as kg m-2 yr-1
+    gpp <- lue_yr * (1 - exp(-kext*SLA*pfdf$af*NPP/sf/cfrac)) * conv * 365 / 1000.0
+    
+    #browser()
+    ##Returns G: total C production (i.e. NPP)
+    return( gpp * cue)
+    
+}
+
+### NPP as function of nf and LAI (which is calculated from NPP)
+### basic function: CUE dependent and based on the full model
+### for cn model only
+eqPC_simple_cn <- function(nf, nfdf, NPP, CO2) {
+    
+    # in umol C m-2 d-1
+    #lue_yr <- (0.04 + 0.09 * nf) * par
+    lue_yr <- exp((-2.76 + 0.09 * log(nf))) * par
+    
+    # return gpp as kg m-2 yr-1
+    gpp <- lue_yr * (1 - exp(-kext*SLA*nfdf$af*NPP/sf/cfrac)) * conv * 365 / 1000.0
+    
+    ##Returns G: total C production (i.e. NPP)
+    return( gpp * cue)
     
 }

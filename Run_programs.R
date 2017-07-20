@@ -96,6 +96,8 @@ source("R/Effect_of_P_limitation.R")
 #### ------------- Checking effect of wood stoichiometry in analytical solution ----------- #####
 source("R/Effect_of_wood_stoichiometry.R")
 
+#### ------------- Run 4 CUE output, save into a table ----------- #####
+source("R/CUE_check.R")
 
 #### ------------- Checking effect of P limitation in GDAY key variables ----------- #####
 #source("R/Effect_of_P_GDAY.R")
@@ -115,6 +117,7 @@ date<-Sys.Date()
 source("R/prepare_R.R")
 
 source("R/Effect_of_P_limitation_EucFACE.R")
+
 source("R/Effect_of_P_limitation_AmazonFACE.R")
 
 source("R/Run_analytical_solutions_EucFACE.R")
@@ -126,18 +129,14 @@ source("R/Run_analytical_solutions_AmazonFACE.R")
 source("R/CO2_fertilization_summary_AmazonFACE.R")
 
 #### --- Perform the necessary run-specific plottings and statistics ------- #####
-### Run 4 CUE output, save into a table
-source("R/CUE_check.R")
-
-
 
 
 #### ---------------- Generate manuscript figures and tables --------------- #####
 ### To generate manuscript figures
-source("Plots/Figure_generating.R")
+#source("Plots/Figure_generating.R")
 
 ### To generate manuscript tables (or statistics used for generating the tables)
-source("Tables/Table_generating.R")
+#source("Tables/Table_generating.R")
 
 
 
