@@ -11,8 +11,8 @@
 #### Run 2: same as Run1, but P cycle off
 #### Run 3: same as Run1, but fixed wood stoichiometry
 #### Run 4: same as Run1, but autotrophic respiration as a function of plant N concentration
-#### Run 5: same as Run4, but fixed wood stoichiometry and increased nutrient supply
-#### Run 6: same as Run1, but with separate coarse woody debris pool
+#### Run 5: same as Run1, but with simplified LUE model
+#### Run 6: same as Run2, but with simplfieid LUE model
 #### Run 7: same as Run1, but with explicit mineral N pool
 #### Run 8.1: same as Run7, but with passive SOM fixed stoichiometry, and nuptake ~ root biomass - GDAY approach
 #### Run 8.2, same as Run8.1, but with O-CN approach (i.e. saturating function of mineral N)
@@ -31,8 +31,8 @@ Perform_Analytical_Run1(f.flag = 1, constraintDF, equilDF)
 Perform_Analytical_Run2(f.flag = 1, constraintDF, equilDF)
 Perform_Analytical_Run3(f.flag = 1, constraintDF, equilDF)
 Perform_Analytical_Run4(f.flag = 1, constraintDF, equilDF)
-#Perform_Analytical_Run5(f.flag = 1, constraintDF, equilDF)
-#Perform_Analytical_Run6(f.flag = 1, constraintDF, equilDF)
+Perform_Analytical_Run5(f.flag = 1, constraintDF, equilDF)
+Perform_Analytical_Run6(f.flag = 1, constraintDF, equilDF)
 Perform_Analytical_Run7(f.flag = 1, constraintDF, equilDF)
 Perform_Analytical_Run8_1(f.flag = 1, constraintDF, equilDF)
 Perform_Analytical_Run8_2()
