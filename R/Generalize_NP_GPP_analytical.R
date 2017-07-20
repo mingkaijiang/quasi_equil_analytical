@@ -13,16 +13,25 @@ a_nf <- as.data.frame(allocn(nfseq))
 pfseq <- inferpfVL(nfseq, a_nf)
 a_pf <- as.data.frame(allocp(pfseq))
 
+# create storage df
+outDF <- data.frame(rep(nfseq,10), rep(pfseq, 10), NA, NA)
+colnames(outDF) <- c("nfseq", "pfseq", "LUE", "CO2")
+co2.list <- seq(350, 800, by = 50)
+outDF$CO2 <- rep(co2.list, each = 91)
+
 # calculate photosynthetic constraint at CO2 = 350
-Photo350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
 
-LUE_NP <- LUE_full_cnp_walker(nfseq, a_pf, pfseq, CO2=350.0, Photo350*1000.0) 
+for (i in 1:length(co2.list)) {
+    Photo350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, co2.list[i])
+    LUE_NP <- LUE_full_cnp_walker(nfseq, a_pf, pfseq, CO2=co2.list[i], Photo350*1000.0) 
+    outDF[outDF$CO2 == co2.list[i], "LUE"] <- LUE_NP
+}
 
-plot(nfseq, LUE_NP)
-plot(pfseq, LUE_NP)
+with(outDF, plot(nfseq, LUE))
+with(outDF, plot(pfseq, LUE))
 
 # trial one
-lm.np <- lm(LUE_NP~nfseq +nfseq:pfseq)
+lm.np <- lm(outDF$LUE~outDF$CO2 + outDF$nfseq + outDF$nfseq:outDF$pfseq)
 summary(lm.np)
 
 lue_np_pred <- 0.0288 + 0.82 * nfseq - 118.1 * nfseq * pfseq

@@ -93,6 +93,18 @@ solveVLong_full_cn <- function(CO2) {
 }
 
 # Find the very-long term equilibrium nf and NPP under standard conditions - by finding the root
+solveVLong_simple_cn <- function(CO2) {
+    fn <- function(nf) {
+        photo_constraint_simple_cn(nf, allocn(nf),CO2) - VLong_constraint_N(nf,allocn(nf))$NPP
+    }
+    equilnf <- uniroot(fn,interval=c(0.01,0.1))$root
+    equilNPP <- photo_constraint_simple_cn(equilnf, allocn(equilnf), CO2)
+    equilpf <- "NA"
+    ans <- data.frame(equilnf, "NA", equilNPP)
+    return(ans)
+}
+
+# Find the very-long term equilibrium nf and NPP under standard conditions - by finding the root
 solveVLong_respiration <- function(CO2) {
     fn <- function(nf) {
         photo_constraint_respiration(nf, inferpfVL(nf, allocn(nf)), 
