@@ -116,3 +116,27 @@ summary(lm.n)
 lue_n_pred <- exp(-2.76 + 0.09 * log(nfseq))
 plot(lue_n_pred~LUE_N)
 abline(a=0,b=1)
+
+
+#### Save 1:1 line comparisons of the simple model vs. complex photosynthesis model
+tiff("Plots/LUE_simple_vs_complex.tiff",
+     width = 10, height = 5, units = "in", res = 300)
+par(mfrow=c(1,2), mar=c(5.1,6.1,2.1,2.1))
+
+# NP model
+lm.np <- lm(log(LUE_NP)~log(nfseq) + log(nfseq):log(pfseq))
+summary(lm.np)
+
+lue_np_pred <- exp(-3.85 - 1.25 * log(nfseq) - 0.15 * log(pfseq) * log(nfseq))
+plot(lue_np_pred~LUE_NP, xlab = "LUE obs", ylab = "LUE pred", type="p")
+abline(a=0,b=1, col="red", lty=2)
+
+# N model
+lm.n <- lm(log(LUE_N)~log(nfseq))
+summary(lm.n)
+
+lue_n_pred <- exp(-2.76 + 0.09 * log(nfseq))
+plot(lue_n_pred~LUE_N, xlab = "LUE obs", ylab = "LUE pred", type="p")
+abline(a=0,b=1, col="red", lty=2)
+
+dev.off()
