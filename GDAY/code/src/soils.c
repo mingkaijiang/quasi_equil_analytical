@@ -731,8 +731,10 @@ void adjust_residence_time_of_slow_pool(fluxes *f, params *p) {
         /* GDAY uses decay rates rather than residence times... */
         p->kdec6 = 1.0 / rt_slow_pool;
         
+        //fprintf(stderr, "kdec6 1 %f\n", p->kdec6);
         /* rate constant needs to be per day inside GDAY */
-        p->kdec6 /= NDAYS_IN_YR;
+        //p->kdec6 /= NDAYS_IN_YR;
+        //fprintf(stderr, "kdec6 2 %f\n", p->kdec6);
     }
     
     /* Save for outputting purposes only */
