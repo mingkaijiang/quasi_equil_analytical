@@ -55,7 +55,7 @@ source("GDAY/post_processing/Convert_GDAY_daily_to_annual.R")
 
 
 ### delete all raw GDAY output files as they are large
-source("GDAY/post_processing/delete_raw_gday_files.R")
+#source("GDAY/post_processing/delete_raw_gday_files.R")
 
 ### Mass balance checks, takes very long to run!
 # source("GDAY/post_processing/mass_balance.R")

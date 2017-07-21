@@ -866,7 +866,7 @@ double calculate_nuptake(control *c, params *p, state *s, fluxes *f) {
     */
     double nuptake, U0, Kr, rateuptake;
     double k_const = 0.08;
-    double vmax = 1.0;
+    double vmax = 10.0;
 
     rateuptake = (1.0 - p->rateloss * NDAYS_IN_YR) / NDAYS_IN_YR; 
     
@@ -910,7 +910,7 @@ double calculate_puptake(control *c, params *p, state *s, fluxes *f) {
     */
     double puptake, U0, Kr, pocc, pleach, rateuptake;
     double k_const = 0.08;
-    double vmax = 1.0;
+    double vmax = 10.0;
     
     rateuptake = (1.0 - (p->prateloss + p->k1) * NDAYS_IN_YR) / NDAYS_IN_YR; 
     

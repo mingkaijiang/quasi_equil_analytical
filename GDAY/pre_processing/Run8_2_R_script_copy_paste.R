@@ -27,7 +27,7 @@ Run8_2_copy_paste <- function() {
     out[44] <- "    swp_fname <- paste0(d, \"/simulations/Run8_2/replace_params.cfg\")"
     
     # turn P cycle off
-    out[193] <-  "        \"pcycle\", \"false\"," 
+    out[193] <-  "        \"pcycle\", \"true\"," 
     
     # P uptake mode
     out[195] <- "        \"puptake_model\", \"3\","
