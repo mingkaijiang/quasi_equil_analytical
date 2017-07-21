@@ -96,6 +96,7 @@ void initialise_params(params *p) {
     p->ndep_in = 0.001;
     p->nfix_in = 0.001;
     p->lue0 = 1.4;                /* maximum LUE in kg C GJ-1 */
+    p->mcue = 0.3;                /* microbial CUE */
     p->metabcnmax = 25.0;
     p->metabcnmin = 10.0;
     p->metabcpmax = 150.0;
