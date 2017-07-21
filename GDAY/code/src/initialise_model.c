@@ -96,7 +96,6 @@ void initialise_params(params *p) {
     p->ndep_in = 0.001;
     p->nfix_in = 0.001;
     p->lue0 = 1.4;                /* maximum LUE in kg C GJ-1 */
-    p->mcue = 0.3;                /* microbial CUE */
     p->metabcnmax = 25.0;
     p->metabcnmin = 10.0;
     p->metabcpmax = 150.0;
@@ -131,6 +130,7 @@ void initialise_params(params *p) {
     p->rateuptake = 2.7;
     p->rdecay = 0.33333;
     p->rretrans = 0.0; 
+    p->root_exu_CUE = 0.3;
     p->sapturnover = 0.1;
     p->sla = 4.4;
     p->slowncmax = 0.066666;
@@ -323,6 +323,16 @@ void initialise_fluxes(fluxes *f) {
     f->co2_rel_from_active_pool = 0.0;
     f->co2_rel_from_slow_pool = 0.0;
     f->co2_rel_from_passive_pool = 0.0;
+    
+    /* exudation */
+    f->co2_released_exud = 0.0;
+    f->rexc_cue = 0.0;
+    f->root_exc = 0.0;
+    f->root_exn = 0.0;
+    f->root_exp = 0.0;
+    f->factive = 0.0;
+    f->rtslow = 0.0;
+    
 
     return;
 }

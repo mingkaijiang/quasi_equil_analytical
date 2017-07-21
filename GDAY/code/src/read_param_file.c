@@ -512,8 +512,6 @@ int handler(char *section, char *name, char *value, control *c,
       p->ndep_in = atof(value);
     } else if (MATCH("params", "nfix_in")) {
       p->nfix_in = atof(value);
-    } else if (MATCH("params", "mcue")) {
-        p->mcue = atof(value);
     } else if (MATCH("params", "metabcnmax")) {
       p->metabcnmax = atof(value);
     } else if (MATCH("params", "metabcnmin")) {
