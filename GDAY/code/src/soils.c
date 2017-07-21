@@ -623,6 +623,9 @@ void calculate_nsoil_flows(control *c, fluxes *f, params *p, state *s) {
     /* calculate N net mineralisation */
     calc_n_net_mineralisation(c, f);
     
+    //fprintf(stderr, "before nmin %f, nuptake %f\n", 
+    //        f->nmineralisation, f->nuptake);
+    
     if (c->exudation) {
       calc_root_exudation_uptake_of_N(f, s);
     }
@@ -633,6 +636,10 @@ void calculate_nsoil_flows(control *c, fluxes *f, params *p, state *s) {
       /* Need to correct units of rate constant */
       f->rtslow = 1.0 / (p->kdec6 * NDAYS_IN_YR);
     }
+    
+    //fprintf(stderr, "rtslow %f\n", f->rtslow);
+    //fprintf(stderr, "after nmin %f, nuptake %f\n", 
+    //        f->nmineralisation, f->nuptake);
     
     /* Update model soil N pools */
     calculate_npools(c, f, p, s);
@@ -708,9 +715,6 @@ void adjust_residence_time_of_slow_pool(fluxes *f, params *p) {
     */
     double rt_slow_pool;
     
-    fprintf(stderr, "kdec6 1 %f, rt_slow_pool %f, rtslow %f\n",
-            p->kdec6, rt_slow_pool, f->rtslow);
-    
     /* total flux out of the factive pool */
     f->factive = (f->active_to_slow + f->active_to_passive + \
     f->co2_to_air[4] + f->co2_released_exud);
@@ -722,22 +726,18 @@ void adjust_residence_time_of_slow_pool(fluxes *f, params *p) {
         rt_slow_pool = (1.0 / p->prime_y) / \
             MAX(0.3, (f->factive / (f->factive + p->prime_z)));
         
-        
-        fprintf(stderr, "factive %f, (factive/(factive+prime_z)) %f, (1.0/prime_y) %f\n",
-                f->factive, (f->factive/(f->factive+p->prime_z)), (1.0/p->prime_y));
+        //fprintf(stderr, "factive %f, rt_slow_pool %f\n",
+        //        f->factive, rt_slow_pool);
         /* GDAY uses decay rates rather than residence times... */
         p->kdec6 = 1.0 / rt_slow_pool;
         
         /* rate constant needs to be per day inside GDAY */
         p->kdec6 /= NDAYS_IN_YR;
-        
     }
     
     /* Save for outputting purposes only */
     f->rtslow = rt_slow_pool;
     
-    fprintf(stderr, "kdec6 2 %f, rt_slow_pool %f, rtslow %f\n",
-            p->kdec6, rt_slow_pool, f->rtslow);
     
     return;
 }

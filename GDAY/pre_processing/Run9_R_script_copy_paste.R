@@ -16,7 +16,7 @@ Run9_copy_paste <- function() {
                "        \"exudation\", \"true\","   ,
                 spinup)
     
-    #out[183] <-  "        \"adjust_rtslow\", \"true\",             # goes together with exudation" 
+    out[183] <-  "        \"adjust_rtslow\", \"true\",             # goes together with exudation" 
     
     # swap parameter locations
     out[32] <- "    param_dir <- paste0(d, \"/params/Run9\")"
