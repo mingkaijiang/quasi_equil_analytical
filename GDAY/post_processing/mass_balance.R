@@ -168,7 +168,7 @@ run_mass_balance_check <- function() {
     setwd("GDAY/analyses")
     
     #### Count number of simulations runs by counting the # folders
-    dirFile <- list.dirs(path=".", full.names = TRUE, recursive = FALSE)
+    dirFile <- list.dirs(path=".", full.names = F, recursive = FALSE)
     
     #### Set back to the original working directory
     setwd(cwd)

@@ -56,8 +56,35 @@ NConsVLong_root_ocn <- function(df, a) {
     # k - empirically dervied for now
     # vmax
     
+    # compute leaching rate
+    leachn <- ((a$af*a$nf + a$ar*a$nr + a$aw*a$aw) * (sr/a$ar) * k) / (vmax - (a$af*a$nf + a$ar*a$nr + a$aw*a$aw) * (sr/a$ar))
+    
+    # equation for N constraint with just leaching
+    U0 <- Nin
+    nleach <- leachn * Nmin
+    
+    NPP_NC <- U0 / nleach
+    NPP_N <- NPP_NC*10^-3     # returned in kg C m-2 yr-1
+    
+    df <- data.frame(NPP_N,nleach)
+    return(df)   
+}
+
+NConsVLong_root_ocn_original <- function(df, a) {                   
+    # passed are bf and nf, the allocation and plant N:C ratios
+    # parameters : 
+    # Nin is fixed N inputs (N fixed and deposition) in g m-2 yr-1 (could vary fixation)
+    # leachn is the rate of leaching of the mineral N pool (per year)
+    # nuptakerate is the rate of N uptake [yr-1] 
+    # Nmin is the mineral N pool
+    # sr is the decay rate of root in yr-1
+    # k - empirically dervied for now
+    # vmax
+    
     # compute N mineral pool
     Nmin <- k * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) / (a$ar / sr - (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw))
+    
+    browser()
     
     # equation for N constraint with just leaching
     U0 <- Nin
@@ -91,6 +118,8 @@ NConsVLong_root_gday <- function(df, a) {                   # why this small?
     A_NF <- a$nfl*a$af + a$nr*a$ar + a$nw*a$aw
     root_biomass <- a$ar / sr
     nleach <- Nmin * leachn
+    
+    browser()
     
     # equation for NPP
     NPP_NC <- (root_biomass * Nmin - (A_NF * kr)) / (A_NF * root_biomass)

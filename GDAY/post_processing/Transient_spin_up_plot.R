@@ -31,14 +31,14 @@ run_plot_discrete <- function() {
     setwd("GDAY/outputs")
     
     #### Count number of simulations runs by counting the # folders
-    dirFile <- list.dirs(path=".", full.names = TRUE, recursive = FALSE)
+    dirFile <- list.dirs(path=".", full.names = F, recursive = FALSE)
     
     #### Set back to the original working directory
     setwd(cwd)
     
     #### Do mass balance for each sub-simulations
     for (i in 1:length(dirFile)) {
-        FilePath <- paste(getwd(), "/GDAY/analyses/Run", i, sep="")
+        FilePath <- paste(getwd(), "/GDAY/analyses/", dirFile[i], sep="")
         plotDF <- read.table(paste(FilePath, "/annual_gday_result_spinup.csv", sep=""),
                       header=T,sep=",")
         

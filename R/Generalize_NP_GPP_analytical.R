@@ -30,11 +30,18 @@ for (i in 1:length(co2.list)) {
 with(outDF, plot(nfseq, LUE))
 with(outDF, plot(pfseq, LUE))
 
+ratio1 <- (outDF[outDF$CO2 == 400, "LUE"] - outDF[outDF$CO2 == 350, "LUE"]) / outDF[outDF$CO2 == 350, "LUE"]
+ratio2 <- (outDF[outDF$CO2 == 450, "LUE"] - outDF[outDF$CO2 == 400, "LUE"]) / outDF[outDF$CO2 == 400, "LUE"]
+
 # trial one
-lm.np <- lm(outDF$LUE~outDF$CO2 + outDF$nfseq + outDF$nfseq:outDF$pfseq)
+lm.np <- lm(log(outDF$LUE)~log(outDF$CO2) + log(outDF$nfseq) + (log(outDF$nfseq):log(outDF$pfseq)))
 summary(lm.np)
 
-lue_np_pred <- 0.0288 + 0.82 * nfseq - 118.1 * nfseq * pfseq
+#lue_np_pred <- 0.0288 + 0.82 * nfseq - 118.1 * nfseq * pfseq
+i <- 10
+lue_np_pred <- exp(-5.06 + 0.21 * log(co2.list[i]) - 1.24 * log(nfseq) - 0.15 * log(nfseq) * log(pfseq)) 
+Photo350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, co2.list[i])
+LUE_NP <- LUE_full_cnp_walker(nfseq, a_pf, pfseq, CO2=co2.list[i], Photo350*1000.0) 
 plot(lue_np_pred~LUE_NP)
 abline(a=0,b=1)
 

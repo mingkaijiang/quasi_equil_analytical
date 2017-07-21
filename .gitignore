@@ -46,7 +46,8 @@ GDAY/outputs/Run4/*.csv
 GDAY/outputs/Run5/*.csv
 GDAY/outputs/Run6/*.csv
 GDAY/outputs/Run7/*.csv
-GDAY/outputs/Run8/*.csv
+GDAY/outputs/Run8_1/*.csv
+GDAY/outputs/Run8_2/*.csv
 GDAY/outputs/Run9/*.csv
 GDAY/outputs/Run10/*.csv
 
@@ -58,7 +59,8 @@ GDAY/analyses/Run4/*.csv
 GDAY/analyses/Run5/*.csv
 GDAY/analyses/Run6/*.csv
 GDAY/analyses/Run7/*.csv
-GDAY/analyses/Run8/*.csv
+GDAY/analyses/Run8_1/*.csv
+GDAY/analyses/Run8_2/*.csv
 GDAY/analyses/Run9/*.csv
 GDAY/analyses/Run10/*.csv
 
@@ -69,7 +71,8 @@ GDAY/analyses/Run4/*.pdf
 GDAY/analyses/Run5/*.pdf
 GDAY/analyses/Run6/*.pdf
 GDAY/analyses/Run7/*.pdf
-GDAY/analyses/Run8/*.pdf
+GDAY/analyses/Run8_1/*.pdf
+GDAY/analyses/Run8_2/*.pdf
 GDAY/analyses/Run9/*.pdf
 GDAY/analyses/Run10/*.pdf
 
@@ -82,7 +85,8 @@ GDAY/params/Run4/*.cfg
 GDAY/params/Run5/*.cfg
 GDAY/params/Run6/*.cfg
 GDAY/params/Run7/*.cfg
-GDAY/params/Run8/*.cfg
+GDAY/params/Run8_1/*.cfg
+GDAY/params/Run8_2/*.cfg
 GDAY/params/Run9/*.cfg
 GDAY/params/Run10/*.cfg
 
@@ -98,7 +102,6 @@ GDAY/code/src/*.o
 
 # ignore all the DS_store files
 .DS_Store
-
 
 # ignore test files
 GDAY/simulations/Run1/*.txt

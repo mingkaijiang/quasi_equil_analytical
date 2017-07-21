@@ -70,11 +70,17 @@ setwd(cwd)
 #### We only need to show a few examples that gday solution matches with the analytical solution
 #### So the following gday simulations are not performed
 
-### Run8
-#setwd("GDAY/simulations/Run8")
-#source("quasi_equil_annual_spin_up.R")
-#source("quasi_equil_annual_simulations.R")
-#setwd(cwd)
+### Run8_1
+setwd("GDAY/simulations/Run8_1")
+source("quasi_equil_annual_spin_up.R")
+source("quasi_equil_annual_simulations.R")
+setwd(cwd)
+
+### Run8_2
+setwd("GDAY/simulations/Run8_2")
+source("quasi_equil_annual_spin_up.R")
+source("quasi_equil_annual_simulations.R")
+setwd(cwd)
 
 ### Run9
 #setwd("GDAY/simulations/Run9")

@@ -865,13 +865,14 @@ double calculate_nuptake(control *c, params *p, state *s, fluxes *f) {
 
     */
     double nuptake, U0, Kr, rateuptake;
+    double k_const = 0.08;
+    double vmax = 1.0;
 
     rateuptake = (1.0 - p->rateloss * NDAYS_IN_YR) / NDAYS_IN_YR; 
     
     if (c->nuptake_model == 0) {
         /* Constant N uptake */
         nuptake = rateuptake * s->inorgn;
-        //nuptake = f->ninflow / ((p->rateloss * NDAYS_IN_YR) / (1.0 - p->rateloss * NDAYS_IN_YR));
     } else if (c->nuptake_model == 1) {
         /* evaluate nuptake : proportional to dynamic inorganic N pool */
         nuptake = p->rateuptake * (1.0 - (p->rateloss)) * s->inorgn;
@@ -883,6 +884,10 @@ double calculate_nuptake(control *c, params *p, state *s, fluxes *f) {
         U0 = p->rateuptake * (1.0 - (p->rateloss * NDAYS_IN_YR)) * s->inorgn;
         Kr = p->kr;
         nuptake = MAX(U0 * s->root / (s->root + Kr), 0.0);
+    } else if (c->nuptake_model == 3) {
+        /* O-CN approach of N uptake as a function of root biomass and mineral N pool */
+        U0 = s->inorgn / (s->inorgn + k_const);
+        nuptake = U0 * s->root * vmax;
     } else {
         fprintf(stderr, "Unknown N uptake option\n");
         exit(EXIT_FAILURE);
@@ -904,6 +909,8 @@ double calculate_puptake(control *c, params *p, state *s, fluxes *f) {
         P uptake
     */
     double puptake, U0, Kr, pocc, pleach, rateuptake;
+    double k_const = 0.08;
+    double vmax = 1.0;
     
     rateuptake = (1.0 - (p->prateloss + p->k1) * NDAYS_IN_YR) / NDAYS_IN_YR; 
     
@@ -921,6 +928,10 @@ double calculate_puptake(control *c, params *p, state *s, fluxes *f) {
         U0 = p->prateuptake *  (1.0 - p->prateloss - p->k1) * s->inorgavlp;
         Kr = p->krp;
         puptake = MAX(U0 * s->root / (s->root + Kr), 0.0);
+    } else if (c->nuptake_model == 3) {
+        /* O-CN approach of P uptake as a function of root biomass and labile P pool */
+        U0 = s->inorgavlp / (s->inorgavlp + k_const);
+        puptake = U0 * s->root * vmax;
     } else {
         fprintf(stderr, "Unknown P uptake option\n");
         exit(EXIT_FAILURE);

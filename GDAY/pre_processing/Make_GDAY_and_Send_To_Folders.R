@@ -25,7 +25,9 @@ if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run3", sep="")))dir.create(paste
 #if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run5", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run5", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run6", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run6", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run7", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run7", sep=""))
-#if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run8", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run8", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run8_1", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run8_1", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run8_2", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run8_2", sep=""))
+
 #if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run9", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run9", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/simulations/Run10", sep="")))dir.create(paste(getwd(), "/GDAY/simulations/Run10", sep=""))
 
@@ -37,7 +39,9 @@ if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run3", sep="")))dir.create(paste(get
 #if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run5", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run5", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run6", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run6", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run7", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run7", sep=""))
-#if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run8", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run8", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run8_1", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run8_1", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run8_2", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run8_2", sep=""))
+
 #if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run9", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run9", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/outputs/Run10", sep="")))dir.create(paste(getwd(), "/GDAY/outputs/Run10", sep=""))
 
@@ -51,7 +55,9 @@ if(!dir.exists(paste(getwd(),"/GDAY/params/Run3", sep="")))dir.create(paste(getw
 #if(!dir.exists(paste(getwd(),"/GDAY/params/Run5", sep="")))dir.create(paste(getwd(), "/GDAY/params/Run5", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/params/Run6", sep="")))dir.create(paste(getwd(), "/GDAY/params/Run6", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/params/Run7", sep="")))dir.create(paste(getwd(), "/GDAY/params/Run7", sep=""))
-#if(!dir.exists(paste(getwd(),"/GDAY/params/Run8", sep="")))dir.create(paste(getwd(), "/GDAY/params/Run8", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/params/Run8_1", sep="")))dir.create(paste(getwd(), "/GDAY/params/Run8_1", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/params/Run8_2", sep="")))dir.create(paste(getwd(), "/GDAY/params/Run8_2", sep=""))
+
 #if(!dir.exists(paste(getwd(),"/GDAY/params/Run9", sep="")))dir.create(paste(getwd(), "/GDAY/params/Run9", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/params/Run10", sep="")))dir.create(paste(getwd(), "/GDAY/params/Run10", sep=""))
 
@@ -64,7 +70,9 @@ if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run3", sep="")))dir.create(paste(ge
 #if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run5", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run5", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run6", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run6", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run7", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run7", sep=""))
-#if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run8", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run8", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run8_1", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run8_1", sep=""))
+if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run8_2", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run8_2", sep=""))
+
 #if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run9", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run9", sep=""))
 #if(!dir.exists(paste(getwd(),"/GDAY/analyses/Run10", sep="")))dir.create(paste(getwd(), "/GDAY/analyses/Run10", sep=""))
 
@@ -77,7 +85,9 @@ system("cp GDAY/code/src/gday GDAY/simulations/Run3/")
 #system("cp GDAY/code/src/gday GDAY/simulations/Run5/")
 #system("cp GDAY/code/src/gday GDAY/simulations/Run6/")
 #system("cp GDAY/code/src/gday GDAY/simulations/Run7/")
-#system("cp GDAY/code/src/gday GDAY/simulations/Run8/")
+system("cp GDAY/code/src/gday GDAY/simulations/Run8_1/")
+system("cp GDAY/code/src/gday GDAY/simulations/Run8_2/")
+
 #system("cp GDAY/code/src/gday GDAY/simulations/Run9/")
 #system("cp GDAY/code/src/gday GDAY/simulations/Run10/")
 

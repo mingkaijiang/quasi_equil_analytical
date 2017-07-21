@@ -77,41 +77,41 @@ save_daily_to_annual_csv <- function(spin_file_in, amb_file_in, ele_file_in,
     setwd("GDAY/outputs")
     
     #### Count number of simulations runs by counting the # folders
-    dirFile <- list.dirs(path=".", full.names = TRUE, recursive = FALSE)
+    dirFile <- list.dirs(path=".", full.names = F, recursive = F)
     
     #### Set back to the original working directory
     setwd(cwd)
     
     #### Convert the spin up files
     for (i in 1:length(dirFile)) {
-        inF <- paste(getwd(), "/GDAY/outputs/Run", i, "/", spin_file_in, sep="")
+        inF <- paste(getwd(), "/GDAY/outputs/", dirFile[i], "/", spin_file_in, sep="")
         myDF <- fread(inF, sep=",", skip = 1, header=T)
         
         #### Transforming from daily to annual and write output
         annDF <- d_to_a(myDF)
-        write.table(annDF, paste(getwd(), "/GDAY/analyses/Run", i, "/", spin_file_out, sep=""),
+        write.table(annDF, paste(getwd(), "/GDAY/analyses/", dirFile[i], "/", spin_file_out, sep=""),
                     row.names=F,col.names=T,sep=",")
     }
     
     #### Convert the aCO2 files
     for (i in 1:length(dirFile)) {
-        inF <- paste(getwd(), "/GDAY/outputs/Run", i, "/", amb_file_in, sep="")
+        inF <- paste(getwd(), "/GDAY/outputs/", dirFile[i], "/", amb_file_in, sep="")
         myDF <- fread(inF, sep=",", skip = 1, header=T)
         
         #### Transforming from daily to annual and write output
         annDF <- d_to_a(myDF)
-        write.table(annDF, paste(getwd(), "/GDAY/analyses/Run", i, "/", amb_file_out, sep=""),
+        write.table(annDF, paste(getwd(), "/GDAY/analyses/", dirFile[i], "/", amb_file_out, sep=""),
                     row.names=F,col.names=T,sep=",")
     }
     
     #### Convert the eCO2 files
     for (i in 1:length(dirFile)) {
-        inF <- paste(getwd(), "/GDAY/outputs/Run", i, "/", ele_file_in, sep="")
+        inF <- paste(getwd(), "/GDAY/outputs/", dirFile[i], "/", ele_file_in, sep="")
         myDF <- fread(inF, sep=",", skip = 1, header=T)
         
         #### Transforming from daily to annual and write output
         annDF <- d_to_a(myDF)
-        write.table(annDF, paste(getwd(), "/GDAY/analyses/Run", i, "/", ele_file_out, sep=""),
+        write.table(annDF, paste(getwd(), "/GDAY/analyses/", dirFile[i], "/", ele_file_out, sep=""),
                     row.names=F,col.names=T,sep=",")
     }
     
