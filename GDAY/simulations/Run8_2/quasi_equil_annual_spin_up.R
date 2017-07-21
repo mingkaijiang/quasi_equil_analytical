@@ -172,7 +172,7 @@ Run_GDAY_spinup <- function(site) {
         "krp", "3.0",                         # 0.00001; can set krp equals kr for consistency
         "a0rhizo", "0.05",
         "a1rhizo", "0.6",
-        "root_exu_CUE", "-999.99",
+        "root_exu_CUE", "0.3",
         "prime_y", "0.0",
         "prime_z", "0.0",
         "nmin0", "0.0",                       # for variable som NC depend on inorgN

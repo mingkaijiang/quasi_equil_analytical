@@ -71,22 +71,22 @@ cwd <- getwd()
 #### So the following gday simulations are not performed
 
 ### Run8_1
-setwd("GDAY/simulations/Run8_1")
-source("quasi_equil_annual_spin_up.R")
-source("quasi_equil_annual_simulations.R")
-setwd(cwd)
-
-### Run8_2
-setwd("GDAY/simulations/Run8_2")
-source("quasi_equil_annual_spin_up.R")
-source("quasi_equil_annual_simulations.R")
-setwd(cwd)
-
-### Run9
-#setwd("GDAY/simulations/Run9")
+#setwd("GDAY/simulations/Run8_1")
 #source("quasi_equil_annual_spin_up.R")
 #source("quasi_equil_annual_simulations.R")
 #setwd(cwd)
+
+### Run8_2
+#setwd("GDAY/simulations/Run8_2")
+#source("quasi_equil_annual_spin_up.R")
+#source("quasi_equil_annual_simulations.R")
+#setwd(cwd)
+
+### Run9
+setwd("GDAY/simulations/Run9")
+source("quasi_equil_annual_spin_up.R")
+source("quasi_equil_annual_simulations.R")
+setwd(cwd)
 
 ### Run10
 #setwd("GDAY/simulations/Run10")

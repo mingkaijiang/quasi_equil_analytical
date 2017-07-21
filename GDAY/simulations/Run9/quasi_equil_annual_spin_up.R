@@ -29,8 +29,8 @@ Run_GDAY_spinup <- function(site) {
     base_dir <- getwd()
     base_param_name <- "base_start_with_P.cfg"
     base_param_dir <- paste0(d, "/code/example/params")
-    param_dir <- paste0(d, "/params/Run3")
-    run_dir <- paste0(d, "/outputs/Run3")
+    param_dir <- paste0(d, "/params/Run9")
+    run_dir <- paste0(d, "/outputs/Run9")
 
     #### setting up the output file names and locations
     itag <- paste0(site, "_model_spinup")
@@ -41,7 +41,7 @@ Run_GDAY_spinup <- function(site) {
     cfg_fname <- paste0(param_dir, "/", itag, ".cfg")
     # met_fname <- paste0(met_dir, mtag)
     out_fname <- paste0(run_dir, "/", out_fn)
-    swp_fname <- paste0(d, "/simulations/Run3/replace_params.cfg")
+    swp_fname <- paste0(d, "/simulations/Run9/replace_params.cfg")
     
     #### Copy and paste the initial parameter cfg file
     sys_com1 <- paste0("cp ", base_param_dir, "/", base_param_name, " ",
@@ -151,11 +151,11 @@ Run_GDAY_spinup <- function(site) {
         "lue0", "2.8",                        # 2.8 for GPP, 1.4 for NPP
         "cue", "0.5",                         # 
         "ncmaxf", "0.05",                     # 0.05
-        "ncwnewz", "0.0005",                   # C:N = 2000, match analytical 
+        "ncwnewz", "0.005",                   # C:N = 200, match analytical 
         "ncrfac", "0.7",                      # match against analytical
         "nref", "0.04",                       # N saturation threshold for photosynthesis
         "pcmaxf", "0.005",                    # 
-        "pcwnewz", "0.000003",                  # C:P", "333333.33 match analytical
+        "pcwnewz", "0.00003",                  # C:P", "33333.33 match analytical
         "pcrfac", "0.7",                      # match against analytical
         "rateuptake", "1.0",              # 0.96884 
         "rateloss", "0.05",                   # match against analytical
@@ -184,9 +184,9 @@ Run_GDAY_spinup <- function(site) {
         "alloc_model", "fixed",               # fixed and variable allocation pattern
         "cwd_pool", "false",  
         "diagnosis", "false",
-        "exudation", "false",
-        "fixed_stem_nc", "true",
-        "fixed_stem_pc", "true",
+        "exudation", "true",
+        "fixed_stem_nc", "false",
+        "fixed_stem_pc", "false",
         "fixleafnc", "false",
         "fixleafpc", "false",
         "ncycle", "true",
@@ -207,7 +207,7 @@ Run_GDAY_spinup <- function(site) {
     adjust_gday_params(cfg_fname, rDF)
 
     #### Run the spin up model
-    system(paste0(GDAY_SPIN, " ", cfg_fname), ignore.stderr=T)
+    system(paste0(GDAY_SPIN, " ", cfg_fname), ignore.stderr=F)
     
     #### Call external function to transform the raw GDAY output into something more readable, NOT NEEDED
     #source(paste0(script_path, "/translate_GDAY_output_to_NCEAS_format.R"))
