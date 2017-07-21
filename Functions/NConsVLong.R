@@ -56,15 +56,26 @@ NConsVLong_root_ocn <- function(df, a) {
     # k - empirically dervied for now
     # vmax
     
+    # compute Nmin
+    #Nmin <- (k * (a$af*a$nf + a$ar*a$nr + a$aw*a$aw)) / ((a$ar/sr) * vmax - (a$af*a$nf + a$ar*a$nr + a$aw*a$aw))
     # compute leaching rate
-    leachn <- ((a$af*a$nf + a$ar*a$nr + a$aw*a$aw) * (sr/a$ar) * k) / (vmax - (a$af*a$nf + a$ar*a$nr + a$aw*a$aw) * (sr/a$ar))
+    #leachn <- Nin/Nmin
+    
+    #nleach <- leachn * Nmin
     
     # equation for N constraint with just leaching
-    U0 <- Nin
-    nleach <- leachn * Nmin
+    #cr <- Nin / ((leachn / (1 - leachn)) * vmax * (Nmin / (Nmin + k)))
+    #NPP_NC <- cr / (a$ar / sr)    
     
-    NPP_NC <- U0 / nleach
+    Nmin <- Nin / leachn
+    nleach <- Nmin * leachn
+    vmax <- (a$af*a$nf + a$ar*a$nr + a$aw*a$aw) * (Nmin + k) / ((a$ar/sr) * Nmin)
+    
+    NPP_NC <- vmax / coef_test
+
     NPP_N <- NPP_NC*10^-3     # returned in kg C m-2 yr-1
+    
+    browser()
     
     df <- data.frame(NPP_N,nleach)
     return(df)   
@@ -119,11 +130,14 @@ NConsVLong_root_gday <- function(df, a) {                   # why this small?
     root_biomass <- a$ar / sr
     nleach <- Nmin * leachn
     
-    browser()
+    #browser()
     
     # equation for NPP
-    NPP_NC <- (root_biomass * Nmin - (A_NF * kr)) / (A_NF * root_biomass)
+    #NPP_NC <- (root_biomass * Nmin - (A_NF * kr)) / (A_NF * root_biomass)
+    NPP_NC <- (Nmin - kr * A_NF / root_biomass ) / A_NF
     NPP_N <- NPP_NC*10^-3     # returned in kg C m-2 yr-1
+    
+    #browser()
     
     df <- data.frame(NPP_N, nleach)
     return(df)   

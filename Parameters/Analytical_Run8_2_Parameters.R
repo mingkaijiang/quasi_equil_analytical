@@ -61,4 +61,5 @@ aleaf <- 0.2
 #puptakerate <- 1.0  # 0.82395
 sr = 1.5
 k = 0.08
-vmax = 1.0
+#vmax = 3.0
+coef_test <- 1.0
