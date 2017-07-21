@@ -20,10 +20,10 @@ cwd <- getwd()
 #### Perform GDAY simulations:
 
 ### Run1
-setwd("GDAY/simulations/Run1")   # Setting to subfolder helps as you can also run in terminal without the need to change anything in the code
-source("quasi_equil_annual_spin_up.R")
-source("quasi_equil_annual_simulations.R")
-setwd(cwd)
+#setwd("GDAY/simulations/Run1")   # Setting to subfolder helps as you can also run in terminal without the need to change anything in the code
+#source("quasi_equil_annual_spin_up.R")
+#source("quasi_equil_annual_simulations.R")
+#setwd(cwd)
 
 ### An example of using python wrapper file to run GDAY
 # setwd("GDAY/simulations/Run1")  
@@ -31,16 +31,16 @@ setwd(cwd)
 # setwd(cwd)
 
 #### Run2
-setwd("GDAY/simulations/Run2")
-source("quasi_equil_annual_spin_up.R")
-source("quasi_equil_annual_simulations.R")
-setwd(cwd)
+#setwd("GDAY/simulations/Run2")
+#source("quasi_equil_annual_spin_up.R")
+#source("quasi_equil_annual_simulations.R")
+#setwd(cwd)
 
 #### Run3
-setwd("GDAY/simulations/Run3")
-source("quasi_equil_annual_spin_up.R")
-source("quasi_equil_annual_simulations.R")
-setwd(cwd)
+#setwd("GDAY/simulations/Run3")
+#source("quasi_equil_annual_spin_up.R")
+#source("quasi_equil_annual_simulations.R")
+#setwd(cwd)
 
 ### Run4
 #setwd("GDAY/simulations/Run4")
