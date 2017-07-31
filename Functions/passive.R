@@ -58,7 +58,7 @@ passive_exudation <- function(df, a) {
     decomp <- 0.00013*52*Actsoil(Tsoil)   # decomposition of passive pool per year without priming
     
     # re-burial fraction = fraction of C released from passive pool that is re-buried in it
-    pas <- 0.996 - (0.85-0.68*Texture)
+    pas <- 0.996 - (0.85-0.68*Texture)       # e.g. from active to slow
     psa <- 0.42
     ppa <- 0.45
     pap <- 0.004

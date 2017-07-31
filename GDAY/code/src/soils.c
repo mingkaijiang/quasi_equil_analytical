@@ -437,6 +437,9 @@ void cfluxes_from_active_pool(fluxes *f, params *p, state *s,
 
     /* C flux active pool -> slow pool */
     f->active_to_slow = activeout * (1.0 - frac_microb_resp - 0.004);
+    
+    //fprintf(stderr, "active_to_slow %f, activeout %f, frac_microb_resp %f, activesoil %f, decayrate4 %f\n",
+    //        f->active_to_slow, activeout, frac_microb_resp, s->activesoil, p->decayrate[4]);
 
     /* C flux active pool -> passive pool */
     f->active_to_passive = activeout * 0.004;

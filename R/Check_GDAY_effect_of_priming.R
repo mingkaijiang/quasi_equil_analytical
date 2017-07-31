@@ -72,3 +72,86 @@ with(myDF2, points(activesoil/activesoiln, col="red"))
 ## higher N uptake, higher NPP;
 ## Faster turnaround of the slow pool, less time to accumulate C, less slow pool;
 ## Less slow pool size, less active and passive pool
+
+
+#### turn priming off in gday simulation
+myDF2 <- read.csv("GDAY/outputs/Run9/Quasi_equil_transient_CO2_AMB.csv",skip=1)
+
+tsoil <- 15
+kdec5 <- 7.305 / 365.0
+kdec6 <- 0.198279 / 365.0
+kdec7 <- 0.006783 / 365.0
+finesoil <- 0.5
+soiltext <- 1.0 - (0.75 - finesoil)
+tempfunc <- max(0.0, 0.0326 + 0.00351 * (tsoil^1.652) - ((tsoil / 41.748)^7.19))
+d5prime <- kdec5 * (1 - 0.75 * soiltext) * tempfunc
+d6prime <- kdec6 * tempfunc
+d7prime <- kdec7 * tempfunc
+    
+# find pas coefficient
+pas <- myDF2$active_to_slow / d5prime / myDF2$activesoil
+soiltext2 <- (0.85 -  (0.996 - pas)) / 0.68
+finesoil2 <- 0.75 - (1 - soiltext2)
+finesoil2
+
+# find psa coefficient; original value = 0.42
+psa <- myDF2$slow_to_active / d6prime / myDF2$slowsoil
+
+# find pap coefficient; original value = 0.004
+pap <- myDF2$active_to_passive / d5prime / myDF2$activesoil
+
+# find psp coefficient; original value = 0.03
+psp <- myDF2$slow_to_passive / d6prime / myDF2$slowsoil
+
+# find ppa coefficient; original value = 0.45
+ppa <- myDF2$passive_to_active / d7prime / myDF2$passivesoil
+
+# find kdec6 coefficient
+
+# save a df
+outDF <- data.frame(c("pas", "psa", "pap", "ppa", "psp", "kdec6"), NA, NA, NA)
+colnames(outDF) <- c("coef", "analytical", "prime_off", "prime_on")
+outDF[1,"analytical"] <- 0.996 - (0.85 - 0.68 * soiltext)
+outDF[2,"analytical"] <- 0.42
+outDF[3,"analytical"] <- 0.004
+outDF[4,"analytical"] <- 0.45
+outDF[5,"analytical"] <- 0.03
+outDF[6,"analytical"] <- kdec6
+
+outDF[1,"prime_off"] <- pas[1]
+outDF[2,"prime_off"] <- psa[1]
+outDF[3,"prime_off"] <- pap[1]
+outDF[4,"prime_off"] <- ppa[1]
+outDF[5,"prime_off"] <- psp[1]
+outDF[6,"prime_off"] <- kdec6
+
+### turn priming on and check results
+myDF2 <- read.csv("GDAY/outputs/Run9/Quasi_equil_transient_CO2_AMB.csv",skip=1)
+
+# find pas coefficient
+pas <- myDF2$active_to_slow / d5prime / myDF2$activesoil
+soiltext2 <- (0.85 -  (0.996 - pas)) / 0.68
+finesoil2 <- 0.75 - (1 - soiltext2)
+finesoil2
+
+# find psa coefficient; original value = 0.42
+psa <- myDF2$slow_to_active / d6prime / myDF2$slowsoil
+
+# find pap coefficient; original value = 0.004
+pap <- myDF2$active_to_passive / d5prime / myDF2$activesoil
+
+# find psp coefficient; original value = 0.03
+psp <- myDF2$slow_to_passive / d6prime / myDF2$slowsoil
+
+# find ppa coefficient; original value = 0.45
+ppa <- myDF2$passive_to_active / d7prime / myDF2$passivesoil
+
+# find kdec6 coefficient
+
+# assign priming on coefficients
+outDF[1,"prime_on"] <- pas[1]
+outDF[2,"prime_on"] <- psa[1]
+outDF[3,"prime_on"] <- pap[1]
+outDF[4,"prime_on"] <- ppa[1]
+outDF[5,"prime_on"] <- psp[1]
+outDF[6,"prime_on"] <- kdec6
