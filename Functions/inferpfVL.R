@@ -113,10 +113,6 @@ inferpfVL_root_gday <- function(nf, a) {
 
 ### Make inference of pf based on nf
 inferpfVL_exudation <- function(nf, a) {
-    # allocation parameters
-    ar <- aroot
-    af <- aleaf
-    aw <- 1 - ar - af
     
     # output nf, based on F(nf) = F(pf)
     pf <- c()
@@ -130,9 +126,9 @@ inferpfVL_exudation <- function(nf, a) {
     Pg <- ((Pin * Nleach)/Nin) / (Pocc + Pleach)
     
     if(pwvar == FALSE) {
-        pf <- (Pg - pwood * aw) / ((1.0 - pretrans) * af + prho * ar)
+        pf <- (Pg - pwood * a$aw) / ((1.0 - pretrans) * a$af + prho * a$ar)
     } else {
-        pf <- Pg / ((1.0 - pretrans) * af + prho * ar + aw * pwood)
+        pf <- Pg / ((1.0 - pretrans) * a$af + prho * a$ar + a$aw * pwood)
     }
     return(round(pf,8))
 }

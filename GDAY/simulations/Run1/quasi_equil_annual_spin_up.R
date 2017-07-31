@@ -173,8 +173,8 @@ Run_GDAY_spinup <- function(site) {
         "a0rhizo", "0.05",
         "a1rhizo", "0.6",
         "root_exu_CUE", "0.3",
-        "prime_y", "0.0025",
-        "prime_z", "2.0",
+        "prime_y", "0.6",                     # 0.0025
+        "prime_z", "6.0",                     # 2.0
         "nmin0", "0.0",                       # for variable som NC depend on inorgN
         "nmincrit", "2.0",                    # for variable som NC depend on inorgN 
         "pmin0", "0.0",                       # for variable som PC depend on inorgavlp

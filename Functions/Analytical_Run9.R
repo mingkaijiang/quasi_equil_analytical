@@ -45,8 +45,8 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
     VLongN <- solveVLong_expl_min(CO2_1)
     
     # Get Cpassive from very-long nutrient cycling solution
-    aequiln <- allocn(VLongN$equilnf)
-    aequilp <- allocp(VLongN$equilpf)
+    aequiln <- allocn_exudation(VLongN$equilnf)
+    aequilp <- allocp_exudation(VLongN$equilpf)
     pass <- passive(df=VLongN$equilnf, a=aequiln)
     omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
     CpassVLong <- omega*VLongN$equilNPP/pass$decomp/(1-pass$qq)*1000.0

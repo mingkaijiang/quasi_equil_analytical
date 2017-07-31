@@ -63,3 +63,5 @@ ariz1 <- 0.2        # range: 0.2 - 1
 ariz0 <- 0.05       # range: 0.0 - 0.1
 cnref <- 25
 cpref <- 500
+cue_mic <- 0.3      # range: 0.3 - 0.7
+km <- 2             # scaling factor for SOM response; range: 1- 5

@@ -125,6 +125,8 @@ void initialise_params(params *p) {
     p->prateuptake = 365.0;
     p->prescribed_leaf_NC = 0.03;
     p->prescribed_leaf_PC = 0.00249;   /*Crous et al. 2015, C:P ratio of 400, Figure 3, Plant Soil */
+    p->prime_y = 0.0025;
+    p->prime_z = 2.0;
     p->puptakez = 0.0255;             /* calculated based on prateuptake 0.5 and inorglabp 0.051 */
     p->rateloss = 0.5;                /* value = 0.05 in Wang et al., 2007 GB1018 */
     p->rateuptake = 2.7;

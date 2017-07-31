@@ -623,8 +623,8 @@ void calculate_nsoil_flows(control *c, fluxes *f, params *p, state *s) {
     /* calculate N net mineralisation */
     calc_n_net_mineralisation(c, f);
     
-    //fprintf(stderr, "before nmin %f, nuptake %f\n", 
-    //        f->nmineralisation, f->nuptake);
+    //fprintf(stderr, "before nmin %f, nuptake %f, inorgn %f\n", 
+    //        f->nmineralisation, f->nuptake, s->inorgn);
     
     if (c->exudation) {
       calc_root_exudation_uptake_of_N(f, s);
@@ -637,13 +637,12 @@ void calculate_nsoil_flows(control *c, fluxes *f, params *p, state *s) {
       f->rtslow = 1.0 / (p->kdec6 * NDAYS_IN_YR);
     }
     
-    //fprintf(stderr, "rtslow %f\n", f->rtslow);
-    //fprintf(stderr, "after nmin %f, nuptake %f\n", 
-    //        f->nmineralisation, f->nuptake);
-    
     /* Update model soil N pools */
     calculate_npools(c, f, p, s);
 
+    //fprintf(stderr, "after nmin %f, nuptake %f, inorgn %f\n", 
+    //        f->nmineralisation, f->nuptake, s->inorgn);
+    
     return;
 }
 

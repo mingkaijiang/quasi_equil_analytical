@@ -51,7 +51,7 @@ passive <- function(df, a) {
 
 ### Burial fractions from passive pool
 # specifically for exudation
-passive_exudation <- function(df, a, Tsoil = 15, Texture = 0.5, ligfl = 0.2, ligrl = 0.16) {
+passive_exudation <- function(df, a) {
     
     len <- length(df)
     
@@ -72,9 +72,7 @@ passive_exudation <- function(df, a, Tsoil = 15, Texture = 0.5, ligfl = 0.2, lig
     transfer_fa <- c()
     transfer_ra <- c()
     
-    
     # transfer coefficients among litter and soil pools
-    cfrac <- 0.45
     for (i in 1:len) {
         muf[i] <- max(0,min(0.85 - 0.018*ligfl/cfrac/a[i, "nfl"],1))    
         mur[i] <- max(0,min(0.85 - 0.018*ligrl/cfrac/a[i, "nr"],1))
@@ -97,15 +95,7 @@ passive_exudation <- function(df, a, Tsoil = 15, Texture = 0.5, ligfl = 0.2, lig
     transfer_fa <- muf*pma + (1-muf)*psa
     transfer_ra <- mur*pma + (1-mur)*psa
     
-    # burial fractions for wood (oemgaw) and exudates (omegae) into passive pool
-    ### hard wired for now, improve latter
-    omegaw <- 0.01
-    omegae <- 0.00001
-    
-    
-    
-    
-    ret <- data.frame(decomp, qq, omegaf, omegar, omegaw, omegae, transfer_fa, transfer_ra)
+    ret <- data.frame(decomp, qq, omegaf, omegar, transfer_fa, transfer_ra)
     
     return(ret)
 }
