@@ -180,11 +180,11 @@ Run_GDAY_spinup <- function(site) {
         "pmin0", "0.0",                       # for variable som PC depend on inorgavlp
         "pmincrit", "2.0",                    # for variable som PC depend on inorgavlp 
         ############## CONTROL ############
-        "adjust_rtslow", "false",             # goes together with exudation
+        "adjust_rtslow", "true",             # goes together with exudation
         "alloc_model", "fixed",               # fixed and variable allocation pattern
         "cwd_pool", "false",  
         "diagnosis", "false",
-        "exudation", "false",
+        "exudation", "true",
         "fixed_stem_nc", "false",
         "fixed_stem_pc", "false",
         "fixleafnc", "false",

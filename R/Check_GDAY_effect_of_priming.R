@@ -155,3 +155,9 @@ outDF[3,"prime_on"] <- pap[1]
 outDF[4,"prime_on"] <- ppa[1]
 outDF[5,"prime_on"] <- psp[1]
 outDF[6,"prime_on"] <- kdec6
+
+
+outDF
+
+
+
