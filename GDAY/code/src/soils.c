@@ -636,8 +636,10 @@ void calculate_nsoil_flows(control *c, fluxes *f, params *p, state *s) {
     if (c->adjust_rtslow) {
       adjust_residence_time_of_slow_pool(f, p);
     } else {
-      /* Need to correct units of rate constant */
-      f->rtslow = 1.0 / (p->kdec6 * NDAYS_IN_YR);
+         /* Need to correct units of rate constant */
+        // f->rtslow = 1.0 / (p->kdec6 * NDAYS_IN_YR);
+        f->rtslow = 1.0 / (p->kdec7 * NDAYS_IN_YR);
+        
     }
     
     /* Update model soil N pools */
@@ -719,24 +721,22 @@ void adjust_residence_time_of_slow_pool(fluxes *f, params *p) {
     
     /* total flux out of the factive pool */
     f->factive = (f->active_to_slow + f->active_to_passive + \
-    f->co2_to_air[4] + f->co2_released_exud);
+                  f->co2_to_air[4] + f->co2_released_exud);
     
     if (float_eq(f->factive, 0.0)) {
         /* Need to correct units of rate constant */
-        rt_slow_pool = 1.0 / (p->kdec6 * NDAYS_IN_YR);
+        //rt_slow_pool = 1.0 / (p->kdec6 * NDAYS_IN_YR);
+        rt_slow_pool = 1.0 / (p->kdec7 * NDAYS_IN_YR);
+        
     } else {
+        //rt_slow_pool = (1.0 / p->prime_y) / \
+        //               MAX(0.3, (f->factive / (f->factive + p->prime_z)));
+        //p->kdec6 = 1.0 / rt_slow_pool;
+        
         rt_slow_pool = (1.0 / p->prime_y) / \
-            MAX(0.3, (f->factive / (f->factive + p->prime_z)));
+                       MAX(0.01, (f->factive / (f->factive + p->prime_z)));
+        p->kdec7 = 1.0 / rt_slow_pool;
         
-        //fprintf(stderr, "factive %f, rt_slow_pool %f\n",
-        //        f->factive, rt_slow_pool);
-        /* GDAY uses decay rates rather than residence times... */
-        p->kdec6 = 1.0 / rt_slow_pool;
-        
-        //fprintf(stderr, "kdec6 1 %f\n", p->kdec6);
-        /* rate constant needs to be per day inside GDAY */
-        //p->kdec6 /= NDAYS_IN_YR;
-        //fprintf(stderr, "kdec6 2 %f\n", p->kdec6);
     }
     
     /* Save for outputting purposes only */

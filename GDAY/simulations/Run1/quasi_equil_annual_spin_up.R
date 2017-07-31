@@ -174,7 +174,7 @@ Run_GDAY_spinup <- function(site) {
         "a1rhizo", "0.6",
         "root_exu_CUE", "0.3",
         "prime_y", "0.6",                     # 0.0025
-        "prime_z", "6.0",                     # 2.0
+        "prime_z", "0.001",                   # for slow residence time = 0.001; for passive residence time = 0.5
         "nmin0", "0.0",                       # for variable som NC depend on inorgN
         "nmincrit", "2.0",                    # for variable som NC depend on inorgN 
         "pmin0", "0.0",                       # for variable som PC depend on inorgavlp

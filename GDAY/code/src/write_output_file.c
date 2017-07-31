@@ -88,7 +88,8 @@ void write_output_header(control *c, params *p, FILE **fp) {
     fprintf(*fp, "co2_rel_from_active_pool,");
     fprintf(*fp, "co2_rel_from_slow_pool,");
     fprintf(*fp, "co2_rel_from_passive_pool,");
-
+    fprintf(*fp, "co2_released_exud,");
+    
     /* Misc */
     fprintf(*fp, "leafretransn,");
     fprintf(*fp, "leafretransp\n");
@@ -198,7 +199,8 @@ void write_annual_outputs_ascii(control *c, fluxes *f, state *s, int year, int d
     fprintf(c->ofp, "%.10f,", f->co2_rel_from_active_pool);
     fprintf(c->ofp, "%.10f,", f->co2_rel_from_slow_pool);
     fprintf(c->ofp, "%.10f,", f->co2_rel_from_passive_pool);
-
+    fprintf(c->ofp, "%.10f,", f->co2_released_exud);
+    
     /* Misc */
     fprintf(c->ofp, "%.10f,", f->leafretransn);
     fprintf(c->ofp, "%.10f\n", f->leafretransp);

@@ -92,7 +92,6 @@ d7prime <- kdec7 * tempfunc
 pas <- myDF2$active_to_slow / d5prime / myDF2$activesoil
 soiltext2 <- (0.85 -  (0.996 - pas)) / 0.68
 finesoil2 <- 0.75 - (1 - soiltext2)
-finesoil2
 
 # find psa coefficient; original value = 0.42
 psa <- myDF2$slow_to_active / d6prime / myDF2$slowsoil
@@ -105,8 +104,6 @@ psp <- myDF2$slow_to_passive / d6prime / myDF2$slowsoil
 
 # find ppa coefficient; original value = 0.45
 ppa <- myDF2$passive_to_active / d7prime / myDF2$passivesoil
-
-# find kdec6 coefficient
 
 # save a df
 outDF <- data.frame(c("pas", "psa", "pap", "ppa", "psp", "kdec6"), NA, NA, NA)
@@ -147,6 +144,12 @@ psp <- myDF2$slow_to_passive / d6prime / myDF2$slowsoil
 ppa <- myDF2$passive_to_active / d7prime / myDF2$passivesoil
 
 # find kdec6 coefficient
+factive <- myDF2$active_to_slow + myDF2$active_to_passive + myDF2$co2_rel_from_active_pool + myDF2$co2_released_exud
+prime_y <- 0.6
+prime_z <- 0.5
+rt_slow_pool = (1.0 / prime_y) / (factive / (factive + prime_z))  # pmax(0.3, (factive / (factive + prime_z)))
+kdec6_new <- 1 / rt_slow_pool
+summary(kdec6_new)
 
 # assign priming on coefficients
 outDF[1,"prime_on"] <- pas[1]
@@ -154,7 +157,7 @@ outDF[2,"prime_on"] <- psa[1]
 outDF[3,"prime_on"] <- pap[1]
 outDF[4,"prime_on"] <- ppa[1]
 outDF[5,"prime_on"] <- psp[1]
-outDF[6,"prime_on"] <- kdec6
+outDF[6,"prime_on"] <- mean(kdec6_new)
 
 
 outDF
