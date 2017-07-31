@@ -59,10 +59,10 @@ passive_exudation <- function(df, a) {
     
     # re-burial fraction = fraction of C released from passive pool that is re-buried in it
     pas <- 0.996 - (0.85-0.68*Texture)       # e.g. from active to slow
-    psa <- 0.42
+    psa <- 0.396     # 0.42
     ppa <- 0.45
     pap <- 0.004
-    psp <- 0.03
+    psp <- 0.028     # 0.03
     qq <-  ppa*(pap + psp*pas)/(1-pas*psa)   # re-burial fraction
     
     muf <- c()
