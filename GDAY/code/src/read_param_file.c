@@ -446,6 +446,8 @@ int handler(char *section, char *name, char *value, control *c,
       p->c_alloc_rmin = atof(value);
     } else if (MATCH("params", "cfracts")) {
         p->cfracts = atof(value);
+    } else if (MATCH("params", "cnref")) {
+        p->cnref = atof(value);
     } else if (MATCH("params", "cue")) {
         p->cue = atof(value);
     } else if (MATCH("params", "co2_in")) {

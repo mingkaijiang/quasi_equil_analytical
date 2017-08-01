@@ -7,9 +7,9 @@
 
 void  open_output_file(control *, char *, FILE **);
 void  write_output_header(control *, params *, FILE **);
-void  write_annual_outputs_ascii(control *, fluxes *, state *, int, int);
-int   write_final_state(control *, params *p, state *);
-int   ohandler(char *, char *, char *, control *, params *p, state *, int *);
+void  write_annual_outputs_ascii(control *, fluxes *, state *, params *, int, int);
+int   write_final_state(control *, params *, state *);
+int   ohandler(char *, char *, char *, control *, params *, state *, int *);
 
 
 #endif /* WRITE_OUT_H */

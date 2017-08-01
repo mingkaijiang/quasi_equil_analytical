@@ -103,7 +103,7 @@ void write_output_header(control *c, params *p, FILE **fp) {
     return;
 }
 
-void write_annual_outputs_ascii(control *c, fluxes *f, state *s, int year, int doy) {
+void write_annual_outputs_ascii(control *c, fluxes *f, state *s, params *p, int year, int doy) {
     /*
         Write annual state and fluxes headers to an output CSV file. Note we
         are not writing anything useful like units as there is a wrapper

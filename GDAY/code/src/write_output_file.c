@@ -89,6 +89,7 @@ void write_output_header(control *c, params *p, FILE **fp) {
     fprintf(*fp, "co2_rel_from_slow_pool,");
     fprintf(*fp, "co2_rel_from_passive_pool,");
     fprintf(*fp, "co2_released_exud,");
+    fprintf(*fp, "kdec7,");
     
     /* Misc */
     fprintf(*fp, "leafretransn,");
@@ -104,7 +105,7 @@ void write_output_header(control *c, params *p, FILE **fp) {
     return;
 }
 
-void write_annual_outputs_ascii(control *c, fluxes *f, state *s, int year, int doy) {
+void write_annual_outputs_ascii(control *c, fluxes *f, state *s, params *p, int year, int doy) {
     /*
         Write annual state and fluxes headers to an output CSV file. Note we
         are not writing anything useful like units as there is a wrapper
@@ -200,6 +201,7 @@ void write_annual_outputs_ascii(control *c, fluxes *f, state *s, int year, int d
     fprintf(c->ofp, "%.10f,", f->co2_rel_from_slow_pool);
     fprintf(c->ofp, "%.10f,", f->co2_rel_from_passive_pool);
     fprintf(c->ofp, "%.10f,", f->co2_released_exud);
+    fprintf(c->ofp, "%.10f,", p->kdec7);
     
     /* Misc */
     fprintf(c->ofp, "%.10f,", f->leafretransn);

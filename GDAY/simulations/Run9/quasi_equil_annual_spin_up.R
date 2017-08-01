@@ -171,7 +171,7 @@ Run_GDAY_spinup <- function(site) {
         "kr", "3.0",                          # 0.5 t/ha in Dewar and McMurtrie 1996; the value of root carbon at which 50% of available N is taken up
         "krp", "3.0",                         # 0.00001; can set krp equals kr for consistency
         "a0rhizo", "0.05",
-        "a1rhizo", "0.6",
+        "a1rhizo", "0.2",
         "root_exu_CUE", "0.3",
         "prime_y", "0.6",                     # kdec6 * (1 + km), km = 2, kdec = 0.1982; 0.0025
         "prime_z", "0.5",                     # for slow residence time = 0.001; for passive residence time = 0.5

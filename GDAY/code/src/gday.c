@@ -199,7 +199,7 @@ void run_sim(control *c, fluxes *f,  met_arrays *ma, met *m,
           year_end_calculations(c, p, s);
           
           if (c->print_options == ANNUAL && c->spin_up == FALSE) {
-            write_annual_outputs_ascii(c, f, s, year, doy+1);
+            write_annual_outputs_ascii(c, f, s, p, year, doy+1);
           }      
           
           correct_rate_constants(p, TRUE);
@@ -328,7 +328,7 @@ void spin_up_annual(control *c, fluxes *f, met *m,
                 }   // Print to screen end;
                 
                 /* save spin-up fluxes and stocks */
-                  write_annual_outputs_ascii(c, f, s, year, doy+1);
+                  write_annual_outputs_ascii(c, f, s, p, year, doy+1);
                 
             
             }  /* end daily loop */

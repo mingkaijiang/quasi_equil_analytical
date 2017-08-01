@@ -123,6 +123,7 @@ typedef struct {
     double c_alloc_rmin;                    /* allocation to roots at root n_crit and p_crit. */
     double cfracts;                         /* carbon fraction of dry biomass */
     double co2_in;                          /* annual version co2 concentration ppm */
+    double cnref;                           /* CN ref for exudation */
     double cue;                             /* carbon use efficiency, or the ratio of NPP to GPP */
     double cwd2active;                      /* transfer rate of cwd to active pool */
     double cwd2slow;                        /* transfer rate of cwd to slow pool */

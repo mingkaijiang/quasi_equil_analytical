@@ -101,7 +101,7 @@ run_gday_quasi_equil_plot <- function() {
     setwd("GDAY/outputs")
     
     #### Count number of simulations runs by counting the # folders
-    dirFile <- list.dirs(path=".", full.names = TRUE, recursive = FALSE)
+    dirFile <- list.dirs(path=".", full.names = FALSE, recursive = FALSE)
     
     #### Set back to the original working directory
     setwd(cwd)
@@ -109,7 +109,7 @@ run_gday_quasi_equil_plot <- function() {
     #### plot continuity plot for each subdirectory
     for (i in 1:length(dirFile)) {
         ## Set file path
-        FilePath <- paste(getwd(), "/GDAY/analyses/Run", i, sep="")
+        FilePath <- paste(getwd(), "/GDAY/analyses/", dirFile[i], sep="")
         
         ## Read in the eCO2 files
         inDF <- read.table(paste(FilePath, "/annual_gday_result_transient_CO2_ELE.csv", sep=""),

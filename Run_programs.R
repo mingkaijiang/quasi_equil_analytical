@@ -74,7 +74,7 @@ source("GDAY/post_processing/Check_continuity_transient.R")
 ### plot gday simulated quasi-equil points under aCO2 and eCO2
 ### Note: need to specify years when L and VL equilibrates
 ###       better to consider an automatic process to pick these years
-#source("GDAY/post_processing/Plot_GDAY_quasi_equil_constraints.R")
+source("GDAY/post_processing/Plot_GDAY_quasi_equil_constraints.R")
 
 
 

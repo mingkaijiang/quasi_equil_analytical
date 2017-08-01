@@ -61,7 +61,7 @@ void calc_root_exudation(control *c, fluxes *f, params *p, state *s) {
     CN_leaf = 0.0;
     frac_to_rexc = 0.0;
   } else {
-     CN_ref = p->nref;
+     CN_ref = p->cnref;
     
     /*
      ** The fraction of growth allocated to rhizodeposition, constrained

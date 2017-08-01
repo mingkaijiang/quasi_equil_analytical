@@ -51,7 +51,7 @@ passive <- function(df, a) {
 
 ### Burial fractions from passive pool
 # specifically for exudation
-passive_exudation <- function(df, a) {
+passive_exudation <- function(df, a, npp) {
     
     len <- length(df)
     

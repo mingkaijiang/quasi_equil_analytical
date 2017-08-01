@@ -163,4 +163,18 @@ outDF[6,"prime_on"] <- mean(kdec6_new)
 outDF
 
 
+### Find relationship between extra C and kdec7
+myDF2 <- read.csv("GDAY/outputs/Run9/Quasi_equil_transient_CO2_AMB.csv",skip=1)
+names(myDF2)
+
+# compute extra C at each time step
+myDF2$ar <- myDF2$cproot / (myDF2$cpleaf + myDF2$cproot + myDF2$cpstem)
+myDF2$af <- myDF2$cpleaf / (myDF2$cpleaf + myDF2$cproot + myDF2$cpstem)
+myDF2$aw <- myDF2$cpstem / (myDF2$cpleaf + myDF2$cproot + myDF2$cpstem)
+myDF2$ariz <- 0.05 + 0.2 * pmax((myDF2$shoot/myDF2$shootn - 25)/25, 0)
+
+myDF2$c_into_exud <- myDF2$npp * myDF2$ar * myDF2$ariz
+
+with(myDF2, plot(kdec7~c_into_exud))
+
 

@@ -49,7 +49,7 @@ void initialise_params(params *p) {
     */
     int i;
     p->a0rhizo = 0.05;
-    p->a1rhizo = 0.6;
+    p->a1rhizo = 0.2;
     p->actncmax = 0.333333;
     p->actncmin = 0.066667;
     p->actpcmax = 0.033333;
@@ -59,6 +59,7 @@ void initialise_params(params *p) {
     p->c_alloc_rmax = 0.2;
     p->c_alloc_rmin = 0.2;
     p->cfracts = 0.5;
+    p->cnref = 25.0;
     p->cue = 0.5;
     p->co2_in = 350.0;
     p->cwd2active = 0.2;
