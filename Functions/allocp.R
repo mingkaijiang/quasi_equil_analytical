@@ -30,7 +30,7 @@ allocp <- function(pf) {
 }
 
 ### Allocation and plant P concentrations - required for both PS constraint and PC constraint
-allocp_exudation <- function(pf) {
+allocp_exudation <- function(pf, a) {
     # parameters
     # pf is the PC ratio of foliage
     # pw is the PC ratio of wood if fixed; otherwise the ratio of wood P:C to foliage P:C
@@ -57,7 +57,7 @@ allocp_exudation <- function(pf) {
     priz <- pr
     
     # update allocation coefficient for rhizodeposition
-    ariz <- ariz_dep_coef_p(pf)
+    ariz <- a$ariz
     
     ret <- data.frame(pf,pfl,pw,pr,priz,af,aw,ar,ariz)
     return(ret)

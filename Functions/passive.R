@@ -55,7 +55,7 @@ passive_exudation <- function(df, a) {
     
     len <- length(df)
     
-    decomp <- adjust_passive_residence_time(df, a)*Actsoil(Tsoil)   # decomposition of passive pool per year without priming
+    decomp <- adjust_passive_residence_time(df, a) * Actsoil(Tsoil)   # decomposition of passive pool per year without priming
     
     # re-burial fraction = fraction of C released from passive pool that is re-buried in it
     pas <- 0.996 - (0.85-0.68*Texture)       # e.g. from active to slow

@@ -32,7 +32,7 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
     a_nf <- as.data.frame(allocn_exudation(nfseq))
     
     pfseq <- inferpfVL_exudation(nfseq, a_nf)
-    a_pf <- as.data.frame(allocp_exudation(pfseq))
+    a_pf <- as.data.frame(allocp_exudation(pfseq, a_nf))
     
     ##### CO2 = 350
     # calculate NC vs. NPP at CO2 = 350 respectively
