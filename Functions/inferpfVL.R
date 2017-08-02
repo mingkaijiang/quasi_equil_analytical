@@ -61,7 +61,7 @@ inferpfVL_root_ocn <- function(nf, a) {
     
     # output nf, based on F(nf) = F(pf)
     pf <- c()
-    Nmin <- k * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) / (a$ar / sr - (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw))
+    Nmin <- k * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) / (vmax * (a$ar / sr) - (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw))
     Nleach <- leachn * Nmin
     
     Pleach <- (leachp/(1-leachp-k1)) 

@@ -26,7 +26,7 @@ Perform_Analytical_Run8_2 <- function() {
     ##### CO2 = 350
     # calculate NC vs. NPP at CO2 = 350 respectively
     NC350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
-    
+
     # calculate very long term NC and PC constraint on NPP, respectively
     VLongN <- NConsVLong_root_ocn(CO2_1)
     
@@ -93,9 +93,9 @@ Perform_Analytical_Run8_2 <- function() {
         
     ######### Plotting
     
-    tiff("Plots/Analytical_Run8_2.tiff",
-         width = 8, height = 7, units = "in", res = 300)
-    par(mar=c(5.1,5.1,2.1,2.1))
+    #tiff("Plots/Analytical_Run8_2.tiff",
+    #     width = 8, height = 7, units = "in", res = 300)
+    #par(mar=c(5.1,5.1,2.1,2.1))
     
     
     # shoot nc vs. NPP

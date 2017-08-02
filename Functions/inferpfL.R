@@ -133,12 +133,12 @@ inferpfL_root_ocn <- function(nf, a, PinL, NinL, Cpass) {
     
     # prepare long term nitrogen fluxes
     N0 <- NinL  + (1-pass$qq) * pass$decomp * Cpass * ncp
-    Nmin <- k * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) / (a$ar / sr - (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw))
+    Nmin <- k * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) / (vmax * (a$ar / sr) - (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw))
     nleach <- leachn * Nmin
     nburial <- omega*ncp
     nwood <- a$aw*a$nw
     
-    NPP <- N0 / (nleach + nburial + nwood)
+    NPP <- (N0 - nleach) / (nburial + nwood)
     
     # prepare long term phosphorus fluxes
     P0 = PinL + (1-pass$qq) * pass$decomp * Cpass * pcp

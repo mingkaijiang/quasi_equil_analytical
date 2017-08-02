@@ -115,7 +115,7 @@ NConsLong_root_ocn <- function(df, a, Cpass, NinL) {
     # nuptakerate is the rate of N uptake in yr-1
     # sr is the decay rate of root in yr-1
     # k - empirically derived
-    # vmax = assumes 1
+    # vmax in real O-CN vmax down, leaf NC up
     # NPP = (Nin - λloss A K nf / (ar / sr Vmax – A nf)) / Ωp (nf) np
     
     # passive pool burial 
@@ -130,6 +130,8 @@ NConsLong_root_ocn <- function(df, a, Cpass, NinL) {
     
     NPP_NC <- (U0 - nleach) / (nwood + nburial)   # will be in g C m-2 yr-1
     NPP_N <- NPP_NC*10^-3 # returned in kg C m-2 yr-1
+    
+    #browser()
     
     df <- data.frame(NPP_N, nwood,nburial,nleach,a$aw)
     return(df)   
