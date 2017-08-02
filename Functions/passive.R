@@ -55,8 +55,6 @@ passive_exudation <- function(df, a, npp) {
     
     len <- length(df)
     
-    decomp <- adjust_passive_residence_time(df, a) * Actsoil(Tsoil)   # decomposition of passive pool per year without priming
-    
     # re-burial fraction = fraction of C released from passive pool that is re-buried in it
     pas <- 0.996 - (0.85-0.68*Texture)       # e.g. from active to slow
     psa <- 0.396     # 0.42
@@ -94,6 +92,15 @@ passive_exudation <- function(df, a, npp) {
     # fraction of foliage and root litter being transferred to active pool
     transfer_fa <- muf*pma + (1-muf)*psa
     transfer_ra <- mur*pma + (1-mur)*psa
+    
+    browser()
+    
+    # total active out
+    active_plant_in <- transfer_fa * (npp * a$af / sf) + transfer_ra * (npp + a$ar / sr)
+    active_reburial <- 
+    
+    # decomposition rate of the passive pool
+    decomp <- adjust_passive_residence_time(df, a, npp) * Actsoil(Tsoil)   
     
     ret <- data.frame(decomp, qq, omegaf, omegar, transfer_fa, transfer_ra)
     

@@ -17,6 +17,7 @@ Nref=0.04
 kext=0.5
 SLA=5
 sf=0.5
+sr = 1.5
 cfrac = 0.45
 cue = 0.5
 leachn = 0.05
