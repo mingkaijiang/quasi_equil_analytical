@@ -144,16 +144,12 @@ solveVLong_root_ocn <- function(CO2) {
 # i.e. N uptake as a saturating function of mineral N
 solveVLong_root_gday <- function(CO2) {
     fn <- function(nf) {
-        photo_constraint_full_cnp(nf, inferpfVL_root_gday(nf, allocn(nf)), 
-                                  allocn(nf),allocp(inferpfVL_root_gday(nf, allocn(nf))), 
-                                  CO2) - NConsVLong_root_gday(nf,allocn(nf))$NPP
+        photo_constraint_full_cn(nf, allocn(nf), CO2) - NConsVLong_root_gday(nf,allocn(nf))$NPP
     }
     equilnf <- uniroot(fn,interval=c(0.01,0.1))$root
-    equilpf <- inferpfVL_root_gday(equilnf, allocn(equilnf))
-    equilNPP <- photo_constraint_full_cnp(equilnf, equilpf, 
-                                            allocn(equilnf), allocp(equilpf), CO2)
+    equilNPP <- photo_constraint_full_cn(equilnf, allocn(equilnf),  CO2)
     
-    ans <- data.frame(equilnf,equilpf,equilNPP)
+    ans <- data.frame(equilnf,equilNPP)
     return(ans)
 }
 

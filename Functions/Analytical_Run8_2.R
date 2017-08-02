@@ -2,10 +2,9 @@
 #### Analytical script to match GDAY Run 8 settings
 ####
 #### Same as Run 8.1, except
-#### 1. fixed wood stoichiometry
-#### 2. N uptake rates as a function of root biomass - O-CN approach: saturaing function of mineral N
-#### 3. Fixed passive SOM stoichiometry
-####
+#### 1. N uptake rates as a function of root biomass - O-CN approach: saturaing function of mineral N
+#### 2. Fixed passive SOM stoichiometry
+#### 3. Using N only model
 ################################################################################
 
 
@@ -96,7 +95,7 @@ Perform_Analytical_Run8_2 <- function() {
            lwd=c(2,2,2,2,NA,NA), pch=c(NA,NA,NA,NA,19,19), cex = 1.0, 
            bg = adjustcolor("grey", 0.8))
     
-    legend(0.04, 3.55, c("C", "D"),
+    legend(0.04, 1.55, c("C", "D"),
            col=c("red", "orange"), 
            lwd=c(NA,NA), pch=c(19,19), cex = 1.0, border=FALSE, bty="n",
            bg = adjustcolor("grey", 0.8))  
