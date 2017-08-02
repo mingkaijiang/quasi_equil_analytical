@@ -57,23 +57,21 @@ NConsVLong_root_ocn <- function(df, a) {
     # vmax
     
     # compute Nmin
-    #Nmin <- (k * (a$af*a$nf + a$ar*a$nr + a$aw*a$aw)) / ((a$ar/sr) * vmax - (a$af*a$nf + a$ar*a$nr + a$aw*a$aw))
-    # compute leaching rate
-    #leachn <- Nin/Nmin
+    Nmin <- (k * (a$af*a$nf + a$ar*a$nr + a$aw*a$aw)) / ((a$ar/sr) * vmax - (a$af*a$nf + a$ar*a$nr + a$aw*a$aw))
     
-    #nleach <- leachn * Nmin
+    arg1 <- leachn / ( 1 - leachn)
     
-    # equation for N constraint with just leaching
-    #cr <- Nin / ((leachn / (1 - leachn)) * vmax * (Nmin / (Nmin + k)))
-    #NPP_NC <- cr / (a$ar / sr)    
+    arg2 <- Nmin / (Nmin + k)
     
-    Nmin <- Nin / leachn
-    nleach <- Nmin * leachn
-    vmax <- (a$af*a$nf + a$ar*a$nr + a$aw*a$aw) * (Nmin + k) / ((a$ar/sr) * Nmin)
+    arg3 <- (a$ar / sr) * vmax
     
-    NPP_NC <- vmax / coef_test
+    # compute NPP
+    NPP_NC <- Nin / (arg1 * arg2 * arg3)
 
     NPP_N <- NPP_NC*10^-3     # returned in kg C m-2 yr-1
+
+    # compute nleach
+    nleach <- Nmin * leachn
     
     browser()
     

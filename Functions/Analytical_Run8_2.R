@@ -30,6 +30,9 @@ Perform_Analytical_Run8_2 <- function() {
     # calculate very long term NC and PC constraint on NPP, respectively
     NCVLONG <- NConsVLong_root_ocn(df=nfseq,a=a_nf)
     
+    plot(nfseq, NC350, ylim=c(0, 3))
+    points(nfseq, NCVLONG$NPP_N, col="red")
+    
     # solve very-long nutrient cycling constraint
     VLongN <- solveVLong_root_ocn(CO2_1)
     
