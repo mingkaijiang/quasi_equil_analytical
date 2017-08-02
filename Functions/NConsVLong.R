@@ -68,6 +68,7 @@ NConsVLong_root_ocn <- function(df, a) {
     # compute NPP
     NPP_NC <- Nin / (arg1 * arg2 * arg3)
 
+    # needed or not?
     NPP_N <- NPP_NC*10^-3     # returned in kg C m-2 yr-1
 
     # compute nleach
