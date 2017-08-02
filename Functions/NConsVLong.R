@@ -80,15 +80,11 @@ NConsVLong_root_ocn <- function(carb_diox) {
     # allocation coefficients
     a_nf <- allocn(nf)
     
-    # solve for equilibrium pf
-    pf <- inferpfVL_root_ocn(nf, a_nf)
-    a_pf <- allocp(pfseq)
-    
     # solve for equilibrium npp
-    npp <- photo_constraint_full_cnp(nf, pf, a_nf, a_pf, carb_diox)
+    npp <- photo_constraint_full_cn(nf,a_nf,carb_diox)
     
-    ans <- data.frame(nf,pf,npp)
-    colnames(ans) <- c("equilnf","equilpf","equilNPP")
+    ans <- data.frame(nf,npp)
+    colnames(ans) <- c("equilnf","equilNPP")
     
     return(ans)   
 }

@@ -127,16 +127,11 @@ solveLong_respiration <- function(CO2,Cpass,NinL, PinL) {
 # i.e. N uptake as a saturating function of mineral N
 solveLong_root_ocn <- function(CO2, Cpass, NinL) {
     fn <- function(nf) {
-        photo_constraint_full_cnp(nf, inferpfVL_root_ocn(nf, allocn(nf)),
-                                  allocn(nf), 
-                                  allocp(inferpfVL_root_ocn(nf, allocn(nf))), 
-                                  CO2) - NConsLong_root_ocn(nf,allocn(nf),Cpass=Cpass,NinL)$NPP
+        photo_constraint_full_cn(nf, allocn(nf), CO2) - NConsLong_root_ocn(nf,allocn(nf),Cpass=Cpass,NinL)$NPP
     }
     equilnf <- uniroot(fn,interval=c(0.01,0.1))$root
-    equilpf <- inferpfVL_root_ocn(equilnf, allocn(equilnf))
-    equilNPP <- photo_constraint_full_cnp(equilnf, equilpf, 
-                                          allocn(equilnf), allocp(equilpf), CO2)
-    ans <- data.frame(equilnf,equilpf,equilNPP)
+    equilNPP <- photo_constraint_full_cn(equilnf, allocn(equilnf), CO2)
+    ans <- data.frame(equilnf,equilNPP)
     return(ans)
 }
 
