@@ -102,7 +102,7 @@ NConsLong_expl_min <- function(df, a, Cpass, NinL) {
 ### Function for nutrient N constraint in longterm ie passive, leaching, wood considered
 # specifically for uptake as a function of root  - O-CN approach
 # i.e. N uptake as a saturating function of mineral N
-NConsLong_root_ocn <- function(df, a, NinL) {
+NConsLong_root_ocn <- function(df, a, Cpass, NinL) {
     # passed are df and a, the allocation and plant N:C ratios
     # parameters : 
     # Nin is fixed N inputs (N deposition annd fixation) in g m-2 yr-1 (could vary fixation)
@@ -122,23 +122,16 @@ NConsLong_root_ocn <- function(df, a, NinL) {
     pass <- passive(df, a)
     omegap <- a$af*pass$omegaf + a$ar*pass$omegar 
     
-    # N mineral pool
-    Nmin <- k * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) / (a$ar / sr - (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw))
-    
-    # equation for N constraint with passive, and leaching
+    # equation for N constraint with passive, wood, and leaching
+    U0 <- NinL + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
+    nwood <- a$aw*a$nw
     nburial <- omegap*ncp
-    nleach <- leachn * Nmin
+    nleach <- leachn * k * (a$af * a$nf + a$aw * a$nw + a$ar * a$nr) / (vmax * (a$ar/sr) - (a$af * a$nf + a$aw * a$nw + a$ar * a$nr))
     
-    # calculating NPP
-    U0 <- Nin 
-    NPP_NC <- (U0 - nleach) / nburial     
+    NPP_NC <- (U0 - nleach) / (nwood + nburial)   # will be in g C m-2 yr-1
     NPP_N <- NPP_NC*10^-3 # returned in kg C m-2 yr-1
-
-    #X <- (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) * (sr/a$ar)
-    #NPP_NC <- (-X * (U0 + leachn * k) + U0) / ((omegap * ncp) * (1.0 + X))
-    #NPP_N <- NPP_NC*10^-3 # returned in kg C m-2 yr-1
     
-    df <- data.frame(NPP_N, Nmin, a$aw)
+    df <- data.frame(NPP_N, nwood,nburial,nleach,a$aw)
     return(df)   
 }
 

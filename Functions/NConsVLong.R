@@ -45,7 +45,7 @@ NConsVLong_expl_min <- function(df, a) {
 # it is just Nin = Nleach
 # specifically for nuptake as a function of root biomass - O-CN approach
 # i.e. N uptake as a saturating function of mineral N
-NConsVLong_root_ocn <- function(df, a) {                   
+NConsVLong_root_ocn <- function(carb_diox) {                   
     # passed are bf and nf, the allocation and plant N:C ratios
     # parameters : 
     # Nin is fixed N inputs (N fixed and deposition) in g m-2 yr-1 (could vary fixation)
@@ -56,28 +56,41 @@ NConsVLong_root_ocn <- function(df, a) {
     # k - empirically dervied for now
     # vmax
     
+    # allocation coefficients
+    ar <- aroot
+    af <- aleaf
+    aw <- 1 - ar - af
+    
     # compute Nmin
-    Nmin <- (k * (a$af*a$nf + a$ar*a$nr + a$aw*a$aw)) / ((a$ar/sr) * vmax - (a$af*a$nf + a$ar*a$nr + a$aw*a$aw))
+    Nmin <- Nin / leachn
     
-    arg1 <- leachn / ( 1 - leachn)
-    
+    # arguments
+    arg1 <- (ar / sr) * vmax
     arg2 <- Nmin / (Nmin + k)
+    arg3 <- arg1 * arg2
     
-    arg3 <- (a$ar / sr) * vmax
+    # N concentrations of rest of plant   # in g N g-1 C
+    if (nwvar == FALSE) {
+        nw <- nwood
+        nf <- (arg3 - nw * aw) / (af + nrho * ar)
+    } else {
+        nf <- arg3 / (af + nrho * ar + nwood * aw)
+    }
     
-    # compute NPP
-    NPP_NC <- Nin / (arg1 * arg2 * arg3)
-
-    # needed or not?
-    NPP_N <- NPP_NC*10^-3     # returned in kg C m-2 yr-1
-
-    # compute nleach
-    nleach <- Nmin * leachn
+    # allocation coefficients
+    a_nf <- allocn(nf)
     
-    browser()
+    # solve for equilibrium pf
+    pf <- inferpfVL_root_ocn(nf, a_nf)
+    a_pf <- allocp(pfseq)
     
-    df <- data.frame(NPP_N,nleach)
-    return(df)   
+    # solve for equilibrium npp
+    npp <- photo_constraint_full_cnp(nf, pf, a_nf, a_pf, carb_diox)
+    
+    ans <- data.frame(nf,pf,npp)
+    colnames(ans) <- c("equilnf","equilpf","equilNPP")
+    
+    return(ans)   
 }
 
 NConsVLong_root_ocn_original <- function(df, a) {                   

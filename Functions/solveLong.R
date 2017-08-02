@@ -125,12 +125,12 @@ solveLong_respiration <- function(CO2,Cpass,NinL, PinL) {
 # Find the long term equilibrium nf and NPP under standard conditions - by finding the root
 # specifically for nuptake ~ root biomass  - O-CN approach
 # i.e. N uptake as a saturating function of mineral N
-solveLong_root_ocn <- function(CO2, NinL) {
+solveLong_root_ocn <- function(CO2, Cpass, NinL) {
     fn <- function(nf) {
         photo_constraint_full_cnp(nf, inferpfVL_root_ocn(nf, allocn(nf)),
                                   allocn(nf), 
                                   allocp(inferpfVL_root_ocn(nf, allocn(nf))), 
-                                  CO2) - NConsLong_root_ocn(nf,allocn(nf),NinL)$NPP
+                                  CO2) - NConsLong_root_ocn(nf,allocn(nf),Cpass=Cpass,NinL)$NPP
     }
     equilnf <- uniroot(fn,interval=c(0.01,0.1))$root
     equilpf <- inferpfVL_root_ocn(equilnf, allocn(equilnf))

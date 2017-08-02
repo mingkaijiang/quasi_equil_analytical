@@ -28,13 +28,7 @@ Perform_Analytical_Run8_2 <- function() {
     NC350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong_root_ocn(df=nfseq,a=a_nf)
-    
-    plot(nfseq, NC350, ylim=c(0, 3))
-    points(nfseq, NCVLONG$NPP_N, col="red")
-    
-    # solve very-long nutrient cycling constraint
-    VLongN <- solveVLong_root_ocn(CO2_1)
+    VLongN <- NConsVLong_root_ocn(CO2_1)
     
     # Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn(VLongN$equilnf)
@@ -52,15 +46,15 @@ Perform_Analytical_Run8_2 <- function() {
                                  NinL = Nin+NrelwoodVLong,Cpass=CpassVLong)
     
     # Calculate long term nutrieng constraint
-    NCHUGH <- NConsLong_root_ocn(df=nfseq, a=a_nf,
+    NCHUGH <- NConsLong_root_ocn(df=nfseq, a=a_nf, Cpass=CpassVLong,
                                   NinL = Nin+NrelwoodVLong)
     
     # Find equilibrate intersection and plot
-    LongN <- solveLong_root_ocn(CO2_1, NinL= Nin+NrelwoodVLong)
+    LongN <- solveLong_root_ocn(CO2_1, Cpass=CpassVLong, NinL= Nin+NrelwoodVLong)
     
-    out350DF <- data.frame(nfseq, pfseq, pfseqL, NC350, NCVLONG, NCHUGH)
-    colnames(out350DF) <- c("nc", "pc_VL", "pc_350_L", "NPP_350", "NPP_VL",
-                            "nleach_VL", "NPP_350_L", "Nmin", "aw")
+    out350DF <- data.frame(nfseq, pfseq, pfseqL, NC350, NCHUGH)
+    colnames(out350DF) <- c("nc", "pc_VL", "pc_350_L", "NPP_350", "NPP_350_L", "nwood_L", "nburial_L",
+                            "nleach_L", "aw")
     equil350DF <- data.frame(VLongN, LongN)
     colnames(equil350DF) <- c("nc_VL", "pc_VL","NPP_VL", 
                               "nc_L", "pc_L", "NPP_L")
@@ -78,17 +72,15 @@ Perform_Analytical_Run8_2 <- function() {
     NC700 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_2)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong_root_ocn(df=nfseq,a=a_nf)
+    VLongN <- NConsVLong_root_ocn(CO2_2)
     
-    # solve very-long nutrient cycling constraint
-    VLongN <- solveVLong_root_ocn(CO2_2)
-    
-    out700DF <- data.frame(nfseq, pfseq, pfseqL, NC700, NCVLONG, NCHUGH)
-    colnames(out700DF) <- c("nc", "pc_VL", "pc_700_L", "NPP_700", "NPP_VL",
-                            "nleach_VL", "NPP_700_L", "Nmin",  "aw")
+    out700DF <- data.frame(nfseq, pfseq, pfseqL, NC700, NCHUGH)
+    colnames(out700DF) <- c("nc", "pc_VL", "pc_700_L", "NPP_700", 
+                            "NPP_700_L", "nwood_L", "nburial_L",
+                            "nleach_L", "aw")
     
     # Find equilibrate intersection and plot
-    LongN <- solveLong_root_ocn(CO2_2, NinL=Nin+NrelwoodVLong)
+    LongN <- solveLong_root_ocn(CO2_2, Cpass=CpassVLong, NinL=Nin+NrelwoodVLong)
     
     equil700DF <- data.frame(VLongN, LongN)
     colnames(equil700DF) <- c("nc_VL", "pc_VL","NPP_VL", 
@@ -106,45 +98,49 @@ Perform_Analytical_Run8_2 <- function() {
     par(mar=c(5.1,5.1,2.1,2.1))
     
     
-    # NPP constraint by CO2 = 350
-    plot(out350DF$nc, out350DF$NPP_350, xlim=c(0.0, 0.05),
-         ylim=c(0, 5), 
+    # shoot nc vs. NPP
+    plot(out350DF$nc, out350DF$NPP_350, xlim=c(0.0, 0.1),
+         ylim=c(0, 3), 
          type = "l", xlab = "Shoot N:C ratio", 
          ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
          col="cyan", lwd = 3)
-    
-    # NPP constraint by very long term nutrient availability
-    points(out350DF$nc, out350DF$NPP_VL, type="l", col="tomato", lwd = 3)
-    
-    # equilibrated NPP for very long term nutrient and CO2 = 350
-    points(equil350DF$nc_VL, equil350DF$NPP_VL,
-           type="p", pch = 19, col = "blue")
-    
-    # NPP constraint by long term nutrient availability
+    points(equil350DF$nc_VL, equil350DF$NPP_VL, type="p", pch = 19, col = "blue")
     points(out350DF$nc, out350DF$NPP_350_L, type='l',col="violet", lwd = 3)
-    
-    
-    # NPP constraint by CO2 = 700
     points(out700DF$nc, out700DF$NPP_700, col="green", type="l", lwd = 3)
+    points(equil350DF$nc_VL, inst700$equilNPP, type="p", col = "darkgreen", pch=19)
+    points(equil700DF$nc_VL, equil700DF$NPP_VL, type="p", col="orange", pch = 19)
     
-    points(equil350DF$nc_VL,
-           inst700$equilNPP, type="p", col = "darkgreen", pch=19)
+    points(equil700DF$nc_L, equil700DF$NPP_L,type="p", col="red", pch = 19)
     
-    # equilibrated NPP for very long term nutrient and CO2 = 700
-    points(equil700DF$nc_VL,  equil700DF$NPP_VL, 
-           type="p", col="orange", pch = 19)
     
-    # equilibrated NPP for long term nutrient and CO2 = 700
-    points(equil700DF$nc_L, equil700DF$NPP_L,
-           type="p", col="red", pch = 19)
+    # shoot nc vs. shoot pc
+    plot(out350DF$nc, out350DF$pc_VL, xlim=c(0.0, 0.05),
+         ylim=c(0, 0.005), 
+         type = "l", xlab = "Shoot N:C ratio", 
+         ylab = "Shoot P:C ratio",
+         col="cyan", lwd = 3)
+    points(out350DF$nc, out350DF$pc_VL, type="l", col="tomato", lwd = 3)
+    
+    points(equil350DF$nc_VL, equil350DF$pc_VL, type="p", pch = 19, col = "blue")
+    
+    points(out350DF$nc, out350DF$pc_VL, type='l',col="violet", lwd = 3)
+    
+    points(out700DF$nc, out700DF$pc_VL, col="green", type="l", lwd = 3)
+    
+    points(equil350DF$nc_VL, equil350DF$pc_VL, type="p", col = "darkgreen", pch=19)
+    
+    points(equil700DF$nc_VL, equil700DF$pc_VL, type="p", col="orange", pch = 19)
+    
+    points(equil700DF$nc_L, equil700DF$pc_L, type="p", col="red", pch = 19)
     
     legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
                          expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-                         "L nutrient constraint",
-                         "A", "B"),
-           col=c("cyan","green", "tomato", "blue", "orange"), 
-           lwd=c(2,2,2,NA,NA), pch=c(NA,NA,NA,19,19), cex = 1.0, 
+                         "VL nutrient constraint", "L nutrient constraint",
+                         "A", "B", "C", "D"),
+           col=c("cyan","green", "tomato", "violet","blue", "darkgreen","red", "orange"), 
+           lwd=c(2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,19,19,19,19), cex = 0.7, 
            bg = adjustcolor("grey", 0.8))
+    
     
     dev.off()    
 
