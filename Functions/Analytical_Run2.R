@@ -113,15 +113,10 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
         legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
                              expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
                              "VL nutrient constraint", "L nutrient constraint",
-                             "A", "B"),
-               col=c("cyan","green", "tomato", "violet","blue", "darkgreen"), 
-               lwd=c(2,2,2,2,NA,NA), pch=c(NA,NA,NA,NA,19,19), cex = 1.0, 
+                             "A", "B", "C", "D"),
+               col=c("cyan","green", "tomato", "violet","blue", "darkgreen", "red", "orange"), 
+               lwd=c(2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,19,19,19,19), cex = 1.0, 
                bg = adjustcolor("grey", 0.8))
-        
-        legend(0.04, 3.55, c("C", "D"),
-               col=c("red", "orange"), 
-               lwd=c(NA,NA), pch=c(19,19), cex = 1.0, border=FALSE, bty="n",
-               bg = adjustcolor("grey", 0.8))  
 
         
         dev.off()

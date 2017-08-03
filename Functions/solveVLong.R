@@ -157,15 +157,12 @@ solveVLong_root_gday <- function(CO2) {
 # specifically for exudation
 solveVLong_exudation <- function(CO2) {
     fn <- function(nf) {
-        photo_constraint_full_cnp(nf, inferpfVL_exudation(nf, allocn_exudation(nf)), 
-                                  allocn_exudation(nf),allocp_exudation(inferpfVL_exudation(nf, allocn_exudation(nf)), allocn_exudation(nf)), 
-                                  CO2) - NConsVLong_expl_min(nf,allocn_exudation(nf))$NPP
+        photo_constraint_full_cn(nf, allocn_exudation(nf), CO2) - NConsVLong_expl_min(nf,allocn_exudation(nf))$NPP
     }
     equilnf <- uniroot(fn,interval=c(0.01,0.1))$root
-    equilpf <- inferpfVL_exudation(equilnf, allocn_exudation(equilnf))
-    equilNPP_N <- photo_constraint_full_cnp(equilnf, equilpf, 
-                                            allocn_exudation(equilnf), allocp_exudation(equilpf, allocn_exudation(equilnf)), CO2)
+    equilNPP_N <- photo_constraint_full_cn(equilnf, 
+                                            allocn_exudation(equilnf), CO2)
     
-    ans <- data.frame(equilnf,equilpf,equilNPP_N)
+    ans <- data.frame(equilnf,equilNPP_N)
     return(ans)
 }

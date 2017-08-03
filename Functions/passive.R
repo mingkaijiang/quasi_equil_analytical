@@ -57,11 +57,13 @@ passive_exudation <- function(df, a, npp) {
     
     # re-burial fraction = fraction of C released from passive pool that is re-buried in it
     pas <- 0.996 - (0.85-0.68*Texture)       # e.g. from active to slow
-    psa <- 0.396     # 0.42
-    ppa <- 0.45
+    psa <- 0.42     # 0.42; 0.396 (slow)
+    ppa <- 0.45     # should be a function of exudate C
     pap <- 0.004
-    psp <- 0.028     # 0.03
-    qq <-  ppa*(pap + psp*pas)/(1-pas*psa)   # re-burial fraction
+    psp <- 0.03     # 0.03; 0.028 (slow)
+    qq <-  ppa*(pap + psp*pas)/(1-pas*psa)   # re-burial fraction of the passive pool, consider to adjust
+    
+    #browser()
     
     muf <- c()
     mur <- c()
@@ -93,14 +95,13 @@ passive_exudation <- function(df, a, npp) {
     transfer_fa <- muf*pma + (1-muf)*psa
     transfer_ra <- mur*pma + (1-mur)*psa
     
-    browser()
-    
     # total active out
-    active_plant_in <- transfer_fa * (npp * a$af / sf) + transfer_ra * (npp + a$ar / sr)
-    active_reburial <- 
+    active_plant_in <- transfer_fa * (npp * a$af / sf) + transfer_ra * (npp + (a$ar-a$ar*a$ariz) / sr)
+    c_into_exud <- npp * a$ar * a$ariz
+    active_tot_in <- active_plant_in + c_into_exud 
     
     # decomposition rate of the passive pool
-    decomp <- adjust_passive_residence_time(df, a, npp) * Actsoil(Tsoil)   
+    decomp <- adjust_passive_residence_time(df, a, active_tot_in) * Actsoil(Tsoil)   
     
     ret <- data.frame(decomp, qq, omegaf, omegar, transfer_fa, transfer_ra)
     

@@ -1,25 +1,21 @@
 #### Function to adjust residence time of the passive pool
-adjust_passive_residence_time <- function(df, a, npp) {
-    
-    # define parameters
-    prime_y <- 0.6
-    prime_z <- 0.5
+adjust_passive_residence_time <- function(df, a, active_in) {
     
     # compute active out at daily timestep
-    c_into_exud <- npp * a$ar * a$ariz
+    # c_into_exud <- npp * a$ar * a$ariz
     
-    factive = (active_to_slow + active_to_passive + 
-               co2_to_air + co2_released_exud)
+    # try to use c_from_exud_into_active as a proxy for c out from active pool
+    # c_from_exud_into_active <- c_into_exud * cue_mic
     
-    # residence time
-    rt_slow_pool = (1.0 / prime_y) / 
-    pmax(0.01, (factive / (factive + prime_z)))
+    # residence time, suppose active_in is active_out
+    rt_pass_pool = (1.0 / prime_y) / 
+    pmax(0.01, (active_in / (active_in + prime_z)))
     
     # compute decomposition rate
-    kdec7_new = 1.0 / rt_slow_pool;
+    kdec7_new = 1.0 / rt_pass_pool;
     
     # annual timestep
-    kdec7 <- kdec7_new * 365.0
+    kdec7 <- kdec7_new 
     
     return(kdec7)
 }

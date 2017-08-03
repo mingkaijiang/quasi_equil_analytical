@@ -66,3 +66,5 @@ cnref <- 25
 cpref <- 500
 cue_mic <- 0.3      # range: 0.3 - 0.7
 km <- 2             # scaling factor for SOM response; range: 1- 5
+prime_y <- 0.05
+prime_z <- 2

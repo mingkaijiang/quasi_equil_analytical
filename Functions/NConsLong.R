@@ -221,7 +221,7 @@ NConsLong_variable_pass <- function(df, a, Nin=0.4, leachn=0.05, eqNPP,
 
 ### Function for nutrient N constraint in longterm ie passive, leaching, wood considered
 # specifically for exudation
-NConsLong_exudation <- function(df, a, Cpass, NinL) {
+NConsLong_exudation <- function(df, a, Cpass, NinL, npp) {
     # passed are df and a, the allocation and plant N:C ratios
     # parameters : 
     # Nin is fixed N inputs (N deposition annd fixation) in g m-2 yr-1 (could vary fixation)
@@ -233,7 +233,7 @@ NConsLong_exudation <- function(df, a, Cpass, NinL) {
     # ncp is the NC ratio of the passive pool in g N g-1 C
 
     # passive pool burial 
-    pass <- passive_exudation(df, a)
+    pass <- passive_exudation(df, a, npp)   # possibly not right!
     omegap <- a$af*pass$omegaf + a$ar*pass$omegar 
     
     # equation for N constraint with passive, wood, and leaching
@@ -241,7 +241,6 @@ NConsLong_exudation <- function(df, a, Cpass, NinL) {
     nwood <- a$aw*a$nw
     nburial <- omegap*ncp
     
-    #NPP_NC <- ((U0 - nwood - nburial) / leachn) * nuptakerate / (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw)   # will be in g C m-2 yr-1
     NPP_NC <- (nuptakerate * U0) / ((a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) * leachn + nuptakerate * nwood + nuptakerate * nburial)
     
     NPP <- NPP_NC*10^-3 # returned in kg C m-2 yr-1
