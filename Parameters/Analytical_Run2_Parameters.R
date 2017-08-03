@@ -3,14 +3,14 @@ CO2_1 <- 350.0
 CO2_2 <- 700.0
 
 #### define parameters
-nwood = 0.005 
-pwood = 0.00003
+nwood = 0.0005      # if nwvar = false, 0.0005, if = true, 0.005
+pwood = 0.000003    # if nwvar = false, 0.000003, if = true, 0.00003
 nrho = 0.7
 prho = 0.7
 nretrans = 0.5
 pretrans = 0.6
-nwvar = TRUE
-pwvar = TRUE
+nwvar = FALSE
+pwvar = FALSE
 LUE0=1.4
 I0=3
 Nref=0.04

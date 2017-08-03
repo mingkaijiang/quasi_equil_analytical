@@ -3,7 +3,10 @@
 ####
 #### Same as Run 7, except 
 #### 1. turn root exudation on
-#### 2. turn priming effect on (slow SOM pool)
+#### 2. turn priming effect on (effect on passive SOM pool)
+#### 3. N only model (same as Run 2, but with explicit mineral N pool)
+#### 4. Fix wood stoichiometry (and therefore adjust wood nc parameters)
+####
 ################################################################################
 
 
@@ -52,21 +55,26 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
     
     # Calculate long term nutrieng constraint
     NCHUGH <- NConsLong_exudation(nfseq, a_vec, CpassVLong,
-                                  NinL = Nin+NrelwoodVLong,
-                                  npp = VLongN$equilNPP_N)
+                                  NinL = Nin+NrelwoodVLong)
+    
+    # compute different pass pool based on original function
+    pass_orig <- passive(df=VLongN$equilnf, a=aequiln)
+    omega_orig <- aequiln$af*pass_orig$omegaf + aequiln$ar*pass_orig$omegar
+    CpassVLong_orig <- omega_orig*VLongN$equilNPP/pass_orig$decomp/(1-pass_orig$qq)*1000.0
+    NrelwoodVLong_orig <- aequiln$aw*aequiln$nw*VLongN$equilNPP_N*1000.0
+    NCHUGH_orig <- NConsLong_expl_min(nfseq, a_vec, CpassVLong_orig,
+                                       NinL = Nin+NrelwoodVLong_orig)
     
     # Solve longterm equilibrium
-    equil_long_350 <- solveLong_exudation(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong,
-                                          npp=VLongN$equilNPP_N)
-    equil_long_700 <- solveLong_exudation(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong,
-                                          npp=VLongN$equilNPP_N)
+    equil_long_350 <- solveLong_exudation(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_700 <- solveLong_exudation(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
     inst700 <- inst_NPP(VLongN$equilnf, df700)
     
     ## locate the intersect between VL nutrient constraint and CO2 = 700
-    VLong700 <- solveVLong_full_cn(CO2=CO2_2)
+    VLong700 <- solveVLong_exudation(CO2_2)
     
 
     if (f.flag == 1) {
@@ -78,11 +86,11 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
         ### plot 2-d plots of nf vs. npp and nf vs. pf
         tiff("Plots/Analytical_Run9_2d.tiff",
              width = 10, height = 5, units = "in", res = 300)
-        par(mfrow=c(1,2))
+        #par(mfrow=c(1,2))
         
         # Photosynthetic constraint CO2 = 350 ppm
         plot(nfseq,PC350,axes=T,
-             type='l',xlim=c(0,0.05),ylim=c(0,3), 
+             type='l',xlim=c(0,0.1),ylim=c(0,3), 
              ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
              xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex.lab = 1.5)
         
@@ -94,6 +102,8 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
         
         # L nutrient constraint curve
         points(nfseq,NCHUGH$NPP,type='l',col="violet", lwd = 2.5)
+        points(nfseq,NCHUGH_orig$NPP,type='l',col="black", lwd = 2.5)
+        
         
         # VL intersect with CO2 = 350 ppm
         points(VLongN$equilnf,VLongN$equilNPP, pch = 19, cex = 2.0, col = "blue")
@@ -109,10 +119,11 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
         
         legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
                              expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-                             "VL nutrient constraint", "L nutrient constraint",
+                             "VL nutrient constraint", "L nutrient constraint priming on",
+                             "L nutrient constraint primint off",
                              "A", "B", "C", "D"),
-               col=c("cyan","green", "tomato", "violet","blue", "darkgreen", "red", "orange"), 
-               lwd=c(2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,19,19,19,19), cex = 1.0, 
+               col=c("cyan","green", "tomato", "violet","black","blue", "darkgreen", "red", "orange"), 
+               lwd=c(2,2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19), cex = 1.0, 
                bg = adjustcolor("grey", 0.8))
         
         

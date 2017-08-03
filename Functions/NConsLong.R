@@ -221,7 +221,7 @@ NConsLong_variable_pass <- function(df, a, Nin=0.4, leachn=0.05, eqNPP,
 
 ### Function for nutrient N constraint in longterm ie passive, leaching, wood considered
 # specifically for exudation
-NConsLong_exudation <- function(df, a, Cpass, NinL, npp) {
+NConsLong_exudation <- function(df, a, Cpass, NinL) {
     # passed are df and a, the allocation and plant N:C ratios
     # parameters : 
     # Nin is fixed N inputs (N deposition annd fixation) in g m-2 yr-1 (could vary fixation)
@@ -231,22 +231,51 @@ NConsLong_exudation <- function(df, a, Cpass, NinL, npp) {
     # ligfl and ligrl are the lignin:C fractions in the foliage and root litter
     # Cpass is the passive pool size in g C m-2
     # ncp is the NC ratio of the passive pool in g N g-1 C
-
-    # passive pool burial 
-    pass <- passive_exudation(df, a, npp)   # possibly not right!
-    omegap <- a$af*pass$omegaf + a$ar*pass$omegar 
     
-    # equation for N constraint with passive, wood, and leaching
-    U0 <- NinL + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
-    nwood <- a$aw*a$nw
-    nburial <- omegap*ncp
+    len <- length(df)
     
-    NPP_NC <- (nuptakerate * U0) / ((a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) * leachn + nuptakerate * nwood + nuptakerate * nburial)
+    ans <- c()
     
-    NPP <- NPP_NC*10^-3 # returned in kg C m-2 yr-1
+    for (i in 1:len) {
+        fPC <- function(NPP) {
+            # passive pool burial 
+            pass <- passive_exudation(df[i], a[i,], NPP)   
+            omegap <- a[i,]$af*pass$omegaf + a[i,]$ar*pass$omegar 
+            
+            # equation for N constraint with passive, wood, and leaching
+            U0 <- NinL + (1-pass$qq) * pass$decomp * Cpass * ncp   
+            nwood <- a[i,]$aw*a[i,]$nw
+            nburial <- omegap*ncp
+            
+            NPP_NC <- (nuptakerate * U0) / ((a[i,]$nfl*a[i,]$af + a[i,]$nr*a[i,]$ar 
+                                             + a[i,]$nw*a[i,]$aw) * leachn + 
+                                                nuptakerate * nwood + nuptakerate * nburial)
+            
+            out <- NPP_NC*10^-3 - NPP # returned in kg C m-2 yr-1
+            
+        }
+        
+        ans[i] <- uniroot(fPC,interval=c(0.1,20), trace=T)$root
+        
+    }
     
-    nleach <- leachn * (NPP_NC * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw)) /nuptakerate
-    
-    df <- data.frame(NPP, nwood,nburial,nleach,a$aw)
-    return(df)   
+#    # passive pool burial 
+#    pass <- passive_exudation(df, a, npp)   # possibly not right!
+#    omegap <- a$af*pass$omegaf + a$ar*pass$omegar 
+#    
+#    # equation for N constraint with passive, wood, and leaching
+#    U0 <- NinL + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
+#    nwood <- a$aw*a$nw
+#    nburial <- omegap*ncp
+#    
+#    NPP_NC <- (nuptakerate * U0) / ((a$nfl*a$af + a$nr*a$ar + a$nw*a$aw) * leachn + nuptakerate * nwood + nuptakerate * nburial)
+#    
+#    NPP <- NPP_NC*10^-3 # returned in kg C m-2 yr-1
+#    
+#    nleach <- leachn * (NPP_NC * (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw)) /nuptakerate
+#    
+#    df <- data.frame(NPP, nwood,nburial,nleach,a$aw)
+    out <- data.frame(ans, a$aw)
+    colnames(out) <- c("NPP", "aw")
+    return(out)   
 }
