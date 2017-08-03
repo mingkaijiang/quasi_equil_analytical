@@ -85,7 +85,7 @@ Perform_Analytical_Run8_2 <- function() {
     # VL intersect with CO2 = 700 ppm
     points(VLong700$equilnf, VLong700$equilNPP, cex = 2.0, col = "orange", pch = 19)
     
-    legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
+    legend("bottomleft", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
                          expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
                          "VL nutrient constraint", "L nutrient constraint",
                          "A", "B", "C", "D"),
