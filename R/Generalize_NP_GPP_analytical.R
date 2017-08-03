@@ -125,10 +125,8 @@ for (i in 1:length(co2.list)) {
     outDF[outDF$CO2 == co2.list[i], "LUE"] <- LUE_N
 }
 
-plot(nfseq, LUE_N)
-
 # trial one
-lm.n <- lm(LUE_N~nfseq)
+lm.n <- lm(outDF$LUE~outDF$nfseq)
 summary(lm.n)
 
 lue_n_pred <- 0.04 + 0.09 * nfseq
@@ -136,7 +134,7 @@ plot(lue_n_pred~LUE_N)
 abline(a=0,b=1)
 
 # trial two
-lm.n <- lm(log(LUE_N)~log(nfseq))
+lm.n <- lm(log(outDF$LUE)~log(outDF$nfseq))
 summary(lm.n)
 
 lue_n_pred <- exp(-2.76 + 0.09 * log(nfseq))
@@ -147,7 +145,7 @@ abline(a=0,b=1)
 lm.n <- lm(log(outDF$LUE)~log(outDF$CO2) + log(outDF$nfseq) + (log(outDF$nfseq):log(outDF$CO2)))
 summary(lm.n)
 
-lue_n_pred <- exp(-2.78 + 0.09 * log(co2.list[i]) + 0.44 * log(nfseq) - 0.04 * log(nfseq)*log(co2.list[i]))
+lue_n_pred <- exp(-4.03 + 0.22 * log(co2.list[i]) + 0.14 * log(nfseq) - 0.01 * log(nfseq)*log(co2.list[i]))
 plot(lue_n_pred~LUE_N)
 abline(a=0,b=1)
 
@@ -155,7 +153,7 @@ abline(a=0,b=1)
 lm.n <- lm(log(outDF$LUE)~log(outDF$CO2) + log(outDF$nfseq))
 summary(lm.n)
 
-lue_n_pred <- exp(-3.5 + 0.21 * log(co2.list[i]) + 0.21 * log(nfseq))
+lue_n_pred <- exp(-4.23 + 0.25 * log(co2.list[i]) + 0.08 * log(nfseq))
 plot(lue_n_pred~LUE_N)
 abline(a=0,b=1)
 
@@ -163,7 +161,7 @@ abline(a=0,b=1)
 lm.n <- lm(log(outDF$LUE)~log(outDF$CO2) + (log(outDF$nfseq):log(outDF$CO2)))
 summary(lm.n)
 
-lue_n_pred <- exp(-4.13 + 0.3 * log(co2.list[i]) + 0.03 * log(nfseq) * log(co2.list[i]))
+lue_n_pred <- exp(-4.47 + 0.29 * log(co2.list[i]) + 0.01 * log(nfseq) * log(co2.list[i]))
 plot(lue_n_pred~LUE_N)
 abline(a=0,b=1)
 
@@ -172,7 +170,7 @@ abline(a=0,b=1)
 lm.n <- lm(log(outDF$LUE)~(log(outDF$nfseq):log(outDF$CO2)))
 summary(lm.n)
 
-lue_n_pred <- exp(-2.29 + 0.03 * log(nfseq) * log(co2.list[i]))
+lue_n_pred <- exp(-2.74 + 0.01 * log(nfseq) * log(co2.list[i]))
 plot(lue_n_pred~LUE_N)
 abline(a=0,b=1)
 

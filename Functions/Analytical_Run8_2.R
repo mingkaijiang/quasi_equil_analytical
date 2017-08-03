@@ -54,10 +54,8 @@ Perform_Analytical_Run8_2 <- function() {
     
     ######### Plotting
     
-    #tiff("Plots/Analytical_Run8_2.tiff",
-    #     width = 8, height = 7, units = "in", res = 300)
-    #par(mar=c(5.1,5.1,2.1,2.1))
-    
+    tiff("Plots/Analytical_Run8_2.tiff")
+
     
     # shoot nc vs. NPP
     # Photosynthetic constraint CO2 = 350 ppm

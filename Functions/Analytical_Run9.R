@@ -84,8 +84,7 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
         
         ######### Plotting
         ### plot 2-d plots of nf vs. npp and nf vs. pf
-        tiff("Plots/Analytical_Run9_2d.tiff",
-             width = 10, height = 5, units = "in", res = 300)
+        tiff("Plots/Analytical_Run9_2d.tiff")
 
         # Photosynthetic constraint CO2 = 350 ppm
         plot(nfseq,PC350,axes=T,
