@@ -19,7 +19,7 @@ SOURCES  =  \
 $(PROGRAM).c version.c read_param_file.c read_met_file.c litter_production.c \
 utilities.c plant_growth.c photosynthesis.c \
 soils.c \
-initialise_model.c write_output_file.c  \
+initialise_model.c write_output_file_traceability.c  \
 nrutil.c
 
 OBJECTS = $(SOURCES:.c=.o)
