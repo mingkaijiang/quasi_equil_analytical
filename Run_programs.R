@@ -24,8 +24,6 @@ date<-Sys.Date()
 
 ### read in all R packages
 source("R/prepare_R.R")
-source("R/Run_analytical_solutions.R")
-
 
 #### ------------------------ Prepare GDAY stuffs -------------------------- #####
 ### Create met data for gday simulations
