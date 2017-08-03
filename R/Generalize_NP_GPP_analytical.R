@@ -111,10 +111,20 @@ source("Parameters/Analytical_Run2_Parameters.R")
 nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
 a_nf <- as.data.frame(allocn(nfseq))
 
-# calculate photosynthetic constraint at CO2 = 350
-Photo350 <- photo_constraint_full_cn(nfseq, a_nf, CO2_1)
+# create storage df
+outDF <- data.frame(rep(nfseq,10), NA, NA)
+colnames(outDF) <- c("nfseq", "LUE", "CO2")
+co2.list <- seq(350, 800, by = 50)
+outDF$CO2 <- rep(co2.list, each = 91)
 
-LUE_N <- LUE_full_cn_walker(nfseq, a_nf, CO2=350.0, Photo350*1000.0) 
+# calculate photosynthetic constraint at CO2 = 350
+
+for (i in 1:length(co2.list)) {
+    Photo350 <- photo_constraint_full_cn(nfseq,  a_nf, co2.list[i])
+    LUE_N <- LUE_full_cn_walker(nfseq, a_nf, CO2=co2.list[i], Photo350*1000.0) 
+    outDF[outDF$CO2 == co2.list[i], "LUE"] <- LUE_N
+}
+
 plot(nfseq, LUE_N)
 
 # trial one
@@ -130,6 +140,39 @@ lm.n <- lm(log(LUE_N)~log(nfseq))
 summary(lm.n)
 
 lue_n_pred <- exp(-2.76 + 0.09 * log(nfseq))
+plot(lue_n_pred~LUE_N)
+abline(a=0,b=1)
+
+# trial three
+lm.n <- lm(log(outDF$LUE)~log(outDF$CO2) + log(outDF$nfseq) + (log(outDF$nfseq):log(outDF$CO2)))
+summary(lm.n)
+
+lue_n_pred <- exp(-2.78 + 0.09 * log(co2.list[i]) + 0.44 * log(nfseq) - 0.04 * log(nfseq)*log(co2.list[i]))
+plot(lue_n_pred~LUE_N)
+abline(a=0,b=1)
+
+# trial four
+lm.n <- lm(log(outDF$LUE)~log(outDF$CO2) + log(outDF$nfseq))
+summary(lm.n)
+
+lue_n_pred <- exp(-3.5 + 0.21 * log(co2.list[i]) + 0.21 * log(nfseq))
+plot(lue_n_pred~LUE_N)
+abline(a=0,b=1)
+
+# trial five
+lm.n <- lm(log(outDF$LUE)~log(outDF$CO2) + (log(outDF$nfseq):log(outDF$CO2)))
+summary(lm.n)
+
+lue_n_pred <- exp(-4.13 + 0.3 * log(co2.list[i]) + 0.03 * log(nfseq) * log(co2.list[i]))
+plot(lue_n_pred~LUE_N)
+abline(a=0,b=1)
+
+
+# trial six
+lm.n <- lm(log(outDF$LUE)~(log(outDF$nfseq):log(outDF$CO2)))
+summary(lm.n)
+
+lue_n_pred <- exp(-2.29 + 0.03 * log(nfseq) * log(co2.list[i]))
 plot(lue_n_pred~LUE_N)
 abline(a=0,b=1)
 

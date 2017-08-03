@@ -24,6 +24,7 @@ date<-Sys.Date()
 
 ### read in all R packages
 source("R/prepare_R.R")
+source("R/Run_analytical_solutions.R")
 
 
 #### ------------------------ Prepare GDAY stuffs -------------------------- #####
@@ -55,7 +56,7 @@ source("GDAY/post_processing/Convert_GDAY_daily_to_annual.R")
 
 
 ### delete all raw GDAY output files as they are large
-#source("GDAY/post_processing/delete_raw_gday_files.R")
+source("GDAY/post_processing/delete_raw_gday_files.R")
 
 ### Mass balance checks, takes very long to run!
 # source("GDAY/post_processing/mass_balance.R")
@@ -75,7 +76,6 @@ source("GDAY/post_processing/Check_continuity_transient.R")
 ### Note: need to specify years when L and VL equilibrates
 ###       better to consider an automatic process to pick these years
 source("GDAY/post_processing/Plot_GDAY_quasi_equil_constraints.R")
-
 
 
 #### ------------------------ Run analytical stuffs ------------------------ #####
@@ -108,14 +108,6 @@ source("R/CO2_fertilization_summary.R")
 
 
 #### ------------- Case studies - EucFACE and AmazonFACE ----------- #####
-rm(list=ls(all=TRUE))
-
-### Get current date
-date<-Sys.Date()
-
-### read in all R packages
-source("R/prepare_R.R")
-
 source("R/Effect_of_P_limitation_EucFACE.R")
 
 source("R/Effect_of_P_limitation_AmazonFACE.R")

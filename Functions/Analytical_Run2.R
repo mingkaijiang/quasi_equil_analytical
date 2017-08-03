@@ -70,14 +70,11 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
         
         ######### Plotting
         
-        tiff("Plots/Analytical_Run2.tiff",
-             width = 10, height = 5, units = "in", res = 300)
-        #par(mfrow=c(1,2),mar=c(5.1,6.1,2.1,2.1))
-        
+        tiff("Plots/Analytical_Run2_2d.tiff")
         
         # Photosynthetic constraint CO2 = 350 ppm
         plot(nfseq,PC350,axes=T,
-             type='l',xlim=c(0,0.05),ylim=c(0,3), 
+             type='l',xlim=c(0,0.1),ylim=c(0,3), 
              ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
              xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex.lab = 1.5)
         #rect(0,0,0.05,8,border=NA, col=adjustcolor("lightgrey", 0.2))

@@ -137,8 +137,8 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
         
         
         # NPP constraint by CO2 = 350
-        s3d <- scatterplot3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_350, xlim=c(0.0, 0.05),
-                             ylim = c(0.0, 0.002), zlim=c(0, 3), 
+        s3d <- scatterplot3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_350, xlim=c(0.0, 0.1),
+                             ylim = c(0.0, 0.02), zlim=c(0, 3), 
                              type = "l", xlab = "Shoot N:C ratio", ylab = "Shoot P:C ratio", 
                              zlab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
                              color="cyan", lwd = 3, angle=24)
@@ -190,7 +190,7 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
         par(mfrow=c(1,2),mar=c(5.1,6.1,2.1,2.1))
         
         # shoot nc vs. NPP
-        plot(out350DF$nc, out350DF$NPP_350, xlim=c(0.0, 0.05),
+        plot(out350DF$nc, out350DF$NPP_350, xlim=c(0.0, 0.1),
              ylim=c(0, 3), 
              type = "l", xlab = "Shoot N:C ratio", 
              ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
@@ -205,8 +205,8 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
 
         
         # shoot nc vs. shoot pc
-        plot(out350DF$nc, out350DF$pc_VL, xlim=c(0.0, 0.05),
-             ylim=c(0, 0.005), 
+        plot(out350DF$nc, out350DF$pc_VL, xlim=c(0.0, 0.1),
+             ylim=c(0, 0.02), 
              type = "l", xlab = "Shoot N:C ratio", 
              ylab = "Shoot P:C ratio",
              col="cyan", lwd = 3,cex.lab=1.5)

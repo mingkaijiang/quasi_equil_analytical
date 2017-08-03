@@ -86,8 +86,7 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
         ### plot 2-d plots of nf vs. npp and nf vs. pf
         tiff("Plots/Analytical_Run9_2d.tiff",
              width = 10, height = 5, units = "in", res = 300)
-        #par(mfrow=c(1,2))
-        
+
         # Photosynthetic constraint CO2 = 350 ppm
         plot(nfseq,PC350,axes=T,
              type='l',xlim=c(0,0.1),ylim=c(0,3), 
@@ -103,7 +102,6 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
         # L nutrient constraint curve
         points(nfseq,NCHUGH$NPP,type='l',col="violet", lwd = 2.5)
         points(nfseq,NCHUGH_orig$NPP,type='l',col="black", lwd = 2.5)
-        
         
         # VL intersect with CO2 = 350 ppm
         points(VLongN$equilnf,VLongN$equilNPP, pch = 19, cex = 2.0, col = "blue")
