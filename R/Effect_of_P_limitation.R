@@ -4,12 +4,12 @@ P_limitation_effect <- function() {
     source("Parameters/Analytical_Run1_Parameters.R")
     
     # create a range of nc for shoot to initiate
-    nfseq <- round(seq(0.001, 0.1, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq,nwvar=nwvar))
+    nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
+    a_nf <- as.data.frame(allocn(nfseq))
     
     # using very long term relationship to calculate pf from nf
     pfseq <- inferpfVL(nfseq, a_nf)
-    a_pf <- as.data.frame(allocp(pfseq,pwvar=pwvar))
+    a_pf <- as.data.frame(allocp(pfseq))
     
     # calculate photosynthetic constraint at CO2 = 350
     photo_350_cnp <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
@@ -19,16 +19,16 @@ P_limitation_effect <- function() {
     vlong_cnp <- VLong_constraint_N(nf=nfseq, nfdf=a_nf)
     
     ### finding the equilibrium point between photosynthesis and very long term nutrient constraints
-    VLong_equil_cnp <- solveVLong_full_cnp(CO2=CO2_1, nwvar=nwvar, pwvar=pwvar)
-    VLong_equil_cnp_new <- solveVLong_full_cnp(CO2=CO2_2, nwvar=nwvar, pwvar=pwvar)
+    VLong_equil_cnp <- solveVLong_full_cnp(CO2=CO2_1)
+    VLong_equil_cnp_new <- solveVLong_full_cnp(CO2=CO2_2)
     
     #### Perform CN only analysis of VL pools
     source("Parameters/Analytical_Run2_Parameters.R")
     
     # N:C ratios for x-axis
-    nfseq <- seq(0.001,0.1,by=0.001)
+    nfseq <- seq(0.01,0.1,by=0.001)
     # need allocation fractions here
-    a_vec <- allocn(nfseq,nwvar=nwvar)
+    a_vec <- allocn(nfseq)
     
     # plot photosynthetic constraints
     photo_350_cn <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_1)
@@ -38,8 +38,8 @@ P_limitation_effect <- function() {
     vlong_cn <- VLong_constraint_N(nfseq,a_vec)
     
     #solve very-long nutrient cycling constraint
-    VLong_equil_cn <- solveVLong_full_cn(CO2=CO2_1, nwvar=nwvar)
-    VLong_equil_cn_new <- solveVLong_full_cn(CO2=CO2_2, nwvar=nwvar)
+    VLong_equil_cn <- solveVLong_full_cn(CO2=CO2_1)
+    VLong_equil_cn_new <- solveVLong_full_cn(CO2=CO2_2)
     
     co2_effect_cnp <- (VLong_equil_cnp_new$equilNPP - VLong_equil_cnp$equilNPP) / VLong_equil_cnp$equilNPP * 100
     co2_effect_cn <- (VLong_equil_cn_new$equilNPP - VLong_equil_cn$equilNPP) / VLong_equil_cn$equilNPP * 100
@@ -71,10 +71,10 @@ P_limitation_effect <- function() {
 #    
 #    dev.off()
 #    
-#    #### Plotting
-#    tiff("Plots/Effect_of_P_limitation_on_CO2_fertilization.tiff",
-#         width = 8, height = 7, units = "in", res = 300)
-#    par(mar=c(5.1,6.1,2.1,2.1))
+    #### Plotting
+    tiff("Plots/Effect_of_P_limitation_on_CO2_fertilization.tiff",
+         width = 8, height = 7, units = "in", res = 300)
+    par(mar=c(5.1,6.1,2.1,2.1))
     
     # shoot nc vs. NPP
     plot(nfseq, photo_350_cnp, xlim=c(0.0, 0.1),

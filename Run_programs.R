@@ -104,7 +104,6 @@ source("R/CUE_check.R")
 source("R/CO2_fertilization_summary.R")
 
 
-
 #### ------------- Case studies - EucFACE and AmazonFACE ----------- #####
 source("R/Effect_of_P_limitation_EucFACE.R")
 
