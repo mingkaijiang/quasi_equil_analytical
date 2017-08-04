@@ -17,10 +17,10 @@ search_long_equil_year_in_gday <- function(run, co2 = 350, equilDF, gdayDF1, gda
         # obtain long term equil nc value
         equilnc <- equilDF[equilDF$Run == run & equilDF$CO2 == co2, "NC_L"]
         
-        shootnc <- gdayDF1$shootn/gdayDF1$shoot
+        gdayDF1$shootnc <- gdayDF1$shootn/gdayDF1$shoot
         
         # search in gdayDF1 dataframe
-        year1 <- which.min(abs(shootnc - equilnc))
+        year1 <- which.min(abs(gdayDF1$shootnc - equilnc))
         
         # pass the year information out
         return(year1)

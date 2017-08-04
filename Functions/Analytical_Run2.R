@@ -63,6 +63,9 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     eDF[eDF$Run == 2 & eDF$CO2 == 350, 9] <- inst700$equilNPP
     eDF[eDF$Run == 2 & eDF$CO2 == 700, 9] <- inst700$equilNPP
     
+    eDF[eDF$Run == 2, "PC_VL"] <- NA
+    eDF[eDF$Run == 2, "PC_L"] <- NA
+    
     if (f.flag ==1 ) {
         
         #### Library
