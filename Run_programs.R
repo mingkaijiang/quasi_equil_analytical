@@ -114,17 +114,12 @@ source("R/Run_analytical_solutions_AmazonFACE.R")
 
 source("R/CO2_fertilization_summary_AmazonFACE.R")
 
-#### --- Perform the necessary run-specific plottings and statistics ------- #####
-
-
 #### ---------------- Generate manuscript figures and tables --------------- #####
 ### To generate manuscript figures
 #source("Plots/Figure_generating.R")
 
 ### To generate manuscript tables (or statistics used for generating the tables)
 #source("Tables/Table_generating.R")
-
-
 
 ##### ------------------------ Clear workspace ---------------------------- #####
 rm(list=ls(all=TRUE))
