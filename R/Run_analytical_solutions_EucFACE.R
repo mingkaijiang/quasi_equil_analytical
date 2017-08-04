@@ -20,32 +20,32 @@
 #### Run 10: same as Run1, but turned exudation on
 ################################################################################
 #### Create dataframes to store all the data
-constraintDF <- create_constraint_DF()
-equilDF <- create_equil_DF()
+constraintDF_FACE <- create_FACE_constraint_DF()
+equilDF_FACE <- create_FACE_equil_DF()
 
 #### Step 1: simply run analytical solution and plot quasi-equil plots
 ### f.flag: = 1 simply plot analytical solution graph
 ###         = 2 return constraintDF
 ###         = 3 return equilDF
-Perform_Analytical_Run1_EucFACE(f.flag = 1, constraintDF, equilDF)
-Perform_Analytical_Run2_EucFACE(f.flag = 1, constraintDF, equilDF)
+Perform_Analytical_Run1_EucFACE(f.flag = 1, constraintDF_FACE, equilDF_FACE)
+Perform_Analytical_Run2_EucFACE(f.flag = 1, constraintDF_FACE, equilDF_FACE)
 
 #### Step 2 store run 1 - 10 constrainDF dataframe
 
 ### Run 1
-constraintDF <- Perform_Analytical_Run1_EucFACE(f.flag = 2, constraintDF, equilDF)
+constraintDF_FACE <- Perform_Analytical_Run1_EucFACE(f.flag = 2, constraintDF_FACE, equilDF_FACE)
 
 ### Run 2
-constraintDF <- Perform_Analytical_Run2_EucFACE(f.flag = 2, constraintDF, equilDF)
+constraintDF_FACE <- Perform_Analytical_Run2_EucFACE(f.flag = 2, constraintDF_FACE, equilDF_FACE)
 
 
 
 #### Step 3 store run 1 - 10 equilDF dataframes
 
 ### Run 1
-equilDF <- Perform_Analytical_Run1_EucFACE(f.flag = 3, constraintDF, equilDF)
+equilDF_FACE <- Perform_Analytical_Run1_EucFACE(f.flag = 3, constraintDF_FACE, equilDF_FACE)
 
 ### Run 2
-equilDF <- Perform_Analytical_Run2_EucFACE(f.flag = 3, constraintDF, equilDF)
+equilDF_FACE <- Perform_Analytical_Run2_EucFACE(f.flag = 3, constraintDF_FACE, equilDF_FACE)
 
 

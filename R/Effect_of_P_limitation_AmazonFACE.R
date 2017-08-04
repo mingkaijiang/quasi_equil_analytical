@@ -50,8 +50,8 @@ P_limitation_effect_AmazonFACE <- function() {
     par(mar=c(5.1,6.1,2.1,2.1))
 
     # shoot nc vs. NPP
-    plot(nfseq, photo_350_cnp, xlim=c(0.0, 0.05),
-         ylim=c(0.0, 3), 
+    plot(nfseq, photo_350_cnp, xlim=c(0.0, 0.1),
+         ylim=c(0.0, 5), 
          type = "l", xlab = "Shoot N:C ratio", 
          ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
          col="blue", lwd = 3, cex.lab = 2.0)
@@ -78,7 +78,7 @@ P_limitation_effect_AmazonFACE <- function() {
     
     # shoot nc vs. NPP
     plot(nfseq, photo_350_cnp, xlim=c(0.0, 0.1),
-         ylim=c(0.0, 3), 
+         ylim=c(0.0, 5), 
          type = "l", xlab = "Shoot N:C ratio", 
          ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
          col="blue", lwd = 3, cex.lab = 1.5)

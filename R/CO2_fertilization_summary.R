@@ -19,7 +19,7 @@ CO2_fertilization_summary <- function() {
     }
  
     tDF <- t(outDF[,2:4])
-    colnames(tDF) <- c("Run1", "Run2", "Run3", "Run4")
+    colnames(tDF) <- c("Run1", "Run2", "Run3")
     tDF <- tDF * 100.0
     
     ### plot 2-d plots of nf vs. npp and nf vs. pf

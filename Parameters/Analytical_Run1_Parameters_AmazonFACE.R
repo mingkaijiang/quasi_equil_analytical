@@ -21,8 +21,8 @@ cfrac = 0.45
 cue = 0.4
 leachn = 0.05
 leachp = 0.05
-Nin = 2.4
-Pin = 0.1          #0.0086
+Nin = 2.4          # 2.4
+Pin = 0.02          #0.0086
 k1=0.01            # 0.096  # default in full GDAY = 0.048, and 0.4-0.8 of the labile is available to uptake
 k2=0.01           # 0.0146 At EucfACE, based on pH = 4.5, k2 = 0.0146 yr-1, and only half into labile
 k3=0.05

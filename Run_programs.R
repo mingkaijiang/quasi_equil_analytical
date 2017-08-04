@@ -94,9 +94,6 @@ source("R/Effect_of_P_limitation.R")
 #### ------------- Checking effect of wood stoichiometry in analytical solution ----------- #####
 source("R/Effect_of_wood_stoichiometry.R")
 
-#### ------------- Run 4 CUE output, save into a table ----------- #####
-source("R/CUE_check.R")
-
 #### ------------- Checking effect of P limitation in GDAY key variables ----------- #####
 #source("R/Effect_of_P_GDAY.R")
 

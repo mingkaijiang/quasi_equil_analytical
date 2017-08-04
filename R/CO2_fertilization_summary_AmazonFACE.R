@@ -1,6 +1,6 @@
 CO2_fertilization_summary_AmazonFACE <- function() {
     
-    inDF <- equilDF
+    inDF <- equilDF_FACE
     
     outDF <- matrix(nrow=(nrow(inDF)/2), ncol=4)
     outDF <- as.data.frame(outDF)
@@ -28,7 +28,7 @@ CO2_fertilization_summary_AmazonFACE <- function() {
     par(mar=c(5.1,6.1,2.1,2.1))
     
     barplot(tDF, xlab = "Models", col=c("darkgreen", "red","orange"),
-            legend=rownames(tDF), beside=T, ylim = c(0, 20), ylab="Increase in NPP [%]",
+            legend=rownames(tDF), beside=T, ylim = c(0, 50), ylab="Increase in NPP [%]",
             cex.lab=2.5,  cex.names=2.5)
     
     
