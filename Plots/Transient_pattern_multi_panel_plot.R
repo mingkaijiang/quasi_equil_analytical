@@ -8,8 +8,39 @@
 
 ######################## Main program ###################################
 ## Read in spin up, aCO2 and eCO2 files
-inDF <- read.table( "GDAY/analyses/Run1/annual_gday_result_transient_CO2_ELE.csv",
+npDF <- read.table( "GDAY/analyses/Run1/annual_gday_result_transient_CO2_ELE.csv",
                    header=T,sep=",")
+nDF <- read.table( "GDAY/analyses/Run2/annual_gday_result_transient_CO2_ELE.csv",
+                    header=T,sep=",")
+
+## Plot N vs. NP comparison of NPP, Nuptake and Puptake
+tiff("Plots/Figure_transient_N_vs_NP_model.tiff",
+     width = 10, height = 4, units = "in", res = 300)
+par(mfrow=c(1,3), mar=c(5.1,5.1,2.1,2.1))
+
+# NPP
+with(npDF[1:100,], plot(npp*100~year, type="l", 
+                        ylab = expression(paste("NPP [g C ", m^-2, " ", yr^-1, "]", sep="")),
+                        xlab = "Year",  lwd = 2.0, 
+                        ylim = c(1500, 1900), cex.lab = 1.5))
+with(nDF[1:100,], points(npp*100~year, type="l", lty = 2, lwd = 2.0))
+
+# Nuptake
+with(npDF[1:100,], plot(nuptake*100~year, type="l", 
+                        ylab = expression(paste("N uptake [g N ", m^-2, " ", yr^-1, "]", sep="")),
+                        xlab = "Year",  lwd = 2.0, ylim = c(0, 8), cex.lab = 1.5))
+with(nDF[1:100,], points(nuptake*100~year, type="l", lty = 2, lwd = 2.0))
+
+# Puptake
+with(npDF[1:100,], plot(puptake*100~year, type="l", 
+                        ylab = expression(paste("P uptake [g P ", m^-2, " ", yr^-1, "]", sep="")),
+                        xlab = "Year",  lwd = 2.0, ylim = c(0.2, 0.4), cex.lab = 1.5))
+
+legend("topright", c("N-P model", "N model"),
+       lty = c(1, 2), lwd = 1.2, cex = 1.5)
+
+dev.off()
+
 
 ## subset a period only
 tranDF <- inDF[1:100,]
