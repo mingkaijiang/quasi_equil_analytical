@@ -1,10 +1,10 @@
-# quasi_equil_analytical
+# Quasi-equilibrium analysis of plant response to eCO2
 
-This is a repository for analytically constraining long-term and very-long term ecosystem production at equilibrium. More contents to be added. 
+This is a repository for evaluating carbon response to eCO2 by incorporating different model assumptions and evaluating their consequences dynamically and analytically. More background information please read McMurtrie and Comins (1993). 
 
 # Code structure:
-Run Run_prorgams.R to initiate the runs.
-Folder Functions includes all quasi-equilibrium analysis related functions, including the analytical solutions, and the post-processing scripts
+Script Run_prorgams.R contains the master-level executable commands. 
+Folder Functions includes all analytical functions and the post-processing scripts
 Folder GDAY includes numerous sub-folders:
 1. analyses include all the analyses output
 2. code include the simplified GDAY code (in language C)
@@ -19,7 +19,7 @@ Folder GDAY includes numerous sub-folders:
 <p style="text-align:center"><img src="GDAY/code/doc/outline.png" width="700"/></p>
 
 # Key references:
-
+(more to be added)
 Quasi-equilibrium analysis:
 Comins and McMurtrie (1993)
 Kirschbaum et al. (1994)
