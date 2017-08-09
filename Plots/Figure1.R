@@ -12,41 +12,42 @@
 ################################################################################
 
 ##### MAIN PROGRAM
+source("Parameters/Analytical_Figure1_Parameters.R")
 # plot photosynthetic constraints - not quite same as Hugh's, not sure why? 
 # N:C ratios for x-axis
 nfseq <- seq(0.01,0.05,by=0.001)
 # need allocation fractions here
-a_vec <- allocn(nfseq,nwvar=FALSE)
+a_vec <- allocn(nfseq)
 
 # plot photosynthetic constraints
-PC350 <- solveNC(nfseq,a_vec$af,co2=350)
-PC700 <- solveNC(nfseq,a_vec$af,co2=700)
+PC350 <- solveNC(nfseq,a_vec$af,CO2=350)
+PC700 <- solveNC(nfseq,a_vec$af,CO2=700)
 
 #plot very-long nutrient cycling constraint
-NCVLONG <- NConsVLong(df=nfseq,a=a_vec,Nin=0.4)
+NCVLONG <- NConsVLong(df=nfseq,a=a_vec)
 
 #solve very-long nutrient cycling constraint
-VLong <- solveVLongN(co2=350, nwvar=F)
+VLong <- solveVLongN(CO2=350)
 #get Cpassive from very-long nutrient cycling solution
-aequil <- allocn(VLong$equilnf, nwvar=F)
+aequil <- allocn(VLong$equilnf)
 pass <- passive(df=VLong$equilnf, a=aequil)
 omegap <- aequil$af*pass$omegaf + aequil$ar*pass$omegar
 CpassVLong <- omegap*VLong$equilNPP/pass$decomp/(1-pass$qq)*1000.0
 NrelwoodVLong <- aequil$aw*aequil$nw*VLong$equilNPP*1000
 
 #now plot long-term constraint with this Cpassive
-NCHUGH <- NConsLong(df = nfseq,a = a_vec, Cpass=CpassVLong, Nin = 0.4+NrelwoodVLong)
+NCHUGH <- NConsLong(df = nfseq,a = a_vec, Cpass=CpassVLong, NinL = 0.4+NrelwoodVLong)
 
 # Solve longterm equilibrium
-equil_long_350 <- solveLongN(co2=350, Cpass=CpassVLong, Nin = 0.4+NrelwoodVLong,nwvar=F)
-equil_long_700 <- solveLongN(co2=700, Cpass=CpassVLong, Nin = 0.4+NrelwoodVLong,nwvar=F)
+equil_long_350 <- solveLongN(CO2=350, Cpass=CpassVLong, NinL = 0.4+NrelwoodVLong)
+equil_long_700 <- solveLongN(CO2=700, Cpass=CpassVLong, NinL = 0.4+NrelwoodVLong)
 
 # get the point instantaneous NPP response to doubling of CO2
 df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
 inst700 <- inst_NPP(VLong$equilnf, df700)
 
 ## locate the intersect between VL nutrient constraint and CO2 = 700
-VLong700 <- solveVLongN(co2=700,nwvar=F)
+VLong700 <- solveVLongN(CO2=700)
 
 #### Plotting
 tiff("Plots/Figure1.tiff",

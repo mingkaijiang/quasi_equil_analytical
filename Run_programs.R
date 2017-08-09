@@ -118,6 +118,10 @@ source("R/CO2_fertilization_summary_AmazonFACE.R")
 ### To generate manuscript figures
 #source("Plots/Figure_generating.R")
 
+## Plot illustration of the graphic interpretation of quasi-equil analysis
+source("Plots/Figure1.R")
+
+## Plot times series of N vs. NP model NPP, Nuptake and Puptake
 source("Plots/Transient_pattern_multi_panel_plot.R")
 
 ### To generate manuscript tables (or statistics used for generating the tables)
