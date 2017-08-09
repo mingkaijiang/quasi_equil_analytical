@@ -36,11 +36,11 @@ CpassVLong <- omegap*VLong$equilNPP/pass$decomp/(1-pass$qq)*1000.0
 NrelwoodVLong <- aequil$aw*aequil$nw*VLong$equilNPP*1000
 
 #now plot long-term constraint with this Cpassive
-NCHUGH <- NConsLong(df = nfseq,a = a_vec, Cpass=CpassVLong, NinL = 0.4+NrelwoodVLong)
+NCHUGH <- NConsLong(df = nfseq,a = a_vec, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
 
 # Solve longterm equilibrium
-equil_long_350 <- solveLongN(CO2=350, Cpass=CpassVLong, NinL = 0.4+NrelwoodVLong)
-equil_long_700 <- solveLongN(CO2=700, Cpass=CpassVLong, NinL = 0.4+NrelwoodVLong)
+equil_long_350 <- solveLongN(CO2=350, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+equil_long_700 <- solveLongN(CO2=700, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
 
 # get the point instantaneous NPP response to doubling of CO2
 df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
@@ -48,6 +48,9 @@ inst700 <- inst_NPP(VLong$equilnf, df700)
 
 ## locate the intersect between VL nutrient constraint and CO2 = 700
 VLong700 <- solveVLongN(CO2=700)
+
+# instan CO2 response
+(inst700$equilNPP - VLong$equilNPP_N)/VLong$equilNPP_N
 
 #### Plotting
 tiff("Plots/Figure1.tiff",
