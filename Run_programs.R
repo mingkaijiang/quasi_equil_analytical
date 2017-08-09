@@ -124,6 +124,9 @@ source("Plots/Figure1.R")
 ## Plot times series of N vs. NP model NPP, Nuptake and Puptake
 source("Plots/Transient_pattern_multi_panel_plot.R")
 
+## Plot baseline NC vs. NPP and NC vs. PC plot
+source("Plots/Figure4.R")
+
 ### To generate manuscript tables (or statistics used for generating the tables)
 #source("Tables/Table_generating.R")
 
