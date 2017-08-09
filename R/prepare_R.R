@@ -11,6 +11,8 @@ pacman::p_load(scatterplot3d,
                lattice, 
                plyr,
                rPython,
+               grid,
+               gridBase,
                ini) # add other packages needed to this list
 
 
