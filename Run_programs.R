@@ -100,7 +100,6 @@ source("R/Effect_of_wood_stoichiometry.R")
 #### ------------- Plotting CO2 fertilization effect through time ----------- #####
 source("R/CO2_fertilization_summary.R")
 
-
 #### ------------- Case studies - EucFACE and AmazonFACE ----------- #####
 source("R/Effect_of_P_limitation_EucFACE.R")
 
