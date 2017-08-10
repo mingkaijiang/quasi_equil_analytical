@@ -88,7 +88,7 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
 
         # Photosynthetic constraint CO2 = 350 ppm
         plot(nfseq,PC350,axes=T,
-             type='l',xlim=c(0,0.1),ylim=c(0,3), 
+             type='l',xlim=c(0,0.05),ylim=c(0,3), 
              ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
              xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex.lab = 1.5)
         
@@ -100,7 +100,8 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
         
         # L nutrient constraint curve
         points(nfseq,NCHUGH$NPP,type='l',col="violet", lwd = 2.5)
-        points(nfseq,NCHUGH_orig$NPP,type='l',col="black", lwd = 2.5)
+        
+        points(nfseq,NCHUGH_orig$NPP,type='l',col="grey", lwd = 2.5)
         
         # VL intersect with CO2 = 350 ppm
         points(VLongN$equilnf,VLongN$equilNPP, pch = 19, cex = 2.0, col = "blue")
@@ -119,7 +120,7 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
                              "VL nutrient constraint", "L nutrient constraint priming on",
                              "L nutrient constraint primint off",
                              "A", "B", "C", "D"),
-               col=c("cyan","green", "tomato", "violet","black","blue", "darkgreen", "red", "orange"), 
+               col=c("cyan","green", "tomato", "violet","grey","blue", "darkgreen", "red", "orange"), 
                lwd=c(2,2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19), cex = 1.0, 
                bg = adjustcolor("grey", 0.8))
         
