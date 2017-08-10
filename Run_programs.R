@@ -5,7 +5,7 @@
 ### 1. To prepare GDAY met forcing data and parameter files
 ### 2. To run GDAY and output each simulations into the corresponding folders
 ### 3. To quality check GDAY simulation results and post-processing them
-### 4. To generate analytical solutions for each gday simulation
+### 4. To generate analytical solutions for GDAY simulations
 ### 5. To prepare manuscript figures and tables 
 ###
 ### Author: Mingkai Jiang (m.jiang@westernsydney.edu.au)

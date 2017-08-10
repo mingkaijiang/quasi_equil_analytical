@@ -60,5 +60,5 @@ aleaf <- 0.2
 #nuptakerate <- 1.0  # 0.96884
 #puptakerate <- 1.0  # 0.82395
 sr = 1.5
-k = 16
-vmax = 0.5
+k = 30
+vmax = 0.27

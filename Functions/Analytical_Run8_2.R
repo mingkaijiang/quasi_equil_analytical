@@ -73,9 +73,6 @@ Perform_Analytical_Run8_2 <- function() {
     # VL intersect with CO2 = 350 ppm
     points(VLongN$equilnf,VLongN$equilNPP, pch = 19, cex = 2.0, col = "blue")
     
-    # L intersect with CO2 = 350 ppm
-    # with(equil_long_350,points(equilnf,equilNPP,pch=19, cex = 2.0, col = "black"))
-    
     # L intersect with CO2 = 700 ppm
     with(equil_long_700,points(equilnf,equilNPP,pch=19, cex = 2.0, col = "red"))
     
