@@ -79,9 +79,6 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
 
     if (f.flag == 1) {
         
-        #### Library
-        require(scatterplot3d)
-        
         ######### Plotting
         ### plot 2-d plots of nf vs. npp and nf vs. pf
         tiff("Plots/Analytical_Run9_2d.tiff")
