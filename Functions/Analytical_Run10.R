@@ -1,8 +1,8 @@
 
 #### Analytical script to match GDAY Run 10 settings
 ####
-#### Same as Run 7, except 
-#### 1. priming effect
+#### Same as Run 9, except 
+#### Considering medium term slow SOM pool effect
 ####
 ################################################################################
 
