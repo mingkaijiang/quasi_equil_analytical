@@ -1,49 +1,41 @@
 
 #### Analytical script to match GDAY Run 10 settings
 ####
-#### Same as Run 9, except 
-#### Considering medium term slow SOM pool effect
+#### Same as Run 10, except 
+#### Considering medium term slow SOM pool without priming
 ####
 ################################################################################
 
 
 #### Functions
-Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
+Perform_Analytical_Run11 <- function(f.flag = 1, cDF, eDF) {
     #### Function to perform analytical run 9 simulations
     #### eDF: stores equilibrium points
     #### cDF: stores constraint points (curves)
     #### f.flag: = 1 simply plot analytical solution file
     #### f.flag: = 2 return cDF
     #### f.flag: = 3 return eDF
-    
-    ######### Main program
-    #### Function to perform analytical run 1 simulations
-    #### eDF: stores equilibrium points
-    #### cDF: stores constraint points (curves)
-    #### f.flag: = 1 simply plot analytical solution file
-    #### f.flag: = 2 return cDF
-    #### f.flag: = 3 return eDF
-    
+
     ######### Main program
     source("Parameters/Analytical_Run10_Parameters.R")
     
     # create nc and pc for shoot to initiate
     nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
-    a_vec <- as.data.frame(allocn_exudation(nfseq))
+    a_vec <- as.data.frame(allocn(nfseq))
     
     # plot photosynthetic constraints
     PC350 <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_1)
     PC700 <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_2)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_vec)
+    NCVLONG <- NConsVLong(df=nfseq,a=a_vec)
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLong_exudation(CO2_1)
+    VLongN <- solveVLong_full_cn(CO2_1)
     
     # Get Cpassive from very-long nutrient cycling solution
-    aequiln <- allocn_exudation(VLongN$equilnf)
-    pass <- slow_exudation(df=VLongN$equilnf, a=aequiln, npp=VLongN$equilNPP_N)
+    aequiln <- allocn(VLongN$equilnf)
+    pass <- slow_pool(df=VLongN$equilnf, a=aequiln)
     omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
     CpassVLong <- omegap*VLongN$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
     
@@ -55,20 +47,20 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN$equilNPP*1000.0
     
     # Calculate long term nutrient constraint
-    NCHUGH <- NConsLong_exudation(nfseq, a_vec, CpassVLong,
+    NCHUGH <- NConsLong(nfseq, a_vec, CpassVLong,
                                   NinL = Nin+NrelwoodVLong)
     
     # Calculate medium term nutrient constraint
-    NCMEDIUM <- NConsMedium_exudation(df=nfseq, 
-                                      a=a_vec, 
-                                      Cpass=CpassVLong, 
-                                      Cslow=CslowLong, 
-                                      NinL = Nin+NrelwoodVLong)
-
+    NCMEDIUM <- NConsMedium(df=nfseq, 
+                            a=a_vec, 
+                            Cpass=CpassVLong, 
+                            Cslow=CslowLong, 
+                            NinL = Nin+NrelwoodVLong)
+    
     
     # Solve longterm equilibrium
-    equil_long_350 <- solveLong_exudation_medium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
-    equil_long_700 <- solveLong_exudation_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_350 <- solveMedium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_700 <- solveMedium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
