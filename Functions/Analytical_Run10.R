@@ -43,28 +43,29 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
     
     # Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn_exudation(VLongN$equilnf)
-    pass <- passive_exudation(df=VLongN$equilnf, a=aequiln, npp=VLongN$equilNPP_N)
-    omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
-    CpassVLong <- omega*VLongN$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+    pass <- slow_exudation(df=VLongN$equilnf, a=aequiln, npp=VLongN$equilNPP_N)
+    omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
+    CpassVLong <- omegap*VLongN$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
     
-    # Calculate nutrient release from recalcitrant pools
+    # Get Cslow from long nutrient cycling solution
+    omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
+    CslowLong <- omegas*VLongN$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
+    
+    # Calculate nutrient release from wody pool
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN$equilNPP_N*1000.0
     
-    # Calculate long term nutrieng constraint
+    # Calculate long term nutrient constraint
     NCHUGH <- NConsLong_exudation(nfseq, a_vec, CpassVLong,
                                   NinL = Nin+NrelwoodVLong)
     
-    # compute different pass pool based on original function
-    pass_orig <- passive(df=VLongN$equilnf, a=aequiln)
-    omega_orig <- aequiln$af*pass_orig$omegaf + aequiln$ar*pass_orig$omegar
-    CpassVLong_orig <- omega_orig*VLongN$equilNPP/pass_orig$decomp/(1-pass_orig$qq)*1000.0
-    NrelwoodVLong_orig <- aequiln$aw*aequiln$nw*VLongN$equilNPP_N*1000.0
-    NCHUGH_orig <- NConsLong_expl_min(nfseq, a_vec, CpassVLong_orig,
-                                      NinL = Nin+NrelwoodVLong_orig)
+    # Calculate medium term nutrient constraint
+    NCMEDIUM <- NConsMedium_exudation(nfseq, a_vec, CpassVLong, CslowLong, 
+                                      NinL = Nin+NrelwoodVLong)
+
     
     # Solve longterm equilibrium
-    equil_long_350 <- solveLong_exudation(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
-    equil_long_700 <- solveLong_exudation(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_350 <- solveLong_exudation_medium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_700 <- solveLong_exudation_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
@@ -92,9 +93,7 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
         points(nfseq,NCVLONG$NPP_N,type='l',col="tomato", lwd = 2.5)
         
         # L nutrient constraint curve
-        points(nfseq,NCHUGH$NPP,type='l',col="violet", lwd = 2.5)
-        
-        points(nfseq,NCHUGH_orig$NPP,type='l',col="grey", lwd = 2.5)
+        points(nfseq,NCMEDIUM$NPP,type='l',col="violet", lwd = 2.5)
         
         # VL intersect with CO2 = 350 ppm
         points(VLongN$equilnf,VLongN$equilNPP, pch = 19, cex = 2.0, col = "blue")

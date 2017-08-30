@@ -33,6 +33,7 @@ ligfl = 0.2
 ligrl = 0.16
 pcp = 0.005
 ncp = 0.1
+ncs = 0.05
 PAR_MJ <- 4.0
 J_2_UMOL <- 4.57
 MJ_TO_J <- 1000000.0
@@ -68,3 +69,5 @@ cue_mic <- 0.3      # range: 0.3 - 0.7
 km <- 2             # scaling factor for SOM response; range: 1- 5
 prime_y <- 1.0      # 0.05
 prime_z <- 2
+prime_y_slow <- 1.0      # 0.05
+prime_z_slow <- 2
