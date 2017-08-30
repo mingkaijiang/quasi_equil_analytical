@@ -22,7 +22,7 @@ cfrac = 0.45
 cue = 0.5
 leachn = 0.05
 leachp = 0.05
-Nin = 0.4
+Nin = 0.2        # to make the medium term more apparent, Nin = 0.2, otherwise, Nin = 0.4
 Pin = 0.02
 k1=0.01
 k2=0.01
@@ -70,4 +70,4 @@ km <- 2             # scaling factor for SOM response; range: 1- 5
 prime_y <- 1.0      # 0.05
 prime_z <- 2
 prime_y_slow <- 1.0      # 0.05
-prime_z_slow <- 2
+prime_z_slow <- 1        # for this value = 2, medium term line closer to VL line than L line, for <= 1, medium term line closer to L than to VL.

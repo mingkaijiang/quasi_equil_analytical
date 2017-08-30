@@ -157,12 +157,24 @@ solveVLong_root_gday <- function(CO2) {
 # specifically for exudation
 solveVLong_exudation <- function(CO2) {
     fn <- function(nf) {
-        photo_constraint_full_cn(nf, allocn_exudation(nf), CO2) - NConsVLong_expl_min(nf,allocn_exudation(nf))$NPP
+        photo_constraint_full_cn(nf, allocn_exudation(nf), CO2) - VLong_constraint_N(nf,allocn_exudation(nf))$NPP
     }
-    equilnf <- uniroot(fn,interval=c(0.01,0.1))$root
+    equilnf <- uniroot(fn,interval=c(0.004,0.1))$root
     equilNPP_N <- photo_constraint_full_cn(equilnf, 
                                             allocn_exudation(equilnf), CO2)
     
     ans <- data.frame(equilnf,equilNPP_N)
+    return(ans)
+}
+
+# Find the very-long term equilibrium nf and NPP under standard conditions - by finding the root
+solveVLong_full_cn_medium <- function(CO2) {
+    fn <- function(nf) {
+        photo_constraint_full_cn(nf, allocn(nf),CO2) - VLong_constraint_N(nf,allocn(nf))$NPP
+    }
+    equilnf <- uniroot(fn,interval=c(0.001,0.1))$root
+    equilNPP <- photo_constraint_full_cn(equilnf, allocn(equilnf), CO2)
+    equilpf <- "NA"
+    ans <- data.frame(equilnf, "NA", equilNPP)
     return(ans)
 }

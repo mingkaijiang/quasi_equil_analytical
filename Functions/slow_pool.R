@@ -28,9 +28,7 @@ slow_pool <- function(df, a) {
     
     # transfer coefficients among litter and soil pools
     for (i in 1:len) {
-        # because nfl < 0.01 yields negative muf values, I am using nf as a proxy
-        #muf[i] <- max(0,min(0.85 - 0.018*ligfl/cfrac/a[i, "nfl"],1)) 
-        muf[i] <- max(0,min(0.85 - 0.018*ligfl/cfrac/a[i, "nf"],1))    
+        muf[i] <- max(0,min(0.85 - 0.018*ligfl/cfrac/a[i, "nfl"],1))    
         mur[i] <- max(0,min(0.85 - 0.018*ligrl/cfrac/a[i, "nr"],1))
     }
     pma <- pna <- 0.45
@@ -132,8 +130,10 @@ slow_exudation <- function(df, a, npp) {
     active_tot_in <- active_plant_in + c_into_exud 
     
     # decomposition rate of the passive pool
-    #decomp_s <- adjust_slow_residence_time(df, a, active_tot_in) * Actsoil(Tsoil)   
-    #decomp_p <- adjust_passive_residence_time(df, a, active_tot_in) * Actsoil(Tsoil)   
+    decomp_s <- adjust_slow_residence_time(df, a, active_tot_in) * Actsoil(Tsoil)   
+    decomp_p <- adjust_passive_residence_time(df, a, active_tot_in) * Actsoil(Tsoil)   
+    
+    # browser()
     
     ret <- data.frame(decomp_p, decomp_s, qpq, qsq, omegafp, omegarp, omegafs, omegars, transfer_fa, transfer_ra)
     

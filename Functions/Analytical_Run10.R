@@ -3,7 +3,7 @@
 ####
 #### Same as Run 9, except 
 #### Considering medium term slow SOM pool effect
-####
+#### without turning priming on
 ################################################################################
 
 
@@ -17,18 +17,10 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
     #### f.flag: = 3 return eDF
     
     ######### Main program
-    #### Function to perform analytical run 1 simulations
-    #### eDF: stores equilibrium points
-    #### cDF: stores constraint points (curves)
-    #### f.flag: = 1 simply plot analytical solution file
-    #### f.flag: = 2 return cDF
-    #### f.flag: = 3 return eDF
-    
-    ######### Main program
     source("Parameters/Analytical_Run10_Parameters.R")
     
     # create nc and pc for shoot to initiate
-    nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
+    nfseq <- round(seq(0.004, 0.1, by = 0.001),5)
     a_vec <- as.data.frame(allocn_exudation(nfseq))
     
     # plot photosynthetic constraints
@@ -36,7 +28,7 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
     PC700 <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_2)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_vec)
+    NCVLONG <- NConsVLong(df=nfseq,a=a_vec)
     
     # solve very-long nutrient cycling constraint
     VLongN <- solveVLong_exudation(CO2_1)
@@ -65,10 +57,13 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
                                       Cslow=CslowLong, 
                                       NinL = Nin+NrelwoodVLong)
 
-    
     # Solve longterm equilibrium
-    equil_long_350 <- solveLong_exudation_medium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
-    equil_long_700 <- solveLong_exudation_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_350 <- solveLong_exudation(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_700 <- solveLong_exudation(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    
+    # Solve medium equilibrium
+    equil_medium_350 <- solveMedium_exudation(CO2=CO2_1, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
+    equil_medium_700 <- solveMedium_exudation(CO2=CO2_2, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
@@ -106,6 +101,9 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
         # L intersect with CO2 = 700 ppm
         with(equil_long_700,points(equilnf,equilNPP,pch=19, cex = 2.0, col = "red"))
         
+        # M intersect with CO2 = 700 ppm
+        with(equil_medium_700,points(equilnf,equilNPP,pch=19, cex = 2.0, col = "purple"))
+        
         # instantaneous NPP response to doubling CO2
         points(VLongN$equilnf, inst700$equilNPP, cex = 2.0, col = "darkgreen", pch=19)
         
@@ -113,16 +111,16 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
         points(VLong700$equilnf, VLong700$equilNPP, cex = 2.0, col = "orange", pch = 19)
         
         legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
-                             expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-                             "VL nutrient constraint", "L nutrient constraint priming on",
-                             "L nutrient constraint primint off",
-                             "A", "B", "C", "D"),
-               col=c("cyan","green", "tomato", "violet","grey","blue", "darkgreen", "red", "orange"), 
-               lwd=c(2,2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19), cex = 1.0, 
+                               expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
+                               "VL nutrient constraint", "L nutrient constraint",
+                               "M nutrient constraint",
+                               "A", "B", "C", "D", "E"),
+               col=c("cyan","green", "tomato", "violet","darkred", "blue", "darkgreen", "purple","red", "orange"), 
+               lwd=c(2,2,2,2,2,NA,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19,19), cex = 1.0, 
                bg = adjustcolor("grey", 0.8))
         
         
-        dev.off()
+       dev.off()
         
         
     } else if (f.flag == 2) {

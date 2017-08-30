@@ -20,7 +20,7 @@ Perform_Analytical_Run11 <- function(f.flag = 1, cDF, eDF) {
     source("Parameters/Analytical_Run10_Parameters.R")
     
     # create nc and pc for shoot to initiate
-    nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
+    nfseq <- round(seq(0.001, 0.1, by = 0.001),5)
     a_vec <- as.data.frame(allocn(nfseq))
     
     # plot photosynthetic constraints
@@ -31,7 +31,7 @@ Perform_Analytical_Run11 <- function(f.flag = 1, cDF, eDF) {
     NCVLONG <- NConsVLong(df=nfseq,a=a_vec)
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLong_full_cn(CO2_1)
+    VLongN <- solveVLong_full_cn_medium(CO2_1)
     
     # Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn(VLongN$equilnf)
@@ -58,22 +58,26 @@ Perform_Analytical_Run11 <- function(f.flag = 1, cDF, eDF) {
                             NinL = Nin+NrelwoodVLong)
     
     
-    # Solve longterm equilibrium
-    equil_long_350 <- solveMedium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
-    equil_long_700 <- solveMedium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    # Solve medium equilibrium
+    equil_long_350 <- solveLong_full_cn_medium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_700 <- solveLong_full_cn_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    
+    # Solve medium equilibrium
+    equil_medium_350 <- solveMedium(CO2=CO2_1, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
+    equil_medium_700 <- solveMedium(CO2=CO2_2, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
     inst700 <- inst_NPP(VLongN$equilnf, df700)
     
     ## locate the intersect between VL nutrient constraint and CO2 = 700
-    VLong700 <- solveVLong_exudation(CO2_2)
+    VLong700 <- solveVLong_full_cn_medium(CO2_2)
     
     if (f.flag == 1) {
         
-        ####         ######### Plotting
+        ############################# Plotting
         ### plot 2-d plots of nf vs. npp and nf vs. pf
-        tiff("Plots/Analytical_Run10_2d.tiff")
+        tiff("Plots/Analytical_Run11_2d.tiff")
         
         # Photosynthetic constraint CO2 = 350 ppm
         plot(nfseq,PC350,axes=T,
@@ -98,19 +102,22 @@ Perform_Analytical_Run11 <- function(f.flag = 1, cDF, eDF) {
         # L intersect with CO2 = 700 ppm
         with(equil_long_700,points(equilnf,equilNPP,pch=19, cex = 2.0, col = "red"))
         
+        # M intersect with CO2 = 700 ppm
+        with(equil_medium_700,points(equilnf,equilNPP,pch=19, cex = 2.0, col = "purple"))
+        
         # instantaneous NPP response to doubling CO2
         points(VLongN$equilnf, inst700$equilNPP, cex = 2.0, col = "darkgreen", pch=19)
         
         # VL intersect with CO2 = 700 ppm
         points(VLong700$equilnf, VLong700$equilNPP, cex = 2.0, col = "orange", pch = 19)
         
-        legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
+        legend("bottomleft", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
                              expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-                             "VL nutrient constraint", "L nutrient constraint priming on",
-                             "L nutrient constraint primint off",
-                             "A", "B", "C", "D"),
-               col=c("cyan","green", "tomato", "violet","grey","blue", "darkgreen", "red", "orange"), 
-               lwd=c(2,2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19), cex = 1.0, 
+                             "VL nutrient constraint", "L nutrient constraint",
+                             "M nutrient constraint",
+                             "A", "B", "C", "D", "E"),
+               col=c("cyan","green", "tomato", "violet","darkred", "blue", "darkgreen", "purple","red", "orange"), 
+               lwd=c(2,2,2,2,2,NA,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19,19), cex = 1.0, 
                bg = adjustcolor("grey", 0.8))
         
         
