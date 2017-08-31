@@ -73,7 +73,9 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
         
         ######### Plotting
         
-        tiff("Plots/Analytical_Run2_2d.tiff")
+        tiff("Plots/Analytical_Run2_2d.tiff",
+             width = 8, height = 7, units = "in", res = 300)
+        par(mar=c(5.1,5.1,2.1,2.1))
         
         # Photosynthetic constraint CO2 = 350 ppm
         plot(nfseq,PC350,axes=T,
