@@ -179,3 +179,18 @@ solveLong_exudation <- function(CO2,Cpass,NinL) {
     ans <- data.frame(equilnf,equilNPP)
     return(ans)
 }
+
+# Find the long term equilibrium nf and NPP under standard conditions - by finding the root
+# specifically for exudation model with medium pool considered
+solveLong_exudation_medium <- function(CO2,Cpass,NinL) {
+    fn <- function(nf) {
+        photo_constraint_full_cn(nf, allocn_exudation(nf),
+                                 CO2) - NConsLong_exudation_medium(nf,allocn_exudation(nf),Cpass,NinL)$NPP
+        
+    }
+    equilnf <- uniroot(fn,interval=c(0.004,0.1))$root
+    equilNPP <- photo_constraint_full_cn(equilnf, 
+                                         allocn_exudation(equilnf), CO2)
+    ans <- data.frame(equilnf,equilNPP)
+    return(ans)
+}

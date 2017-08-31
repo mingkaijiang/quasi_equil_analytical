@@ -39,7 +39,7 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
     PC700 <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_2)
     
     # calculate very long term NC and PC constraint on NPP, respectively
-    NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_vec)
+    NCVLONG <- NConsVLong(df=nfseq,a=a_vec)
 
     # solve very-long nutrient cycling constraint
     VLongN <- solveVLong_exudation(CO2_1)
@@ -57,12 +57,12 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
     NCHUGH <- NConsLong_exudation(nfseq, a_vec, CpassVLong,
                                   NinL = Nin+NrelwoodVLong)
     
-    # compute different pass pool based on original function
+    # compute different passive pool based on original function
     pass_orig <- passive(df=VLongN$equilnf, a=aequiln)
     omega_orig <- aequiln$af*pass_orig$omegaf + aequiln$ar*pass_orig$omegar
     CpassVLong_orig <- omega_orig*VLongN$equilNPP/pass_orig$decomp/(1-pass_orig$qq)*1000.0
     NrelwoodVLong_orig <- aequiln$aw*aequiln$nw*VLongN$equilNPP_N*1000.0
-    NCHUGH_orig <- NConsLong_expl_min(nfseq, a_vec, CpassVLong_orig,
+    NCHUGH_orig <- NConsLong(nfseq, a_vec, CpassVLong_orig,
                                        NinL = Nin+NrelwoodVLong_orig)
     
     # Solve longterm equilibrium
@@ -115,7 +115,7 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
         legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
                              expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
                              "VL nutrient constraint", "L nutrient constraint priming on",
-                             "L nutrient constraint primint off",
+                             "L nutrient constraint priming off",
                              "A", "B", "C", "D"),
                col=c("cyan","green", "tomato", "violet","grey","blue", "darkgreen", "red", "orange"), 
                lwd=c(2,2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19), cex = 1.0, 

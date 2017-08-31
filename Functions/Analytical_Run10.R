@@ -31,7 +31,7 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
     NCVLONG <- NConsVLong(df=nfseq,a=a_vec)
     
     # solve very-long nutrient cycling constraint
-    VLongN <- solveVLong_exudation(CO2_1)
+    VLongN <- solveVLong_exudation_medium(CO2_1)
     
     # Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn_exudation(VLongN$equilnf)
@@ -47,7 +47,7 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN$equilNPP*1000.0
     
     # Calculate long term nutrient constraint
-    NCHUGH <- NConsLong_exudation(nfseq, a_vec, CpassVLong,
+    NCHUGH <- NConsLong_exudation_medium(nfseq, a_vec, CpassVLong,
                                   NinL = Nin+NrelwoodVLong)
     
     # Calculate medium term nutrient constraint
@@ -58,8 +58,8 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
                                       NinL = Nin+NrelwoodVLong)
 
     # Solve longterm equilibrium
-    equil_long_350 <- solveLong_exudation(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
-    equil_long_700 <- solveLong_exudation(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_350 <- solveLong_exudation_medium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_700 <- solveLong_exudation_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
     
     # Solve medium equilibrium
     equil_medium_350 <- solveMedium_exudation(CO2=CO2_1, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
@@ -70,7 +70,7 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
     inst700 <- inst_NPP(VLongN$equilnf, df700)
     
     ## locate the intersect between VL nutrient constraint and CO2 = 700
-    VLong700 <- solveVLong_exudation(CO2_2)
+    VLong700 <- solveVLong_exudation_medium(CO2_2)
     
     if (f.flag == 1) {
         
