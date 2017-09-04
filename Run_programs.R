@@ -87,6 +87,10 @@ source("R/Run_analytical_solutions.R")
 ### generate a table for comparison of the equilibrium points
 source("R/Check_analytical_gday_matches.R")
 
+# Note: VL does not 100% matched with GDAY simulated VL, possible reasons:
+# GDAY equilibrium definition: < 1e-2 difference might not mean equilibrium.
+# Note: when NC and PC matched, NPP does not match, possible reason:
+# the full photosynthesis model is simplified in the analytical equations (i.e. hourly vs. daily)
 
 #### ------------- Checking effect of P limitation in analytical solution ----------- #####
 source("R/Effect_of_P_limitation.R")
