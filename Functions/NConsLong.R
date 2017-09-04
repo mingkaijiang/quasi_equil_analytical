@@ -17,7 +17,7 @@ NConsLong <- function(df, a, Cpass, NinL) {
 
     # equation for N constraint with passive, wood, and leaching
     U0 <- NinL + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
-    nwood <- a$aw*a$nw
+    nwood <- 0 # a$aw*a$nw
     nburial <- omegap*ncp
     nleach <- leachn/(1-leachn) * (a$nfl*a$af + a$nr*(a$ar) + a$nw*a$aw)
 
@@ -244,7 +244,7 @@ NConsLong_exudation <- function(df, a, Cpass, NinL) {
             
             # equation for N constraint with passive, wood, and leaching
             U0 <- NinL + (1-pass$qq) * pass$decomp * Cpass * ncp   
-            nwood <- a[i,]$aw*a[i,]$nw
+            nwood <- 0 # a[i,]$aw*a[i,]$nw
             nburial <- omegap*ncp
             nleach <- leachn / (1-leachn) * (a[i,]$nfl*a[i,]$af + a[i,]$nr*a[i,]$ar 
                                              + a[i,]$nw*a[i,]$aw)
@@ -288,7 +288,7 @@ NConsLong_exudation_medium <- function(df, a, Cpass, NinL) {
             
             # equation for N constraint with passive, wood, and leaching
             U0 <- NinL + (1-pass$qpq) * pass$decomp_p * Cpass * ncp   
-            nwood <- a[i,]$aw*a[i,]$nw
+            nwood <- 0 # a[i,]$aw*a[i,]$nw
             nburial <- omegap*ncp
             nleach <- leachn / (1-leachn) * (a[i,]$nfl*a[i,]$af + a[i,]$nr*a[i,]$ar 
                                              + a[i,]$nw*a[i,]$aw)

@@ -55,7 +55,7 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
     
     # Calculate long term nutrieng constraint
     NCHUGH <- NConsLong_exudation(nfseq, a_vec, CpassVLong,
-                                  NinL = Nin+NrelwoodVLong)
+                                  NinL = Nin)#+NrelwoodVLong)
     
     # compute different passive pool based on original function
     pass_orig <- passive(df=VLongN$equilnf, a=aequiln)
@@ -63,11 +63,11 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
     CpassVLong_orig <- omega_orig*VLongN$equilNPP/pass_orig$decomp/(1-pass_orig$qq)*1000.0
     NrelwoodVLong_orig <- aequiln$aw*aequiln$nw*VLongN$equilNPP_N*1000.0
     NCHUGH_orig <- NConsLong(nfseq, a_vec, CpassVLong_orig,
-                                       NinL = Nin+NrelwoodVLong_orig)
+                                       NinL = Nin)#+NrelwoodVLong_orig)
     
     # Solve longterm equilibrium
-    equil_long_350 <- solveLong_exudation(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
-    equil_long_700 <- solveLong_exudation(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_350 <- solveLong_exudation(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
+    equil_long_700 <- solveLong_exudation(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), PC700))

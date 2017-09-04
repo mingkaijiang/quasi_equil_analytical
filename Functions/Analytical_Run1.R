@@ -43,31 +43,54 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     ### Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn(VLong_equil$equilnf)
     aequilp <- allocp(VLong_equil$equilpf)
-    pass <- passive(df=VLong_equil$equilnf, a=aequiln)
-    omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
-    CpassVLong <- omega*VLong_equil$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+    #pass <- passive(df=VLong_equil$equilnf, a=aequiln)
+    #omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
+    #CpassVLong <- omega*VLong_equil$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+    
+    pass <- slow_pool(df=VLong_equil$equilnf, a=aequiln)
+    omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
+    CpassVLong <- omegap*VLong_equil$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
+    
+    # Get Cslow from long nutrient cycling solution
+    omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
+    CslowLong <- omegas*VLong_equil$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
     
     ### Calculate nutrient release from recalcitrant pools
     PrelwoodVLong <- aequilp$aw*aequilp$pw*VLong_equil$equilNPP*1000.0
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLong_equil$equilNPP*1000.0
     
     # Calculate pf based on nf of long-term nutrient exchange
-    pfseqL <- inferpfL(nfseq, a_nf, PinL = Pin+PrelwoodVLong,
-                       NinL = Nin+NrelwoodVLong,
+    pfseqL <- inferpfL(nfseq, a_nf, PinL = Pin,#+PrelwoodVLong,
+                       NinL = Nin,#+NrelwoodVLong,
                        Cpass=CpassVLong)
     
-    # Calculate long term nutrieng constraint
+    # Calculate pf based on nf of medium-term nutrient exchange
+    pfseqM <- inferpfM(nfseq, a_nf, PinM = Pin+PrelwoodVLong,
+                       NinM = Nin+NrelwoodVLong,
+                       CpassL=CpassVLong, CpassM=CslowLong)
+    
+    # Calculate long term nutrient constraint
     NCLONG <- Long_constraint_N(nfseq, a_nf, CpassVLong,
-                                NinL = Nin+NrelwoodVLong)
+                                NinL = Nin)#+NrelwoodVLong)
     
         
     PCLONG <- Long_constraint_P(nfseq, pfseqL, allocp(pfseqL),
-                                CpassVLong, PinL=Pin+PrelwoodVLong)
+                                CpassVLong, PinL=Pin)#+PrelwoodVLong)
+    
+    # Calculate medium term nutrient constraint
+    NCMEDIUM_350 <- NConsMedium(df=nfseq, 
+                            a=a_nf, 
+                            Cpass=CpassVLong, 
+                            Cslow=CslowLong, 
+                            NinL = Nin+NrelwoodVLong)
     
     # Find long term equilibrium point
-    Long_equil <- solveLong_full_cnp(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong, 
-                                     PinL=Pin+PrelwoodVLong)
-
+    Long_equil <- solveLong_full_cnp(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin,#+NrelwoodVLong, 
+                                     PinL=Pin)#+PrelwoodVLong)
+    
+    Medium_equil_350 <- solveMedium_full_cnp(CO2=CO2_1, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong,
+                                             PinL=Pin+PrelwoodVLong)
+    
 
     out350DF <- data.frame(nfseq, pfseq, pfseqL, Photo350, NCVLONG, NCLONG)
     colnames(out350DF) <- c("nc", "pc_VL", "pc_350_L", "NPP_350", "NPP_VL",
@@ -203,6 +226,11 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
         points(out350DF$nc, out350DF$NPP_VL, type="l", col="tomato", lwd = 3)
         points(equil350DF$nc_VL, equil350DF$NPP_VL, type="p", pch = 19, col = "blue", cex = 2)
         points(out350DF$nc, out350DF$NPP_350_L, type='l',col="violet", lwd = 3)
+        
+        points(nfseq, NCMEDIUM_350$NPP, type="l", col="darkred", lwd = 3)
+        
+        with(Medium_equil_350,points(equilnf,equilNPP,pch=19, cex = 2.0, col = "purple"))
+        
         points(out700DF$nc, out700DF$NPP_700, col="green", type="l", lwd = 3)
         points(equil350DF$nc_VL, inst700$equilNPP, type="p", col = "darkgreen", pch=19, cex = 2)
         points(equil700DF$nc_VL, equil700DF$NPP_VL, type="p", col="orange", pch = 19, cex = 2)

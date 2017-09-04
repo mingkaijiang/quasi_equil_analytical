@@ -43,12 +43,14 @@ Perform_Analytical_Run11 <- function(f.flag = 1, cDF, eDF) {
     omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
     CslowLong <- omegas*VLongN$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
     
-    # Calculate nutrient release from wody pool
+    # Calculate nutrient release from woody pool
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN$equilNPP*1000.0
     
     # Calculate long term nutrient constraint
+    #NCHUGH <- NConsLong(nfseq, a_vec, CpassVLong,
+    #                              NinL = Nin+NrelwoodVLong)
     NCHUGH <- NConsLong(nfseq, a_vec, CpassVLong,
-                                  NinL = Nin+NrelwoodVLong)
+                        NinL = Nin)
     
     # Calculate medium term nutrient constraint
     NCMEDIUM <- NConsMedium(df=nfseq, 
@@ -59,8 +61,8 @@ Perform_Analytical_Run11 <- function(f.flag = 1, cDF, eDF) {
     
     
     # Solve medium equilibrium
-    equil_long_350 <- solveLong_full_cn_medium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
-    equil_long_700 <- solveLong_full_cn_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_350 <- solveLong_full_cn_medium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
+    equil_long_700 <- solveLong_full_cn_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
     
     # Solve medium equilibrium
     equil_medium_350 <- solveMedium(CO2=CO2_1, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
@@ -96,6 +98,7 @@ Perform_Analytical_Run11 <- function(f.flag = 1, cDF, eDF) {
         # L nutrient constraint curve
         points(nfseq,NCHUGH$NPP,type='l',col="violet", lwd = 2.5)
         
+        # M nutrient constraint curve
         points(nfseq,NCMEDIUM$NPP,type='l',col="darkred", lwd = 2.5)
         
         # VL intersect with CO2 = 350 ppm
@@ -113,7 +116,7 @@ Perform_Analytical_Run11 <- function(f.flag = 1, cDF, eDF) {
         # VL intersect with CO2 = 700 ppm
         points(VLong700$equilnf, VLong700$equilNPP, cex = 2.0, col = "orange", pch = 19)
         
-        legend("bottomleft", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
+        legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
                              expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
                              "VL nutrient constraint", "L nutrient constraint",
                              "M nutrient constraint",

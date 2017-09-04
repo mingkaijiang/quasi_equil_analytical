@@ -48,7 +48,7 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
     
     # Calculate long term nutrient constraint
     NCHUGH <- NConsLong_exudation_medium(nfseq, a_vec, CpassVLong,
-                                  NinL = Nin+NrelwoodVLong)
+                                  NinL = Nin)#+NrelwoodVLong)
     
     # Calculate medium term nutrient constraint
     NCMEDIUM <- NConsMedium_exudation(df=nfseq, 
@@ -58,8 +58,8 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
                                       NinL = Nin+NrelwoodVLong)
 
     # Solve longterm equilibrium
-    equil_long_350 <- solveLong_exudation_medium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
-    equil_long_700 <- solveLong_exudation_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_350 <- solveLong_exudation_medium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
+    equil_long_700 <- solveLong_exudation_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
     
     # Solve medium equilibrium
     equil_medium_350 <- solveMedium_exudation(CO2=CO2_1, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
