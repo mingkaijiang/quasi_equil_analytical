@@ -60,6 +60,7 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     NCLONG <- Long_constraint_N(nfseq, a_nf, CpassVLong,
                                 NinL = Nin+NrelwoodVLong)
     
+        
     PCLONG <- Long_constraint_P(nfseq, pfseqL, allocp(pfseqL),
                                 CpassVLong, PinL=Pin+PrelwoodVLong)
     

@@ -10,9 +10,9 @@
 ###
 ### Author: Mingkai Jiang (m.jiang@westernsydney.edu.au)
 ### 
-### Warning: needs at least 8 GB disk space,
+### Warning: large hard disk space needed,
 ### because the simulation creates many large files
-###
+### (but many simulation files will be deleted after processing)
 
 
 #### ------------------------ General system stuffs ------------------------ #####
@@ -99,24 +99,24 @@ source("R/Effect_of_P_limitation.R")
 source("R/Effect_of_wood_stoichiometry.R")
 
 #### ------------- Checking effect of P limitation in GDAY key variables ----------- #####
-#source("R/Effect_of_P_GDAY.R")
+source("R/Effect_of_P_GDAY.R")
 
 #### ------------- Plotting CO2 fertilization effect through time ----------- #####
 source("R/CO2_fertilization_summary.R")
 
 #### ------------- Case studies - EucFACE and AmazonFACE ----------- #####
-source("R/Effect_of_P_limitation_EucFACE.R")
-
-source("R/Effect_of_P_limitation_AmazonFACE.R")
-
-source("R/Run_analytical_solutions_EucFACE.R")
-
-source("R/CO2_fertilization_summary_EucFACE.R")
-
-source("R/Run_analytical_solutions_AmazonFACE.R")
-
-source("R/CO2_fertilization_summary_AmazonFACE.R")
-
+#source("R/Effect_of_P_limitation_EucFACE.R")
+#
+#source("R/Effect_of_P_limitation_AmazonFACE.R")
+#
+#source("R/Run_analytical_solutions_EucFACE.R")
+#
+#source("R/CO2_fertilization_summary_EucFACE.R")
+#
+#source("R/Run_analytical_solutions_AmazonFACE.R")
+#
+#source("R/CO2_fertilization_summary_AmazonFACE.R")
+#
 #### ---------------- Generate manuscript figures and tables --------------- #####
 ### To generate manuscript figures
 #source("Plots/Figure_generating.R")

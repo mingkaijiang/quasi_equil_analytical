@@ -59,6 +59,14 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
     NCLONG <- Long_constraint_N(nfseq, a_nf, CpassVLong,
                                 NinL = Nin+NrelwoodVLong)
     
+    #test <- Long_constraint_N(nfseq, a_nf, CpassVLong,
+    #                          NinL = Nin)
+    
+    #plot(nfseq, NCLONG$NPP)
+    #points(nfseq, test$NPP, col="red")
+    #points(nfseq, NCVLONG$NPP_N, col="blue")
+    
+    
     PCLONG <- Long_constraint_P(nfseq, pfseqL, allocp(pfseqL),
                                 CpassVLong, PinL=Pin+PrelwoodVLong)
     
