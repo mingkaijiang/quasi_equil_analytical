@@ -239,9 +239,9 @@ void spin_up_annual(control *c, fluxes *f, met *m,
     * Murty, D and McMurtrie, R. E. (2000) Ecological Modelling, 134,
     185-205, specifically page 196.
     */
-    double tol_c = 1E-04;  // 1E-04
-    double tol_n = 1E-04;  // 1E-04 
-    double tol_p = 1E-04;  // 1E-04
+    double tol_c = 1E-03;  // 1E-04
+    double tol_n = 1E-03;  // 1E-04 
+    double tol_p = 1E-03;  // 1E-04
     double prev_plantc = 99999.9;
     double prev_soilc = 99999.9;
     double prev_plantn = 99999.9;

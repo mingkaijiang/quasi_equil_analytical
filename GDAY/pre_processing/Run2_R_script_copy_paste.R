@@ -24,6 +24,7 @@ Run2_copy_paste <- function() {
 
     # swap swp_fname locations
     out[44] <- "    swp_fname <- paste0(d, \"/simulations/Run2/replace_params.cfg\")"
+    
         
     # write
     writeLines(out, "GDAY/simulations/Run2/quasi_equil_annual_spin_up.R")

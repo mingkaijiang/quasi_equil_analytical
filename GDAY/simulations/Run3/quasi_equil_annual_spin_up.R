@@ -100,7 +100,7 @@ Run_GDAY_spinup <- function(site) {
         "I0", "1440.0",                       # spin-up value, annual rate, unit MJ/m2/yr
         "ndep_in", "0.002",                   # spin-up value, annual rate, unit t/ha/yr
         "nfix_in", "0.002",                   # spin-up value, annual rate, unit t/ha/yr 
-        "pdep_in", "0.0002",                  # spin-up value, annual rate, unit t/ha/yr
+        "pdep_in", "0.00015",                  # spin-up value, annual rate, unit t/ha/yr
         "tsoil_in", "15.0",                   # spin-up value
         "k1", "0.01",                         # rate from inorgavlp to inorgssorbp, adjustable    
         "k2", "0.01",                         # rate from inorgssorbp to inorgavlp, adjustable
@@ -151,11 +151,11 @@ Run_GDAY_spinup <- function(site) {
         "lue0", "2.8",                        # 2.8 for GPP, 1.4 for NPP
         "cue", "0.5",                         # 
         "ncmaxf", "0.05",                     # 0.05
-        "ncwnewz", "0.0005",                   # C:N = 2000, match analytical 
+        "ncwnewz", "0.0005",
         "ncrfac", "0.7",                      # match against analytical
         "nref", "0.04",                       # N saturation threshold for photosynthesis
         "pcmaxf", "0.005",                    # 
-        "pcwnewz", "0.000003",                  # C:P", "333333.33 match analytical
+        "pcwnewz", "0.000003",
         "pcrfac", "0.7",                      # match against analytical
         "rateuptake", "1.0",              # 0.96884 
         "rateloss", "0.05",                   # match against analytical

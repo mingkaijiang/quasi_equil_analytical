@@ -237,7 +237,7 @@ LUE_full_cn_walker <- function(nf, nfdf, CO2, NPP) {
     log_vcmax <- 1.993 + 2.555 * log(N0) - 0.372 * log(sla_m2_per_g) + 0.422 * log(N0) * log(sla_m2_per_g)
     vcmax <- exp(log_vcmax)
     
-    log_jmax <- 1.197 * log_vcmax
+    log_jmax <- 1.197 + 0.847 *log_vcmax
     jmax <- exp(log_jmax)
     
     # calculate ci

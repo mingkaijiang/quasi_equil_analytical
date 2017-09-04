@@ -100,7 +100,7 @@ Run_GDAY_spinup <- function(site) {
         "I0", "1440.0",                       # spin-up value, annual rate, unit MJ/m2/yr
         "ndep_in", "0.002",                   # spin-up value, annual rate, unit t/ha/yr
         "nfix_in", "0.002",                   # spin-up value, annual rate, unit t/ha/yr 
-        "pdep_in", "0.0002",                  # spin-up value, annual rate, unit t/ha/yr
+        "pdep_in", "0.00015",                  # spin-up value, annual rate, unit t/ha/yr
         "tsoil_in", "15.0",                   # spin-up value
         "k1", "0.01",                         # rate from inorgavlp to inorgssorbp, adjustable    
         "k2", "0.01",                         # rate from inorgssorbp to inorgavlp, adjustable
