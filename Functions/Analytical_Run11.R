@@ -116,13 +116,10 @@ Perform_Analytical_Run11 <- function(f.flag = 1, cDF, eDF) {
         # VL intersect with CO2 = 700 ppm
         points(VLong700$equilnf, VLong700$equilNPP, cex = 2.0, col = "orange", pch = 19)
         
-        legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
-                             expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-                             "VL nutrient constraint", "L nutrient constraint",
-                             "M nutrient constraint",
+        legend("topright", c("P350", "P700", "VL", "L", "M",
                              "A", "B", "C", "D", "E"),
-               col=c("cyan","green", "tomato", "violet","darkred", "blue", "darkgreen", "purple","red", "orange"), 
-               lwd=c(2,2,2,2,2,NA,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19,19), cex = 1.0, 
+               col=c("cyan","green", "tomato", "violet","darkred","blue", "darkgreen","purple","red", "orange"), 
+               lwd=c(2,2,2,2,2,NA,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19,19), cex = 0.8, 
                bg = adjustcolor("grey", 0.8))
         
         

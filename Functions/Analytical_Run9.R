@@ -114,13 +114,19 @@ Perform_Analytical_Run9 <- function(f.flag = 1, cDF, eDF) {
         # VL intersect with CO2 = 700 ppm
         points(VLong700$equilnf, VLong700$equilNPP, cex = 2.0, col = "orange", pch = 19)
         
-        legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
-                             expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-                             "VL nutrient constraint", "L nutrient constraint priming on",
-                             "L nutrient constraint priming off",
+        #legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
+        #                     expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
+        #                     "VL nutrient constraint", "L nutrient constraint priming on",
+        #                     "L nutrient constraint priming off",
+        #                     "A", "B", "C", "D"),
+        #       col=c("cyan","green", "tomato", "violet","grey","blue", "darkgreen", "red", "orange"), 
+        #       lwd=c(2,2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19), cex = 1.0, 
+        #       bg = adjustcolor("grey", 0.8))
+        
+        legend("topright", c("P350", "P700", "VL", "L priming on", "L priming off",
                              "A", "B", "C", "D"),
-               col=c("cyan","green", "tomato", "violet","grey","blue", "darkgreen", "red", "orange"), 
-               lwd=c(2,2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19), cex = 1.0, 
+               col=c("cyan","green", "tomato", "violet", "grey", "blue", "darkgreen", "red", "orange"), 
+               lwd=c(2,2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19), cex = 0.8, 
                bg = adjustcolor("grey", 0.8))
         
         

@@ -56,13 +56,13 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
     VLong700 <- solveVLong_simple_cn(CO2=CO2_2)
     
     # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 6 & cDF$CO2 == 350, 3:13] <- cbind(nfseq, 0, 0, PC350, NCVLONG, NCHUGH)
-    eDF[eDF$Run == 6 & eDF$CO2 == 350, 3:8] <- cbind(VLong, equil_long_350)
-    cDF[cDF$Run == 6 & cDF$CO2 == 700, 3:13] <- cbind(nfseq, 0, 0, PC700, NCVLONG, NCHUGH)
-    eDF[eDF$Run == 6 & eDF$CO2 == 700, 3:8] <- cbind(VLong700, equil_long_700)
-    
-    eDF[eDF$Run == 6 & eDF$CO2 == 350, 9] <- inst700$equilNPP
-    eDF[eDF$Run == 6 & eDF$CO2 == 700, 9] <- inst700$equilNPP
+    #cDF[cDF$Run == 6 & cDF$CO2 == 350, 3:13] <- cbind(nfseq, 0, 0, PC350, NCVLONG, NCHUGH)
+    #eDF[eDF$Run == 6 & eDF$CO2 == 350, 3:8] <- cbind(VLong, equil_long_350)
+    #cDF[cDF$Run == 6 & cDF$CO2 == 700, 3:13] <- cbind(nfseq, 0, 0, PC700, NCVLONG, NCHUGH)
+    #eDF[eDF$Run == 6 & eDF$CO2 == 700, 3:8] <- cbind(VLong700, equil_long_700)
+    #
+    #eDF[eDF$Run == 6 & eDF$CO2 == 350, 9] <- inst700$equilNPP
+    #eDF[eDF$Run == 6 & eDF$CO2 == 700, 9] <- inst700$equilNPP
     
     if (f.flag == 1) {
         

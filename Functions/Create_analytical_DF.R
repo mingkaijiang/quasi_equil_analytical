@@ -13,17 +13,17 @@ create_constraint_DF <- function() {
     l <- length(f.list)
     
     # create the matrix
-    eDF <- matrix(nrow = l*182, ncol = 13)
+    eDF <- matrix(nrow = l*200, ncol = 13)
     eDF <- as.data.frame(eDF)
     colnames(eDF) <- c("Run", "CO2", "NC", "PC_VL", "PC_350_L",
                        "NPP_350", "NPP_VL", "nleach_VL", "NPP_350_L",
                        "nwood_L", "nburial_L", "nleach_L", "aw")
     
     # add Run information into Run column
-    eDF$Run <- rep(c(1:l), each=182)
+    eDF$Run <- rep(c(1:l), each=200)
     
     # add CO2 information into CO2 column
-    eDF$CO2 <- rep(c(350, 700), each=91)
+    eDF$CO2 <- rep(c(350, 700), each=100)
     
     return(eDF)
 }
