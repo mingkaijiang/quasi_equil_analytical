@@ -72,6 +72,8 @@ inferpfM <- function(nf, a, PinM, NinM,
         pf <- Y1 / (pwood * a$aw + (pleach + pocc) * ((1.0-pretrans)*a$af + prho * a$ar + pwood * a$aw))
     }
     
+    browser()
+    
     # obtain equilpf  
     return(pf)
 }

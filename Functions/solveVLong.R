@@ -22,7 +22,7 @@ solveVLong_full_cnp <- function(CO2) {
                                   allocn(nf),allocp(inferpfVL(nf, allocn(nf))), 
                                   CO2) - VLong_constraint_N(nf,allocn(nf))$NPP
     }
-    equilnf <- uniroot(fn,interval=c(0.01,0.1))$root
+    equilnf <- uniroot(fn,interval=c(0.001,0.1))$root
     equilpf <- inferpfVL(equilnf, allocn(equilnf))
     equilNPP <- photo_constraint_full_cnp(equilnf, equilpf, 
                                           allocn(equilnf), allocp(equilpf), CO2)

@@ -20,7 +20,7 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
     source("Parameters/Analytical_Run3_Parameters.R")
     
     # create a range of nc for shoot to initiate
-    nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
+    nfseq <- round(seq(0.001, 0.1, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq))
     
     # using very long term relationship to calculate pf from nf
@@ -70,7 +70,6 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
     omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
     CslowLong <- omegas*Long_equil$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
     
-    
     ### Calculate nutrient release from recalcitrant pools
     PrelwoodVLong <- aequilp$aw*aequilp$pw*VLong_equil$equilNPP*1000.0
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLong_equil$equilNPP*1000.0
@@ -107,7 +106,7 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
     
     ##### CO2 = 700
     # N:C and P:C ratio
-    nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
+    nfseq <- round(seq(0.001, 0.1, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq))
     
     # using very long term relationship to calculate pf from nf
@@ -222,7 +221,7 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
         par(mfrow=c(1,2),mar=c(5.1,6.1,2.1,2.1))
         
         # shoot nc vs. NPP
-        plot(out350DF$nc, out350DF$NPP_350, xlim=c(0.0, 0.1),
+        plot(out350DF$nc, out350DF$NPP_350, xlim=c(0.0, 0.05),
              ylim=c(0, 3), 
              type = "l", xlab = "Shoot N:C ratio", 
              ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
@@ -239,7 +238,7 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
         
         
         # shoot nc vs. shoot pc
-        plot(out350DF$nc, out350DF$pc_VL, xlim=c(0.0, 0.1),
+        plot(out350DF$nc, out350DF$pc_VL, xlim=c(0.0, 0.05),
              ylim=c(0, 0.02), 
              type = "l", xlab = "Shoot N:C ratio", 
              ylab = "Shoot P:C ratio",
