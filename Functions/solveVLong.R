@@ -146,7 +146,7 @@ solveVLong_root_gday <- function(CO2) {
     fn <- function(nf) {
         photo_constraint_full_cn(nf, allocn(nf), CO2) - NConsVLong_root_gday(nf,allocn(nf))$NPP
     }
-    equilnf <- uniroot(fn,interval=c(0.01,0.1))$root
+    equilnf <- uniroot(fn,interval=c(0.001,0.1))$root
     equilNPP <- photo_constraint_full_cn(equilnf, allocn(equilnf),  CO2)
     
     ans <- data.frame(equilnf,equilNPP)

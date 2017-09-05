@@ -21,7 +21,7 @@ Perform_Analytical_Run8_1 <- function(f.flag = 1, cDF, eDF) {
     source("Parameters/Analytical_Run8_1_Parameters.R")
     
     # N:C ratios for x-axis
-    nfseq <- seq(0.01,0.1,by=0.001)
+    nfseq <- seq(0.001,0.1,by=0.001)
     # need allocation fractions here
     a_vec <- allocn(nfseq)
     
@@ -37,21 +37,29 @@ Perform_Analytical_Run8_1 <- function(f.flag = 1, cDF, eDF) {
     
     # Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn(VLongN$equilnf)
-    pass <- passive(df=VLongN$equilnf, a=aequiln)
-    omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
-    CpassVLong <- omega*VLongN$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+    pass <- slow_pool(df=VLongN$equilnf, a=aequiln)
+    omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
+    omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
+    CpassVLong <- omegap*VLongN$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
     
     # Calculate nutrient release from recalcitrant pools
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN$equilNPP*1000.0
     
-
     # Calculate long term nutrieng constraint
     NCHUGH <- NConsLong_root_gday(df=nfseq, a=a_vec,Cpass=CpassVLong,
-                                 NinL = Nin+NrelwoodVLong)
+                                 NinL = Nin)#+NrelwoodVLong)
     
     # Find equilibrate intersection and plot
-    equil_long_350 <- solveLong_root_gday(CO2_1, Cpass=CpassVLong, NinL= Nin+NrelwoodVLong)
-    equil_long_700 <- solveLong_root_gday(CO2_2, Cpass=CpassVLong, NinL= Nin+NrelwoodVLong)
+    equil_long_350 <- solveLong_root_gday(CO2_1, Cpass=CpassVLong, NinL= Nin)#+NrelwoodVLong)
+    equil_long_700 <- solveLong_root_gday(CO2_2, Cpass=CpassVLong, NinL= Nin)#+NrelwoodVLong)
+    
+    CslowLong <- omegas*equil_long_350$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
+    
+    # plot medium nutrient cycling constraint
+    NCMEDIUM <- NConsMedium_root_gday(nfseq, a_vec, Cpass=CpassVLong, Cslow=CslowLong, NinL=Nin+NrelwoodVLong)
+    
+    # solve medium term equilibrium at CO2 = 700 ppm
+    equil_medium_700 <- solveMedium_root_gday(CO2_2,Cpass=CpassVLong,Cslow=CslowLong,Nin=Nin+NrelwoodVLong)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
@@ -74,7 +82,7 @@ Perform_Analytical_Run8_1 <- function(f.flag = 1, cDF, eDF) {
         
         # Photosynthetic constraint CO2 = 350 ppm
         plot(nfseq,PC350,axes=T,
-             type='l',xlim=c(0,0.1),ylim=c(0,3), 
+             type='l',xlim=c(0,0.05),ylim=c(0,3), 
              ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
              xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex.lab = 1.5)
         
@@ -102,12 +110,16 @@ Perform_Analytical_Run8_1 <- function(f.flag = 1, cDF, eDF) {
         # VL intersect with CO2 = 700 ppm
         points(VLong700$equilnf, VLong700$equilNPP, cex = 2.0, col = "orange", pch = 19)
         
-        legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
-                             expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-                             "VL nutrient constraint", "L nutrient constraint",
-                             "A", "B", "C", "D"),
-               col=c("cyan","green", "tomato", "violet","blue", "darkgreen", "red", "orange"), 
-               lwd=c(2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,19,19,19,19), cex = 1.0, 
+        # M nutrient curve
+        points(nfseq, NCMEDIUM$NPP, type="l", col="darkred", lwd = 2.5)
+        
+        # M intersect with CO2 = 700 ppm
+        points(equil_medium_700$equilnf, equil_medium_700$equilNPP, cex = 2.0, col = "purple", pch = 19)
+        
+        legend("topright", c("P350", "P700", "VL", "L", "M",
+                             "A", "B", "C", "D", "E"),
+               col=c("cyan","green", "tomato", "violet","darkred","blue", "darkgreen","purple","red", "orange"), 
+               lwd=c(2,2,2,2,2,NA,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19,19), cex = 0.8, 
                bg = adjustcolor("grey", 0.8))
         
         dev.off()

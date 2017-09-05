@@ -124,7 +124,7 @@ NConsLong_root_ocn <- function(df, a, Cpass, NinL) {
     
     # equation for N constraint with passive, wood, and leaching
     U0 <- NinL + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
-    nwood <- a$aw*a$nw
+    nwood <- 0 # a$aw*a$nw
     nburial <- omegap*ncp
     nleach <- leachn * k * (a$af * a$nf + a$aw * a$nw + a$ar * a$nr) / (vmax * (a$ar/sr) - (a$af * a$nf + a$aw * a$nw + a$ar * a$nr))
     
@@ -161,7 +161,7 @@ NConsLong_root_gday <- function(df, a, NinL,
     
     # equation for N constraint with passive, wood, and leaching
     U0 <- NinL + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
-    nwood <- a$aw*a$nw
+    nwood <- 0 # a$aw*a$nw
     nburial <- omegap*ncp
     
     A_NF <- a$nfl*a$af + a$nr*a$ar + a$nw*a$aw
