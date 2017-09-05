@@ -268,14 +268,19 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
         
         #points(equil700DF$nc_L, equil700DF$pc_L, type="p", col="red", pch = 19,cex=2)
         
-        legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
-                            expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-                            "VL nutrient constraint", "L nutrient constraint",
-                            "A", "B", "C", "D"),
-               col=c("cyan","green", "tomato", "violet","blue", "darkgreen","red", "orange"), 
-               lwd=c(2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,19,19,19,19), cex = 0.8, 
-               bg = adjustcolor("grey", 0.8))
+        #legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
+        #                    expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
+        #                    "VL nutrient constraint", "L nutrient constraint",
+        #                    "A", "B", "C", "D"),
+        #       col=c("cyan","green", "tomato", "violet","blue", "darkgreen","red", "orange"), 
+        #       lwd=c(2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,19,19,19,19), cex = 0.8, 
+        #       bg = adjustcolor("grey", 0.8))
         
+        legend("topright", c("P350", "P700", "VL", "L", "M",
+                            "A", "B", "C", "D", "E"),
+               col=c("cyan","green", "tomato", "violet","darkred","blue", "darkgreen","purple","red", "orange"), 
+               lwd=c(2,2,2,2,2,NA,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19,19), cex = 0.8, 
+               bg = adjustcolor("grey", 0.8))
         
         dev.off()
         

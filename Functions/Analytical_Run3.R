@@ -42,37 +42,55 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
     ### Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn(VLong_equil$equilnf)
     aequilp <- allocp(VLong_equil$equilpf)
-    pass <- passive(df=VLong_equil$equilnf, a=aequiln)
-    omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
-    CpassVLong <- omega*VLong_equil$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+    #pass <- passive(df=VLong_equil$equilnf, a=aequiln)
+    #omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
+    #CpassVLong <- omega*VLong_equil$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+    
+    pass <- slow_pool(df=VLong_equil$equilnf, a=aequiln)
+    omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
+    CpassVLong <- omegap*VLong_equil$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
+    
+    # Calculate long term nutrient constraint
+    NCLONG <- Long_constraint_N(nfseq, a_nf, CpassVLong,
+                                NinL = Nin)#+NrelwoodVLong)
+    
+    # Calculate pf based on nf of long-term nutrient exchange
+    pfseqL <- inferpfL(nfseq, a_nf, PinL = Pin,#+PrelwoodVLong,
+                       NinL = Nin,#+NrelwoodVLong,
+                       Cpass=CpassVLong)
+    
+    PCLONG <- Long_constraint_P(nfseq, pfseqL, allocp(pfseqL),
+                                CpassVLong, PinL=Pin)#+PrelwoodVLong)
+    
+    # Find long term equilibrium point
+    Long_equil <- solveLong_full_cnp(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin,#+NrelwoodVLong, 
+                                     PinL=Pin)#+PrelwoodVLong)
+    
+    # Get Cslow from long nutrient cycling solution
+    omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
+    CslowLong <- omegas*Long_equil$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
+    
     
     ### Calculate nutrient release from recalcitrant pools
     PrelwoodVLong <- aequilp$aw*aequilp$pw*VLong_equil$equilNPP*1000.0
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLong_equil$equilNPP*1000.0
     
-    # Calculate pf based on nf of long-term nutrient exchange
-    pfseqL <- inferpfL(nfseq, a_nf, PinL = Pin+PrelwoodVLong,
-                       NinL = Nin+NrelwoodVLong,
-                       Cpass=CpassVLong)
+    # Calculate pf based on nf of medium-term nutrient exchange
+    pfseqM <- inferpfM(nfseq, a_nf, PinM = Pin+PrelwoodVLong,
+                       NinM = Nin+NrelwoodVLong,
+                       CpassL=CpassVLong, CpassM=CslowLong)
     
-    # Calculate long term nutrieng constraint
-    NCLONG <- Long_constraint_N(nfseq, a_nf, CpassVLong,
-                                NinL = Nin+NrelwoodVLong)
-    
-    #test <- Long_constraint_N(nfseq, a_nf, CpassVLong,
-    #                          NinL = Nin)
-    
-    #plot(nfseq, NCLONG$NPP)
-    #points(nfseq, test$NPP, col="red")
-    #points(nfseq, NCVLONG$NPP_N, col="blue")
+    # Calculate medium term nutrient constraint
+    NCMEDIUM <- NConsMedium(df=nfseq, 
+                            a=a_nf, 
+                            Cpass=CpassVLong, 
+                            Cslow=CslowLong, 
+                            NinL = Nin+NrelwoodVLong)
+    # PCMEDIUM_350 is implicit, but can also be calculated if needed
     
     
-    PCLONG <- Long_constraint_P(nfseq, pfseqL, allocp(pfseqL),
-                                CpassVLong, PinL=Pin+PrelwoodVLong)
-    
-    # Find long term equilibrium point
-    Long_equil <- solveLong_full_cnp(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong, 
-                                     PinL=Pin+PrelwoodVLong)
+    Medium_equil_350 <- solveMedium_full_cnp(CO2=CO2_1, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong,
+                                             PinL=Pin+PrelwoodVLong)
     
     
     out350DF <- data.frame(nfseq, pfseq, pfseqL, Photo350, NCVLONG, NCLONG)
@@ -109,8 +127,14 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
     VLong_equil <- solveVLong_full_cnp(CO2=CO2_2)
     
     # Find long term equilibrium point
-    Long_equil <- solveLong_full_cnp(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong, 
-                                     PinL=Pin+PrelwoodVLong)
+    Long_equil <- solveLong_full_cnp(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin,#+NrelwoodVLong, 
+                                     PinL=Pin)#+PrelwoodVLong)
+    
+    # Find medium term equilibrium point
+    Medium_equil_350 <- solveMedium_full_cnp(CO2_1, Cpass = CpassVLong, Cslow = CslowLong, 
+                                             NinL=Nin+NrelwoodVLong, PinL=Pin+PrelwoodVLong)
+    Medium_equil_700 <- solveMedium_full_cnp(CO2_2, Cpass = CpassVLong, Cslow = CslowLong, 
+                                             NinL=Nin+NrelwoodVLong, PinL=Pin+PrelwoodVLong)
     
     out700DF <- data.frame(nfseq, pfseq, pfseqL, Photo700, NCVLONG, NCLONG)
     colnames(out700DF) <- c("nc", "pc_VL", "pc_700_L", "NPP_700", "NPP_VL",
@@ -210,7 +234,9 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
         points(equil350DF$nc_VL, inst700$equilNPP, type="p", col = "darkgreen", pch=19,cex=2)
         points(equil700DF$nc_VL, equil700DF$NPP_VL, type="p", col="orange", pch = 19,cex=2)
         points(equil700DF$nc_L, equil700DF$NPP_L,type="p", col="red", pch = 19,cex=2)
-
+        points(nfseq, NCMEDIUM$NPP, type="l", col="darkred", lwd = 3)
+        points(Medium_equil_700$equilnf, Medium_equil_700$equilNPP, type="p", col="purple", pch = 19, cex = 2)
+        
         
         # shoot nc vs. shoot pc
         plot(out350DF$nc, out350DF$pc_VL, xlim=c(0.0, 0.1),
@@ -232,12 +258,18 @@ Perform_Analytical_Run3 <- function(f.flag = 1, cDF, eDF) {
         
         points(equil700DF$nc_L, equil700DF$pc_L, type="p", col="red", pch = 19,cex=2)
         
-        legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
-                            expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-                            "VL nutrient constraint", "L nutrient constraint",
-                            "A", "B", "C", "D"),
-               col=c("cyan","green", "tomato", "violet","blue", "darkgreen","red", "orange"), 
-               lwd=c(2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,19,19,19,19), cex = 0.8, 
+        #legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
+        #                    expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
+        #                    "VL nutrient constraint", "L nutrient constraint",
+        #                    "A", "B", "C", "D"),
+        #       col=c("cyan","green", "tomato", "violet","blue", "darkgreen","red", "orange"), 
+        #       lwd=c(2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,19,19,19,19), cex = 0.8, 
+        #       bg = adjustcolor("grey", 0.8))
+        
+        legend("topright", c("P350", "P700", "VL", "L", "M",
+                             "A", "B", "C", "D", "E"),
+               col=c("cyan","green", "tomato", "violet","darkred","blue", "darkgreen","purple","red", "orange"), 
+               lwd=c(2,2,2,2,2,NA,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19,19), cex = 0.8, 
                bg = adjustcolor("grey", 0.8))
         
         dev.off()
