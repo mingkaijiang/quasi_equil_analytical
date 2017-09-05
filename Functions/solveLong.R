@@ -129,7 +129,7 @@ solveLong_respiration <- function(CO2,Cpass,NinL, PinL) {
                                      allocp(inferpfVL(nf, allocn(nf))), 
                                      CO2) - Long_constraint_N(nf,allocn(nf),Cpass=Cpass,NinL)$NPP
     }
-    equilnf <- uniroot(fn,interval=c(0.01,0.04))$root
+    equilnf <- uniroot(fn,interval=c(0.0085,0.04))$root
     equilpf <- inferpfVL(equilnf, allocn(equilnf))
     equilNPP <- photo_constraint_respiration(equilnf, equilpf, 
                                           allocn(equilnf), allocp(equilpf), CO2)
