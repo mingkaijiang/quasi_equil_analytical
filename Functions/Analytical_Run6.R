@@ -17,8 +17,6 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
     #### f.flag: = 3 return eDF
 
     ######### Main program
-    
-    ######### Main program
     source("Parameters/Analytical_Run6_Parameters.R")
     
     
@@ -44,11 +42,11 @@ Perform_Analytical_Run6 <- function(f.flag = 1, cDF, eDF) {
     NrelwoodVLong <- aequil$aw*aequil$nw*VLong$equilNPP*1000
     
     #now plot long-term constraint with this Cpassive
-    NCHUGH <- Long_constraint_N(nfseq,a_vec,Cpass=CpassVLong,Nin+NrelwoodVLong)
+    NCHUGH <- Long_constraint_N(nfseq,a_vec,Cpass=CpassVLong,Nin)#+NrelwoodVLong)
     
     # Solve longterm equilibrium
-    equil_long_350 <- solveLong_simple_cn(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
-    equil_long_700 <- solveLong_simple_cn(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_350 <- solveLong_simple_cn(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
+    equil_long_700 <- solveLong_simple_cn(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), PC700))

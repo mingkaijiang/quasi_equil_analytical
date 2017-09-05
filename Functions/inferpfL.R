@@ -136,7 +136,7 @@ inferpfL_expl_min <- function(nf, a, PinL, NinL,
     
     # equation for N constraint with passive, wood, and leaching
     U0 <- NinL + (1-pass$qq) * pass$decomp * Cpass * ncp   
-    nwood <- a$aw*a$nw
+    nwood <- 0 # a$aw*a$nw
     nburial <- omega*ncp
     
     # NPP <- ((U0 - nwood - nburial) / leachn) * nuptakerate / (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw)  
@@ -152,9 +152,9 @@ inferpfL_expl_min <- function(nf, a, PinL, NinL,
     Y1 <- P0 / NPP - pburial
     
     if(pwvar == FALSE) {
-        pf <- (((Y1 - pwood * aw) / (pleach+pocc)) - pwood * aw) / ((1.0-pretrans)*af + prho * ar)
+        pf <- (((Y1) / (pleach+pocc)) - pwood * aw) / ((1.0-pretrans)*af + prho * ar)
     } else {
-        pf <- Y1 / (pwood * aw + (pleach + pocc) * ((1.0-pretrans)*af + prho * ar + pwood * aw))
+        pf <- Y1 / ((pleach + pocc) * ((1.0-pretrans)*af + prho * ar + pwood * aw))
     }
     
     # obtain equilpf  

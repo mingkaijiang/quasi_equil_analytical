@@ -51,20 +51,20 @@ Perform_Analytical_Run5 <- function(f.flag = 1, cDF, eDF) {
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLong_equil$equilNPP*1000.0
     
     # Calculate pf based on nf of long-term nutrient exchange
-    pfseqL <- inferpfL(nfseq, a_nf, PinL = Pin+PrelwoodVLong,
-                       NinL = Nin+NrelwoodVLong,
+    pfseqL <- inferpfL(nfseq, a_nf, PinL = Pin,#+PrelwoodVLong,
+                       NinL = Nin,#+NrelwoodVLong,
                        Cpass=CpassVLong)
     
     # Calculate long term nutrieng constraint
     NCLONG <- Long_constraint_N(nfseq, a_nf, CpassVLong,
-                                NinL = Nin+NrelwoodVLong)
+                                NinL = Nin)#+NrelwoodVLong)
     
     PCLONG <- Long_constraint_P(nfseq, pfseqL, allocp(pfseqL),
-                                CpassVLong, PinL=Pin+PrelwoodVLong)
+                                CpassVLong, PinL=Pin)#+PrelwoodVLong)
     
     # Find long term equilibrium point
-    Long_equil <- solveLong_simple_cnp(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong, 
-                                     PinL=Pin+PrelwoodVLong)
+    Long_equil <- solveLong_simple_cnp(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin,#+NrelwoodVLong, 
+                                     PinL=Pin)#+PrelwoodVLong)
     
     
     out350DF <- data.frame(nfseq, pfseq, pfseqL, Photo350, NCVLONG, NCLONG)
@@ -102,8 +102,8 @@ Perform_Analytical_Run5 <- function(f.flag = 1, cDF, eDF) {
     VLong_equil <- solveVLong_simple_cnp(CO2=CO2_2)
     
     # Find long term equilibrium point
-    Long_equil <- solveLong_simple_cnp(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong, 
-                                     PinL=Pin+PrelwoodVLong)
+    Long_equil <- solveLong_simple_cnp(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin,#+NrelwoodVLong, 
+                                     PinL=Pin)#+PrelwoodVLong)
     
     out700DF <- data.frame(nfseq, pfseq, pfseqL, Photo700, NCVLONG, NCLONG)
     colnames(out700DF) <- c("nc", "pc_VL", "pc_700_L", "NPP_700", "NPP_VL",

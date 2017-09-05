@@ -40,25 +40,38 @@ Perform_Analytical_Run7 <- function(f.flag = 1, cDF, eDF) {
     # Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn(VLongN$equilnf)
     aequilp <- allocp(VLongN$equilpf)
-    pass <- passive(df=VLongN$equilnf, a=aequiln)
-    omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
-    CpassVLong <- omega*VLongN$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+    #pass <- passive(df=VLongN$equilnf, a=aequiln)
+    #omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
+    #CpassVLong <- omega*VLongN$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+    
+    pass <- slow_pool(df=VLongN$equilnf, a=aequiln)
+    omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
+    CpassVLong <- omegap*VLongN$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
+    
+    # Calculate pf based on nf of long-term nutrient exchange
+    pfseqL <- inferpfL_expl_min(nfseq, a_nf, PinL = Pin,#+PrelwoodVLong,
+                                NinL = Nin,#+NrelwoodVLong,
+                                Cpass=CpassVLong)
+    
+    # Calculate long term nutrieng constraint
+    NCHUGH <- NConsLong_expl_min(nfseq, a_nf,CpassVLong,
+                                 NinL = Nin)#+NrelwoodVLong)
+    
+    # Find equilibrate intersection and plot
+    LongN <- solveLong_expl_min(CO2_1, Cpass=CpassVLong, NinL= Nin,#+NrelwoodVLong,
+                                PinL=Pin)#+PrelwoodVLong)
+    
+    # Get Cslow from long nutrient cycling solution
+    omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
+    CslowLong <- omegas*LongN$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
     
     # Calculate nutrient release from recalcitrant pools
     PrelwoodVLong <- aequilp$aw*aequilp$pw*VLongN$equilNPP_N*1000.0
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN$equilNPP_N*1000.0
     
-    # Calculate pf based on nf of long-term nutrient exchange
-    pfseqL <- inferpfL_expl_min(nfseq, a_nf, PinL = Pin+PrelwoodVLong,
-                                NinL = Nin+NrelwoodVLong,Cpass=CpassVLong)
-    
-    # Calculate long term nutrieng constraint
-    NCHUGH <- NConsLong_expl_min(nfseq, a_nf,CpassVLong,
-                                 NinL = Nin+NrelwoodVLong)
-    
-    # Find equilibrate intersection and plot
-    LongN <- solveLong_expl_min(CO2_1, Cpass=CpassVLong, NinL= Nin+NrelwoodVLong,
-                                PinL=Pin+PrelwoodVLong)
+    # Calculate medium term nutrieng constraint
+    NCMEDIUM <- NConsMedium_expl_min(nfseq, a_nf,CpassVLong, CslowLong,
+                                     NinL = Nin+NrelwoodVLong)
     
     out350DF <- data.frame(nfseq, pfseq, pfseqL, NC350, NCVLONG, NCHUGH)
     colnames(out350DF) <- c("nc", "pc_VL", "pc_350_L", "NPP_350", "NPP_VL",
@@ -96,11 +109,17 @@ Perform_Analytical_Run7 <- function(f.flag = 1, cDF, eDF) {
                             "nleach_L", "aw")
     
     # Find equilibrate intersection and plot
-    LongN <- solveLong_expl_min(CO2_2, Cpass=CpassVLong, NinL=Nin+NrelwoodVLong)
+    LongN <- solveLong_expl_min(CO2_2, Cpass=CpassVLong, NinL=Nin)#+NrelwoodVLong)
     
     equil700DF <- data.frame(VLongN, LongN)
     colnames(equil700DF) <- c("nc_VL", "pc_VL","NPP_VL", 
                               "nc_L", "pc_L","NPP_L")
+    
+    # Find medium term equilibrium point
+    Medium_equil_350 <- solveMedium_full_cnp(CO2_1, Cpass = CpassVLong, Cslow = CslowLong, 
+                                             NinL=Nin+NrelwoodVLong, PinL=Pin+PrelwoodVLong)
+    Medium_equil_700 <- solveMedium_full_cnp(CO2_2, Cpass = CpassVLong, Cslow = CslowLong, 
+                                             NinL=Nin+NrelwoodVLong, PinL=Pin+PrelwoodVLong)
     
     # store constraint and equil DF onto their respective output df
     cDF[cDF$Run == 7 & cDF$CO2 == 700, 3:13] <- out700DF
@@ -188,7 +207,9 @@ Perform_Analytical_Run7 <- function(f.flag = 1, cDF, eDF) {
         points(equil350DF$nc_VL, inst700$equilNPP, type="p", col = "darkgreen", pch=19)
         points(equil700DF$nc_VL, equil700DF$NPP_VL, type="p", col="orange", pch = 19)
         points(equil700DF$nc_L, equil700DF$NPP_L,type="p", col="red", pch = 19)
-
+        points(nfseq, NCMEDIUM$NPP, type="l", col="darkred", lwd = 3)
+        points(Medium_equil_700$equilnf, Medium_equil_700$equilNPP, type="p", col="purple", pch = 19)
+        
         
         # shoot nc vs. shoot pc
         plot(out350DF$nc, out350DF$pc_VL, xlim=c(0.0, 0.05),
@@ -210,12 +231,10 @@ Perform_Analytical_Run7 <- function(f.flag = 1, cDF, eDF) {
         
         points(equil700DF$nc_L, equil700DF$pc_L, type="p", col="red", pch = 19)
         
-        legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
-                            expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-                            "VL nutrient constraint", "L nutrient constraint",
-                            "A", "B", "C", "D"),
-               col=c("cyan","green", "tomato", "violet","blue", "darkgreen","red", "orange"), 
-               lwd=c(2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,19,19,19,19), cex = 0.7, 
+        legend("topright", c("P350", "P700", "VL", "L", "M",
+                             "A", "B", "C", "D", "E"),
+               col=c("cyan","green", "tomato", "violet","darkred","blue", "darkgreen","purple","red", "orange"), 
+               lwd=c(2,2,2,2,2,NA,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19,19), cex = 0.8, 
                bg = adjustcolor("grey", 0.8))
         
         

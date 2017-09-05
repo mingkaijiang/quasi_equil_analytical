@@ -85,7 +85,7 @@ NConsLong_expl_min <- function(df, a, Cpass, NinL) {
     
     # equation for N constraint with passive, wood, and leaching
     U0 <- NinL + (1-pass$qq) * pass$decomp * Cpass * ncp   # will be a constant if decomp rate is constant
-    nwood <- a$aw*a$nw
+    nwood <- 0 # a$aw*a$nw
     nburial <- omegap*ncp
 
     #NPP_NC <- ((U0 - nwood - nburial) / leachn) * nuptakerate / (a$nfl*a$af + a$nr*a$ar + a$nw*a$aw)   # will be in g C m-2 yr-1
