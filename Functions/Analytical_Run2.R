@@ -66,27 +66,24 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     VLong700 <- solveVLong_full_cn(CO2=CO2_2)
     
     # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 2 & cDF$CO2 == 350, 3:13] <- cbind(nfseq, 0, 0, PC350, NCVLONG, NCHUGH)
-    eDF[eDF$Run == 2 & eDF$CO2 == 350, 3:8] <- cbind(VLong, equil_long_350)
-    cDF[cDF$Run == 2 & cDF$CO2 == 700, 3:13] <- cbind(nfseq, 0, 0, PC700, NCVLONG, NCHUGH)
-    eDF[eDF$Run == 2 & eDF$CO2 == 700, 3:8] <- cbind(VLong700, equil_long_700)
-    
-    eDF[eDF$Run == 2 & eDF$CO2 == 350, 9] <- inst700$equilNPP
-    eDF[eDF$Run == 2 & eDF$CO2 == 700, 9] <- inst700$equilNPP
-    
-    eDF[eDF$Run == 2, "PC_VL"] <- NA
-    eDF[eDF$Run == 2, "PC_L"] <- NA
-    
-    if (f.flag ==1 ) {
-        
-        #### Library
-        require(scatterplot3d)
-        
-        ######### Plotting
-        
-        tiff("Plots/Analytical_Run2_2d.tiff",
-             width = 8, height = 7, units = "in", res = 300)
-        par(mar=c(5.1,5.1,2.1,2.1))
+    #cDF[cDF$Run == 2 & cDF$CO2 == 350, 3:13] <- cbind(nfseq, 0, 0, PC350, NCVLONG, NCHUGH)
+    #eDF[eDF$Run == 2 & eDF$CO2 == 350, 3:8] <- cbind(VLong, equil_long_350)
+    #cDF[cDF$Run == 2 & cDF$CO2 == 700, 3:13] <- cbind(nfseq, 0, 0, PC700, NCVLONG, NCHUGH)
+    #eDF[eDF$Run == 2 & eDF$CO2 == 700, 3:8] <- cbind(VLong700, equil_long_700)
+    #
+    #eDF[eDF$Run == 2 & eDF$CO2 == 350, 9] <- inst700$equilNPP
+    #eDF[eDF$Run == 2 & eDF$CO2 == 700, 9] <- inst700$equilNPP
+    #
+    #eDF[eDF$Run == 2, "PC_VL"] <- NA
+    #eDF[eDF$Run == 2, "PC_L"] <- NA
+    #
+    #if (f.flag ==1 ) {
+    #    
+    #    ######### Plotting
+    #    
+    #    tiff("Plots/Analytical_Run2_2d.tiff",
+    #         width = 8, height = 7, units = "in", res = 300)
+    #    par(mar=c(5.1,5.1,2.1,2.1))
         
         # Photosynthetic constraint CO2 = 350 ppm
         plot(nfseq,PC350,axes=T,
@@ -139,11 +136,11 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
                bg = adjustcolor("grey", 0.8))
 
         
-        dev.off()
-        
-    } else if (f.flag == 2) {
-        return(cDF)
-    } else if (f.flag == 3) {
-        return(eDF)
-    }
+    #    dev.off()
+    #    
+    #} else if (f.flag == 2) {
+    #    return(cDF)
+    #} else if (f.flag == 3) {
+    #    return(eDF)
+    #}
 }
