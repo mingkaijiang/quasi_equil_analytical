@@ -43,6 +43,7 @@ inferpfL <- function(nf, a, PinL, NinL,
 inferpfM <- function(nf, a, PinM, NinM,
                      CpassL, CpassM) {
     
+    #browser()
     # passive pool burial 
     pass <- slow_pool(nf, allocn(nf))
     omegap <- allocn(nf)$af*pass$omegafp + allocn(nf)$ar*pass$omegarp 
@@ -57,7 +58,7 @@ inferpfM <- function(nf, a, PinM, NinM,
     NPP <- N0 / (nleach + nburial + nwood)
     
     # prepare long term phosphorus fluxes
-    P0 = PinM + (1-pass$qpq) * pass$decomp_p * CpassL * pcp + (1-pass$qsq) * pass$decomp_s * CpassM * pcs
+    P0 = PinM + (1-pass$qpq) * pass$decomp_p * CpassL * pcp + (1-pass$qsq) * pass$decomp_s * CpassM * pcs 
     pleach <- leachp/(1-leachp-k1) 
     pburial <- omegap*pcp + omegas*pcs
     pocc <- (k1/(1-k1-leachp))

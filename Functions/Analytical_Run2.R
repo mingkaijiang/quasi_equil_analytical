@@ -20,7 +20,7 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     source("Parameters/Analytical_Run2_Parameters.R")
     
     # N:C ratios for x-axis
-    nfseq <- seq(0.01,0.1,by=0.001)
+    nfseq <- seq(0.001,0.1,by=0.001)
     # need allocation fractions here
     a_vec <- allocn(nfseq)
     
@@ -35,17 +35,28 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
     VLong <- solveVLong_full_cn(CO2=CO2_1)
     #get Cpassive from very-long nutrient cycling solution
     aequil <- allocn(VLong$equilnf)
-    pass <- passive(df=VLong$equilnf, a=aequil)
-    omegap <- aequil$af*pass$omegaf + aequil$ar*pass$omegar
-    CpassVLong <- omegap*VLong$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+    pass <- slow_pool(df=VLong$equilnf, a=aequil)
+    omegap <- aequil$af*pass$omegafp + aequil$ar*pass$omegarp
+    omegas <- aequil$af*pass$omegafs + aequil$ar*pass$omegars
+    
+    CpassVLong <- omegap*VLong$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
+
     NrelwoodVLong <- aequil$aw*aequil$nw*VLong$equilNPP*1000
     
     #now plot long-term constraint with this Cpassive
-    NCHUGH <- Long_constraint_N(nfseq,a_vec,Cpass=CpassVLong,Nin+NrelwoodVLong)
+    NCHUGH <- Long_constraint_N(nfseq,a_vec,Cpass=CpassVLong,Nin)#+NrelwoodVLong)
     
     # Solve longterm equilibrium
-    equil_long_350 <- solveLong_full_cn(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
-    equil_long_700 <- solveLong_full_cn(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    equil_long_350 <- solveLong_full_cn(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
+    equil_long_700 <- solveLong_full_cn(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
+    
+    CslowLong <- omegas*equil_long_350$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
+    
+    # plot medium nutrient cycling constraint
+    NCMEDIUM <- NConsMedium(nfseq, a_vec, CpassVLong, CslowLong, Nin+NrelwoodVLong)
+    
+    # solve medium term equilibrium at CO2 = 700 ppm
+    equil_medium_700 <- solveMedium(CO2_2,Cpass=CpassVLong,Cslow=CslowLong,Nin=Nin+NrelwoodVLong)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
@@ -111,6 +122,13 @@ Perform_Analytical_Run2 <- function(f.flag = 1, cDF, eDF) {
         
         # VL intersect with CO2 = 700 ppm
         points(VLong700$equilnf, VLong700$equilNPP, cex = 2.0, col = "orange", pch = 19)
+        
+        # M nutrient curve
+        points(nfseq, NCMEDIUM$NPP, type="l", col="darkred", lwd = 2.5)
+        
+        # M intersect with CO2 = 700 ppm
+        points(equil_medium_700$equilnf, equil_medium_700$equilNPP, cex = 2.0, col = "purple", pch = 19)
+        
         
         legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
                              expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 

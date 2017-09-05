@@ -15,7 +15,7 @@ solveLong <- function(CO2,Cpass,NinL, PinL) {
 }
 
 # Find the long term equilibrium nf and NPP under standard conditions - by finding the root
-solveLong_full_cnp <- function(CO2,Cpass,NinL, PinL) {
+solveLong_full_cnp <- function(CO2,Cpass,NinL,PinL) {
     fn <- function(nf) {
         photo_constraint_full_cnp(nf, inferpfVL(nf, allocn(nf)), 
                                   allocn(nf), 
@@ -66,7 +66,7 @@ solveLong_full_cn <- function(CO2,Cpass,NinL) {
         photo_constraint_full_cn(nf, allocn(nf), 
                                  CO2) - Long_constraint_N(nf,allocn(nf),Cpass=Cpass,NinL)$NPP
     }
-    equilnf <- uniroot(fn,interval=c(0.01,0.1))$root
+    equilnf <- uniroot(fn,interval=c(0.001,0.1))$root
     equilNPP <- photo_constraint_full_cn(equilnf, 
                                           allocn(equilnf), CO2)
     equilpf <- "NA"
