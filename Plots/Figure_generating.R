@@ -18,9 +18,7 @@ source("Plots/Figure1.R")
 
 
 #### Figure 3:
-#### The 3-d plot of shoot N:C, shoot P:C vs. production
-#### With the same assumption as Figure 1 (same coloring system)
-#### Pupose: to illustrate the co-limitation concept
+#### Comparing N model and NP model
 source("Plots/Figure3.R")
 
 #### Figure 4:

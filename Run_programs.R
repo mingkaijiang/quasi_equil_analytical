@@ -124,6 +124,8 @@ source("R/CO2_fertilization_summary.R")
 ## Plot illustration of the graphic interpretation of quasi-equil analysis
 source("Plots/Figure1.R")
 
+## Figure 2 is the GDAY model framework
+
 ## Plot times series of N vs. NP model NPP, Nuptake and Puptake
 source("Plots/Transient_pattern_multi_panel_plot.R")
 
