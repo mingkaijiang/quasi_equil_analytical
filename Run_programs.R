@@ -119,18 +119,7 @@ source("R/CO2_fertilization_summary.R")
 #
 #### ---------------- Generate manuscript figures and tables --------------- #####
 ### To generate manuscript figures
-#source("Plots/Figure_generating.R")
-
-## Plot illustration of the graphic interpretation of quasi-equil analysis
-source("Plots/Figure1.R")
-
-## Figure 2 is the GDAY model framework
-
-## Plot times series of N vs. NP model NPP, Nuptake and Puptake
-source("Plots/Transient_pattern_multi_panel_plot.R")
-
-## Plot baseline NC vs. NPP and NC vs. PC plot
-source("Plots/Figure4.R")
+source("Plots/Figure_generating.R")
 
 ### To generate manuscript tables (or statistics used for generating the tables)
 #source("Tables/Table_generating.R")
