@@ -108,7 +108,7 @@ wood_stoichiometry_effect <- function() {
     
     # shoot nc vs. NPP at variable wood
     plot(nfseq, photo_350_vary, xlim=c(0.005, 0.03),
-         ylim=c(0, 3), 
+         ylim=c(0.5, 3), 
          type = "l", xlab = "Shoot N:C ratio", 
          ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
          col="cyan", lwd = 3, cex.lab=1.5)
@@ -122,7 +122,7 @@ wood_stoichiometry_effect <- function() {
     
     # shoot nc vs. NPP at fixed wood
     plot(nfseq, photo_350_fix, xlim=c(0.005, 0.03),
-         ylim=c(0, 3), 
+         ylim=c(0.5, 3), 
          type = "l", xlab = "Shoot N:C ratio", 
          ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
          col="cyan", lwd = 3, cex.lab=1.5)
@@ -137,8 +137,8 @@ wood_stoichiometry_effect <- function() {
     legend("topright", c("P350", "P700", "VL", "L",
                          "A", "B", "C"),
            col=c("cyan","green", "tomato", "violet","blue", "red", "orange"), 
-           lwd=c(2,2,2,2,NA,NA,NA), pch=c(NA,NA,NA, NA,19,19,19), cex = 0.8, 
-           bg = adjustcolor("grey", 0.8))
+           lwd=c(2,2,2,2,NA,NA,NA), pch=c(NA,NA,NA, NA,19,19,19), cex = 1.2, 
+           bg = adjustcolor("grey", 0.8), ncol=2)
     
     dev.off()
     
