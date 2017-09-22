@@ -22,11 +22,12 @@ source("Plots/Figure1.R")
 source("Plots/Figure3.R")
 
 #### Figure 4:
-#### To plot shoot P:C vs. production under eCO2 and aCO2,
-#### specifically focuses on aCO2 condition where shoot P:C is constrained by
-#### both VL and L constraints. 
+#### To plot shoot P:C vs. production under eCO2 and aCO2
 source("Plots/Figure4.R")
 
+#### Figure 5: 
+#### Flexibility of wood stoichiometry
+source("Plots/Figure5.R")
 
 
 ################################################################################
