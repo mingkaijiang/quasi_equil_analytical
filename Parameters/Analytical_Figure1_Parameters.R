@@ -32,6 +32,8 @@ ligfl = 0.2
 ligrl = 0.16
 pcp = 0.005
 ncp = 0.1
+ncs <- 0.05
+pcs <- 0.0005
 PAR_MJ <- 4.0
 J_2_UMOL <- 4.57
 MJ_TO_J <- 1000000.0

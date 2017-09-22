@@ -5,6 +5,9 @@
 #### The exact orders of the figures will be changed as the manuscript progresses
 ################################################################################
 
+################################################################################
+#### main text figures
+
 #### Figure 1: 
 #### Shoot N:C vs. production from analytical solution
 #### No P considered, fixed plant stoichiometry
@@ -28,8 +31,10 @@ source("Plots/Figure4.R")
 
 
 
+################################################################################
+#### supplementary figures
 
-#### Figure x:
+#### Figure S1:
 #### To plot multi-panel transient model behaviors over the first 100 years of doubling CO2
 #### comparing both fixed and variable wood stoichiometry
 source("Plots/Transient_pattern_multi_panel_plot.R")

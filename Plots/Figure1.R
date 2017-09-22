@@ -30,17 +30,28 @@ NCVLONG <- NConsVLong(df=nfseq,a=a_vec)
 VLong <- solveVLongN(CO2=350)
 #get Cpassive from very-long nutrient cycling solution
 aequil <- allocn(VLong$equilnf)
-pass <- passive(df=VLong$equilnf, a=aequil)
-omegap <- aequil$af*pass$omegaf + aequil$ar*pass$omegar
-CpassVLong <- omegap*VLong$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+pass <- slow_pool(df=VLong$equilnf, a=aequil)
+omegap <- aequil$af*pass$omegafp + aequil$ar*pass$omegarp
+omegas <- aequil$af*pass$omegafs + aequil$ar*pass$omegars
+
+CpassVLong <- omegap*VLong$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
 NrelwoodVLong <- aequil$aw*aequil$nw*VLong$equilNPP*1000
 
 #now plot long-term constraint with this Cpassive
-NCHUGH <- NConsLong(df = nfseq,a = a_vec, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+NCHUGH <- NConsLong(df = nfseq,a = a_vec, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
 
 # Solve longterm equilibrium
-equil_long_350 <- solveLongN(CO2=350, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
-equil_long_700 <- solveLongN(CO2=700, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+equil_long_350 <- solveLongN(CO2=350, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
+equil_long_700 <- solveLongN(CO2=700, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
+
+CslowLong <- omegas*equil_long_350$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
+
+# plot medium nutrient cycling constraint
+NCMEDIUM <- NConsMedium(nfseq, a_vec, CpassVLong, CslowLong, Nin+NrelwoodVLong)
+
+# solve medium term equilibrium at CO2 = 700 ppm
+equil_medium_700 <- solveMedium_original(CO2_2,Cpass=CpassVLong,Cslow=CslowLong,Nin=Nin+NrelwoodVLong)
+
 
 # get the point instantaneous NPP response to doubling of CO2
 df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
@@ -59,7 +70,7 @@ par(mar=c(5.1,5.1,2.1,2.1))
 
 # Photosynthetic constraint CO2 = 350 ppm
 plot(nfseq,PC350,axes=F,
-     type='l',xlim=c(0,0.05),ylim=c(0,4.0), 
+     type='l',xlim=c(0.0,0.05),ylim=c(0,3.5), 
      ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]"))
      , xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex = 2.0, bg = "black")
 rect(0,0,0.05,8,border=NA, col=adjustcolor("lightgrey", 0.2))
@@ -92,17 +103,17 @@ points(inst700$nf, inst700$equilNPP, cex = 2.0, col = "darkgreen", pch=19)
 # VL intersect with CO2 = 700 ppm
 points(VLong700$equilnf, VLong700$equilNPP, cex = 2.0, col = "orange", pch = 19)
 
-legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
-                     expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-                     "VL nutrient constraint", "L nutrient constraint",
-                     "A", "B"),
-       col=c("cyan","green", "tomato", "violet","blue", "darkgreen"), 
-       lwd=c(2,2,2,2,NA,NA), pch=c(NA,NA,NA,NA,19,19), cex = 1.0, 
-       bg = adjustcolor("grey", 0.8))
+# M nutrient curve
+points(nfseq, NCMEDIUM$NPP, type="l", col="darkred", lwd = 2.5)
 
-legend(0.04, 3.505, c("C", "D"),
-       col=c("red", "orange"), 
-       lwd=c(NA,NA), pch=c(19,19), cex = 1.0, border=FALSE, bty="n",
-       bg = adjustcolor("grey", 0.8))      
+# M intersect with CO2 = 700 ppm
+points(equil_medium_700$equilnf, equil_medium_700$equilNPP, cex = 2.0, col = "purple", pch = 19)
+
+
+legend("topleft", c("P350", "P700", "VL", "L", "M",
+                     "A", "B", "C", "D", "E"),
+       col=c("cyan","green", "tomato", "violet","darkred","blue", "darkgreen","purple","red", "orange"), 
+       lwd=c(2,2,2,2,2,NA,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19,19), cex = 1.2, 
+       bg = adjustcolor("grey", 0.8), ncol=2)
 
 dev.off()

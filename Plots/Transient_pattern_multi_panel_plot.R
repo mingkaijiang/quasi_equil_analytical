@@ -25,7 +25,7 @@ with(npDF[1:100,], plot(npp*100~year, type="l",
                         ylim = c(1500, 1900), cex.lab = 1.5))
 with(nDF[1:100,], points(npp*100~year, type="l", lty = 2, lwd = 2.0))
 
-arrows(5, 1540, 5, 1560, length=0.1)
+arrows(5, 1500, 5, 1520, length=0.1)
 
 # Nuptake
 with(npDF[1:100,], plot(nuptake*100~year, type="l", 
