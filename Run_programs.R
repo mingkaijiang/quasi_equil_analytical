@@ -122,7 +122,7 @@ source("R/CO2_fertilization_summary.R")
 source("Plots/Figure_generating.R")
 
 ### To generate manuscript tables (or statistics used for generating the tables)
-#source("Tables/Table_generating.R")
+source("Tables/Table_generating.R")
 
 ##### ------------------------ Clear workspace ---------------------------- #####
 rm(list=ls(all=TRUE))

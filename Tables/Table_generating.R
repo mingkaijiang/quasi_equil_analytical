@@ -4,5 +4,5 @@
 #### 
 ################################################################################
 
-#### Table 1: Compare effects of doubling CO2 in GDAY simulations
+#### Table 1: Compare effects of doubling CO2 in analytical solutions
 source("Tables/Table1.R")
