@@ -26,9 +26,10 @@ wood_stoichiometry_effect <- function() {
     ### Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn(VLong_equil_vary_350$equilnf)
     aequilp <- allocp(VLong_equil_vary_350$equilpf)
-    pass <- passive(df=VLong_equil_vary_350$equilnf, a=aequiln)
-    omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
-    CpassVLong <- omega*VLong_equil_vary_350$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+    
+    pass <- slow_pool(df=VLong_equil_vary_350$equilnf, a=aequiln)
+    omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
+    CpassVLong <- omegap*VLong_equil_vary_350$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
     
     ### Calculate nutrient release from recalcitrant pools
     PrelwoodVLong <- aequilp$aw*aequilp$pw*VLong_equil_vary_350$equilNPP*1000.0
@@ -48,6 +49,26 @@ wood_stoichiometry_effect <- function() {
                                           PinL=Pin)#+PrelwoodVLong)
     Long_equil_vary_700 <- solveLong_full_cnp(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin,#+NrelwoodVLong, 
                                           PinL=Pin)#+PrelwoodVLong)
+    
+    omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
+    CslowLong <- omegas*Long_equil_vary_350$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
+    
+    # Calculate pf based on nf of medium-term nutrient exchange
+    pfseqM <- inferpfM(nfseq, a_nf, PinM = Pin+PrelwoodVLong,
+                       NinM = Nin+NrelwoodVLong,
+                       CpassL=CpassVLong, CpassM=CslowLong)
+    
+    # Calculate medium term nutrient constraint
+    NCMEDIUM <- NConsMedium(df=nfseq, 
+                            a=a_nf, 
+                            Cpass=CpassVLong, 
+                            Cslow=CslowLong, 
+                            NinL = Nin+NrelwoodVLong)
+    
+    Medium_equil_vary_350 <- solveMedium_full_cnp(CO2=CO2_1, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong,
+                                                  PinL=Pin+PrelwoodVLong)
+    Medium_equil_vary_700 <- solveMedium_full_cnp(CO2=CO2_2, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong,
+                                                  PinL=Pin+PrelwoodVLong)
     
     #### Perform CNP only analysis of VL pools
     source("Parameters/Analytical_Run3_Parameters.R")
@@ -74,9 +95,9 @@ wood_stoichiometry_effect <- function() {
     ### Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn(VLong_equil_fix_350$equilnf)
     aequilp <- allocp(VLong_equil_fix_350$equilpf)
-    pass <- passive(df=VLong_equil_fix_350$equilnf, a=aequiln)
-    omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
-    CpassVLong <- omega*VLong_equil_fix_350$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+    pass <- slow_pool(df=VLong_equil_fix_350$equilnf, a=aequiln)
+    omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
+    CpassVLong <- omegap*VLong_equil_fix_350$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
     
     ### Calculate nutrient release from recalcitrant pools
     PrelwoodVLong <- aequilp$aw*aequilp$pw*VLong_equil_fix_350$equilNPP*1000.0
@@ -96,6 +117,27 @@ wood_stoichiometry_effect <- function() {
                                           PinL=Pin)#+PrelwoodVLong)
     Long_equil_fix_700 <- solveLong_full_cnp(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin,#+NrelwoodVLong, 
                                          PinL=Pin)#+PrelwoodVLong)
+    
+    omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
+    CslowLong <- omegas*Long_equil_fix_350$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
+    
+    # Calculate pf based on nf of medium-term nutrient exchange
+    pfseqM <- inferpfM(nfseq, a_nf, PinM = Pin+PrelwoodVLong,
+                       NinM = Nin+NrelwoodVLong,
+                       CpassL=CpassVLong, CpassM=CslowLong)
+    
+    # Calculate medium term nutrient constraint
+    NCMEDIUM <- NConsMedium(df=nfseq, 
+                            a=a_nf, 
+                            Cpass=CpassVLong, 
+                            Cslow=CslowLong, 
+                            NinL = Nin+NrelwoodVLong)
+    
+    Medium_equil_fix_350 <- solveMedium_full_cnp(CO2=CO2_1, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong,
+                                                  PinL=Pin+PrelwoodVLong)
+    Medium_equil_fix_700 <- solveMedium_full_cnp(CO2=CO2_2, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong,
+                                                  PinL=Pin+PrelwoodVLong)
+    
     
     # CO2 effect
     co2_effect_vary <- (VLong_equil_vary_700$equilNPP - VLong_equil_vary_350$equilNPP) / VLong_equil_vary_350$equilNPP * 100
@@ -118,6 +160,8 @@ wood_stoichiometry_effect <- function() {
     points(nfseq, photo_700_vary, col="green", type="l", lwd = 3)
     points(Long_equil_vary_700$equilnf, Long_equil_vary_700$equilNPP, type="p", col="orange", pch = 19, cex = 2)
     points(VLong_equil_vary_700$equilnf, VLong_equil_vary_700$equilNPP,type="p", col="red", pch = 19, cex = 2)
+    points(Medium_equil_vary_700$equilnf, Medium_equil_vary_700$equilNPP, type="p", col="purple", pch = 19, cex = 2)
+    
     text(x=0.006, y=2.9, "(a)", cex = 2)
     
     # shoot nc vs. NPP at fixed wood
@@ -132,6 +176,8 @@ wood_stoichiometry_effect <- function() {
     points(nfseq, photo_700_fix, col="green", type="l", lwd = 3)
     points(Long_equil_fix_700$equilnf, Long_equil_fix_700$equilNPP, type="p", col="orange", pch = 19, cex = 2)
     points(VLong_equil_fix_700$equilnf, VLong_equil_fix_700$equilNPP,type="p", col="red", pch = 19, cex = 2)
+    points(Medium_equil_fix_700$equilnf, Medium_equil_fix_700$equilNPP, type="p", col="purple", pch = 19, cex = 2)
+    
     text(x=0.006, y=2.9, "(b)", cex = 2)
     
 
