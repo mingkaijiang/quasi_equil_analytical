@@ -142,7 +142,7 @@ wood_stoichiometry_effect <- function() {
     # CO2 effect
     co2_effect_vary <- (VLong_equil_vary_700$equilNPP - VLong_equil_vary_350$equilNPP) / VLong_equil_vary_350$equilNPP * 100
     co2_effect_fix <- (VLong_equil_fix_700$equilNPP - VLong_equil_fix_350$equilNPP) / VLong_equil_fix_350$equilNPP * 100
-    
+
     #### Plotting
     tiff("Plots/Effect_of_wood_stoichiometry.tiff",
          width = 10, height = 5, units = "in", res = 300)
@@ -182,9 +182,9 @@ wood_stoichiometry_effect <- function() {
     
 
     legend("topright", c("P350", "P700", "VL", "L",
-                         "A", "B", "C"),
-           col=c("cyan","green", "tomato", "violet","blue", "red", "orange"), 
-           lwd=c(2,2,2,2,NA,NA,NA), pch=c(NA,NA,NA, NA,19,19,19), cex = 1.2, 
+                         "A", "B", "C", "D"),
+           col=c("cyan","green", "tomato", "violet","blue", "purple", "red", "orange"), 
+           lwd=c(2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA, NA,19,19,19,19), cex = 1.2, 
            bg = adjustcolor("grey", 0.8), ncol=2)
     
     dev.off()
