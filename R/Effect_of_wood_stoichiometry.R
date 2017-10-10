@@ -118,7 +118,7 @@ wood_stoichiometry_effect <- function() {
     points(nfseq, photo_700_vary, col="green", type="l", lwd = 3)
     points(Long_equil_vary_700$equilnf, Long_equil_vary_700$equilNPP, type="p", col="orange", pch = 19, cex = 2)
     points(VLong_equil_vary_700$equilnf, VLong_equil_vary_700$equilNPP,type="p", col="red", pch = 19, cex = 2)
-    
+    text(x=0.006, y=2.9, "(a)", cex = 2)
     
     # shoot nc vs. NPP at fixed wood
     plot(nfseq, photo_350_fix, xlim=c(0.005, 0.03),
@@ -132,6 +132,7 @@ wood_stoichiometry_effect <- function() {
     points(nfseq, photo_700_fix, col="green", type="l", lwd = 3)
     points(Long_equil_fix_700$equilnf, Long_equil_fix_700$equilNPP, type="p", col="orange", pch = 19, cex = 2)
     points(VLong_equil_fix_700$equilnf, VLong_equil_fix_700$equilNPP,type="p", col="red", pch = 19, cex = 2)
+    text(x=0.006, y=2.9, "(b)", cex = 2)
     
 
     legend("topright", c("P350", "P700", "VL", "L",
