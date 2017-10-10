@@ -13,9 +13,9 @@ compute_Table_1 <- function(destDir) {
     out.tab <- matrix(ncol=7, nrow = 3)
     colnames(out.tab) <- c("model", "NPP_350", "NPP_700", "I", "M", "L", "VL")
     out.tab <- as.data.frame(out.tab)
-    out.tab[1,"model"] <- "N-P"
-    out.tab[2,"model"] <- "N"
-    out.tab[2,"model"] <- "N, fixed wood"
+    out.tab[1,"model"] <- "Baseline N-P model"
+    out.tab[2,"model"] <- "N-limited model"
+    out.tab[3,"model"] <- "Fixed wood"
     
     
     ######### Run analytical run 1
