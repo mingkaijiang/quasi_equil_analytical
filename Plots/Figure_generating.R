@@ -29,6 +29,9 @@ source("Plots/Figure4.R")
 #### Flexibility of wood stoichiometry
 source("Plots/Figure5.R")
 
+#### Figure 6:
+#### read in table 2 and draw bar chart of wood stoichiometric effect
+source("Plots/Figure6.R")
 
 ################################################################################
 #### supplementary figures
