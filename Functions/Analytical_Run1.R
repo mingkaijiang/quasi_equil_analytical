@@ -158,6 +158,9 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
     eDF[eDF$Run == 1 & eDF$CO2 == 350, 9] <- inst700$equilNPP
     eDF[eDF$Run == 1 & eDF$CO2 == 700, 9] <- inst700$equilNPP
     
+    
+    lm.rlt <- lm(pc_VL~nc, out350DF)
+    
     if (f.flag == 1) {
         
         ### plot 2-d plots of nf vs. npp and nf vs. pf
@@ -182,7 +185,8 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
         points(equil700DF$nc_VL, equil700DF$NPP_VL, type="p", col="orange", pch = 19, cex = 2)
         points(equil700DF$nc_L, equil700DF$NPP_L,type="p", col="red", pch = 19, cex = 2)
         points(Medium_equil_700$equilnf, Medium_equil_700$equilNPP, type="p", col="purple", pch = 19, cex = 2)
-
+        text(x=0.045, y=2.9, "(a)", cex = 2)
+        
         #dev.off()
         
         #tiff("Plots/implicit_PC.tiff",
@@ -214,6 +218,7 @@ Perform_Analytical_Run1 <- function(f.flag = 1, cDF, eDF) {
         
         points(Medium_equil_700$equilnf, Medium_equil_700$equilpf, type="p", col="purple", pch = 19, cex = 2)
         
+        text(x=0.045, y=0.0019, "(b)", cex = 2)
         
         legend("bottomright", c("P350", "P700", "VL", "L", "M",
                             "A", "B", "C", "D", "E"),
