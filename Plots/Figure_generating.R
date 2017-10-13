@@ -30,8 +30,14 @@ source("Plots/Figure4.R")
 source("Plots/Figure5.R")
 
 #### Figure 6:
-#### 
+#### Explicit N uptake: barplot
+#### S3: quasi-equil plot
 source("Plots/Figure6_and_S3.R")
+
+#### Figure 7:
+#### comparison of GDAY vs. OCN approach
+#### for N uptake 
+source("Plots/Figure7.R")
 
 ################################################################################
 #### supplementary figures
@@ -39,7 +45,7 @@ source("Plots/Figure6_and_S3.R")
 #### Figure S1:
 #### To plot multi-panel transient model behaviors over the first 100 years of doubling CO2
 #### comparing both fixed and variable wood stoichiometry
-source("Plots/Transient_pattern_multi_panel_plot.R")
+source("Plots/FigureS1.R")
 
 #### Figure S2:
 #### effect of wood stoichiometry
