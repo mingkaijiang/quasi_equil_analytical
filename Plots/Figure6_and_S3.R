@@ -346,7 +346,7 @@
 
     p1 <- ggplot(plotDF, aes(x=Model, y=Production, fill=Timescale)) +   
         geom_bar(position='dodge', stat='identity') +
-        labs(list(x = "N uptake rate", y = ylabel, fill = "Model")) +
+        labs(list(x = "N uptake rate", y = ylabel, fill = "Timescale")) +
         scale_y_continuous(limits=c(-10,20)) +
         theme(text = element_text(size=20),
               axis.text.x = element_text()) 

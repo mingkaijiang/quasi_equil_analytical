@@ -14,7 +14,7 @@ nDF <- read.table( "GDAY/analyses/Run2/annual_gday_result_transient_CO2_ELE.csv"
                     header=T,sep=",")
 
 ## Plot N vs. NP comparison of NPP, Nuptake and Puptake
-tiff("Plots/Figure_transient_N_vs_NP_model.tiff",
+tiff("Plots/FigureS1.tiff",
      width = 10, height = 4, units = "in", res = 300)
 par(mfrow=c(1,3), mar=c(5.1,5.1,2.1,2.1))
 
