@@ -61,3 +61,6 @@ aroot <- 0.2
 aleaf <- 0.2
 nuptakerate <- 1.0  # 0.96884
 puptakerate <- 1.0  # 0.82395
+nuptakerate_1 <- nuptakerate
+nuptakerate_2 <- 0.5
+nuptakerate_3 <- 1.5

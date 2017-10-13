@@ -1,23 +1,22 @@
 #### To generate figure 6
-#### comparing 3 N uptake functions
+#### explicit mineral N uptake as a coefficient
+#### compare different uptake rates
 
 #### programs
 
-Nutrient_uptake_comparison <- function() {
+#Nutrient_uptake_comparison <- function() {
     
-    #### Run 7: explicit, linear coefficient approach
     source("Parameters/Analytical_Run7_Parameters.R")
     
     # create nc and pc for shoot to initiate
-    nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
+    nfseq <- round(seq(0.001, 0.1, by = 0.001),5)
     a_nf <- as.data.frame(allocn(nfseq))
     
-    pfseq <- inferpfVL_expl_min(nfseq, a_nf)
-    a_pf <- as.data.frame(allocp(pfseq))
+    #### Uptake rate = baseline = 1
     
     ##### CO2 = 350
     # calculate NC vs. NPP at CO2 = 350 respectively
-    NC350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
+    NC350 <- photo_constraint_full_cn(nfseq, a_nf, CO2_1)
     
     # calculate very long term NC and PC constraint on NPP, respectively
     NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_nf)
@@ -27,55 +26,40 @@ Nutrient_uptake_comparison <- function() {
     
     # Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn(VLongN$equilnf)
-    aequilp <- allocp(VLongN$equilpf)
     
     pass <- slow_pool(df=VLongN$equilnf, a=aequiln)
     omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
     CpassVLong <- omegap*VLongN$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
-    
-    # Calculate pf based on nf of long-term nutrient exchange
-    pfseqL <- inferpfL_expl_min(nfseq, a_nf, PinL = Pin,#+PrelwoodVLong,
-                                NinL = Nin,#+NrelwoodVLong,
-                                Cpass=CpassVLong)
     
     # Calculate long term nutrieng constraint
     NCHUGH <- NConsLong_expl_min(nfseq, a_nf,CpassVLong,
                                  NinL = Nin)#+NrelwoodVLong)
     
     # Find equilibrate intersection and plot
-    LongN <- solveLong_expl_min(CO2_1, Cpass=CpassVLong, NinL= Nin,#+NrelwoodVLong,
-                                PinL=Pin)#+PrelwoodVLong)
+    LongN <- solveLong_expl_min(CO2_1, Cpass=CpassVLong, NinL= Nin)#+PrelwoodVLong)
     
     # Get Cslow from long nutrient cycling solution
     omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
     CslowLong <- omegas*LongN$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
     
     # Calculate nutrient release from recalcitrant pools
-    PrelwoodVLong <- aequilp$aw*aequilp$pw*VLongN$equilNPP_N*1000.0
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN$equilNPP_N*1000.0
     
     # Calculate medium term nutrieng constraint
-    NCMEDIUM <- NConsMedium_expl_min(nfseq, a_nf,CpassVLong, CslowLong,
+    NCMEDIUM_1 <- NConsMedium_expl_min(nfseq, a_nf,CpassVLong, CslowLong,
                                      NinL = Nin+NrelwoodVLong)
     
-    out350DF <- data.frame(nfseq, pfseq, pfseqL, NC350, NCVLONG, NCHUGH)
-    colnames(out350DF) <- c("nc", "pc_VL", "pc_350_L", "NPP_350", "NPP_VL",
+    out350DF_1 <- data.frame(nfseq, NC350, NCVLONG, NCHUGH)
+    colnames(out350DF_1) <- c("nc", "NPP_350", "NPP_VL",
                             "nleach_VL", "NPP_350_L", "nwood_L", "nburial_L",
                             "nleach_L", "aw")
-    equil350DF <- data.frame(VLongN, LongN)
-    colnames(equil350DF) <- c("nc_VL", "pc_VL","NPP_VL", 
-                              "nc_L", "pc_L","NPP_L")
+    equil350DF_1 <- data.frame(VLongN, LongN)
+    colnames(equil350DF_1) <- c("nc_VL", "NPP_VL", 
+                              "nc_L", "NPP_L")
     
     ##### CO2 = 700
-    # N:C and P:C ratio
-    nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq))
-    
-    pfseq <- inferpfVL_expl_min(nfseq, a_nf)
-    a_pf <- as.data.frame(allocp(pfseq))
-    
     # calculate NC vs. NPP at CO2 = 350 respectively
-    NC700 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_2)
+    NC700 <- photo_constraint_full_cn(nfseq, a_nf, CO2_2)
     
     # calculate very long term NC and PC constraint on NPP, respectively
     NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_nf)
@@ -83,36 +67,255 @@ Nutrient_uptake_comparison <- function() {
     # solve very-long nutrient cycling constraint
     VLongN <- solveVLong_expl_min(CO2_2)
     
-    out700DF <- data.frame(nfseq, pfseq, pfseqL, NC700, NCVLONG, NCHUGH)
-    colnames(out700DF) <- c("nc", "pc_VL", "pc_700_L", "NPP_700", "NPP_VL",
+    out700DF_1 <- data.frame(nfseq, NC700, NCVLONG, NCHUGH)
+    colnames(out700DF_1) <- c("nc", "NPP_700", "NPP_VL",
                             "nleach_VL", "NPP_700_L", "nwood_L", "nburial_L",
                             "nleach_L", "aw")
     
     # Find equilibrate intersection and plot
     LongN <- solveLong_expl_min(CO2_2, Cpass=CpassVLong, NinL=Nin)#+NrelwoodVLong)
     
-    equil700DF <- data.frame(VLongN, LongN)
-    colnames(equil700DF) <- c("nc_VL", "pc_VL","NPP_VL", 
-                              "nc_L", "pc_L","NPP_L")
+    equil700DF_1 <- data.frame(VLongN, LongN)
+    colnames(equil700DF_1) <- c("nc_VL", "NPP_VL", 
+                              "nc_L", "NPP_L")
     
     # Find medium term equilibrium point
-    Medium_equil_350 <- solveMedium_full_cnp(CO2_1, Cpass = CpassVLong, Cslow = CslowLong, 
-                                             NinL=Nin+NrelwoodVLong, PinL=Pin+PrelwoodVLong)
-    Medium_equil_700 <- solveMedium_full_cnp(CO2_2, Cpass = CpassVLong, Cslow = CslowLong, 
-                                             NinL=Nin+NrelwoodVLong, PinL=Pin+PrelwoodVLong)
+    Medium_equil_350_1 <- solveMedium_expl_min(CO2_1, Cpass = CpassVLong, Cslow = CslowLong, 
+                                             NinL=Nin+NrelwoodVLong)
+    Medium_equil_700_1 <- solveMedium_expl_min(CO2_2, Cpass = CpassVLong, Cslow = CslowLong, 
+                                             NinL=Nin+NrelwoodVLong)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), NC700))
-    inst700 <- inst_NPP(equil350DF$nc_VL, df700)
+    inst700_1 <- inst_NPP(equil350DF_1$nc_VL, df700)
+    
+    ### new nuptakerate = 0.5
+    nuptakerate <- 0.5  # 0.96884
+    
+    ##### CO2 = 350
+    # calculate NC vs. NPP at CO2 = 350 respectively
+    NC350 <- photo_constraint_full_cn(nfseq, a_nf, CO2_1)
+    
+    # calculate very long term NC and PC constraint on NPP, respectively
+    NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_nf)
+    
+    # solve very-long nutrient cycling constraint
+    VLongN <- solveVLong_expl_min(CO2_1)
+    
+    # Get Cpassive from very-long nutrient cycling solution
+    aequiln <- allocn(VLongN$equilnf)
+    
+    pass <- slow_pool(df=VLongN$equilnf, a=aequiln)
+    omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
+    CpassVLong <- omegap*VLongN$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
+    
+    # Calculate long term nutrieng constraint
+    NCHUGH <- NConsLong_expl_min(nfseq, a_nf,CpassVLong,
+                                 NinL = Nin)#+NrelwoodVLong)
+    
+    # Find equilibrate intersection and plot
+    LongN <- solveLong_expl_min(CO2_1, Cpass=CpassVLong, NinL= Nin)#+PrelwoodVLong)
+    
+    # Get Cslow from long nutrient cycling solution
+    omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
+    CslowLong <- omegas*LongN$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
+    
+    # Calculate nutrient release from recalcitrant pools
+    NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN$equilNPP_N*1000.0
+    
+    # Calculate medium term nutrieng constraint
+    NCMEDIUM_2 <- NConsMedium_expl_min(nfseq, a_nf,CpassVLong, CslowLong,
+                                     NinL = Nin+NrelwoodVLong)
+    
+    out350DF_2 <- data.frame(nfseq, NC350, NCVLONG, NCHUGH)
+    colnames(out350DF_2) <- c("nc", "NPP_350", "NPP_VL",
+                              "nleach_VL", "NPP_350_L", "nwood_L", "nburial_L",
+                              "nleach_L", "aw")
+    equil350DF_2 <- data.frame(VLongN, LongN)
+    colnames(equil350DF_2) <- c("nc_VL", "NPP_VL", 
+                                "nc_L", "NPP_L")
+    
+    ##### CO2 = 700
+    # calculate NC vs. NPP at CO2 = 350 respectively
+    NC700 <- photo_constraint_full_cn(nfseq, a_nf, CO2_2)
+    
+    # calculate very long term NC and PC constraint on NPP, respectively
+    NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_nf)
+    
+    # solve very-long nutrient cycling constraint
+    VLongN <- solveVLong_expl_min(CO2_2)
+    
+    out700DF_2 <- data.frame(nfseq, NC700, NCVLONG, NCHUGH)
+    colnames(out700DF_2) <- c("nc", "NPP_700", "NPP_VL",
+                              "nleach_VL", "NPP_700_L", "nwood_L", "nburial_L",
+                              "nleach_L", "aw")
+    
+    # Find equilibrate intersection and plot
+    LongN <- solveLong_expl_min(CO2_2, Cpass=CpassVLong, NinL=Nin)#+NrelwoodVLong)
+    
+    equil700DF_2 <- data.frame(VLongN, LongN)
+    colnames(equil700DF_2) <- c("nc_VL", "NPP_VL", 
+                                "nc_L", "NPP_L")
+    
+    # Find medium term equilibrium point
+    Medium_equil_350_2 <- solveMedium_expl_min(CO2_1, Cpass = CpassVLong, Cslow = CslowLong, 
+                                               NinL=Nin+NrelwoodVLong)
+    Medium_equil_700_2 <- solveMedium_expl_min(CO2_2, Cpass = CpassVLong, Cslow = CslowLong, 
+                                               NinL=Nin+NrelwoodVLong)
+    
+    # get the point instantaneous NPP response to doubling of CO2
+    df700 <- as.data.frame(cbind(round(nfseq,3), NC700))
+    inst700_2 <- inst_NPP(equil350DF_2$nc_VL, df700)
+    
+    #### nuptakerate = 1.5
+    nuptakerate <- 1.5
+    
+    ##### CO2 = 350
+    # calculate NC vs. NPP at CO2 = 350 respectively
+    NC350 <- photo_constraint_full_cn(nfseq, a_nf, CO2_1)
+    
+    # calculate very long term NC and PC constraint on NPP, respectively
+    NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_nf)
+    
+    # solve very-long nutrient cycling constraint
+    VLongN <- solveVLong_expl_min(CO2_1)
+    
+    # Get Cpassive from very-long nutrient cycling solution
+    aequiln <- allocn(VLongN$equilnf)
+    
+    pass <- slow_pool(df=VLongN$equilnf, a=aequiln)
+    omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
+    CpassVLong <- omegap*VLongN$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
+    
+    # Calculate long term nutrieng constraint
+    NCHUGH <- NConsLong_expl_min(nfseq, a_nf,CpassVLong,
+                                 NinL = Nin)#+NrelwoodVLong)
+    
+    # Find equilibrate intersection and plot
+    LongN <- solveLong_expl_min(CO2_1, Cpass=CpassVLong, NinL= Nin)#+PrelwoodVLong)
+    
+    # Get Cslow from long nutrient cycling solution
+    omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
+    CslowLong <- omegas*LongN$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
+    
+    # Calculate nutrient release from recalcitrant pools
+    NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN$equilNPP_N*1000.0
+    
+    # Calculate medium term nutrieng constraint
+    NCMEDIUM_3 <- NConsMedium_expl_min(nfseq, a_nf,CpassVLong, CslowLong,
+                                     NinL = Nin+NrelwoodVLong)
+    
+    out350DF_3 <- data.frame(nfseq, NC350, NCVLONG, NCHUGH)
+    colnames(out350DF_3) <- c("nc", "NPP_350", "NPP_VL",
+                              "nleach_VL", "NPP_350_L", "nwood_L", "nburial_L",
+                              "nleach_L", "aw")
+    equil350DF_3 <- data.frame(VLongN, LongN)
+    colnames(equil350DF_3) <- c("nc_VL", "NPP_VL", 
+                                "nc_L", "NPP_L")
+    
+    ##### CO2 = 700
+    # calculate NC vs. NPP at CO2 = 350 respectively
+    NC700 <- photo_constraint_full_cn(nfseq, a_nf, CO2_2)
+    
+    # calculate very long term NC and PC constraint on NPP, respectively
+    NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_nf)
+    
+    # solve very-long nutrient cycling constraint
+    VLongN <- solveVLong_expl_min(CO2_2)
+    
+    out700DF_3 <- data.frame(nfseq, NC700, NCVLONG, NCHUGH)
+    colnames(out700DF_3) <- c("nc", "NPP_700", "NPP_VL",
+                              "nleach_VL", "NPP_700_L", "nwood_L", "nburial_L",
+                              "nleach_L", "aw")
+    
+    # Find equilibrate intersection and plot
+    LongN <- solveLong_expl_min(CO2_2, Cpass=CpassVLong, NinL=Nin)#+NrelwoodVLong)
+    
+    equil700DF_3 <- data.frame(VLongN, LongN)
+    colnames(equil700DF_3) <- c("nc_VL", "NPP_VL", 
+                                "nc_L", "NPP_L")
+    
+    # Find medium term equilibrium point
+    Medium_equil_350_3 <- solveMedium_expl_min(CO2_1, Cpass = CpassVLong, Cslow = CslowLong, 
+                                               NinL=Nin+NrelwoodVLong)
+    Medium_equil_700_3 <- solveMedium_expl_min(CO2_2, Cpass = CpassVLong, Cslow = CslowLong, 
+                                               NinL=Nin+NrelwoodVLong)
+    
+    # get the point instantaneous NPP response to doubling of CO2
+    df700 <- as.data.frame(cbind(round(nfseq,3), NC700))
+    inst700_3 <- inst_NPP(equil350DF_3$nc_VL, df700)
     
     
+    #### Plotting
+    ### plot 2-d plots of nf vs. npp 
+    tiff("Plots/FigureS3.tiff",
+         width = 12, height = 5, units = "in", res = 300)
+    par(mfrow=c(1,3), mar=c(5.1,6.1,2.1,2.1))
     
     
+    # shoot nc vs. NPP for nuptakerate = 0.5
+    plot(out350DF_2$nc, out350DF_2$NPP_350, xlim=c(0.0, 0.05),
+         ylim=c(0, 3), 
+         type = "l", xlab = "Shoot N:C ratio", 
+         ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
+         col="cyan", lwd = 3)
+    points(out350DF_2$nc, out350DF_2$NPP_VL, type="l", col="tomato", lwd = 3)
+    points(equil350DF_2$nc_VL, equil350DF_2$NPP_VL, type="p", pch = 19, col = "blue")
+    points(out350DF_2$nc, out350DF_2$NPP_350_L, type='l',col="violet", lwd = 3)
+    points(out700DF_2$nc, out700DF_2$NPP_700, col="green", type="l", lwd = 3)
+    points(equil350DF_2$nc_VL, inst700_2$equilNPP, type="p", col = "darkgreen", pch=19)
+    points(equil700DF_2$nc_VL, equil700DF_2$NPP_VL, type="p", col="orange", pch = 19)
+    points(equil700DF_2$nc_L, equil700DF_2$NPP_L,type="p", col="red", pch = 19)
+    points(nfseq, NCMEDIUM_2$NPP, type="l", col="darkred", lwd = 3)
+    points(Medium_equil_700_2$equilnf, Medium_equil_700_2$equilNPP, type="p", col="purple", pch = 19)
     
-}
+    # shoot nc vs. NPP for nuptakerate = 1.0
+    plot(out350DF_1$nc, out350DF_1$NPP_350, xlim=c(0.0, 0.05),
+         ylim=c(0, 3), 
+         type = "l", xlab = "Shoot N:C ratio", 
+         ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
+         col="cyan", lwd = 3)
+    points(out350DF_1$nc, out350DF_1$NPP_VL, type="l", col="tomato", lwd = 3)
+    points(equil350DF_1$nc_VL, equil350DF_1$NPP_VL, type="p", pch = 19, col = "blue")
+    points(out350DF_1$nc, out350DF_1$NPP_350_L, type='l',col="violet", lwd = 3)
+    points(out700DF_1$nc, out700DF_1$NPP_700, col="green", type="l", lwd = 3)
+    points(equil350DF_1$nc_VL, inst700_1$equilNPP, type="p", col = "darkgreen", pch=19)
+    points(equil700DF_1$nc_VL, equil700DF_1$NPP_VL, type="p", col="orange", pch = 19)
+    points(equil700DF_1$nc_L, equil700DF_1$NPP_L,type="p", col="red", pch = 19)
+    points(nfseq, NCMEDIUM_1$NPP, type="l", col="darkred", lwd = 3)
+    points(Medium_equil_700_1$equilnf, Medium_equil_700_1$equilNPP, type="p", col="purple", pch = 19)
+    
+    # shoot nc vs. NPP for nuptakerate = 1.5
+    plot(out350DF_3$nc, out350DF_3$NPP_350, xlim=c(0.0, 0.05),
+         ylim=c(0, 3), 
+         type = "l", xlab = "Shoot N:C ratio", 
+         ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
+         col="cyan", lwd = 3)
+    points(out350DF_3$nc, out350DF_3$NPP_VL, type="l", col="tomato", lwd = 3)
+    points(equil350DF_3$nc_VL, equil350DF_3$NPP_VL, type="p", pch = 19, col = "blue")
+    points(out350DF_3$nc, out350DF_3$NPP_350_L, type='l',col="violet", lwd = 3)
+    points(out700DF_3$nc, out700DF_3$NPP_700, col="green", type="l", lwd = 3)
+    points(equil350DF_3$nc_VL, inst700_3$equilNPP, type="p", col = "darkgreen", pch=19)
+    points(equil700DF_3$nc_VL, equil700DF_3$NPP_VL, type="p", col="orange", pch = 19)
+    points(equil700DF_3$nc_L, equil700DF_3$NPP_L,type="p", col="red", pch = 19)
+    points(nfseq, NCMEDIUM_3$NPP, type="l", col="darkred", lwd = 3)
+    points(Medium_equil_700_3$equilnf, Medium_equil_700_3$equilNPP, type="p", col="purple", pch = 19)
+    
+    
+    legend("topright", c("P350", "P700", "VL", "L", "M",
+                         "A", "B", "C", "D", "E"),
+           col=c("cyan","green", "tomato", "violet","darkred","blue", "darkgreen","purple","red", "orange"), 
+           lwd=c(2,2,2,2,2,NA,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19,19), cex = 0.8, 
+           bg = adjustcolor("grey", 0.8))
+    
+    
+    dev.off()
+    
+    
+#}
 
 
 
 
 #### Script
-Nutrient_uptake_comparison()
+#Nutrient_uptake_comparison()
