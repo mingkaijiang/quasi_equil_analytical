@@ -26,11 +26,11 @@ source("Plots/Figure3.R")
 source("Plots/Figure4.R")
 
 #### Figure 5: 
-#### Flexibility of wood stoichiometry
+#### Read in table 2 and draw bar chart of wood stoichiometric effect
 source("Plots/Figure5.R")
 
 #### Figure 6:
-#### read in table 2 and draw bar chart of wood stoichiometric effect
+#### 
 source("Plots/Figure6.R")
 
 ################################################################################
@@ -40,3 +40,7 @@ source("Plots/Figure6.R")
 #### To plot multi-panel transient model behaviors over the first 100 years of doubling CO2
 #### comparing both fixed and variable wood stoichiometry
 source("Plots/Transient_pattern_multi_panel_plot.R")
+
+#### Figure S2:
+#### effect of wood stoichiometry
+source("Plots/FigureS2.R")
