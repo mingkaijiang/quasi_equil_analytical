@@ -90,8 +90,8 @@
     inst700_1 <- inst_NPP(equil350DF_1$nc_VL, df700)
     
     ### new nuptakerate = 0.5
-    nuptakerate <- 0.5  # 0.96884
-    
+    nuptakerate <- 0.5  
+
     ##### CO2 = 350
     # calculate NC vs. NPP at CO2 = 350 respectively
     NC350 <- photo_constraint_full_cn(nfseq, a_nf, CO2_1)
@@ -260,14 +260,14 @@
          ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
          col="cyan", lwd = 3)
     points(out350DF_2$nc, out350DF_2$NPP_VL, type="l", col="tomato", lwd = 3)
-    points(equil350DF_2$nc_VL, equil350DF_2$NPP_VL, type="p", pch = 19, col = "blue")
+    points(equil350DF_2$nc_VL, equil350DF_2$NPP_VL, type="p", pch = 19, col = "blue", cex=1.5)
     points(out350DF_2$nc, out350DF_2$NPP_350_L, type='l',col="violet", lwd = 3)
     points(out700DF_2$nc, out700DF_2$NPP_700, col="green", type="l", lwd = 3)
-    points(equil350DF_2$nc_VL, inst700_2$equilNPP, type="p", col = "darkgreen", pch=19)
-    points(equil700DF_2$nc_VL, equil700DF_2$NPP_VL, type="p", col="orange", pch = 19)
-    points(equil700DF_2$nc_L, equil700DF_2$NPP_L,type="p", col="red", pch = 19)
+    points(equil350DF_2$nc_VL, inst700_2$equilNPP, type="p", col = "darkgreen", pch=19, cex=1.5)
+    points(equil700DF_2$nc_VL, equil700DF_2$NPP_VL, type="p", col="orange", pch = 19, cex = 1.5)
+    points(equil700DF_2$nc_L, equil700DF_2$NPP_L,type="p", col="red", pch = 19, cex = 1.5)
     points(nfseq, NCMEDIUM_2$NPP, type="l", col="darkred", lwd = 3)
-    points(Medium_equil_700_2$equilnf, Medium_equil_700_2$equilNPP, type="p", col="purple", pch = 19)
+    points(Medium_equil_700_2$equilnf, Medium_equil_700_2$equilNPP, type="p", col="purple", pch = 19, cex = 1.5)
     
     # shoot nc vs. NPP for nuptakerate = 1.0
     plot(out350DF_1$nc, out350DF_1$NPP_350, xlim=c(0.0, 0.05),
@@ -276,14 +276,14 @@
          ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
          col="cyan", lwd = 3)
     points(out350DF_1$nc, out350DF_1$NPP_VL, type="l", col="tomato", lwd = 3)
-    points(equil350DF_1$nc_VL, equil350DF_1$NPP_VL, type="p", pch = 19, col = "blue")
+    points(equil350DF_1$nc_VL, equil350DF_1$NPP_VL, type="p", pch = 19, col = "blue", cex = 1.5)
     points(out350DF_1$nc, out350DF_1$NPP_350_L, type='l',col="violet", lwd = 3)
     points(out700DF_1$nc, out700DF_1$NPP_700, col="green", type="l", lwd = 3)
-    points(equil350DF_1$nc_VL, inst700_1$equilNPP, type="p", col = "darkgreen", pch=19)
-    points(equil700DF_1$nc_VL, equil700DF_1$NPP_VL, type="p", col="orange", pch = 19)
-    points(equil700DF_1$nc_L, equil700DF_1$NPP_L,type="p", col="red", pch = 19)
+    points(equil350DF_1$nc_VL, inst700_1$equilNPP, type="p", col = "darkgreen", pch=19, cex = 1.5)
+    points(equil700DF_1$nc_VL, equil700DF_1$NPP_VL, type="p", col="orange", pch = 19, cex = 1.5)
+    points(equil700DF_1$nc_L, equil700DF_1$NPP_L,type="p", col="red", pch = 19, cex = 1.5)
     points(nfseq, NCMEDIUM_1$NPP, type="l", col="darkred", lwd = 3)
-    points(Medium_equil_700_1$equilnf, Medium_equil_700_1$equilNPP, type="p", col="purple", pch = 19)
+    points(Medium_equil_700_1$equilnf, Medium_equil_700_1$equilNPP, type="p", col="purple", pch = 19, cex = 1.5)
     
     # shoot nc vs. NPP for nuptakerate = 1.5
     plot(out350DF_3$nc, out350DF_3$NPP_350, xlim=c(0.0, 0.05),
@@ -292,14 +292,14 @@
          ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
          col="cyan", lwd = 3)
     points(out350DF_3$nc, out350DF_3$NPP_VL, type="l", col="tomato", lwd = 3)
-    points(equil350DF_3$nc_VL, equil350DF_3$NPP_VL, type="p", pch = 19, col = "blue")
+    points(equil350DF_3$nc_VL, equil350DF_3$NPP_VL, type="p", pch = 19, col = "blue", cex = 1.5)
     points(out350DF_3$nc, out350DF_3$NPP_350_L, type='l',col="violet", lwd = 3)
     points(out700DF_3$nc, out700DF_3$NPP_700, col="green", type="l", lwd = 3)
-    points(equil350DF_3$nc_VL, inst700_3$equilNPP, type="p", col = "darkgreen", pch=19)
-    points(equil700DF_3$nc_VL, equil700DF_3$NPP_VL, type="p", col="orange", pch = 19)
-    points(equil700DF_3$nc_L, equil700DF_3$NPP_L,type="p", col="red", pch = 19)
+    points(equil350DF_3$nc_VL, inst700_3$equilNPP, type="p", col = "darkgreen", pch=19, cex = 1.5)
+    points(equil700DF_3$nc_VL, equil700DF_3$NPP_VL, type="p", col="orange", pch = 19, cex = 1.5)
+    points(equil700DF_3$nc_L, equil700DF_3$NPP_L,type="p", col="red", pch = 19, cex = 1.5)
     points(nfseq, NCMEDIUM_3$NPP, type="l", col="darkred", lwd = 3)
-    points(Medium_equil_700_3$equilnf, Medium_equil_700_3$equilNPP, type="p", col="purple", pch = 19)
+    points(Medium_equil_700_3$equilnf, Medium_equil_700_3$equilNPP, type="p", col="purple", pch = 19, cex = 1.5)
     
     
     legend("topright", c("P350", "P700", "VL", "L", "M",
@@ -311,6 +311,49 @@
     
     dev.off()
     
+    #### Plot Figure 6
+    plotDF <- matrix(ncol=3, nrow = 12)
+    colnames(plotDF) <- c("Model", "Timescale","Production")
+    plotDF <- as.data.frame(plotDF)
+    plotDF$Model <- rep(c("0.5", "1.0", "1.5"), each = 4)
+    plotDF$Timescale <- rep(c("I", "M", "L", "VL"), 3)
+    
+    plotDF[plotDF$Model == "0.5" & plotDF$Timescale == "I", "Production"] <- (inst700_2$equilNPP - equil350DF_2$NPP_VL) / equil350DF_2$NPP_VL * 100
+    plotDF[plotDF$Model == "0.5" & plotDF$Timescale == "M", "Production"] <- (Medium_equil_700_2$equilNPP - equil350DF_2$NPP_VL) / equil350DF_2$NPP_VL * 100
+    plotDF[plotDF$Model == "0.5" & plotDF$Timescale == "L", "Production"] <- (equil700DF_2$NPP_L - equil350DF_2$NPP_VL) / equil350DF_2$NPP_VL * 100
+    plotDF[plotDF$Model == "0.5" & plotDF$Timescale == "VL", "Production"] <-(equil700DF_2$NPP_VL - equil350DF_2$NPP_VL) / equil350DF_2$NPP_VL * 100
+        
+    plotDF[plotDF$Model == "1.0" & plotDF$Timescale == "I", "Production"] <- (inst700_1$equilNPP - equil350DF_1$NPP_VL) / equil350DF_1$NPP_VL * 100
+    plotDF[plotDF$Model == "1.0" & plotDF$Timescale == "M", "Production"] <- (Medium_equil_700_1$equilNPP - equil350DF_1$NPP_VL) / equil350DF_1$NPP_VL * 100
+    plotDF[plotDF$Model == "1.0" & plotDF$Timescale == "L", "Production"] <- (equil700DF_1$NPP_L - equil350DF_1$NPP_VL) / equil350DF_1$NPP_VL * 100
+    plotDF[plotDF$Model == "1.0" & plotDF$Timescale == "VL", "Production"] <- (equil700DF_1$NPP_VL - equil350DF_1$NPP_VL) / equil350DF_1$NPP_VL * 100
+    
+    plotDF[plotDF$Model == "1.5" & plotDF$Timescale == "I", "Production"] <- (inst700_3$equilNPP - equil350DF_3$NPP_VL) / equil350DF_3$NPP_VL * 100
+    plotDF[plotDF$Model == "1.5" & plotDF$Timescale == "M", "Production"] <- (Medium_equil_700_3$equilNPP - equil350DF_3$NPP_VL) / equil350DF_3$NPP_VL * 100
+    plotDF[plotDF$Model == "1.5" & plotDF$Timescale == "L", "Production"] <- (equil700DF_3$NPP_L - equil350DF_3$NPP_VL) / equil350DF_3$NPP_VL * 100 
+    plotDF[plotDF$Model == "1.5" & plotDF$Timescale == "VL", "Production"] <-(equil700DF_3$NPP_VL - equil350DF_3$NPP_VL) / equil350DF_3$NPP_VL * 100
+    
+    plotDF$Timescale <- factor(plotDF$Timescale, levels=c("I", "M", "L", "VL"))
+    
+    require(ggplot2)
+    
+    ylabel <- bquote(.("Response to") ~ eCO[2] ~ ("%"))
+    
+    
+    # making bar plots
+    tiff("Plots/Figure6.tiff",
+         width = 10, height = 5, units = "in", res = 300)
+
+    p1 <- ggplot(plotDF, aes(x=Model, y=Production, fill=Timescale)) +   
+        geom_bar(position='dodge', stat='identity') +
+        labs(list(x = "N uptake rate", y = ylabel, fill = "Model")) +
+        scale_y_continuous(limits=c(-10,20)) +
+        theme(text = element_text(size=20),
+              axis.text.x = element_text()) 
+    
+    print(p1)
+    
+    dev.off()
     
 #}
 

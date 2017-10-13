@@ -31,7 +31,7 @@ source("Plots/Figure5.R")
 
 #### Figure 6:
 #### 
-source("Plots/Figure6.R")
+source("Plots/Figure6_and_S3.R")
 
 ################################################################################
 #### supplementary figures
@@ -45,7 +45,3 @@ source("Plots/Transient_pattern_multi_panel_plot.R")
 #### effect of wood stoichiometry
 source("Plots/FigureS2.R")
 
-
-#### Figure S3:
-#### explicit N, show effect of different coefficient
-source("Plots/FigureS3.R")

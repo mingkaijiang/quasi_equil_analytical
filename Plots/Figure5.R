@@ -31,8 +31,7 @@ Figure_5_plotting <- function() {
     # making bar plots
     tiff("Plots/Figure5.tiff",
          width = 10, height = 5, units = "in", res = 300)
-    par(mfrow=c(1,2), mar=c(5.1,6.1,2.1,2.1))
-    
+
     p1 <- ggplot(temDF, aes(x=Element, y=Value, fill=Model)) +   
         geom_bar(position='dodge', stat='identity') +
         facet_wrap( ~ Pool) + 

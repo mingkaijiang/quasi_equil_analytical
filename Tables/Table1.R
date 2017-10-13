@@ -10,12 +10,14 @@
 compute_Table_1 <- function(destDir) {
     
     ######## Make the output table
-    out.tab <- matrix(ncol=7, nrow = 3)
+    out.tab <- matrix(ncol=7, nrow = 6)
     colnames(out.tab) <- c("model", "NPP_350", "NPP_700", "I", "M", "L", "VL")
     out.tab <- as.data.frame(out.tab)
     out.tab[1,"model"] <- "Baseline N-P model"
     out.tab[2,"model"] <- "N-limited model"
     out.tab[3,"model"] <- "Fixed wood"
+    out.tab[4,"model"] <- "Explicit N uptake = 1.0"
+    out.tab[5,"model"] <- "Explicit N uptake = 0.5"
     
     
     ######### Run analytical run 1
@@ -337,6 +339,99 @@ compute_Table_1 <- function(destDir) {
     out.tab[3,"M"] <- (Medium_equil_700$equilNPP - equil350DF$NPP_VL) / equil350DF$NPP_VL
     out.tab[3,"L"] <- (equil700DF$NPP_L - equil350DF$NPP_VL) / equil350DF$NPP_VL
     out.tab[3,"VL"] <- (equil700DF$NPP_VL - equil350DF$NPP_VL) / equil350DF$NPP_VL
+    
+    ######## Run analytical run 7 with varying nrateuptake coefficients - 1
+    source("Parameters/Analytical_Run7_Parameters.R")
+    
+    # create nc and pc for shoot to initiate
+    nfseq <- round(seq(0.001, 0.1, by = 0.001),5)
+    a_nf <- as.data.frame(allocn(nfseq))
+    
+    #### Uptake rate = baseline = 1
+    
+    ##### CO2 = 350
+    # calculate NC vs. NPP at CO2 = 350 respectively
+    NC350 <- photo_constraint_full_cn(nfseq, a_nf, CO2_1)
+    
+    # calculate very long term NC and PC constraint on NPP, respectively
+    NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_nf)
+    
+    # solve very-long nutrient cycling constraint
+    VLongN <- solveVLong_expl_min(CO2_1)
+    
+    # Get Cpassive from very-long nutrient cycling solution
+    aequiln <- allocn(VLongN$equilnf)
+    
+    pass <- slow_pool(df=VLongN$equilnf, a=aequiln)
+    omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
+    CpassVLong <- omegap*VLongN$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
+    
+    # Calculate long term nutrieng constraint
+    NCHUGH <- NConsLong_expl_min(nfseq, a_nf,CpassVLong,
+                                 NinL = Nin)#+NrelwoodVLong)
+    
+    # Find equilibrate intersection and plot
+    LongN <- solveLong_expl_min(CO2_1, Cpass=CpassVLong, NinL= Nin)#+PrelwoodVLong)
+    
+    # Get Cslow from long nutrient cycling solution
+    omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
+    CslowLong <- omegas*LongN$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
+    
+    # Calculate nutrient release from recalcitrant pools
+    NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN$equilNPP_N*1000.0
+    
+    # Calculate medium term nutrieng constraint
+    NCMEDIUM_1 <- NConsMedium_expl_min(nfseq, a_nf,CpassVLong, CslowLong,
+                                       NinL = Nin+NrelwoodVLong)
+    
+    out350DF_1 <- data.frame(nfseq, NC350, NCVLONG, NCHUGH)
+    colnames(out350DF_1) <- c("nc", "NPP_350", "NPP_VL",
+                              "nleach_VL", "NPP_350_L", "nwood_L", "nburial_L",
+                              "nleach_L", "aw")
+    equil350DF_1 <- data.frame(VLongN, LongN)
+    colnames(equil350DF_1) <- c("nc_VL", "NPP_VL", 
+                                "nc_L", "NPP_L")
+    
+    ##### CO2 = 700
+    # calculate NC vs. NPP at CO2 = 350 respectively
+    NC700 <- photo_constraint_full_cn(nfseq, a_nf, CO2_2)
+    
+    # calculate very long term NC and PC constraint on NPP, respectively
+    NCVLONG <- NConsVLong_expl_min(df=nfseq,a=a_nf)
+    
+    # solve very-long nutrient cycling constraint
+    VLongN <- solveVLong_expl_min(CO2_2)
+    
+    out700DF_1 <- data.frame(nfseq, NC700, NCVLONG, NCHUGH)
+    colnames(out700DF_1) <- c("nc", "NPP_700", "NPP_VL",
+                              "nleach_VL", "NPP_700_L", "nwood_L", "nburial_L",
+                              "nleach_L", "aw")
+    
+    # Find equilibrate intersection and plot
+    LongN <- solveLong_expl_min(CO2_2, Cpass=CpassVLong, NinL=Nin)#+NrelwoodVLong)
+    
+    equil700DF_1 <- data.frame(VLongN, LongN)
+    colnames(equil700DF_1) <- c("nc_VL", "NPP_VL", 
+                                "nc_L", "NPP_L")
+    
+    # Find medium term equilibrium point
+    Medium_equil_350_1 <- solveMedium_expl_min(CO2_1, Cpass = CpassVLong, Cslow = CslowLong, 
+                                               NinL=Nin+NrelwoodVLong)
+    Medium_equil_700_1 <- solveMedium_expl_min(CO2_2, Cpass = CpassVLong, Cslow = CslowLong, 
+                                               NinL=Nin+NrelwoodVLong)
+    
+    # get the point instantaneous NPP response to doubling of CO2
+    df700 <- as.data.frame(cbind(round(nfseq,3), NC700))
+    inst700_1 <- inst_NPP(equil350DF_1$nc_VL, df700)
+    
+    out.tab[4,"NPP_350"] <- equil350DF_1$NPP_VL
+    out.tab[4,"NPP_700"] <- equil700DF_1$NPP_VL
+    out.tab[4,"I"] <- (inst700_1$equilNPP - equil350DF_1$NPP_VL) / equil350DF_1$NPP_VL
+    out.tab[4,"M"] <- (Medium_equil_700_1$equilNPP - equil350DF_1$NPP_VL) / equil350DF_1$NPP_VL
+    out.tab[4,"L"] <- (equil700DF_1$NPP_L - equil350DF_1$NPP_VL) / equil350DF_1$NPP_VL
+    out.tab[4,"VL"] <- (equil700DF_1$NPP_VL - equil350DF_1$NPP_VL) / equil350DF_1$NPP_VL
+    
+
     
     ######## Save the output table
     write.csv(out.tab, paste0(destDir, "/Table1.csv"), row.names=F)
