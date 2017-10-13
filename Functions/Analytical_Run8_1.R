@@ -70,9 +70,6 @@ Perform_Analytical_Run8_1 <- function(f.flag = 1, cDF, eDF) {
     
     if (f.flag == 1) {
         
-        #### Library
-        require(scatterplot3d)
-        
         ######### Plotting
         
         tiff("Plots/Analytical_Run8_1.tiff",

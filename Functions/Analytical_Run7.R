@@ -40,9 +40,6 @@ Perform_Analytical_Run7 <- function(f.flag = 1, cDF, eDF) {
     # Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn(VLongN$equilnf)
     aequilp <- allocp(VLongN$equilpf)
-    #pass <- passive(df=VLongN$equilnf, a=aequiln)
-    #omega <- aequiln$af*pass$omegaf + aequiln$ar*pass$omegar
-    #CpassVLong <- omega*VLongN$equilNPP/pass$decomp/(1-pass$qq)*1000.0
     
     pass <- slow_pool(df=VLongN$equilnf, a=aequiln)
     omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
@@ -81,10 +78,6 @@ Perform_Analytical_Run7 <- function(f.flag = 1, cDF, eDF) {
     colnames(equil350DF) <- c("nc_VL", "pc_VL","NPP_VL", 
                               "nc_L", "pc_L","NPP_L")
     
-    # store constraint and equil DF onto their respective output df
-    #cDF[cDF$Run == 7 & cDF$CO2 == 350, 3:13] <- out350DF
-    #eDF[eDF$Run == 7 & eDF$CO2 == 350, 3:8] <- equil350DF
-    
     ##### CO2 = 700
     
     # N:C and P:C ratio
@@ -121,73 +114,13 @@ Perform_Analytical_Run7 <- function(f.flag = 1, cDF, eDF) {
     Medium_equil_700 <- solveMedium_full_cnp(CO2_2, Cpass = CpassVLong, Cslow = CslowLong, 
                                              NinL=Nin+NrelwoodVLong, PinL=Pin+PrelwoodVLong)
     
-    # store constraint and equil DF onto their respective output df
-    #cDF[cDF$Run == 7 & cDF$CO2 == 700, 3:13] <- out700DF
-    #eDF[eDF$Run == 7 & eDF$CO2 == 700, 3:8] <- equil700DF
-    
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), NC700))
     inst700 <- inst_NPP(equil350DF$nc_VL, df700)
     
     if (f.flag == 1) {
         
-        #### Library
-        require(scatterplot3d)
-        
         ######### Plotting
-        
-        tiff("Plots/Analytical_Run7.tiff",
-             width = 8, height = 7, units = "in", res = 300)
-        par(mar=c(5.1,5.1,2.1,2.1))
-        
-        
-        # NPP constraint by CO2 = 350
-        s3d <- scatterplot3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_350, xlim=c(0.0, 0.05),
-                             ylim = c(0.0, 0.005), zlim=c(0, 5), 
-                             type = "l", xlab = "Shoot N:C ratio", ylab = "Shoot P:C ratio", 
-                             zlab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
-                             color="cyan", lwd = 3, angle=24)
-        
-        # NPP constraint by very long term nutrient availability
-        s3d$points3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_VL, type="l", col="tomato", lwd = 3)
-        
-        # equilibrated NPP for very long term nutrient and CO2 = 350
-        s3d$points3d(equil350DF$nc_VL, equil350DF$pc_VL, equil350DF$NPP_VL,
-                     type="h", pch = 19, col = "blue")
-        
-        # NPP constraint by long term nutrient availability
-        s3d$points3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_350_L, type='l',col="violet", lwd = 3)
-        #s3d$points3d(out700DF$nc, out700DF$pc_700_L, out700DF$NPP_700_L, type='l',col="grey", lwd = 3)
-        
-        
-        # equilibrated NPP for long term nutrient and CO2 = 350
-        #s3d$points3d(equil350DF$nc_L, equil350DF$pc_L, equil350DF$NPP_L,
-        #             type="h", col="lightblue", pch = 19)
-        
-        # NPP constraint by CO2 = 700
-        s3d$points3d(out700DF$nc, out700DF$pc_VL, out700DF$NPP_700, col="green", type="l", lwd = 3)
-        
-        s3d$points3d(equil350DF$nc_VL, equil350DF$pc_VL, 
-                     inst700$equilNPP, type="h", col = "darkgreen", pch=19)
-        
-        # equilibrated NPP for very long term nutrient and CO2 = 700
-        s3d$points3d(equil700DF$nc_VL, equil700DF$pc_VL, equil700DF$NPP_VL, 
-                     type="h", col="orange", pch = 19)
-        
-        # equilibrated NPP for long term nutrient and CO2 = 700
-        s3d$points3d(equil700DF$nc_L, equil700DF$pc_L, equil700DF$NPP_L,
-                     type="h", col="red", pch = 19)
-        
-        
-        legend("topleft", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
-                            expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-                            "VL nutrient constraint", "L nutrient constraint",
-                            "A", "B", "C", "D"),
-               col=c("cyan","green", "tomato", "violet","blue", "darkgreen","red", "orange"), 
-               lwd=c(2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,19,19,19,19), cex = 1.0, 
-               bg = adjustcolor("grey", 0.8))
-        
-        dev.off()
         
         ### plot 2-d plots of nf vs. npp and nf vs. pf
         tiff("Plots/Analytical_Run7_2d.tiff",
@@ -230,6 +163,7 @@ Perform_Analytical_Run7 <- function(f.flag = 1, cDF, eDF) {
         points(equil700DF$nc_VL, equil700DF$pc_VL, type="p", col="orange", pch = 19)
         
         points(equil700DF$nc_L, equil700DF$pc_L, type="p", col="red", pch = 19)
+        
         
         legend("topright", c("P350", "P700", "VL", "L", "M",
                              "A", "B", "C", "D", "E"),
