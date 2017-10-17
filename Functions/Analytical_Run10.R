@@ -3,7 +3,7 @@
 ####
 #### Same as Run 9, except 
 #### Considering medium term slow SOM pool effect
-#### without turning priming on
+#### turning priming on
 ################################################################################
 
 

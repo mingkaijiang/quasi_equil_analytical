@@ -196,6 +196,7 @@ solveVLong_exudation_medium <- function(CO2) {
 }
 
 # Find the very-long term equilibrium nf and NPP under standard conditions - by finding the root
+# without exudation and priming
 solveVLong_full_cn_medium <- function(CO2) {
     fn <- function(nf) {
         photo_constraint_full_cn(nf, allocn(nf),CO2) - VLong_constraint_N(nf,allocn(nf))$NPP

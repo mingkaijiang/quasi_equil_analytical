@@ -1,5 +1,5 @@
 
-#### Analytical script to match GDAY Run 10 settings
+#### Analytical script to match GDAY Run 11 settings
 ####
 #### Same as Run 10, except 
 #### Considering medium term slow SOM pool without priming
