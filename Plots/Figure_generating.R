@@ -39,6 +39,12 @@ source("Plots/Figure6_and_S3.R")
 #### for N uptake 
 source("Plots/Figure7.R")
 
+#### Figure 8:
+#### comparison of priming on and off
+#### note: Nin changed
+####       exudation turned on
+source("Plots/Figure8.R")
+
 ################################################################################
 #### supplementary figures
 
