@@ -16,8 +16,9 @@ compute_Table_1 <- function(destDir) {
     out.tab[1,"model"] <- "Baseline N-P model"
     out.tab[2,"model"] <- "N-limited model"
     out.tab[3,"model"] <- "Fixed wood"
-    out.tab[4,"model"] <- "Explicit N uptake = 1.0"
-    out.tab[5,"model"] <- "Explicit N uptake = 0.5"
+    out.tab[4,"model"] <- "Explicit N uptake, fixed coefficient"
+    out.tab[5,"model"] <- "Explicit N uptake, GDAY"
+    out.tab[6,"model"] <- "Explicit N uptake, O-CN"
     
     
     ######### Run analytical run 1
@@ -432,6 +433,120 @@ compute_Table_1 <- function(destDir) {
     out.tab[4,"VL"] <- (equil700DF_1$NPP_VL - equil350DF_1$NPP_VL) / equil350DF_1$NPP_VL
     
 
+    ######## Run analytical run 8.1 and 8.2 with GDAY and OCN approaches
+    ######## GDAY approach
+    source("Parameters/Analytical_Run8_1_Parameters.R")
+    
+    # N:C ratios for x-axis
+    nfseq <- seq(0.001,0.1,by=0.001)
+    # need allocation fractions here
+    a_vec <- allocn(nfseq)
+    
+    # plot photosynthetic constraints
+    PC350_gday <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_1)
+    PC700_gday <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_2)
+    
+    # calculate very long term NC and PC constraint on NPP, respectively
+    NCVLONG_gday <- NConsVLong_root_gday(df=nfseq,a=a_vec)
+    
+    # solve very-long nutrient cycling constraint
+    VLongN_gday <- solveVLong_root_gday(CO2_1)
+    
+    # Get Cpassive from very-long nutrient cycling solution
+    aequiln <- allocn(VLongN_gday$equilnf)
+    pass <- slow_pool(df=VLongN_gday$equilnf, a=aequiln)
+    omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
+    omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
+    CpassVLong <- omegap*VLongN_gday$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
+    
+    # Calculate nutrient release from recalcitrant pools
+    NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN_gday$equilNPP*1000.0
+    
+    # Calculate long term nutrieng constraint
+    NCHUGH_gday <- NConsLong_root_gday(df=nfseq, a=a_vec,Cpass=CpassVLong,
+                                       NinL = Nin)#+NrelwoodVLong)
+    
+    # Find equilibrate intersection and plot
+    equil_long_350_gday <- solveLong_root_gday(CO2_1, Cpass=CpassVLong, NinL= Nin)#+NrelwoodVLong)
+    equil_long_700_gday <- solveLong_root_gday(CO2_2, Cpass=CpassVLong, NinL= Nin)#+NrelwoodVLong)
+    
+    CslowLong <- omegas*equil_long_350_gday$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
+    
+    # plot medium nutrient cycling constraint
+    NCMEDIUM_gday <- NConsMedium_root_gday(nfseq, a_vec, Cpass=CpassVLong, Cslow=CslowLong, NinL=Nin+NrelwoodVLong)
+    
+    # solve medium term equilibrium at CO2 = 700 ppm
+    equil_medium_700_gday <- solveMedium_root_gday(CO2_2,Cpass=CpassVLong,Cslow=CslowLong,Nin=Nin+NrelwoodVLong)
+    
+    # get the point instantaneous NPP response to doubling of CO2
+    df700 <- as.data.frame(cbind(round(nfseq,3), PC700_gday))
+    inst700_gday <- inst_NPP(VLongN_gday$equilnf, df700)
+    
+    ## locate the intersect between VL nutrient constraint and CO2 = 700
+    VLong700_gday <- solveVLong_root_gday(CO2=CO2_2)
+    
+    out.tab[5,"NPP_350"] <- VLongN_gday$equilNPP
+    out.tab[5,"NPP_700"] <- VLong700_gday$equilNPP
+    out.tab[5,"I"] <- (inst700_gday$equilNPP - VLongN_gday$equilNPP) / VLongN_gday$equilNPP
+    out.tab[5,"M"] <- (equil_medium_700_gday$equilNPP - VLongN_gday$equilNPP) / VLongN_gday$equilNPP
+    out.tab[5,"L"] <- (equil_long_700_gday$equilNPP - VLongN_gday$equilNPP) / VLongN_gday$equilNPP
+    out.tab[5,"VL"] <- ( VLong700_gday$equilNPP - VLongN_gday$equilNPP) / VLongN_gday$equilNPP
+    
+    ######## OCN approach
+    source("Parameters/Analytical_Run8_2_Parameters.R")
+    
+    # N:C ratios for x-axis
+    nfseq <- seq(0.001,0.1,by=0.001)
+    # need allocation fractions here
+    a_vec <- allocn(nfseq)
+    
+    # plot photosynthetic constraints
+    PC350_ocn <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_1)
+    PC700_ocn <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_2)
+    
+    # calculate very long term NC and PC constraint on NPP, respectively
+    VLongN_ocn <- NConsVLong_root_ocn(CO2_1)
+    
+    # Get Cpassive from very-long nutrient cycling solution
+    aequiln <- allocn(VLongN_ocn$equilnf)
+    pass <- slow_pool(df=VLongN_ocn$equilnf, a=aequiln)
+    omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
+    omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
+    CpassVLong <- omegap*VLongN_ocn$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
+    
+    # Calculate nutrient release from recalcitrant pools
+    NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN_ocn$equilNPP*1000.0
+    
+    # Calculate long term nutrieng constraint
+    NCHUGH_ocn <- NConsLong_root_ocn(df=nfseq, a=a_vec,Cpass=CpassVLong,
+                                     NinL = Nin)#+NrelwoodVLong)
+    
+    # Find equilibrate intersection and plot
+    equil_long_350_ocn <- solveLong_root_ocn(CO2_1, Cpass=CpassVLong, NinL= Nin)#+NrelwoodVLong)
+    equil_long_700_ocn <- solveLong_root_ocn(CO2_2, Cpass=CpassVLong, NinL= Nin)#+NrelwoodVLong)
+    
+    CslowLong <- omegas*equil_long_350_ocn$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
+    
+    # plot medium nutrient cycling constraint
+    NCMEDIUM_ocn <- NConsMedium_root_ocn(nfseq, a_vec, Cpass=CpassVLong, Cslow=CslowLong, NinL=Nin+NrelwoodVLong)
+    
+    # solve medium term equilibrium at CO2 = 700 ppm
+    equil_medium_700_ocn <- solveMedium_root_ocn(CO2_2,Cpass=CpassVLong,Cslow=CslowLong,Nin=Nin+NrelwoodVLong)
+    
+    # get the point instantaneous NPP response to doubling of CO2
+    df700 <- as.data.frame(cbind(round(nfseq,3), PC700_ocn))
+    inst700_ocn <- inst_NPP(VLongN_ocn$equilnf, df700)
+    
+    ## locate the intersect between VL nutrient constraint and CO2 = 700
+    VLong700_ocn <-  NConsVLong_root_ocn(CO2_2)
+    
+    out.tab[6,"NPP_350"] <- VLongN_ocn$equilNPP
+    out.tab[6,"NPP_700"] <- VLong700_ocn$equilNPP
+    out.tab[6,"I"] <- (inst700_ocn$equilNPP - VLongN_ocn$equilNPP) / VLongN_ocn$equilNPP
+    out.tab[6,"M"] <- (equil_medium_700_ocn$equilNPP - VLongN_ocn$equilNPP) / VLongN_ocn$equilNPP
+    out.tab[6,"L"] <- (equil_long_700_ocn$equilNPP - VLongN_ocn$equilNPP) / VLongN_ocn$equilNPP
+    out.tab[6,"VL"] <- ( VLong700_ocn$equilNPP - VLongN_ocn$equilNPP) / VLongN_ocn$equilNPP
+    
     
     ######## Save the output table
     write.csv(out.tab, paste0(destDir, "/Table1.csv"), row.names=F)

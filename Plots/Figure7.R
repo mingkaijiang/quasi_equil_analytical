@@ -6,13 +6,13 @@
 
 gday_vs_ocn_plot <- function() {
     
+    ######## GDAY approach
+    source("Parameters/Analytical_Run8_1_Parameters.R")
+    
     # N:C ratios for x-axis
     nfseq <- seq(0.001,0.1,by=0.001)
     # need allocation fractions here
     a_vec <- allocn(nfseq)
-    
-    ######## GDAY approach
-    source("Parameters/Analytical_Run8_1_Parameters.R")
     
     # plot photosynthetic constraints
     PC350_gday <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_1)
@@ -60,6 +60,11 @@ gday_vs_ocn_plot <- function() {
     
     ######## OCN approach
     source("Parameters/Analytical_Run8_2_Parameters.R")
+    
+    # N:C ratios for x-axis
+    nfseq <- seq(0.001,0.1,by=0.001)
+    # need allocation fractions here
+    a_vec <- allocn(nfseq)
     
     # plot photosynthetic constraints
     PC350_ocn <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_1)
