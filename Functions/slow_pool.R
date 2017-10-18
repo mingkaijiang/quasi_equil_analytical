@@ -133,7 +133,7 @@ slow_exudation <- function(df, a, npp) {
     decomp_s <- adjust_slow_residence_time(df, a, active_tot_in) * Actsoil(Tsoil)   
     decomp_p <- adjust_passive_residence_time(df, a, active_tot_in) * Actsoil(Tsoil)   
     
-    # browser()
+   #browser()
     
     ret <- data.frame(decomp_p, decomp_s, qpq, qsq, omegafp, omegarp, omegafs, omegars, transfer_fa, transfer_ra)
     
