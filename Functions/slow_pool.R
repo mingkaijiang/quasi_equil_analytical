@@ -125,7 +125,7 @@ slow_exudation <- function(df, a, npp) {
     transfer_ra <- mur*pma + (1-mur)*psa
     
     # total active out
-    active_plant_in <- transfer_fa * (npp * a$af / sf) + transfer_ra * (npp + (a$ar-a$ar*a$ariz) / sr)
+    active_plant_in <- transfer_fa * (npp * a$af / sf) + transfer_ra * (npp * (a$ar-a$ar*a$ariz) / sr)
     c_into_exud <- npp * a$ar * a$ariz
     active_tot_in <- active_plant_in + c_into_exud 
     
