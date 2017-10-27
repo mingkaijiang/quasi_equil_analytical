@@ -100,7 +100,7 @@ Run_GDAY_spinup <- function(site) {
         "I0", "1440.0",                       # spin-up value, annual rate, unit MJ/m2/yr
         "ndep_in", "0.002",                   # spin-up value, annual rate, unit t/ha/yr
         "nfix_in", "0.002",                   # spin-up value, annual rate, unit t/ha/yr 
-        "pdep_in", "0.0002",                  # spin-up value, annual rate, unit t/ha/yr
+        "pdep_in", "0.00015",                  # spin-up value, annual rate, unit t/ha/yr
         "tsoil_in", "15.0",                   # spin-up value
         "k1", "0.01",                         # rate from inorgavlp to inorgssorbp, adjustable    
         "k2", "0.01",                         # rate from inorgssorbp to inorgavlp, adjustable
@@ -171,10 +171,10 @@ Run_GDAY_spinup <- function(site) {
         "kr", "3.0",                          # 0.5 t/ha in Dewar and McMurtrie 1996; the value of root carbon at which 50% of available N is taken up
         "krp", "3.0",                         # 0.00001; can set krp equals kr for consistency
         "a0rhizo", "0.05",
-        "a1rhizo", "0.2",
+        "a1rhizo", "0.6",
         "root_exu_CUE", "0.3",
-        "prime_y", "0.6",                     # kdec6 * (1 + km), km = 2, kdec = 0.1982; 0.0025
-        "prime_z", "0.5",                     # for slow residence time = 0.001; for passive residence time = 0.5
+        "prime_y", "0.6",                     # 0.0025
+        "prime_z", "0.001",                   # for slow residence time = 0.001; for passive residence time = 0.5
         "nmin0", "0.0",                       # for variable som NC depend on inorgN
         "nmincrit", "2.0",                    # for variable som NC depend on inorgN 
         "pmin0", "0.0",                       # for variable som PC depend on inorgavlp
