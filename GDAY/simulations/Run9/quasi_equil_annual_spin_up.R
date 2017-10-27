@@ -190,7 +190,7 @@ Run_GDAY_spinup <- function(site) {
         "fixleafnc", "false",
         "fixleafpc", "false",
         "ncycle", "true",
-        "pcycle", "true",
+        "pcycle", "false",
         "nuptake_model", "0",
         "puptake_model", "0",
         "print_options", "end",                # during spin up, set to end

@@ -26,6 +26,11 @@ Run9_copy_paste <- function() {
 
     # swap swp_fname locations
     out[44] <- "    swp_fname <- paste0(d, \"/simulations/Run9/replace_params.cfg\")"
+    
+    # swap function
+    out <- sub("        \"pcycle\", \"true\",",
+               "        \"pcycle\", \"false\","   ,
+               out)
         
     # write
     writeLines(out, "GDAY/simulations/Run9/quasi_equil_annual_spin_up.R")
