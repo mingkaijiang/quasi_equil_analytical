@@ -182,7 +182,8 @@ solveVLong_exudation <- function(CO2) {
 }
 
 # Find the very-long term equilibrium nf and NPP under standard conditions - by finding the root
-# specifically for exudation
+# specifically for exudation and priming
+# note leaf NC range different
 solveVLong_exudation_medium <- function(CO2) {
     fn <- function(nf) {
         photo_constraint_full_cn(nf, allocn_exudation(nf), CO2) - VLong_constraint_N(nf,allocn_exudation(nf))$NPP
@@ -196,13 +197,13 @@ solveVLong_exudation_medium <- function(CO2) {
 }
 
 # Find the very-long term equilibrium nf and NPP under standard conditions - by finding the root
-# without exudation and priming
+# without priming only
 solveVLong_full_cn_medium <- function(CO2) {
     fn <- function(nf) {
-        photo_constraint_full_cn(nf, allocn(nf),CO2) - VLong_constraint_N(nf,allocn(nf))$NPP
+        photo_constraint_full_cn(nf, allocn_exudation(nf),CO2) - VLong_constraint_N(nf,allocn_exudation(nf))$NPP
     }
     equilnf <- uniroot(fn,interval=c(0.001,0.1))$root
-    equilNPP <- photo_constraint_full_cn(equilnf, allocn(equilnf), CO2)
+    equilNPP <- photo_constraint_full_cn(equilnf, allocn_exudation(equilnf), CO2)
     equilpf <- "NA"
     ans <- data.frame(equilnf, "NA", equilNPP)
     return(ans)

@@ -34,7 +34,7 @@ Perform_Analytical_Run11 <- function(f.flag = 1, cDF, eDF) {
     VLongN <- solveVLong_full_cn_medium(CO2_1)
     
     # Get Cpassive from very-long nutrient cycling solution
-    aequiln <- allocn(VLongN$equilnf)
+    aequiln <- allocn_exudation(VLongN$equilnf)
     pass <- slow_pool(df=VLongN$equilnf, a=aequiln)
     omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
     CpassVLong <- omegap*VLongN$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
@@ -47,8 +47,6 @@ Perform_Analytical_Run11 <- function(f.flag = 1, cDF, eDF) {
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN$equilNPP*1000.0
     
     # Calculate long term nutrient constraint
-    #NCHUGH <- NConsLong(nfseq, a_vec, CpassVLong,
-    #                              NinL = Nin+NrelwoodVLong)
     NCHUGH <- NConsLong(nfseq, a_vec, CpassVLong,
                         NinL = Nin)
     
@@ -60,9 +58,9 @@ Perform_Analytical_Run11 <- function(f.flag = 1, cDF, eDF) {
                             NinL = Nin+NrelwoodVLong)
     
     
-    # Solve medium equilibrium
-    equil_long_350 <- solveLong_full_cn_medium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
-    equil_long_700 <- solveLong_full_cn_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
+    # Solve long-term equilibrium
+    equil_long_350 <- solveLong_full_cn_medium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin)
+    equil_long_700 <- solveLong_full_cn_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin)
     
     # Solve medium equilibrium
     equil_medium_350 <- solveMedium(CO2=CO2_1, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)

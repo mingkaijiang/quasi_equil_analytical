@@ -72,3 +72,5 @@ prime_y <- 1.0      # 0.05
 prime_z <- 2
 prime_y_slow <- 1.0      # 0.05
 prime_z_slow <- 1        # for this value = 2, medium term line closer to VL line than L line, for <= 1, medium term line closer to L than to VL.
+nca <- 0.0666667         # NC ratio for active SOM pool
+rhizo_cue <- 0.3
