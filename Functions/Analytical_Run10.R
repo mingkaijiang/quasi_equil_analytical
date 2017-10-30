@@ -8,7 +8,7 @@
 
 #### Functions
 Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
-    #### Function to perform analytical run 9 simulations
+    #### Function to perform analytical run 10 simulations
     #### eDF: stores equilibrium points
     #### cDF: stores constraint points (curves)
     #### f.flag: = 1 simply plot analytical solution file
@@ -20,7 +20,7 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
     
     # create nc and pc for shoot to initiate
     nfseq <- round(seq(0.001, 0.1, by = 0.001),5)
-    a_vec <- as.data.frame(allocn(nfseq))
+    a_vec <- as.data.frame(allocn_exudation(nfseq))
     
     # plot photosynthetic constraints
     PC350 <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_1)
@@ -50,22 +50,23 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
                         NinL = Nin)
     
     # calculate N and C gaps for priming to occur
-    c_into_active <- VLongN$equilNPP * aequiln$ar * aequiln$ariz * rhizo_cue
-    n_into_active <- c_into_exud * aequiln$nr
+    c_into_active <- VLongN$equilNPP * aequiln$ar * aequiln$ariz * rhizo_cue * 1000.0
+    n_into_active <- c_into_active * aequiln$nr
     n_active_gap <- c_into_active * nca - n_into_active
     
     # adjust decomposition of slow pool to close the N gap
-    new_kdec <- (n_active_gap / (CslowLong_no_priming * ncs)) + pass$decomp_s
+    # new_kdec <- (n_active_gap / (CslowLong_no_priming * ncs)) + pass$decomp_s
+    new_kdec <- pass$decomp_s * (1 + km) * pmax(c_into_active/(c_into_active + km), 0.3)
     
     # Calculate C slow based on exudation and new decomposition values
     CslowLong <- omegas*VLongN$equilNPP/new_kdec/(1-pass$qsq)*1000.0
     
     # Calculate medium term nutrient constraint
-    NCMEDIUM <- NConsMedium(df=nfseq, 
-                            a=a_vec, 
-                            Cpass=CpassVLong, 
-                            Cslow=CslowLong, 
-                            NinL = Nin+NrelwoodVLong)
+    NCMEDIUM <- NConsMedium_priming(df=nfseq, 
+                                      a=a_vec, 
+                                      Cpass=CpassVLong, 
+                                      Cslow=CslowLong, 
+                                      NinL = Nin+NrelwoodVLong)
     
     
     # Solve long-term equilibrium
@@ -73,8 +74,8 @@ Perform_Analytical_Run10 <- function(f.flag = 1, cDF, eDF) {
     equil_long_700 <- solveLong_full_cn_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin)
     
     # Solve medium equilibrium
-    equil_medium_350 <- solveMedium(CO2=CO2_1, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
-    equil_medium_700 <- solveMedium(CO2=CO2_2, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
+    equil_medium_350 <- solveMedium_priming(CO2=CO2_1, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
+    equil_medium_700 <- solveMedium_priming(CO2=CO2_2, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), PC700))

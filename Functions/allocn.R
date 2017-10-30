@@ -54,6 +54,7 @@ allocn_exudation <- function(nf) {
     } else {
         nw <- nwood*nf 
     }
+    
     nfl <- (1.0-nretrans)*nf     
     nr <- nrho*nf
     nriz <- nr

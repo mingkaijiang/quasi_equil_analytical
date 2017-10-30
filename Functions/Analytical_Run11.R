@@ -3,7 +3,7 @@
 ####
 #### Same as Run 10, except 
 #### Considering medium term slow SOM pool without priming
-####
+#### i.e. only turning exudation on
 ################################################################################
 
 
@@ -21,7 +21,7 @@ Perform_Analytical_Run11 <- function(f.flag = 1, cDF, eDF) {
     
     # create nc and pc for shoot to initiate
     nfseq <- round(seq(0.001, 0.1, by = 0.001),5)
-    a_vec <- as.data.frame(allocn(nfseq))
+    a_vec <- as.data.frame(allocn_exudation(nfseq))
     
     # plot photosynthetic constraints
     PC350 <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_1)
