@@ -555,7 +555,7 @@ compute_Table_1 <- function(destDir) {
     
     # create nc and pc for shoot to initiate
     nfseq_off <- round(seq(0.001, 0.1, by = 0.001),5)
-    a_vec <- as.data.frame(allocn(nfseq_off))
+    a_vec <- as.data.frame(allocn_exudation(nfseq_off))
     
     # plot photosynthetic constraints
     PC350_off <- photo_constraint_full_cn(nfseq_off,a_vec,CO2=CO2_1)
@@ -568,7 +568,7 @@ compute_Table_1 <- function(destDir) {
     VLongN_off <- solveVLong_full_cn_medium(CO2_1)
     
     # Get Cpassive from very-long nutrient cycling solution
-    aequiln <- allocn(VLongN_off$equilnf)
+    aequiln <- allocn_exudation(VLongN_off$equilnf)
     pass <- slow_pool(df=VLongN_off$equilnf, a=aequiln)
     omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
     CpassVLong <- omegap*VLongN_off$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
@@ -581,8 +581,6 @@ compute_Table_1 <- function(destDir) {
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN_off$equilNPP*1000.0
     
     # Calculate long term nutrient constraint
-    #NCHUGH <- NConsLong(nfseq, a_vec, CpassVLong,
-    #                              NinL = Nin+NrelwoodVLong)
     NCHUGH_off <- NConsLong(nfseq_off, a_vec, CpassVLong,
                             NinL = Nin)
     
@@ -595,8 +593,8 @@ compute_Table_1 <- function(destDir) {
     
     
     # Solve medium equilibrium
-    equil_long_350_off <- solveLong_full_cn_medium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
-    equil_long_700_off <- solveLong_full_cn_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
+    equil_long_350_off <- solveLong_full_cn_medium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin)
+    equil_long_700_off <- solveLong_full_cn_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin)
     
     # Solve medium equilibrium
     equil_medium_350_off <- solveMedium(CO2=CO2_1, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
@@ -620,7 +618,7 @@ compute_Table_1 <- function(destDir) {
     
     ######## Analytical run 10 - exudation on, priming on
     # create nc and pc for shoot to initiate
-    nfseq_on <- round(seq(0.004, 0.1, by = 0.001),5)
+    nfseq_on <- round(seq(0.001, 0.1, by = 0.001),5)
     a_vec <- as.data.frame(allocn_exudation(nfseq_on))
     
     # plot photosynthetic constraints
@@ -631,39 +629,50 @@ compute_Table_1 <- function(destDir) {
     NCVLONG_on <- NConsVLong(df=nfseq_on,a=a_vec)
     
     # solve very-long nutrient cycling constraint
-    VLongN_on <- solveVLong_exudation_medium(CO2_1)
+    VLongN_on <- solveVLong_full_cn_medium(CO2_1)
     
     # Get Cpassive from very-long nutrient cycling solution
     aequiln <- allocn_exudation(VLongN_on$equilnf)
-    pass <- slow_exudation(df=VLongN_on$equilnf, a=aequiln, npp=VLongN_on$equilNPP_N)
+    pass <- slow_pool(df=VLongN_on$equilnf, a=aequiln)
     omegap <- aequiln$af*pass$omegafp + aequiln$ar*pass$omegarp
     CpassVLong <- omegap*VLongN_on$equilNPP/pass$decomp_p/(1-pass$qpq)*1000.0
     
     # Get Cslow from long nutrient cycling solution
     omegas <- aequiln$af*pass$omegafs + aequiln$ar*pass$omegars
-    CslowLong <- omegas*VLongN_on$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
+    CslowLong_no_priming <- omegas*VLongN_on$equilNPP/pass$decomp_s/(1-pass$qsq)*1000.0
     
     # Calculate nutrient release from wody pool
     NrelwoodVLong <- aequiln$aw*aequiln$nw*VLongN_on$equilNPP*1000.0
     
     # Calculate long term nutrient constraint
-    NCHUGH_on <- NConsLong_exudation_medium(nfseq_on, a_vec, CpassVLong,
-                                            NinL = Nin)#+NrelwoodVLong)
+    NCHUGH_on <- NConsLong(nfseq_on, a_vec, CpassVLong,
+                                            NinL = Nin)
+    
+    # calculate N and C gaps for priming to occur
+    c_into_active <- VLongN_on$equilNPP * aequiln$ar * aequiln$ariz * rhizo_cue * 1000.0
+    n_into_active <- c_into_active * aequiln$nr
+    n_active_gap <- c_into_active * nca - n_into_active
+    
+    # adjust decomposition of slow pool to close the N gap
+    new_kdec <- pass$decomp_s * (1 + km) * pmax(c_into_active/(c_into_active + km), 0.3)
+    
+    # Calculate C slow based on exudation and new decomposition values
+    CslowLong <- omegas*VLongN_on$equilNPP/new_kdec/(1-pass$qsq)*1000.0
     
     # Calculate medium term nutrient constraint
-    NCMEDIUM_on <- NConsMedium_exudation(df=nfseq_on, 
-                                         a=a_vec, 
-                                         Cpass=CpassVLong, 
-                                         Cslow=CslowLong, 
-                                         NinL = Nin+NrelwoodVLong)
+    NCMEDIUM_on <- NConsMedium_priming(df=nfseq_on, 
+                                       a=a_vec, 
+                                       Cpass=CpassVLong, 
+                                       Cslow=CslowLong, 
+                                       NinL = Nin+NrelwoodVLong)
     
     # Solve longterm equilibrium
-    equil_long_350_on <- solveLong_exudation_medium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
-    equil_long_700_on <- solveLong_exudation_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
+    equil_long_350_on <- solveLong_full_cn_medium(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
+    equil_long_700_on <- solveLong_full_cn_medium(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin)#+NrelwoodVLong)
     
     # Solve medium equilibrium
-    equil_medium_350_on <- solveMedium_exudation(CO2=CO2_1, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
-    equil_medium_700_on <- solveMedium_exudation(CO2=CO2_2, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
+    equil_medium_350_on <- solveMedium_priming(CO2=CO2_1, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
+    equil_medium_700_on <- solveMedium_priming(CO2=CO2_2, Cpass=CpassVLong, Cslow=CslowLong, NinL = Nin+NrelwoodVLong)
     
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq_on,3), PC700_on))

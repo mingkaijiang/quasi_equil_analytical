@@ -8,7 +8,8 @@ ariz_dep_coef_n <- function(nf) {
     
     cnleaf <- 1.0/nf
     
-    ariz <- pmin(0.5, ariz0 + ariz1 * pmax((cnleaf - cnref)/cnref, 0))
+    #ariz <- pmin(0.9, ariz0 + ariz1 * pmax((cnleaf - cnref)/cnref, 0))
+    ariz <- ariz0 + ariz1 * pmax((cnleaf - cnref)/cnref, 0)
     
     #browser()
     return(ariz)
