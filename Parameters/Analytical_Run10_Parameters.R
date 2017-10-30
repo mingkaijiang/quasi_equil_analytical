@@ -13,7 +13,7 @@ nwvar = FALSE
 pwvar = FALSE
 LUE0=1.4
 I0=3
-Nref=0.01
+Nref=0.04
 kext=0.5
 SLA=5
 sf=0.5
@@ -64,7 +64,7 @@ nuptakerate <- 1.0  # 0.96884
 puptakerate <- 1.0  # 0.82395
 ariz1 <- 0.2        # range: 0.2 - 1
 ariz0 <- 0.05       # range: 0.0 - 0.1
-cnref <- 25
+cnref <- 50
 cpref <- 500
 cue_mic <- 0.3      # range: 0.3 - 0.7
 km <- 2             # scaling factor for SOM response; range: 1- 5

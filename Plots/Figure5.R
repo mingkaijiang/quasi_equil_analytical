@@ -6,7 +6,7 @@
 ################################################################################
 ######### Main program
 Figure_5_plotting <- function() {
-    myDF <- read.csv("Tables/Table2.csv")
+    myDF <- read.csv("Tables/Stoichiometric_flexibility_table.csv")
     
     # transform the df
     temDF <- matrix(ncol=4, nrow=18)

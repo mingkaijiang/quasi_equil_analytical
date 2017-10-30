@@ -58,7 +58,7 @@ allocn_exudation <- function(nf) {
     nfl <- (1.0-nretrans)*nf     
     nr <- nrho*nf
     nriz <- nr
-    
+
     # update allocation coefficient for rhizodeposition
     ariz <- ariz_dep_coef_n(nf)
     
