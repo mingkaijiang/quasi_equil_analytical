@@ -347,10 +347,12 @@
     p1 <- ggplot(plotDF, aes(x=Model, y=Production, fill=Timescale)) +   
         geom_bar(position='dodge', stat='identity') +
         labs(list(x = "N uptake rate", y = ylabel, fill = "Timescale")) +
-        scale_y_continuous(limits=c(-10,20)) +
+        scale_y_continuous(limits=c(-10,30)) +
         theme(text = element_text(size=20),
-              axis.text.x = element_text()) 
-    
+              axis.text.x = element_text(),
+              panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+              panel.background = element_blank(),
+              axis.line = element_line(colour = "black")) 
     print(p1)
     
     dev.off()
