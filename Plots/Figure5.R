@@ -34,7 +34,8 @@ Figure_5_plotting <- function() {
 
     p1 <- ggplot(temDF, aes(x=Element, y=Value, fill=Model)) +   
         geom_bar(position='dodge', stat='identity') +
-        facet_wrap( ~ Pool) + 
+        facet_wrap( ~ Pool, scales="free") + 
+        theme_bw() + 
         labs(list(x = "Nutrient element", y = ylabel, fill = "Model"))
     
     print(p1)
