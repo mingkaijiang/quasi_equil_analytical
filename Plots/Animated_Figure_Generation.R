@@ -140,8 +140,22 @@ analytical_generation <- function(inDF) {
     return(inDF)
 }
 
+### accumulate plot
+accumulate_by <- function(dat, var) {
+    var <- lazyeval::f_eval(var, dat)
+    lvls <- plotly:::getLevels(var)
+    dats <- lapply(seq_along(lvls), function(x) {
+        cbind(dat[var %in% lvls[seq(1, x)], ], frame = lvls[[x]])
+    })
+    dplyr::bind_rows(dats)
+}
+
+
 ### master function
 Animated_Figure_Generation <- function() {
+    
+    # library
+    require(plotly)
     
     ### Create df to store all the constraints
     nfseq <- round(seq(0.001, 0.1, b=0.001), 5)
@@ -149,19 +163,49 @@ Animated_Figure_Generation <- function() {
     colnames(csDF) <- c("nf", "aCO2", "eCO2", "VL",
                         "L", "M")
     
+    # generate constraint lines 
     csDF.new <- analytical_generation(csDF) 
     
-    
+    # 
+    d <- txhousing %>%
+    filter(year > 2005, city %in% c("Abilene", "Bay Area")) %>%
+        accumulate_by(~date)
     
     ### Plotting
-    with(csDF.new, plot(aCO2~nf, type="l", xlim=c(0.01, 0.05), 
-                        ylim=c(0, 3)))
+    with(csDF.new[i,], plot(aCO2~nf, type="l", xlim=c(0.01, 0.05), 
+                            ylim=c(0, 3)))
     with(csDF.new, lines(eCO2~nf, type="l", col="red"))
     with(csDF.new, lines(VL~nf, type="l", col="blue"))
     with(csDF.new, lines(L~nf, type="l", col="orange"))
     with(csDF.new, lines(M~nf, type="l", col="purple"))
     
+    
+    frames <- 100
+    
+    for(i in 1:frames) {
+        
+        # creating a name for each plot file with leading zeros
+        if (i < 10) {name = paste('000',i,'plot.png',sep='')}
+        if (i < 100 && i >= 10) {name = paste('00',i,'plot.png', sep='')}
+        if (i >= 100) {name = paste('0', i,'plot.png', sep='')}
+        
+        png(name)
+        with(csDF.new[i,], plot(aCO2~nf, type="l", xlim=c(0.01, 0.05), 
+                                ylim=c(0, 3)))
+        with(csDF.new[i,], points(aCO2~nf, cex=3,col="red", add=T))
+        
+        dev.off()
+    }
+    
+    # system command to make it animated
+    system("convert *.png -delay 3 -loop 0 test.gif")
+    
+    
+    ### find the intersect
     locator()
+    
+    
+    
 }
 
 
