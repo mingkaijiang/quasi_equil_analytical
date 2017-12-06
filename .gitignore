@@ -108,5 +108,5 @@ GDAY/simulations/Run1/*.txt
 GDAY/simulations/Run9/*.txt
 
 #ignore all png files
-*.png
-*.gif
+Plots/animated/*.png
+Plots/*.gif

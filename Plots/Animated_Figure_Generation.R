@@ -167,7 +167,7 @@ Animated_Figure_Generation <- function() {
     csDF.new <- analytical_generation(csDF) 
     
     # generate constraint moving points
-    t <- c(1:2000)
+    t <- c(1:600)
     mvDF <- data.frame(t, NA, NA)
     colnames(mvDF) <- c("Year", "nf", "NPP")
     mvDF[mvDF$Year == 1, "nf"] <- 0.02006922
@@ -179,20 +179,35 @@ Animated_Figure_Generation <- function() {
     mvDF[mvDF$Year >= 500, "nf"] <- 0.01748884
     mvDF[mvDF$Year >= 500, "NPP"] <- 1.770505
     
+    # set equation for the range between I and M constraint
+    a <- 62.46
+    b <- 0.66
+    diff <- mvDF[mvDF$Year == 2, "nf"] - mvDF[mvDF$Year == 50, "nf"]
+    interval <- diff / 48
+    for (i in 3:49) {
+        mvDF[mvDF$Year == i, "nf"] <- mvDF[mvDF$Year == 2, "nf"] - interval * (i - 2)
+        mvDF[mvDF$Year == i, "NPP"] <- mvDF[mvDF$Year == i, "nf"] * a + b
+    }
     
-    
-    
-    
+    # set range between M and L
+    diff <- mvDF[mvDF$Year == 50, "nf"] - mvDF[mvDF$Year == 500, "nf"]
+    interval <- diff / 449
+    for (i in 51:499) {
+        mvDF[mvDF$Year == i, "nf"] <- mvDF[mvDF$Year == 50, "nf"] + interval * (i - 50)
+        mvDF[mvDF$Year == i, "NPP"] <- mvDF[mvDF$Year == i, "nf"] * a + b
+    }
     
     ### Plotting
-    frames <- 100
+    frames <- t
     
-    for(i in 1:frames) {
+    dir.create(file.path("Plots/animated"), showWarnings = FALSE)
+    
+    for (i in frames) {
         
         # creating a name for each plot file with leading zeros
-        if (i < 10) {name = paste('000',i,'plot.png',sep='')}
-        if (i < 100 && i >= 10) {name = paste('00',i,'plot.png', sep='')}
-        if (i >= 100) {name = paste('0', i,'plot.png', sep='')}
+        if (i < 10) {name = paste('Plots/animated/000',i,'plot.png',sep='')}
+        if (i < 100 && i >= 10) {name = paste('Plots/animated/00',i,'plot.png', sep='')}
+        if (i >= 100) {name = paste('Plots/animated/0', i,'plot.png', sep='')}
         
         png(name)
         
@@ -209,7 +224,7 @@ Animated_Figure_Generation <- function() {
         with(csDF.new, lines(M~nf, type="l", col="darkred", lwd = 1.5))
         
         # plot the time-variant constraint points
-        with(csDF.new[i,], points(nf, aCO2, cex=1, pch=16, col="red",
+        with(mvDF[i,], points(nf, NPP, cex=1, pch=16, col="red",
                                   xlim=c(0.01, 0.05), 
                                   ylim=c(0, 3)))
         
@@ -228,7 +243,7 @@ Animated_Figure_Generation <- function() {
     }
     
     # system command to make it animated
-    system("convert *.png -delay 3 -loop 0 test.gif")
+    system("convert Plots/animated/*.png -delay 3 -loop 0 Plots/animated.gif")
     
     
     ### find the intersect
