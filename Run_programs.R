@@ -124,6 +124,11 @@ source("Plots/Figure_generating.R")
 ### To generate manuscript tables (or statistics used for generating the tables)
 source("Tables/Table_generating.R")
 
+### To generate a conceptual animated figure to show how things are moving within 
+### the quasi-equilibrium graph
+source("Plots/Animated_Figure_Generation.R")
+
+
 ##### ------------------------ Clear workspace ---------------------------- #####
 rm(list=ls(all=TRUE))
 
