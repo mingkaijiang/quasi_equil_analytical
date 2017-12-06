@@ -166,20 +166,25 @@ Animated_Figure_Generation <- function() {
     # generate constraint lines 
     csDF.new <- analytical_generation(csDF) 
     
-    # 
-    d <- txhousing %>%
-    filter(year > 2005, city %in% c("Abilene", "Bay Area")) %>%
-        accumulate_by(~date)
+    # generate constraint moving points
+    t <- c(1:2000)
+    mvDF <- data.frame(t, NA, NA)
+    colnames(mvDF) <- c("Year", "nf", "NPP")
+    mvDF[mvDF$Year == 1, "nf"] <- 0.02006922
+    mvDF[mvDF$Year == 1, "NPP"] <- 1.556131
+    mvDF[mvDF$Year == 2, "nf"] <- 0.02006922
+    mvDF[mvDF$Year == 2, "NPP"] <- 1.914975
+    mvDF[mvDF$Year == 50, "nf"] <- 0.01387631
+    mvDF[mvDF$Year == 50, "NPP"] <- 1.528169
+    mvDF[mvDF$Year >= 500, "nf"] <- 0.01748884
+    mvDF[mvDF$Year >= 500, "NPP"] <- 1.770505
+    
+    
+    
+    
+    
     
     ### Plotting
-    with(csDF.new[i,], plot(aCO2~nf, type="l", xlim=c(0.01, 0.05), 
-                            ylim=c(0, 3)))
-    with(csDF.new, lines(eCO2~nf, type="l", col="red"))
-    with(csDF.new, lines(VL~nf, type="l", col="blue"))
-    with(csDF.new, lines(L~nf, type="l", col="orange"))
-    with(csDF.new, lines(M~nf, type="l", col="purple"))
-    
-    
     frames <- 100
     
     for(i in 1:frames) {
@@ -190,9 +195,34 @@ Animated_Figure_Generation <- function() {
         if (i >= 100) {name = paste('0', i,'plot.png', sep='')}
         
         png(name)
-        with(csDF.new[i,], plot(aCO2~nf, type="l", xlim=c(0.01, 0.05), 
-                                ylim=c(0, 3)))
-        with(csDF.new[i,], points(aCO2~nf, cex=3,col="red", add=T))
+        
+        # plot the baseline constraint curves
+        with(csDF.new, plot(aCO2~nf, type="l", 
+                            xlim=c(0.01, 0.05),
+                            ylim=c(0.5, 3), 
+                            xlab = "Shoot N:C ratio", 
+                            ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
+                            col="cyan", lwd = 1.5, cex.lab=1.5))
+        with(csDF.new, lines(eCO2~nf, col="green", type="l", lwd = 1.5))
+        with(csDF.new, lines(VL~nf, type="l", col="tomato", lwd = 1.5))
+        with(csDF.new, lines(L~nf, type="l", col="violet", lwd = 1.5))
+        with(csDF.new, lines(M~nf, type="l", col="darkred", lwd = 1.5))
+        
+        # plot the time-variant constraint points
+        with(csDF.new[i,], points(nf, aCO2, cex=1, pch=16, col="red",
+                                  xlim=c(0.01, 0.05), 
+                                  ylim=c(0, 3)))
+        
+        
+        # plot the time series data
+        
+        
+        # add legends
+        legend("bottomright", c("P350", "P700", "VL", "L", "M",
+                                "A", "B", "C", "D", "E"),
+               col=c("cyan","green", "tomato", "violet","darkred","blue", "darkgreen","purple","red", "orange"), 
+               lwd=c(2,2,2,2,2,NA,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19,19), cex = 1.0, 
+               bg = adjustcolor("grey", 0.8), ncol=2)
         
         dev.off()
     }
