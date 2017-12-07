@@ -453,11 +453,108 @@ Animated_Figure_Generation <- function() {
     # system command to make it animated
     system("convert Plots/animated/*.png -delay 3 -loop 0 Plots/animated.gif")
     
-    
-    
-    
 }
 
 
+Animated_Constraint_Line <- function() {
+    
+    ### Create df to store all the constraints
+    nfseq <- round(seq(0.001, 0.1, b=0.001), 5)
+    csDF <- data.frame(nfseq, NA, NA, NA, NA, NA)
+    colnames(csDF) <- c("nf", "aCO2", "eCO2", "VL",
+                        "L", "M")
+    
+    ### generate constraint lines 
+    csDF.new <- analytical_generation(csDF) 
+    
+    ### Plotting
+    dir.create(file.path("Plots/animated/constraint"), showWarnings = FALSE)
+    
+    # 0001
+    png(paste('Plots/animated/constraint/0001plot.png',sep=''))
+    with(csDF.new, plot(aCO2~nf, type="l", 
+                        xlim=c(0.01, 0.03),
+                        ylim=c(0.8, 2.5), 
+                        xlab = "Shoot N:C ratio", 
+                        ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
+                        col="cyan", lwd = 1.5, cex.lab=1.0))
+    legend("bottomright", c("P350", "P700", "VL", "L", "M"),
+           col=c("cyan","green", "tomato", "violet","darkred"), 
+           lwd=c(2,2,2,2,2),  cex = 1.0, 
+           bg = adjustcolor("grey", 0.8), ncol=1)
+    dev.off()
+    
+    # 0002
+    png(paste('Plots/animated/constraint/0002plot.png',sep=''))
+    with(csDF.new, plot(aCO2~nf, type="l", 
+                        xlim=c(0.01, 0.03),
+                        ylim=c(0.8, 2.5), 
+                        xlab = "Shoot N:C ratio", 
+                        ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
+                        col="cyan", lwd = 1.5, cex.lab=1.0))
+    with(csDF.new, lines(eCO2~nf, col="green", type="l", lwd = 1.5))
+    legend("bottomright", c("P350", "P700", "VL", "L", "M"),
+           col=c("cyan","green", "tomato", "violet","darkred"), 
+           lwd=c(2,2,2,2,2),  cex = 1.0, 
+           bg = adjustcolor("grey", 0.8), ncol=1)
+    dev.off()
+    
+    # 0003
+    png(paste('Plots/animated/constraint/0003plot.png',sep=''))
+    with(csDF.new, plot(aCO2~nf, type="l", 
+                        xlim=c(0.01, 0.03),
+                        ylim=c(0.8, 2.5), 
+                        xlab = "Shoot N:C ratio", 
+                        ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
+                        col="cyan", lwd = 1.5, cex.lab=1.0))
+    with(csDF.new, lines(eCO2~nf, col="green", type="l", lwd = 1.5))
+    with(csDF.new, lines(VL~nf, type="l", col="tomato", lwd = 1.5))
+    legend("bottomright", c("P350", "P700", "VL", "L", "M"),
+           col=c("cyan","green", "tomato", "violet","darkred"), 
+           lwd=c(2,2,2,2,2),  cex = 1.0, 
+           bg = adjustcolor("grey", 0.8), ncol=1)
+    dev.off()
+    
+    # 0004
+    png(paste('Plots/animated/constraint/0004plot.png',sep=''))
+    with(csDF.new, plot(aCO2~nf, type="l", 
+                        xlim=c(0.01, 0.03),
+                        ylim=c(0.8, 2.5), 
+                        xlab = "Shoot N:C ratio", 
+                        ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
+                        col="cyan", lwd = 1.5, cex.lab=1.0))
+    with(csDF.new, lines(eCO2~nf, col="green", type="l", lwd = 1.5))
+    with(csDF.new, lines(VL~nf, type="l", col="tomato", lwd = 1.5))
+    with(csDF.new, lines(L~nf, type="l", col="violet", lwd = 1.5))
+    legend("bottomright", c("P350", "P700", "VL", "L", "M"),
+           col=c("cyan","green", "tomato", "violet","darkred"), 
+           lwd=c(2,2,2,2,2),  cex = 1.0, 
+           bg = adjustcolor("grey", 0.8), ncol=1)
+    dev.off()
+    
+    png(paste('Plots/animated/constraint/0005plot.png',sep=''))
+    with(csDF.new, plot(aCO2~nf, type="l", 
+                        xlim=c(0.01, 0.03),
+                        ylim=c(0.8, 2.5), 
+                        xlab = "Shoot N:C ratio", 
+                        ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
+                        col="cyan", lwd = 1.5, cex.lab=1.0))
+    with(csDF.new, lines(eCO2~nf, col="green", type="l", lwd = 1.5))
+    with(csDF.new, lines(VL~nf, type="l", col="tomato", lwd = 1.5))
+    with(csDF.new, lines(L~nf, type="l", col="violet", lwd = 1.5))
+    with(csDF.new, lines(M~nf, type="l", col="darkred", lwd = 1.5))
+    legend("bottomright", c("P350", "P700", "VL", "L", "M"),
+           col=c("cyan","green", "tomato", "violet","darkred"), 
+           lwd=c(2,2,2,2,2),  cex = 1.0, 
+           bg = adjustcolor("grey", 0.8), ncol=1)
+    dev.off()
+    
+    # system command to make it animated
+    system("convert Plots/animated/constraint/*.png -delay 300 -loop 0 Plots/animated_constraint.gif")
+    
+}
+
 ### Script
 Animated_Figure_Generation() 
+Animated_Constraint_Line()
+
