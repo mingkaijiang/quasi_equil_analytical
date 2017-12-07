@@ -24,7 +24,9 @@ Figure_5_plotting <- function() {
     
     ylabel <- bquote(.("Stock size g") ~ m^-2)
     
-    temDF <- temDF[temDF$Element != "C", ]
+    temDF <- temDF[temDF$Element != "C", ]    
+    temDF <- temDF[temDF$Element != "P", ]
+
     
     require(ggplot2)
     
@@ -35,7 +37,8 @@ Figure_5_plotting <- function() {
     p1 <- ggplot(temDF, aes(x=Element, y=Value, fill=Model)) +   
         geom_bar(position='dodge', stat='identity') +
         facet_wrap( ~ Pool, scales="free") + 
-        theme_bw() + 
+        theme(panel.background=element_blank(), axis.line = element_line(color="grey")) + 
+        #theme_bw() + 
         labs(list(x = "Nutrient element", y = ylabel, fill = "Model"))
     
     print(p1)
