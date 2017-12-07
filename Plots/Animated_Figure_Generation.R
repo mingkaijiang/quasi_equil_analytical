@@ -140,15 +140,6 @@ analytical_generation <- function(inDF) {
     return(inDF)
 }
 
-### accumulate plot
-accumulate_by <- function(dat, var) {
-    var <- lazyeval::f_eval(var, dat)
-    lvls <- plotly:::getLevels(var)
-    dats <- lapply(seq_along(lvls), function(x) {
-        cbind(dat[var %in% lvls[seq(1, x)], ], frame = lvls[[x]])
-    })
-    dplyr::bind_rows(dats)
-}
 
 
 ### master function
@@ -190,7 +181,7 @@ Animated_Figure_Generation <- function() {
     }
     
     # set range between M and L
-    diff <- mvDF[mvDF$Year == 50, "nf"] - mvDF[mvDF$Year == 500, "nf"]
+    diff <- mvDF[mvDF$Year == 500, "nf"] - mvDF[mvDF$Year == 50, "nf"] 
     interval <- diff / 449
     for (i in 51:499) {
         mvDF[mvDF$Year == i, "nf"] <- mvDF[mvDF$Year == 50, "nf"] + interval * (i - 50)
@@ -198,10 +189,9 @@ Animated_Figure_Generation <- function() {
     }
     
     ### Plotting
-    frames <- t
-    
     dir.create(file.path("Plots/animated"), showWarnings = FALSE)
-    
+
+    frames <- t[1:100]
     for (i in frames) {
         
         # creating a name for each plot file with leading zeros
@@ -211,27 +201,114 @@ Animated_Figure_Generation <- function() {
         
         png(name)
         
+        split.screen(c(2,2))
+        
+        #split.screen(c(1,2), screen=2)
+        
+        screen(3)
         # plot the baseline constraint curves
         with(csDF.new, plot(aCO2~nf, type="l", 
                             xlim=c(0.01, 0.05),
                             ylim=c(0.5, 3), 
                             xlab = "Shoot N:C ratio", 
                             ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
-                            col="cyan", lwd = 1.5, cex.lab=1.5))
+                            col="cyan", lwd = 1.5, cex.lab=1.0))
         with(csDF.new, lines(eCO2~nf, col="green", type="l", lwd = 1.5))
         with(csDF.new, lines(VL~nf, type="l", col="tomato", lwd = 1.5))
         with(csDF.new, lines(L~nf, type="l", col="violet", lwd = 1.5))
         with(csDF.new, lines(M~nf, type="l", col="darkred", lwd = 1.5))
         
         # plot the time-variant constraint points
-        with(mvDF[i,], points(nf, NPP, cex=1, pch=16, col="red",
+        if (i == 1) {
+            with(mvDF[i,], points(nf, NPP, cex=2, pch=16, col="blue",
                                   xlim=c(0.01, 0.05), 
                                   ylim=c(0, 3)))
+        } else if (i == 2) {
+            with(mvDF[i,], points(nf, NPP, cex=2, pch=16, col="darkgreen",
+                                  xlim=c(0.01, 0.05), 
+                                  ylim=c(0, 3)))
+        } else if (i == 50) {
+            with(mvDF[i,], points(nf, NPP, cex=2, pch=16, col="purple",
+                                  xlim=c(0.01, 0.05), 
+                                  ylim=c(0, 3)))
+        } else if (i == 500) {
+            with(mvDF[i,], points(nf, NPP, cex=2, pch=16, col="red",
+                                  xlim=c(0.01, 0.05), 
+                                  ylim=c(0, 3)))
+        } else if (i == 600) {
+            with(mvDF[i,], points(nf, NPP, cex=2, pch=16, col="orange",
+                                  xlim=c(0.01, 0.05), 
+                                  ylim=c(0, 3)))
+        } else {
+            with(mvDF[i,], points(nf, NPP, cex=1, pch=16, col="black",
+                                  xlim=c(0.01, 0.05), 
+                                  ylim=c(0, 3)))
+        }
         
+    
+        # plot the time series nf
+        screen(1)
+        with(mvDF[1, ], plot(Year, nf, pch=16, cex=2,
+                             xlim=c(0, 600), ylim=c(0.01, 0.03),
+                             xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0, col="blue"))
+        with(mvDF[1:i, ], lines(Year, nf, col="black",
+                                xlim=c(0, 600), ylim=c(0.01, 0.03),
+                                xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
         
-        # plot the time series data
+        if (i == 2) {
+            with(mvDF[i, ], points(Year, nf, pch=16, col="darkgreen", cex = 2, 
+                                    xlim=c(0, 600), ylim=c(0.01, 0.03),
+                                    xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
+        } else if ( i == 50) {
+            with(mvDF[i, ], points(Year, nf, pch=16, col="purple", cex = 2, 
+                                   xlim=c(0, 600), ylim=c(0.01, 0.03),
+                                   xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
+        } else if (i == 500) {
+            with(mvDF[i, ], points(Year, nf, pch=16, col="red", cex = 2, 
+                                   xlim=c(0, 600), ylim=c(0.01, 0.03),
+                                   xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
+        } else if (i == 600) {
+            with(mvDF[i, ], points(Year, nf, pch=16, col="orange", cex = 2, 
+                                   xlim=c(0, 600), ylim=c(0.01, 0.03),
+                                   xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
+        }
         
+        # plot time series NPP
+        screen(2)
+        with(mvDF[1, ], plot(Year, NPP, pch=16, col="blue", cex = 2, 
+                             xlim=c(0, 600), ylim=c(0.8, 2),
+                             xlab="Year", 
+                             ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
         
+        with(mvDF[1:i, ], lines(Year, NPP, col="black",
+                                xlim=c(0, 600), ylim=c(0.8, 2),
+                                xlab="Year", 
+                                ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
+        
+        if (i == 2) {
+            with(mvDF[i, ], points(Year, NPP, pch=16, col="darkgreen", cex = 2, 
+                                    xlim=c(0, 600), ylim=c(0.8, 2),
+                                    xlab="Year", 
+                                    ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
+        } else if (i == 50) {
+            with(mvDF[i, ], points(Year, NPP, pch=16, col="purple", cex = 2, 
+                                     xlim=c(0, 600), ylim=c(0.8, 2),
+                                     xlab="Year", 
+                                     ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
+        } else if (i == 500) {
+            with(mvDF[i, ], points(Year, NPP, pch=16, col="red", cex = 2, 
+                                   xlim=c(0, 600), ylim=c(0.8, 2),
+                                   xlab="Year", 
+                                   ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
+        } else if (i == 600) {
+            with(mvDF[i, ], points(Year, NPP, pch=16, col="orange", cex = 2, 
+                                   xlim=c(0, 600), ylim=c(0.8, 2),
+                                   xlab="Year", 
+                                   ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
+        }
+        
+        screen(4)
+        plot(1,xaxt='n',yaxt='n',bty='n',pch='',ylab='',xlab='')
         # add legends
         legend("bottomright", c("P350", "P700", "VL", "L", "M",
                                 "A", "B", "C", "D", "E"),
@@ -239,15 +316,13 @@ Animated_Figure_Generation <- function() {
                lwd=c(2,2,2,2,2,NA,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19,19), cex = 1.0, 
                bg = adjustcolor("grey", 0.8), ncol=2)
         
+        
         dev.off()
     }
     
     # system command to make it animated
     system("convert Plots/animated/*.png -delay 3 -loop 0 Plots/animated.gif")
     
-    
-    ### find the intersect
-    locator()
     
     
     
