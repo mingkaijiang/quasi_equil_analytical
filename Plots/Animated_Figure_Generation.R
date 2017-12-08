@@ -472,80 +472,89 @@ Animated_Constraint_Line <- function() {
     
     # 0001
     png(paste('Plots/animated/constraint/0001plot.png',sep=''))
+    par(mar=c(5.1,6.1,2.1,2.1))
+    
     with(csDF.new, plot(aCO2~nf, type="l", 
                         xlim=c(0.01, 0.03),
                         ylim=c(0.8, 2.5), 
                         xlab = "Shoot N:C ratio", 
                         ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
-                        col="cyan", lwd = 1.5, cex.lab=1.0))
+                        col="cyan", lwd = 1.5, cex.lab=1.5))
     legend("bottomright", c("P350", "P700", "VL", "L", "M"),
            col=c("cyan","green", "tomato", "violet","darkred"), 
-           lwd=c(2,2,2,2,2),  cex = 1.0, 
+           lwd=c(2,2,2,2,2),  cex = 1.5, 
            bg = adjustcolor("grey", 0.8), ncol=1)
     dev.off()
     
     # 0002
     png(paste('Plots/animated/constraint/0002plot.png',sep=''))
+    par(mar=c(5.1,6.1,2.1,2.1))
     with(csDF.new, plot(aCO2~nf, type="l", 
                         xlim=c(0.01, 0.03),
                         ylim=c(0.8, 2.5), 
                         xlab = "Shoot N:C ratio", 
                         ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
-                        col="cyan", lwd = 1.5, cex.lab=1.0))
+                        col="cyan", lwd = 1.5, cex.lab=1.5))
     with(csDF.new, lines(eCO2~nf, col="green", type="l", lwd = 1.5))
     legend("bottomright", c("P350", "P700", "VL", "L", "M"),
            col=c("cyan","green", "tomato", "violet","darkred"), 
-           lwd=c(2,2,2,2,2),  cex = 1.0, 
+           lwd=c(2,2,2,2,2),  cex = 1.5, 
            bg = adjustcolor("grey", 0.8), ncol=1)
     dev.off()
     
     # 0003
     png(paste('Plots/animated/constraint/0003plot.png',sep=''))
+    par(mar=c(5.1,6.1,2.1,2.1))
+    
     with(csDF.new, plot(aCO2~nf, type="l", 
                         xlim=c(0.01, 0.03),
                         ylim=c(0.8, 2.5), 
                         xlab = "Shoot N:C ratio", 
                         ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
-                        col="cyan", lwd = 1.5, cex.lab=1.0))
+                        col="cyan", lwd = 1.5, cex.lab=1.5))
     with(csDF.new, lines(eCO2~nf, col="green", type="l", lwd = 1.5))
     with(csDF.new, lines(VL~nf, type="l", col="tomato", lwd = 1.5))
     legend("bottomright", c("P350", "P700", "VL", "L", "M"),
            col=c("cyan","green", "tomato", "violet","darkred"), 
-           lwd=c(2,2,2,2,2),  cex = 1.0, 
+           lwd=c(2,2,2,2,2),  cex = 1.5, 
            bg = adjustcolor("grey", 0.8), ncol=1)
     dev.off()
     
     # 0004
     png(paste('Plots/animated/constraint/0004plot.png',sep=''))
+    par(mar=c(5.1,6.1,2.1,2.1))
+    
     with(csDF.new, plot(aCO2~nf, type="l", 
                         xlim=c(0.01, 0.03),
                         ylim=c(0.8, 2.5), 
                         xlab = "Shoot N:C ratio", 
                         ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
-                        col="cyan", lwd = 1.5, cex.lab=1.0))
+                        col="cyan", lwd = 1.5, cex.lab=1.5))
     with(csDF.new, lines(eCO2~nf, col="green", type="l", lwd = 1.5))
     with(csDF.new, lines(VL~nf, type="l", col="tomato", lwd = 1.5))
     with(csDF.new, lines(L~nf, type="l", col="violet", lwd = 1.5))
     legend("bottomright", c("P350", "P700", "VL", "L", "M"),
            col=c("cyan","green", "tomato", "violet","darkred"), 
-           lwd=c(2,2,2,2,2),  cex = 1.0, 
+           lwd=c(2,2,2,2,2),  cex = 1.5, 
            bg = adjustcolor("grey", 0.8), ncol=1)
     dev.off()
     
     png(paste('Plots/animated/constraint/0005plot.png',sep=''))
+    par(mar=c(5.1,6.1,2.1,2.1))
+    
     with(csDF.new, plot(aCO2~nf, type="l", 
                         xlim=c(0.01, 0.03),
                         ylim=c(0.8, 2.5), 
                         xlab = "Shoot N:C ratio", 
                         ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
-                        col="cyan", lwd = 1.5, cex.lab=1.0))
+                        col="cyan", lwd = 1.5, cex.lab=1.5))
     with(csDF.new, lines(eCO2~nf, col="green", type="l", lwd = 1.5))
     with(csDF.new, lines(VL~nf, type="l", col="tomato", lwd = 1.5))
     with(csDF.new, lines(L~nf, type="l", col="violet", lwd = 1.5))
     with(csDF.new, lines(M~nf, type="l", col="darkred", lwd = 1.5))
     legend("bottomright", c("P350", "P700", "VL", "L", "M"),
            col=c("cyan","green", "tomato", "violet","darkred"), 
-           lwd=c(2,2,2,2,2),  cex = 1.0, 
+           lwd=c(2,2,2,2,2),  cex = 1.5, 
            bg = adjustcolor("grey", 0.8), ncol=1)
     dev.off()
     
