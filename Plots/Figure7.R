@@ -127,7 +127,7 @@ gday_vs_ocn_plot <- function() {
     points(VLong700_gday$equilnf, VLong700_gday$equilNPP, cex = 2.0, col = "orange", pch = 19)
     points(nfseq, NCMEDIUM_gday$NPP, type="l", col="darkred", lwd = 2.5)
     points(equil_medium_700_gday$equilnf, equil_medium_700_gday$equilNPP, cex = 2.0, col = "purple", pch = 19)
-    text(x=0.001, y=2.9, "(a)", cex = 2)
+    text(x=0.005, y=2.9, "(a)", cex = 2)
     
     
     # OCN approach
@@ -143,7 +143,7 @@ gday_vs_ocn_plot <- function() {
     points(nfseq, NCMEDIUM_ocn$NPP, type="l", col="darkred", lwd = 2.5)
     points(equil_medium_700_ocn$equilnf, equil_medium_700_ocn$equilNPP, cex = 2.0, col = "purple", pch = 19)
     points(VLongN_ocn$equilnf, inst700_ocn$equilNPP, cex = 1.0, col = "darkgreen", pch=19)
-    text(x=0.001, y=2.9, "(b)", cex = 2)
+    text(x=0.005, y=2.9, "(b)", cex = 2)
     
     
     # legend

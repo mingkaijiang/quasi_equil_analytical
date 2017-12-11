@@ -101,7 +101,7 @@ basic_vs_ocn_plot <- function() {
     
     ########## Plotting
     tiff("Plots/Gday_Basic_vs_OCN.tiff",
-         width = 12, height = 7, units = "in", res = 300)
+         width = 12, height = 7, units = "in", res = 100)
     par(mfrow=c(1,2), mar=c(5.1,6.1,2.1,2.1))
     
     
