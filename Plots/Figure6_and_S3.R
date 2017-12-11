@@ -348,6 +348,7 @@
         geom_bar(position='dodge', stat='identity') +
         labs(list(x = "N uptake rate", y = ylabel, fill = "Timescale")) +
         scale_y_continuous(limits=c(-10,30)) +
+        scale_fill_manual(values=c("darkgreen", "purple", "red", "orange")) +
         theme(text = element_text(size=20),
               axis.text.x = element_text(),
               panel.grid.major = element_blank(), panel.grid.minor = element_blank(),

@@ -50,31 +50,31 @@ P_limitation_effect <- function() {
     par(mar=c(5.1,6.1,2.1,2.1))
     
     # shoot nc vs. NPP
-    plot(nfseq, photo_350_cnp, xlim=c(0.01, 0.06),
-         ylim=c(0.0, 3.5), 
+    plot(nfseq, photo_350_cnp, xlim=c(0.01, 0.05),
+         ylim=c(0.0, 3.0), 
          type = "l", xlab = "Shoot N:C ratio", 
          ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
-         col="blue", lwd = 3, cex.lab = 1.5)
+         col="cyan", lwd = 3, cex.lab = 1.5)
     points(nfseq, vlong_cnp$NPP_N, type="l", col="tomato", lwd = 3)
-    points(VLong_equil_cnp$equilnf, VLong_equil_cnp$equilNPP, type="p", pch = 15, col = "orange", cex = 2.5)
-    points(nfseq, photo_350_cn, type="l", col = "blue", lty = 3, lwd = 3)
-    points(VLong_equil_cn$equilnf, VLong_equil_cn$equilNPP, type="p", pch = 15, col = "blue", cex = 2.5)
+    points(VLong_equil_cnp$equilnf, VLong_equil_cnp$equilNPP, type="p", pch = 19, col = "blue", cex = 2.0)
+    points(nfseq, photo_350_cn, type="l", col = "cyan", lty = 3, lwd = 3)
+    points(VLong_equil_cn$equilnf, VLong_equil_cn$equilNPP, type="p", pch = 1, col = "blue", cex = 2.0)
     
-    points(nfseq, photo_700_cnp, type="l", col="darkgreen", lwd=3)
-    points(nfseq, photo_700_cn, type="l", col="darkgreen", lwd=3, lty=3)
-    points(VLong_equil_cnp_new$equilnf, VLong_equil_cnp_new$equilNPP, type="p", pch = 15, col = "green", cex=2.5)
-    points(VLong_equil_cn_new$equilnf, VLong_equil_cn_new$equilNPP, type="p", pch = 15, col = "red", cex=2.5)
+    points(nfseq, photo_700_cnp, type="l", col="green", lwd=3)
+    points(nfseq, photo_700_cn, type="l", col="green", lwd=3, lty=3)
+    points(VLong_equil_cnp_new$equilnf, VLong_equil_cnp_new$equilNPP, type="p", pch = 19, col = "orange", cex=2.0)
+    points(VLong_equil_cn_new$equilnf, VLong_equil_cn_new$equilNPP, type="p", pch = 1, col = "orange", cex=2.0)
     
-    legend("bottomright", c(expression("NP"[a]), 
+    legend("bottomleft", c(expression("NP"[a]), 
                          expression("N"[a]), 
                          expression("NP"[e]), 
                          expression("N"[e]), 
                          "VL", 
                          "A", "B", "C", "D"),
-           col=c("blue","blue", "darkgreen", "darkgreen", "tomato",
-                 "orange","green", "blue", "red"), 
+           col=c("cyan","cyan", "green", "green", "tomato",
+                 "blue","orange", "blue", "orange"), 
            lwd=c(2,2,2,2,2, NA, NA, NA, NA),  lty=c(1,3,1,3,1, NA, NA, NA, NA),
-           pch = c(NA, NA, NA, NA, NA, 15,15,15,15), cex = 1.5, ncol=2)
+           pch = c(NA, NA, NA, NA, NA, 19,19,1,1), cex = 1.2, ncol=2)
     
     dev.off()
     

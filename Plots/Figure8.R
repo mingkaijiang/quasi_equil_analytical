@@ -176,7 +176,7 @@ priming_effect_plot <- function() {
     legend("topright", c("P350", "P700", "VL", "L", "M",
                          "A", "B", "C", "D", "E"),
            col=c("cyan","green", "tomato", "violet","darkred","blue", "darkgreen","purple","red", "orange"), 
-           lwd=c(2,2,2,2,2,NA,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19,19), cex = 0.8, 
+           lwd=c(2,2,2,2,2,NA,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,NA,19,19,19,19,19), cex = 1.0, 
            bg = adjustcolor("grey", 0.8), ncol=2)
     
     dev.off()
