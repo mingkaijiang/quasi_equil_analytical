@@ -140,7 +140,7 @@ priming_effect_plot <- function() {
     
     # priming off
     plot(nfseq_off,PC350_off,axes=T,
-         type='l',xlim=c(0,0.05),ylim=c(0,3), 
+         type='l',xlim=c(0,0.02),ylim=c(1,2), 
          ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
          xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex.lab = 1.5)
     points(nfseq_off,PC700_off,type='l',col="green", lwd = 2.5)
@@ -157,7 +157,7 @@ priming_effect_plot <- function() {
     
     # priming on
     plot(nfseq_on,PC350_on,axes=T,
-         type='l',xlim=c(0,0.05),ylim=c(0,3), 
+         type='l',xlim=c(0,0.02),ylim=c(1,2), 
          ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
          xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex.lab = 1.5)
     points(nfseq_on,PC700_on,type='l',col="green", lwd = 2.5)
