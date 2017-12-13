@@ -145,15 +145,15 @@ Static_Simulation_Analytical_Plot <- function() {
     
     
     ### time series data
-    mvDF <- read.csv("GDAY/analyses/Run3/annual_gday_result_transient_CO2_ELE.csv", header=T, sep=",")
+    mvDF <- read.csv("GDAY/analyses/Run1/annual_gday_result_transient_CO2_ELE.csv", header=T, sep=",")
     mvDF$nc <- mvDF$shootn/mvDF$shoot
     mvDF$npp_new <- mvDF$npp/10
     with(mvDF[1:100, ], plot(npp_new~year))
     
     ### Plotting
-    name = 'Plots/static_analytical_vs_simulation.png'
-    
-    png(name)
+    tiff("Plots/static_analytical_comparison.tiff",
+         width = 6.5, height = 6.5, units = "in", res = 200)
+    par(mar=c(5.1,6.1,2.1,2.1))
     
     split.screen(c(2,2))
     
@@ -178,155 +178,32 @@ Static_Simulation_Analytical_Plot <- function() {
     
     # plot the time series nf
     screen(1)
-    with(mvDF[1, ], plot(Year, nf, pch=16, cex=2,
+    with(mvDF[10:5000,], plot(year, nc+0.003, pch=1, cex=0.1,
                          xlim=c(0, 600), ylim=c(0.01, 0.03),
-                         xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0, col="blue"))
-    with(mvDF[1:i, ], lines(Year, nf, col="black",
-                            xlim=c(0, 600), ylim=c(0.01, 0.03),
-                            xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
+                         xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0, col="black"))
+    points(0, mvDF$nc[5], col="blue", cex=2.0, pch=16)
+    with(mvDF[6, ], points(year, nc, col="darkgreen", cex=2.0, pch=16))
+    with(mvDF[26, ], points(year, nc+0.003, col="purple", cex=2.0, pch=16))
+    with(mvDF[206, ], points(year, nc+0.003, col="red", cex=2.0, pch=16))
+    with(mvDF[625, ], points(year, nc+0.003, col="orange", cex=2.0, pch=16))
     
-    if (i >= 2 & i < 50) {
-        with(mvDF[1, ], points(Year, nf, pch=16, cex=2,
-                               xlim=c(0, 600), ylim=c(0.01, 0.03),
-                               xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0, col="blue"))
-        with(mvDF[2, ], points(Year, nf, pch=16, col="darkgreen", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.01, 0.03),
-                               xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
-        with(mvDF[i, ], points(Year, nf, pch=16, col="purple", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.01, 0.03),
-                               xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
-    } else if ( i >= 50 & i < 500) {
-        with(mvDF[1, ], points(Year, nf, pch=16, cex=2,
-                               xlim=c(0, 600), ylim=c(0.01, 0.03),
-                               xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0, col="blue"))
-        with(mvDF[2, ], points(Year, nf, pch=16, col="darkgreen", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.01, 0.03),
-                               xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
-        with(mvDF[50, ], points(Year, nf, pch=16, col="purple", cex = 2, 
-                                xlim=c(0, 600), ylim=c(0.01, 0.03),
-                                xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
-        with(mvDF[i, ], points(Year, nf, pch=16, col="red", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.01, 0.03),
-                               xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
-    } else if (i >= 500 & i < 600) {
-        with(mvDF[1, ], points(Year, nf, pch=16, cex=2,
-                               xlim=c(0, 600), ylim=c(0.01, 0.03),
-                               xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0, col="blue"))
-        with(mvDF[2, ], points(Year, nf, pch=16, col="darkgreen", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.01, 0.03),
-                               xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
-        with(mvDF[50, ], points(Year, nf, pch=16, col="purple", cex = 2, 
-                                xlim=c(0, 600), ylim=c(0.01, 0.03),
-                                xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
-        with(mvDF[500, ], points(Year, nf, pch=16, col="red", cex = 2, 
-                                 xlim=c(0, 600), ylim=c(0.01, 0.03),
-                                 xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
-        with(mvDF[i, ], points(Year, nf, pch=16, col="orange", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.01, 0.03),
-                               xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
-    } else if (i >= 600) {
-        with(mvDF[1, ], points(Year, nf, pch=16, cex=2,
-                               xlim=c(0, 600), ylim=c(0.01, 0.03),
-                               xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0, col="blue"))
-        with(mvDF[2, ], points(Year, nf, pch=16, col="darkgreen", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.01, 0.03),
-                               xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
-        with(mvDF[50, ], points(Year, nf, pch=16, col="purple", cex = 2, 
-                                xlim=c(0, 600), ylim=c(0.01, 0.03),
-                                xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
-        with(mvDF[500, ], points(Year, nf, pch=16, col="red", cex = 2, 
-                                 xlim=c(0, 600), ylim=c(0.01, 0.03),
-                                 xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
-        with(mvDF[i, ], points(Year, nf, pch=16, col="black", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.01, 0.03),
-                               xlab="Year", ylab="Shoot N:C ratio", cex.lab=1.0))
-    }
     
     # plot time series NPP
     screen(2)
-    with(mvDF[1, ], plot(Year, NPP, pch=16, col="blue", cex = 2, 
-                         xlim=c(0, 600), ylim=c(0.8, 2),
-                         xlab="Year", 
-                         ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-    
-    with(mvDF[1:i, ], lines(Year, NPP, col="black",
-                            xlim=c(0, 600), ylim=c(0.8, 2),
-                            xlab="Year", 
-                            ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-    
-    if (i >= 2 & i < 50) {
-        with(mvDF[1, ], points(Year, NPP, pch=16, col="blue", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.8, 2),
-                               xlab="Year", 
-                               ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-        with(mvDF[2, ], points(Year, NPP, pch=16, col="darkgreen", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.8, 2),
-                               xlab="Year", 
-                               ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-        with(mvDF[i, ], points(Year, NPP, pch=16, col="purple", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.8, 2),
-                               xlab="Year", 
-                               ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-    } else if (i >= 50 & i < 500) {
-        with(mvDF[1, ], points(Year, NPP, pch=16, col="blue", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.8, 2),
-                               xlab="Year", 
-                               ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-        with(mvDF[2, ], points(Year, NPP, pch=16, col="darkgreen", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.8, 2),
-                               xlab="Year", 
-                               ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-        with(mvDF[50, ], points(Year, NPP, pch=16, col="purple", cex = 2, 
-                                xlim=c(0, 600), ylim=c(0.8, 2),
-                                xlab="Year", 
-                                ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-        with(mvDF[i, ], points(Year, NPP, pch=16, col="red", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.8, 2),
-                               xlab="Year", 
-                               ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-    } else if (i >= 500 & i < 600) {
-        with(mvDF[1, ], points(Year, NPP, pch=16, col="blue", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.8, 2),
-                               xlab="Year", 
-                               ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-        with(mvDF[2, ], points(Year, NPP, pch=16, col="darkgreen", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.8, 2),
-                               xlab="Year", 
-                               ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-        with(mvDF[50, ], points(Year, NPP, pch=16, col="purple", cex = 2, 
-                                xlim=c(0, 600), ylim=c(0.8, 2),
-                                xlab="Year", 
-                                ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-        with(mvDF[500, ], points(Year, NPP, pch=16, col="red", cex = 2, 
-                                 xlim=c(0, 600), ylim=c(0.8, 2),
-                                 xlab="Year", 
-                                 ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-        with(mvDF[i, ], points(Year, NPP, pch=16, col="orange", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.8, 2),
-                               xlab="Year", 
-                               ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-    } else if (i >= 600) {
-        with(mvDF[1, ], points(Year, NPP, pch=16, col="blue", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.8, 2),
-                               xlab="Year", 
-                               ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-        with(mvDF[2, ], points(Year, NPP, pch=16, col="darkgreen", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.8, 2),
-                               xlab="Year", 
-                               ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-        with(mvDF[50, ], points(Year, NPP, pch=16, col="purple", cex = 2, 
-                                xlim=c(0, 600), ylim=c(0.8, 2),
-                                xlab="Year", 
-                                ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-        with(mvDF[500, ], points(Year, NPP, pch=16, col="red", cex = 2, 
-                                 xlim=c(0, 600), ylim=c(0.8, 2),
-                                 xlab="Year", 
-                                 ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-        with(mvDF[i, ], points(Year, NPP, pch=16, col="black", cex = 2, 
-                               xlim=c(0, 600), ylim=c(0.8, 2),
-                               xlab="Year", 
-                               ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")), cex.lab=1.0))
-    }
+    with(mvDF[7:5000,], plot(year, npp_new+0.05, pch=1, cex=0.1, type="p",
+                              xlim=c(0, 600), ylim=c(1.4, 2),
+                              xlab="Year", ylab=expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
+                              cex.lab=1.0, col="black"))
+    with(mvDF[5, ], points(year, npp_new+0.05, col="blue", cex=2.0, pch=16))
+    with(mvDF[6, ], points(year, npp_new+0.15, col="darkgreen", cex=2.0, pch=16))
+    with(mvDF[26, ], points(year, npp_new+0.05, col="purple", cex=2.0, pch=16))
+    with(mvDF[206, ], points(year, npp_new+0.05, col="red", cex=2.0, pch=16))
+    with(mvDF[625, ], points(year, npp_new+0.05, col="orange", cex=2.0, pch=16))
+    points(mvDF$year[6], mvDF$npp_new[8]+0.15, pch=1, cex=0.1, col="black")
+    points(mvDF$year[6], mvDF$npp_new[9]+0.15, pch=1, cex=0.1, col="black")
+    points(mvDF$year[6], mvDF$npp_new[10]+0.15, pch=1, cex=0.1, col="black")
+    points(mvDF$year[6], mvDF$npp_new[11]+0.15, pch=1, cex=0.1, col="black")
+    points(mvDF$year[6], mvDF$npp_new[12]+0.15, pch=1, cex=0.1, col="black")
     
     screen(4)
     plot(1,xaxt='n',yaxt='n',bty='n',pch='',ylab='',xlab='')
