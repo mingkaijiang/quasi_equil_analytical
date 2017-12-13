@@ -91,13 +91,13 @@ void write_output_header(control *c, params *p, FILE **fp) {
 
     /* Misc */
     fprintf(*fp, "leafretransn,");
-    fprintf(*fp, "leafretransp,");
-    fprintf(*fp, "root_exc,");
-    fprintf(*fp, "rexc_cue,");
-    fprintf(*fp, "root_exn,");
-    fprintf(*fp, "factive,");
-    fprintf(*fp, "co2_released_exud,");
-    fprintf(*fp, "rtslow\n");
+    fprintf(*fp, "leafretransp\n");
+    //fprintf(*fp, "root_exc,");
+    //fprintf(*fp, "rexc_cue,");
+    //fprintf(*fp, "root_exn,");
+    //fprintf(*fp, "factive,");
+    //fprintf(*fp, "co2_released_exud,");
+    //fprintf(*fp, "rtslow\n");
     //fprintf(*fp, "rootretransn,");
     //fprintf(*fp, "rootretransp,");
     //fprintf(*fp, "stemretransn,");
@@ -207,10 +207,10 @@ void write_annual_outputs_ascii(control *c, fluxes *f, state *s, params *p, int 
 
     /* Misc */
     fprintf(c->ofp, "%.10f,", f->leafretransn);
-    fprintf(c->ofp, "%.10f,", f->leafretransp);
+    fprintf(c->ofp, "%.10f\n", f->leafretransp);
     
-    fprintf(c->ofp, "%.10f,%.10f,%.10f,%.10f,%.10f,%.10f\n", 
-            f->root_exc,f->rexc_cue,f->root_exn,f->factive,f->co2_released_exud,f->rtslow);
+    //fprintf(c->ofp, "%.10f,%.10f,%.10f,%.10f,%.10f,%.10f\n", 
+    //        f->root_exc,f->rexc_cue,f->root_exn,f->factive,f->co2_released_exud,f->rtslow);
     
     //fprintf(c->ofp, "%.10f,", f->rootretransn);
     //fprintf(c->ofp, "%.10f,", f->rootretransp);
