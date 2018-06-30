@@ -12,19 +12,18 @@
 Perform_Analytical_Run1_EucFACE <- function(f.flag) {
     #### Function to perform analytical run 1 simulations
     #### f.flag: = 1 simply plot analytical solution file
-    #### f.flag: = 2 return cDF and eDF
+    #### f.flag: = 2 return a data list
 
     ######### Main program
     source("Parameters/Analytical_Run1_Parameters_EucFACE.R")
     
-    
     # create a range of nc for shoot to initiate
-    nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq))
+    nfseq <- seq(0.01, 0.1, by = 0.001)
+    a_nf <- allocn(nfseq)
     
     # using very long term relationship to calculate pf from nf
     pfseq <- inferpfVL(nfseq, a_nf)
-    a_pf <- as.data.frame(allocp(pfseq))
+    a_pf <- allocp(pfseq)
     
     # calculate photosynthetic constraint at CO2 = 350
     Photo350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
@@ -74,15 +73,10 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
     colnames(equil350DF) <- c("nc_VL", "pc_VL", "NPP_VL", 
                               "nc_L","pc_L", "NPP_L")
     
-    # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 1 & cDF$CO2 == 350, 3:13] <- out350DF
-    eDF[eDF$Run == 1 & eDF$CO2 == 350, 3:8] <- equil350DF
-    
     ##### CO2 = 700
-    
     # N:C and P:C ratio
-    nfseq <- round(seq(0.01, 0.1, by = 0.001),5)
-    a_nf <- as.data.frame(allocn(nfseq))
+    nfseq <- seq(0.01, 0.1, by = 0.001)
+    a_nf <- allocn(nfseq)
     
     # using very long term relationship to calculate pf from nf
     pfseq <- inferpfVL(nfseq, a_nf)
@@ -113,17 +107,9 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
     colnames(equil700DF) <- c("nc_VL", "pc_VL", "NPP_VL", 
                               "nc_L","pc_L", "NPP_L")
     
-    
-    # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 1 & cDF$CO2 == 700, 3:13] <- out700DF
-    eDF[eDF$Run == 1 & eDF$CO2 == 700, 3:8] <- equil700DF
-    
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(round(nfseq,3), Photo700))
     inst700 <- inst_NPP(equil350DF$nc_VL, df700)
-    
-    eDF[eDF$Run == 1 & eDF$CO2 == 350, 9] <- inst700$equilNPP
-    eDF[eDF$Run == 1 & eDF$CO2 == 700, 9] <- inst700$equilNPP
     
     if (f.flag == 1) {
         
@@ -243,9 +229,7 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
         dev.off()
         
     } else if (f.flag == 2) {
-        return(cDF)
-    } else if (f.flag == 3) {
-        return(eDF)
-    }
+        return()
+    } 
     
 }
