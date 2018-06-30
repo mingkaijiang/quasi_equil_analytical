@@ -1,23 +1,19 @@
 
-#### Analytical script to match GDAY Run 2 settings
+#### Analytical script AmazonFACE parameters, fixed wood, P cycle off
 ####
 #### Assumptions:
-#### Same as Run 1, except:
 #### 1. P cycle off
+#### 2. Fixed wood 
 ####
 ################################################################################
 
 #### Functions
-Perform_Analytical_Run2_AmazonFACE <- function(f.flag = 1, cDF, eDF) {
-    #### Function to perform analytical run 2 simulations
-    #### eDF: stores equilibrium points
-    #### cDF: stores constraint points (curves)
+Perform_Analytical_Run8_AmazonFACE <- function(f.flag = 1, cDF, eDF) {
     #### f.flag: = 1 simply plot analytical solution file
-    #### f.flag: = 2 return cDF
-    #### f.flag: = 3 return eDF
+    #### f.flag: = 2 return a data list
 
     ######### Main program
-    source("Parameters/Analytical_Run2_Parameters_AmazonFACE.R")
+    source("Parameters/Analytical_Run8_Parameters_AmazonFACE.R")
     
     # N:C ratios for x-axis
     nfseq <- seq(0.01,0.1,by=0.001)
@@ -25,44 +21,52 @@ Perform_Analytical_Run2_AmazonFACE <- function(f.flag = 1, cDF, eDF) {
     a_vec <- allocn(nfseq)
     
     # plot photosynthetic constraints
-    PC350 <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_1)
-    PC700 <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_2)
+    C350 <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_1)
+    C700 <- photo_constraint_full_cn(nfseq,a_vec,CO2=CO2_2)
     
     #plot very-long nutrient cycling constraint
-    NCVLONG <- VLong_constraint_N(nfseq,a_vec)
+    NC_VL <- VL_constraint_N(nfseq,a_vec)
     
     #solve very-long nutrient cycling constraint
-    VLong <- solveVLong_full_cn(CO2=CO2_1)
+    VL_eq <- solve_VL_full_cn(CO2=CO2_1)
+    
     #get Cpassive from very-long nutrient cycling solution
-    aequil <- allocn(VLong$equilnf)
-    pass <- passive(df=VLong$equilnf, a=aequil)
+    aequil <- allocn(VL_eq$equilnf)
+    pass <- passive(df=VL_eq$equilnf, a=aequil)
     omegap <- aequil$af*pass$omegaf + aequil$ar*pass$omegar
-    CpassVLong <- omegap*VLong$equilNPP/pass$decomp/(1-pass$qq)*1000.0
-    NrelwoodVLong <- aequil$aw*aequil$nw*VLong$equilNPP*1000
+    CpassVLong <- omegap*VL_eq$equilNPP/pass$decomp/(1-pass$qq)*1000.0
+    NrelwoodVLong <- aequil$aw*aequil$nw*VL_eq$equilNPP*1000
     
     #now plot long-term constraint with this Cpassive
-    NCHUGH <- Long_constraint_N(nfseq,a_vec,Cpass=CpassVLong,Nin+NrelwoodVLong)
+    NC_L <- L_constraint_N(nfseq,a_vec,Cpass=CpassVLong,Nin+NrelwoodVLong)
     
     # Solve longterm equilibrium
-    equil_long_350 <- solveLong_full_cn(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
-    equil_long_700 <- solveLong_full_cn(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
-    
-    # get the point instantaneous NPP response to doubling of CO2
-    df700 <- as.data.frame(cbind(round(nfseq,3), PC700))
-    inst700 <- inst_NPP(VLong$equilnf, df700)
+    L_eq_350 <- solve_L_full_cn(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
+    L_eq_700 <- solve_L_full_cn(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
     
     ## locate the intersect between VL nutrient constraint and CO2 = 700
-    VLong700 <- solveVLong_full_cn(CO2=CO2_2)
+    VL_eq_700 <- solve_VL_full_cn(CO2=CO2_2)
     
-    # store constraint and equil DF onto their respective output df
-    cDF[cDF$Run == 2 & cDF$CO2 == 350, 3:13] <- test <- cbind(nfseq, 0, 0, PC350, NCVLONG, NCHUGH)
-    eDF[eDF$Run == 2 & eDF$CO2 == 350, 3:8] <- cbind(VLong, equil_long_350)
-    cDF[cDF$Run == 2 & cDF$CO2 == 700, 3:13] <- cbind(nfseq, 0, 0, PC700, NCVLONG, NCHUGH)
-    eDF[eDF$Run == 2 & eDF$CO2 == 700, 3:8] <- cbind(VLong700, equil_long_700)
+    # get the point instantaneous NPP response to doubling of CO2
+    df700 <- as.data.frame(cbind(nfseq, C700))
+    inst700 <- inst_NPP(VL_eq$equilnf, df700)
     
-    eDF[eDF$Run == 2 & eDF$CO2 == 350, 9] <- inst700$equilNPP
-    eDF[eDF$Run == 2 & eDF$CO2 == 700, 9] <- inst700$equilNPP
+    out350DF <- data.frame(nfseq, C350, NC_VL, NC_L)
+    colnames(out350DF) <- c("nc", "NPP_350", "NPP_VL",
+                            "nleach_VL", "NPP_350_L", "nwood_L", "nburial_L",
+                            "nleach_L", "aw")
+    equil350DF <- data.frame(VL_eq, L_eq_350)
+    colnames(equil350DF) <- c("nc_VL", "NPP_VL", 
+                              "nc_L", "NPP_L")
     
+    out700DF <- data.frame(nfseq, C700, NC_VL, NC_L)
+    colnames(out700DF) <- c("nc", "NPP_700", "NPP_VL",
+                            "nleach_VL", "NPP_700_L", "nwood_L", "nburial_L",
+                            "nleach_L", "aw")
+    
+    equil700DF <- data.frame(VL_eq_700, L_eq_700)
+    colnames(equil700DF) <- c("nc_VL", "NPP_VL", 
+                              "nc_L", "NPP_L")
     if (f.flag ==1 ) {
         
         #### Library
@@ -70,14 +74,14 @@ Perform_Analytical_Run2_AmazonFACE <- function(f.flag = 1, cDF, eDF) {
         
         ######### Plotting
         
-        tiff("Plots/Analytical_Run2_AmazonFACE.tiff",
+        tiff("Plots/Analytical_Run8_AmazonFACE.tiff",
              width = 10, height = 5, units = "in", res = 300)
         par(mfrow=c(1,2),mar=c(5.1,6.1,2.1,2.1))
         
         
         # Photosynthetic constraint CO2 = 350 ppm
-        plot(nfseq,PC350,axes=T,
-             type='l',xlim=c(0,0.1),ylim=c(0,3), 
+        plot(nfseq,C350,axes=T,
+             type='l',xlim=c(0.01,0.02),ylim=c(0.8,1.2), 
              ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
              xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex.lab = 1.5)
         #rect(0,0,0.05,8,border=NA, col=adjustcolor("lightgrey", 0.2))
@@ -87,28 +91,28 @@ Perform_Analytical_Run2_AmazonFACE <- function(f.flag = 1, cDF, eDF) {
         #abline(v=VLong$equilnf, lwd = 2, lty = 5, col = "gray73")
         
         # Photosynthetic constraint CO2 = 700 ppm
-        points(nfseq,PC700,type='l',col="green", lwd = 2.5)
+        points(nfseq,C700,type='l',col="green", lwd = 2.5)
         
         # VL nutrient constraint curve
-        points(nfseq,NCVLONG$NPP_N,type='l',col="tomato", lwd = 2.5)
+        points(nfseq,NC_VL$NPP_N,type='l',col="tomato", lwd = 2.5)
         
         # L nutrient constraint curve
-        points(nfseq,NCHUGH$NPP,type='l',col="violet", lwd = 2.5)
+        points(nfseq,NC_L$NPP,type='l',col="violet", lwd = 2.5)
         
         # VL intersect with CO2 = 350 ppm
-        points(VLong$equilnf,VLong$equilNPP, pch = 19, cex = 2.0, col = "blue")
+        points(VL_eq$equilnf,VL_eq$equilNPP, pch = 19, cex = 2.0, col = "blue")
         
         # L intersect with CO2 = 350 ppm
         #with(equil_long_350,points(equilnf,equilNPP,pch=19, cex = 2.0, col = "black"))
         
         # L intersect with CO2 = 700 ppm
-        with(equil_long_700,points(equilnf,equilNPP,pch=19, cex = 2.0, col = "red"))
+        with(L_eq_700,points(equilnf,equilNPP,pch=19, cex = 2.0, col = "red"))
         
         # instantaneous NPP response to doubling CO2
-        points(VLong$equilnf, inst700$equilNPP, cex = 2.0, col = "darkgreen", pch=19)
+        points(VL_eq$equilnf, inst700$equilNPP, cex = 2.0, col = "darkgreen", pch=19)
         
         # VL intersect with CO2 = 700 ppm
-        points(VLong700$equilnf, VLong700$equilNPP, cex = 2.0, col = "orange", pch = 19)
+        points(VL_eq_700$equilnf, VL_eq_700$equilNPP, cex = 2.0, col = "orange", pch = 19)
         
 #        legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
 #                             expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
@@ -127,8 +131,6 @@ Perform_Analytical_Run2_AmazonFACE <- function(f.flag = 1, cDF, eDF) {
         dev.off()
         
     } else if (f.flag == 2) {
-        return(cDF)
-    } else if (f.flag == 3) {
-        return(eDF)
-    }
+        return()
+    } 
 }

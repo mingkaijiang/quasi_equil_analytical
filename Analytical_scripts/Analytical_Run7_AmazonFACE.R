@@ -1,21 +1,21 @@
 
-#### Analytical script for AmazonFACE parameters, variable wood, P cycle on
+#### Analytical script for AmazonFACE parameters, fixed wood, P cycle on
 ####
 #### Assumptions:
 #### 1. N and P cycle on
-#### 2. Variable wood stoichiometry
+#### 2. Fixed wood stoichiometry
 ####
 ################################################################################
 
 
 #### Functions
-Perform_Analytical_Run5_AmazonFACE <- function(f.flag) {
+Perform_Analytical_Run7_AmazonFACE <- function(f.flag) {
     #### Function to perform analytical run 1 simulations
     #### f.flag: = 1 simply plot analytical solution file
     #### f.flag: = 2 return a data list
 
     ######### Main program
-    source("Parameters/Analytical_Run5_Parameters_AmazonFACE.R")
+    source("Parameters/Analytical_Run7_Parameters_AmazonFACE.R")
     
     # create a range of nc for shoot to initiate
     nfseq <- seq(0.01, 0.1, by = 0.001)
@@ -27,8 +27,7 @@ Perform_Analytical_Run5_AmazonFACE <- function(f.flag) {
     
     # calculate photosynthetic constraint at CO2 = 350
     C350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
-    # C350_simple <- photo_constraint_simple_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
-    
+
     ### calculate very long term NC and PC constraint on NPP, respectively
     NC_VL <- VL_constraint_N(nf=nfseq, nfdf=a_nf)
     
@@ -113,7 +112,7 @@ Perform_Analytical_Run5_AmazonFACE <- function(f.flag) {
     #    
     #    ######### Plotting
     #    
-    #    tiff("Plots/Analytical_Run5_AmazonFACE.tiff",
+    #    tiff("Plots/Analytical_Run7_AmazonFACE.tiff",
     #         width = 8, height = 7, units = "in", res = 300)
     #    
     #    
@@ -168,13 +167,13 @@ Perform_Analytical_Run5_AmazonFACE <- function(f.flag) {
     #    dev.off()
     #    
     #    ### plot 2-d plots of nf vs. npp and nf vs. pf
-    #    tiff("Plots/Analytical_Run5_2d_AmazonFACE.tiff",
+    #    tiff("Plots/Analytical_Run7_2d_AmazonFACE.tiff",
     #         width = 10, height = 5, units = "in", res = 300)
     #    par(mfrow=c(1,2), mar=c(5.1,6.1,2.1,2.1))
     #    
         # shoot nc vs. NPP
-        plot(out350DF$nc, out350DF$NPP_350, xlim=c(0.01, 0.08),
-              ylim=c(0.8, 4), 
+        plot(out350DF$nc, out350DF$NPP_350, xlim=c(0.016, 0.04),
+              ylim=c(0.8, 1.2), 
              type = "l", xlab = "Shoot N:C ratio", 
              ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
              col="cyan", lwd = 3, cex.lab=1.5)
@@ -185,7 +184,8 @@ Perform_Analytical_Run5_AmazonFACE <- function(f.flag) {
         points(equil350DF$nc_VL, inst700$equilNPP, type="p", col = "darkgreen", pch=19, cex = 2)
         points(equil700DF$nc_VL, equil700DF$NPP_VL, type="p", col="orange", pch = 19, cex = 2)
         points(equil700DF$nc_L, equil700DF$NPP_L,type="p", col="red", pch = 19, cex = 2)
-
+        points(equil350DF$nc_L, equil350DF$NPP_L,type="p", col="yellow", pch = 19, cex = 2)
+        
     #    dev.off()
         
         #tiff("Plots/implicit_PC_AmazonFACE.tiff",
