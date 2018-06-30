@@ -5,7 +5,7 @@ inst_NPP <- function(nf, df) {
     
     # round the nf value and finding its location on df
     nf1 <- round(nf, 3)
-    loc1 <- match(nf1, df[,1])
+    loc1 <- match(nf1, round(df[,1], 3))
     
     # obtain its previous/subsequent locations
     if(nf1 > nf) {

@@ -45,12 +45,12 @@ Perform_Analytical_Run2_EucFACE <- function(f.flag = 1, cDF, eDF) {
     L_eq_350 <- solve_L_full_cn(CO2=CO2_1, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
     L_eq_700 <- solve_L_full_cn(CO2=CO2_2, Cpass=CpassVLong, NinL = Nin+NrelwoodVLong)
     
+    ## locate the intersect between VL nutrient constraint and CO2 = 700
+    VL_eq_700 <- solve_VL_full_cn(CO2=CO2_2)
+    
     # get the point instantaneous NPP response to doubling of CO2
     df700 <- as.data.frame(cbind(nfseq, C700))
     inst700 <- inst_NPP(VL_eq$equilnf, df700)
-    
-    ## locate the intersect between VL nutrient constraint and CO2 = 700
-    VL_eq_700 <- solve_VL_full_cn(CO2=CO2_2)
     
     out350DF <- data.frame(nfseq, C350, NC_VL, NC_L)
     colnames(out350DF) <- c("nc", "NPP_350", "NPP_VL",
@@ -81,8 +81,8 @@ Perform_Analytical_Run2_EucFACE <- function(f.flag = 1, cDF, eDF) {
         
         
         # Photosynthetic constraint CO2 = 350 ppm
-        plot(nfseq,PC350,axes=T,
-             type='l',xlim=c(0,0.1),ylim=c(0,3), 
+        plot(nfseq,C350,axes=T,
+             type='l',xlim=c(0.01,0.02),ylim=c(0.8,1.2), 
              ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
              xlab = "Shoot N:C ratio", lwd = 2.5, col="cyan", cex.lab = 1.5)
         #rect(0,0,0.05,8,border=NA, col=adjustcolor("lightgrey", 0.2))
@@ -92,28 +92,28 @@ Perform_Analytical_Run2_EucFACE <- function(f.flag = 1, cDF, eDF) {
         #abline(v=VLong$equilnf, lwd = 2, lty = 5, col = "gray73")
         
         # Photosynthetic constraint CO2 = 700 ppm
-        points(nfseq,PC700,type='l',col="green", lwd = 2.5)
+        points(nfseq,C700,type='l',col="green", lwd = 2.5)
         
         # VL nutrient constraint curve
-        points(nfseq,NCVLONG$NPP_N,type='l',col="tomato", lwd = 2.5)
+        points(nfseq,NC_VL$NPP_N,type='l',col="tomato", lwd = 2.5)
         
         # L nutrient constraint curve
-        points(nfseq,NCHUGH$NPP,type='l',col="violet", lwd = 2.5)
+        points(nfseq,NC_L$NPP,type='l',col="violet", lwd = 2.5)
         
         # VL intersect with CO2 = 350 ppm
-        points(VLong$equilnf,VLong$equilNPP, pch = 19, cex = 2.0, col = "blue")
+        points(VL_eq$equilnf,VL_eq$equilNPP, pch = 19, cex = 2.0, col = "blue")
         
         # L intersect with CO2 = 350 ppm
         #with(equil_long_350,points(equilnf,equilNPP,pch=19, cex = 2.0, col = "black"))
         
         # L intersect with CO2 = 700 ppm
-        with(equil_long_700,points(equilnf,equilNPP,pch=19, cex = 2.0, col = "red"))
+        with(L_eq_700,points(equilnf,equilNPP,pch=19, cex = 2.0, col = "red"))
         
         # instantaneous NPP response to doubling CO2
-        points(VLong$equilnf, inst700$equilNPP, cex = 2.0, col = "darkgreen", pch=19)
+        points(VL_eq$equilnf, inst700$equilNPP, cex = 2.0, col = "darkgreen", pch=19)
         
         # VL intersect with CO2 = 700 ppm
-        points(VLong700$equilnf, VLong700$equilNPP, cex = 2.0, col = "orange", pch = 19)
+        points(VL_eq_700$equilnf, VL_eq_700$equilNPP, cex = 2.0, col = "orange", pch = 19)
         
 #        legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
 #                             expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
