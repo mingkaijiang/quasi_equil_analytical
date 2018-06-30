@@ -57,23 +57,6 @@ photo_constraint_full_cnp <- function(nf, pf, nfdf, pfdf, CO2) {
 
 
 ### This function implements photosynthetic constraint - solve by finding the root
-### for respiration as a function of N and P
-photo_constraint_respiration <- function(nf, pf, nfdf, pfdf, CO2) {
-    
-    len <- length(nf)
-    
-    ans <- c()
-    
-    for (i in 1:len) {
-        fPC <- function(NPP) eqPC_respiration(nf[i], pf[i], nfdf[i,], pfdf[i,], NPP, CO2) - NPP
-        #browser()
-        ans[i] <- uniroot(fPC,interval=c(1,20), trace=T)$root
-    }
-    
-    return(ans)
-}
-
-### This function implements photosynthetic constraint - solve by finding the root
 ### Based on the full photosynthesis model for c and n only
 photo_constraint_full_cn <- function(nf, nfdf, CO2) {
     # parameters
