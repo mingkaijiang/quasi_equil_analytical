@@ -1,5 +1,5 @@
 
-#### Analytical script to match GDAY Run 1 settings
+#### Analytical script for EucFACE parameters, variable wood, P cycle on
 ####
 #### Assumptions:
 #### 1. N and P cycle on
@@ -9,13 +9,10 @@
 
 
 #### Functions
-Perform_Analytical_Run1_EucFACE <- function(f.flag = 1, cDF, eDF) {
+Perform_Analytical_Run1_EucFACE <- function(f.flag) {
     #### Function to perform analytical run 1 simulations
-    #### eDF: stores equilibrium points
-    #### cDF: stores constraint points (curves)
     #### f.flag: = 1 simply plot analytical solution file
-    #### f.flag: = 2 return cDF
-    #### f.flag: = 3 return eDF
+    #### f.flag: = 2 return cDF and eDF
 
     ######### Main program
     source("Parameters/Analytical_Run1_Parameters_EucFACE.R")
