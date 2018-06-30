@@ -1,5 +1,5 @@
 ### Function for nutrient P constraint in longterm ie passive, leaching, wood considered
-Long_constraint_P <- function(nf, df, a, Cpass, PinL) {
+L_constraint_P <- function(nf, df, a, Cpass, PinL) {
 
     # passive pool burial 
     pass <- passive(nf, allocn(nf))

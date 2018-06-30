@@ -1,6 +1,6 @@
 
 ### Function for nutrient N constraint in longterm ie passive, leaching, wood considered
-Long_constraint_N <- function(df, a, Cpass, NinL) {
+L_constraint_N <- function(df, a, Cpass, NinL) {
     # passed are df and a, the allocation and plant N:C ratios
     # parameters : 
     # Nin is fixed N inputs (N deposition annd fixation) in g m-2 yr-1 (could vary fixation)

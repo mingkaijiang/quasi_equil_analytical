@@ -1,6 +1,6 @@
 ### Calculate the very long term nutrient cycling constraint for N, i.e. passive pool equilibrated
 # it is just Nin = Nleach
-VLong_constraint_N <- function(nf, nfdf) {
+VL_constraint_N <- function(nf, nfdf) {
     # passed are bf and nf, the allocation and plant N:C ratios
     # parameters : 
     # Nin is fixed N inputs (N fixed and deposition) in g m-2 yr-1 (could vary fixation)

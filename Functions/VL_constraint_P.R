@@ -1,6 +1,6 @@
 ### Calculate the very long term nutrient cycling constraint for P, i.e. passive pool equilibrated
 # it is just Pin = Pleach + Pocc
-VLong_constraint_P <- function(pf, pfdf) {
+VL_constraint_P <- function(pf, pfdf) {
     # parameters : 
     # Pin is P deposition inputs in g m-2 yr-1 (could vary fixation)
     # leachp is the rate of leaching of the labile P pool (per year)
