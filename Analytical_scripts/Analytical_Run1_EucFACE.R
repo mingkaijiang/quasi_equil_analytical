@@ -27,7 +27,7 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
     
     # calculate photosynthetic constraint at CO2 = 350
     C350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
-    C350_simple <- photo_constraint_simple_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
+    # C350_simple <- photo_constraint_simple_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
     
     ### calculate very long term NC and PC constraint on NPP, respectively
     NC_VL <- VL_constraint_N(nf=nfseq, nfdf=a_nf)
@@ -85,12 +85,6 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
     
     # calculate NC vs. NPP at CO2 = 350 respectively
     C700 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_2)
-    
-    ### calculate very long term NC and PC constraint on NPP, respectively
-    NC_VL <- VL_constraint_N(nf=nfseq, nfdf=a_nf)
-    
-    ### NPP derived from PCVLONG should match NPP from NCVLONG
-    PC_VL <- VL_constraint_P(pf=pfseq, pfdf=a_pf)
     
     ### finding the equilibrium point between photosynthesis and very long term nutrient constraints
     VL_eq <- solve_VL_full_cnp(CO2=CO2_2)
@@ -179,8 +173,8 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
     #    par(mfrow=c(1,2), mar=c(5.1,6.1,2.1,2.1))
     #    
         # shoot nc vs. NPP
-        plot(out350DF$nc, out350DF$NPP_350, xlim=c(0.0, 0.1),
-              ylim=c(0, 3), 
+        plot(out350DF$nc, out350DF$NPP_350, xlim=c(0.016, 0.04),
+              ylim=c(0.8, 1.2), 
              type = "l", xlab = "Shoot N:C ratio", 
              ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
              col="cyan", lwd = 3, cex.lab=1.5)
@@ -191,8 +185,9 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
         points(equil350DF$nc_VL, inst700$equilNPP, type="p", col = "darkgreen", pch=19, cex = 2)
         points(equil700DF$nc_VL, equil700DF$NPP_VL, type="p", col="orange", pch = 19, cex = 2)
         points(equil700DF$nc_L, equil700DF$NPP_L,type="p", col="red", pch = 19, cex = 2)
-
-        dev.off()
+        points(equil350DF$nc_L, equil350DF$NPP_L,type="p", col="yellow", pch = 19, cex = 2)
+        
+    #    dev.off()
         
         #tiff("Plots/implicit_PC_EucFACE.tiff",
         #     width = 8, height = 7, units = "in", res = 300)
