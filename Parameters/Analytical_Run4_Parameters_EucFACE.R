@@ -1,10 +1,10 @@
 #### setting CO2 concentrations
-CO2_1 <- 350.0
-CO2_2 <- 700.0
+CO2_1 <- 400.0
+CO2_2 <- 550.0
 
 #### define parameters
-nwood = 0.005      # if nwvar = false, 0.0005, if = true, 0.005
-pwood = 0.00003    # if nwvar = false, 0.000003, if = true, 0.00003
+nwood = 0.003 
+pwood = 0.00014     # 0.00014
 nrho = 0.7
 prho = 0.7
 nretrans = 0.5
@@ -15,14 +15,14 @@ LUE0=1.4
 I0=3
 Nref=0.04
 kext=0.5
-SLA=5
+SLA=5.1
 sf=0.5
 cfrac = 0.45
 cue = 0.5
 leachn = 0.05
 leachp = 0.05
 Nin = 0.4
-Pin = 0.015
+Pin = 0.02
 k1=0.01
 k2=0.01
 k3=0.05
@@ -32,8 +32,6 @@ ligfl = 0.2
 ligrl = 0.16
 pcp = 0.005
 ncp = 0.1
-ncs <- 0.05
-pcs <- 0.0005
 PAR_MJ <- 4.0
 J_2_UMOL <- 4.57
 MJ_TO_J <- 1000000.0
@@ -55,7 +53,7 @@ PA_2_KPA <- 0.001
 wtfac_root <- 1.0
 g1 <- 3.8667
 alpha_j <- 0.308
-daylen <- 8.0
+daylen <- 3.0
 kn <- 0.3
-aroot <- 0.2
-aleaf <- 0.2
+aroot <- 0.3
+aleaf <- 0.3
