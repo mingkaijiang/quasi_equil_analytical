@@ -22,12 +22,13 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
     a_nf <- allocn(nfseq)
     
     # using very long term relationship to calculate pf from nf
-    pfseq <- inferpfVL(nfseq, a_nf)
+    pfseq <- infer_pf_VL(nfseq, a_nf)
     a_pf <- allocp(pfseq)
     
     # calculate photosynthetic constraint at CO2 = 350
     Photo350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
-
+    Photo350_simple <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
+    
     ### calculate very long term NC and PC constraint on NPP, respectively
     NCVLONG <- VLong_constraint_N(nf=nfseq, nfdf=a_nf)
     

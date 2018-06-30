@@ -1,5 +1,8 @@
+
+
 ### This function implements photosynthetic constraint - solve by finding the root
-photo_constraint <- function(nf, pf, nfdf, pfdf, CO2) {
+### Based on the full photosynthesis model for c and n only
+photo_constraint_simple_cn <- function(nf, nfdf, CO2) {
     # parameters
     # nf is variable
     # making it pass af (fractional allocation to foliage) because this may also be variable
@@ -18,11 +21,9 @@ photo_constraint <- function(nf, pf, nfdf, pfdf, CO2) {
     ans <- c()
     
     for (i in 1:len) {
-        fPC <- function(NPP) eqPC(nf[i], pf[i], pfdf$af[i], NPP, CO2) - NPP
+        fPC <- function(NPP) eqPC_simple_cn(nf[i], nfdf[i,], NPP, CO2) - NPP
         ans[i] <- uniroot(fPC,interval=c(0.1,20), trace=T)$root
-        
     }
     
     return(ans)
 }
-

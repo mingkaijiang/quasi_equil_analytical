@@ -21,7 +21,6 @@ allocn <- function(nf) {
     } else {
         nw <- nwood*nf 
     }
-    #nrho <- 0.7
     nr <- nrho*nf
     nfl <- (1.0-nretrans)*nf     
     

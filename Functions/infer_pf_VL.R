@@ -1,5 +1,5 @@
 ### Make inference of pf based on nf
-inferpfVL <- function(nf, a) {
+infer_pf_VL <- function(nf, a) {
     
     # output nf, based on F(nf) = F(pf)
     pf <- c()

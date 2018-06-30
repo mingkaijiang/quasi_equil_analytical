@@ -21,7 +21,6 @@ allocp <- function(pf) {
     } else {
         pw <- pwood*pf 
     }
-    #prho <- 0.7
     pr <- prho*pf
     pfl <- (1.0-pretrans)*pf
     
