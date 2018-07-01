@@ -16,6 +16,7 @@
 ###           2. Add plots for all simulations
 ###           3. Compare Walker and Ellsworth
 ###           4. Generate effect plots
+###           5. Update parameters for EucFACE and AmazonFACE
 ###           5. Overall paper message
 ###           6. Write equation derivations and method section
 ###           7. Edit introduction and result section
@@ -26,9 +27,6 @@
 #### ------------------------ General system stuffs ------------------------ #####
 ### Make sure everything is clear
 rm(list=ls(all=TRUE))
-
-### Get current date
-date<-Sys.Date()
 
 ### read in all R packages
 source("R/prepare_R.R")

@@ -106,7 +106,7 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
     equil350DF$NPP_I <- inst700$equilNPP
     equil700DF$NPP_I <- inst700$equilNPP
     
-    if (f.flag == 1) {
+    #if (f.flag == 1) {
         
         ########## Plotting
         #tiff("Plots/Analytical_Run1_3d_EucFACE.pdf")
@@ -143,7 +143,7 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
             geom_point(data=equil350DF, aes(x=nc_VL, y=NPP_I, fill="B"), 
                        shape=21, color="black", size=5) +
             ylim(0.5, 2.0) + 
-            xlim(0.01, 0.03) +
+            xlim(0.01, 0.05) +
             labs(x="Leaf N:C Ratio", 
                  y=expression(paste("NPP [kg C ", m^-2, " ", yr^-1, "]"))) +
             theme_linedraw() +
@@ -178,7 +178,7 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
             #geom_point(data=equil700DF, aes(x=nc_L, y=pc_L, fill="B"), 
             #           shape=21, color="black", size=5) +
             ylim(0.0001, 0.002) + 
-            xlim(0.01, 0.03) +
+            xlim(0.01, 0.05) +
             labs(x="Leaf N:C Ratio", 
                  y="Leaf P:C Ratio") +
             theme_linedraw() +
@@ -195,7 +195,7 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
                                                           "D" = cbPalette[4], "E" = cbPalette[7])) 
             
         ### plot 2-d plots of nf vs. npp and nf vs. pf
-        pdf("Plots/Analytical_Run1_2d_EucFACE.pdf")
+        #pdf("Plots/Analytical_Run1_2d_EucFACE.pdf")
         plot(p1)
         plot(p2)
         dev.off()

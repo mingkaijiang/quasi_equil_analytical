@@ -4,7 +4,7 @@ CO2_2 <- 550.0
 
 #### define parameters
 nwood = 0.003 
-pwood = 0.00014     # 0.00014
+pwood = 0.00014     
 nrho = 0.7
 prho = 0.7
 nretrans = 0.5
@@ -22,10 +22,10 @@ cue = 0.5
 leachn = 0.05     
 leachp = 0.05
 Nin = 0.4
-Pin = 0.02          # 0.0086
-k1=0.01            # 0.096  # default in full GDAY = 0.048, and 0.4-0.8 of the labile is available to uptake
-k2=0.01            # 0.0146 At EucfACE, based on pH = 4.5, k2 = 0.0146 yr-1, and only half into labile
-k3=0.05
+Pin = 0.02     # 0.02; Reducing Pin lowers NPP 0.0086
+k1=0.01          # increase k1 can lower NPP
+k2=0.01          # 0.0146 At EucfACE, based on pH = 4.5, k2 = 0.0146 yr-1, and only half into labile
+k3=0.05     
 Tsoil = 15
 Texture = 0.5
 ligfl = 0.2
@@ -55,5 +55,5 @@ g1 <- 3.8667
 alpha_j <- 0.308
 daylen <- 3.0
 kn <- 0.3
-aroot <- 0.3
-aleaf <- 0.3
+aroot <- 0.3         # increase aroot and aleaf lowers NPP
+aleaf <- 0.3         # increase aleaf and aroot lowers NPP
