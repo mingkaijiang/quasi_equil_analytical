@@ -53,21 +53,25 @@ Perform_Analytical_Run2_EucFACE <- function(f.flag = 1, cDF, eDF) {
     inst700 <- inst_NPP(VL_eq$equilnf, df700)
     
     out350DF <- data.frame(nfseq, C350, NC_VL, NC_L)
-    colnames(out350DF) <- c("nc", "NPP_350", "NPP_VL",
-                            "nleach_VL", "NPP_350_L", "nwood_L", "nburial_L",
+    colnames(out350DF) <- c("nc", "NPP_photo", "NPP_VL",
+                            "nleach_VL", "NPP_L", "nwood_L", "nburial_L",
                             "nleach_L", "aw")
     equil350DF <- data.frame(VL_eq, L_eq_350)
     colnames(equil350DF) <- c("nc_VL", "NPP_VL", 
                               "nc_L", "NPP_L")
     
     out700DF <- data.frame(nfseq, C700, NC_VL, NC_L)
-    colnames(out700DF) <- c("nc", "NPP_700", "NPP_VL",
-                            "nleach_VL", "NPP_700_L", "nwood_L", "nburial_L",
+    colnames(out700DF) <- c("nc", "NPP_photo", "NPP_VL",
+                            "nleach_VL", "NPP_L", "nwood_L", "nburial_L",
                             "nleach_L", "aw")
     
     equil700DF <- data.frame(VL_eq_700, L_eq_700)
     colnames(equil700DF) <- c("nc_VL", "NPP_VL", 
                               "nc_L", "NPP_L")
+    
+    equil350DF$NPP_I <- inst700$equilNPP
+    equil700DF$NPP_I <- inst700$equilNPP
+    
     if (f.flag ==1 ) {
         
         #### Library
@@ -132,6 +136,9 @@ Perform_Analytical_Run2_EucFACE <- function(f.flag = 1, cDF, eDF) {
         dev.off()
         
     } else if (f.flag == 2) {
-        return()
+        my.list <- list(cDF = data.frame(rbind(out350DF, out700DF)), 
+                        eDF = data.frame(rbind(equil350DF, equil700DF)))
+        
+        return(my.list)
     } 
 }
