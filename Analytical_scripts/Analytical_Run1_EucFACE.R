@@ -6,8 +6,6 @@
 #### 2. Variable wood stoichiometry
 ####
 ################################################################################
-
-
 #### Functions
 Perform_Analytical_Run1_EucFACE <- function(f.flag) {
     #### Function to perform analytical run 1 simulations
@@ -67,8 +65,8 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
 
 
     out350DF <- data.frame(nfseq, pfseq, pfseq_L, C350, NC_VL, NC_L)
-    colnames(out350DF) <- c("nc", "pc_VL", "pc_350_L", "NPP_350", "NPP_VL",
-                            "nleach_VL", "NPP_350_L", "nwood_L", "nburial_L",
+    colnames(out350DF) <- c("nc", "pc_VL", "pc_L", "NPP_photo", "NPP_VL",
+                            "nleach_VL", "NPP_L", "nwood_L", "nburial_L",
                             "nleach_L", "aw")
     equil350DF <- data.frame(VL_eq, L_eq)
     colnames(equil350DF) <- c("nc_VL", "pc_VL", "NPP_VL", 
@@ -94,8 +92,8 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
                                      PinL=Pin+P_rel_wood_VL)
     
     out700DF <- data.frame(nfseq, pfseq, pfseq_L, C700, NC_VL, NC_L)
-    colnames(out700DF) <- c("nc", "pc_VL", "pc_700_L", "NPP_700", "NPP_VL",
-                            "nleach_VL", "NPP_700_L", "nwood_L", "nburial_L",
+    colnames(out700DF) <- c("nc", "pc_VL", "pc_L", "NPP_photo", "NPP_VL",
+                            "nleach_VL", "NPP_L", "nwood_L", "nburial_L",
                             "nleach_L", "aw")
     
     equil700DF <- data.frame(VL_eq, L_eq)
@@ -106,7 +104,10 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
     df700 <- as.data.frame(cbind(nfseq, C700))
     inst700 <- inst_NPP(equil350DF$nc_VL, df700)
     
-    #if (f.flag == 1) {
+    equil350DF$NPP_I <- inst700$equilNPP
+    equil700DF$NPP_I <- inst700$equilNPP
+    
+    if (f.flag == 1) {
     #    
     #    #### Library
     #    require(scatterplot3d)
@@ -167,65 +168,86 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
     #    
     #    dev.off()
     #    
-    #    ### plot 2-d plots of nf vs. npp and nf vs. pf
-    #    tiff("Plots/Analytical_Run1_2d_EucFACE.tiff",
-    #         width = 10, height = 5, units = "in", res = 300)
-    #    par(mfrow=c(1,2), mar=c(5.1,6.1,2.1,2.1))
-    #    
-        # shoot nc vs. NPP
-        plot(out350DF$nc, out350DF$NPP_350, xlim=c(0.016, 0.04),
-              ylim=c(0.8, 1.2), 
-             type = "l", xlab = "Shoot N:C ratio", 
-             ylab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
-             col="cyan", lwd = 3, cex.lab=1.5)
-        points(out350DF$nc, out350DF$NPP_VL, type="l", col="tomato", lwd = 3)
-        points(equil350DF$nc_VL, equil350DF$NPP_VL, type="p", pch = 19, col = "blue", cex = 2)
-        points(out350DF$nc, out350DF$NPP_350_L, type='l',col="violet", lwd = 3)
-        points(out700DF$nc, out700DF$NPP_700, col="green", type="l", lwd = 3)
-        points(equil350DF$nc_VL, inst700$equilNPP, type="p", col = "darkgreen", pch=19, cex = 2)
-        points(equil700DF$nc_VL, equil700DF$NPP_VL, type="p", col="orange", pch = 19, cex = 2)
-        points(equil700DF$nc_L, equil700DF$NPP_L,type="p", col="red", pch = 19, cex = 2)
-        points(equil350DF$nc_L, equil350DF$NPP_L,type="p", col="yellow", pch = 19, cex = 2)
         
-    #    dev.off()
+        p1<-ggplot() + 
+            geom_line(data=out350DF, aes(x=nc, y=NPP_photo, col="C350")) +   
+            geom_line(data=out350DF, aes(x=nc, y=NPP_VL, col="VL")) + 
+            geom_line(data=out350DF, aes(x=nc, y=NPP_L, col="L")) +  
+            #geom_line(data=out350DF, aes(x=nc, y=NPP_M, col="M")) +            
+            geom_line(data=out700DF, aes(x=nc, y=NPP_photo, col="C700")) +     
+            geom_point(data=equil350DF, aes(x=nc_VL, y=NPP_VL, fill="A"), 
+                       color="black", shape=21, size=5) + 
+            geom_point(data=equil700DF, aes(x=nc_L, y=NPP_L, fill="D"), 
+                       shape=21, color="black", size=5) +
+            #geom_point(data=equil700DF, aes(x=nc_M, y=NPP_M, fill="C"), 
+            #           shape=21, color="black", size=5) +
+            geom_point(data=equil700DF, aes(x=nc_VL, y=NPP_VL, fill="E"), 
+                       shape=21, color="black", size=5) +
+            geom_point(data=equil350DF, aes(x=nc_VL, y=NPP_I, fill="B"), 
+                       shape=21, color="black", size=5) +
+            ylim(0.5, 2.0) + 
+            xlim(0.01, 0.03) +
+            labs(x="Leaf N:C Ratio", 
+                 y=expression(paste("NPP [kg C ", m^-2, " ", yr^-1, "]"))) +
+            theme_linedraw() +
+            theme(panel.grid.minor=element_blank(),
+                  axis.text=element_text(size=14),
+                  axis.title=element_text(size=16),
+                  legend.text=element_text(size=14),
+                  legend.title=element_text(size=16),
+                  panel.grid.major=element_line(color="grey")) +
+            scale_colour_manual(name="Constraint line", 
+                                values = c("C350" = cbbPalette[1], "C700" = cbbPalette[2], "VL" = cbbPalette[7],
+                                           "L" = cbbPalette[4], "M" = cbbPalette[3])) +
+            scale_fill_manual(name="QE point", values = c("A" = cbPalette[1], "B" = cbPalette[2], "C" = cbPalette[3],
+                                                          "D" = cbPalette[4], "E" = cbPalette[7])) 
         
-        #tiff("Plots/implicit_PC_EucFACE.tiff",
-        #     width = 8, height = 7, units = "in", res = 300)
-        #par(mar=c(5.1,6.1,2.1,2.1))
-        #
-        ## shoot nc vs. shoot pc
-        #plot(out350DF$nc, out350DF$pc_VL, xlim=c(0.0, 0.1),
-        #     ylim=c(0, 0.005), 
-        #     type = "l", xlab = "Shoot N:C ratio", 
-        #     ylab = "Shoot P:C ratio",
-        #     col="cyan", lwd = 3,cex.lab=1.5)
-        #points(out350DF$nc, out350DF$pc_VL, type="l", col="tomato", lwd = 3)
-        #
-        #points(equil350DF$nc_VL, equil350DF$pc_VL, type="p", pch = 19, col = "green",cex=2)
-        #
-        #points(out350DF$nc, out350DF$pc_VL, type='l',col="violet", lwd = 3)
-        #
-        #points(out700DF$nc, out700DF$pc_VL, col="green", type="l", lwd = 3)
-        #
-        ##points(equil350DF$nc_VL, equil350DF$pc_VL, type="p", col = "darkgreen", pch=19,cex=2)
-        #
-        ##points(equil700DF$nc_VL, equil700DF$pc_VL, type="p", col="orange", pch = 19,cex=2)
-        #
-        ##points(equil700DF$nc_L, equil700DF$pc_L, type="p", col="red", pch = 19,cex=2)
-        #
-        #legend("topright", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
-        #                    expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-        #                    "VL nutrient constraint", "L nutrient constraint",
-        #                    "A", "B", "C", "D"),
-        #       col=c("cyan","green", "tomato", "violet","blue", "darkgreen","red", "orange"), 
-        #       lwd=c(2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,19,19,19,19), cex = 0.8, 
-        #       bg = adjustcolor("grey", 0.8))
-        #
-        #
-        #dev.off()
         
-    #} else if (f.flag == 2) {
-    #    return()
-    #} 
+        p2<-ggplot()+
+            geom_line(data=out350DF, aes(x=nc, y=pc_VL, col="VL")) + 
+            geom_line(data=out350DF, aes(x=nc, y=pc_L, col="L")) +  
+            #geom_line(data=out350DF, aes(x=nc, y=pc_M, col="M")) +    
+            geom_line(data=out700DF, aes(x=nc, y=pc_VL, col="VL")) + 
+            geom_line(data=out700DF, aes(x=nc, y=pc_L, col="L")) +  
+            #geom_line(data=out700DF, aes(x=nc, y=pc_M, col="M")) +  
+            geom_point(data=equil350DF, aes(x=nc_VL, y=pc_VL, fill="A"), 
+                       color="black", shape=21, size=5) + 
+            geom_point(data=equil700DF, aes(x=nc_L, y=pc_L, fill="D"), 
+                       shape=21, color="black", size=5) +
+            #geom_point(data=equil700DF, aes(x=nc_M, y=pc_M, fill="C"), 
+            #           shape=21, color="black", size=5) +
+            geom_point(data=equil700DF, aes(x=nc_VL, y=pc_VL, fill="E"), 
+                       shape=21, color="black", size=5) +
+            #geom_point(data=equil700DF, aes(x=nc_L, y=pc_L, fill="B"), 
+            #           shape=21, color="black", size=5) +
+            ylim(0.0001, 0.002) + 
+            xlim(0.01, 0.03) +
+            labs(x="Leaf N:C Ratio", 
+                 y="Leaf P:C Ratio") +
+            theme_linedraw() +
+            theme(panel.grid.minor=element_blank(),
+                  axis.text=element_text(size=14),
+                  axis.title=element_text(size=16),
+                  legend.text=element_text(size=14),
+                  legend.title=element_text(size=16),
+                  panel.grid.major=element_line(color="grey")) +
+            scale_colour_manual(name="Constraint line", 
+                                values = c("C350" = cbbPalette[1], "C700" = cbbPalette[2], "VL" = cbbPalette[7],
+                                           "L" = cbbPalette[4], "M" = cbbPalette[3])) +
+            scale_fill_manual(name="QE point", values = c("A" = cbPalette[1], "B" = cbPalette[2], "C" = cbPalette[3],
+                                                          "D" = cbPalette[4], "E" = cbPalette[7])) 
+            
+        ### plot 2-d plots of nf vs. npp and nf vs. pf
+        pdf("Plots/Analytical_Run1_2d_EucFACE.pdf")
+        plot(p1)
+        plot(p2)
+        dev.off()
+        
+    } else if (f.flag == 2) {
+        my.list <- list(cDF = data.frame(rbind(out350DF, out700DF)), 
+                        eDF = data.frame(rbind(equil350DF, equil700DF)))
+        
+        return(my.list)
+    } 
     
 }

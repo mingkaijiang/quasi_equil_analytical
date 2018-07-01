@@ -10,7 +10,7 @@ infer_pf_L <- function(nf, a, PinL, NinL,
     N0 = NinL  + (1-pass$qq) * pass$decomp * Cpass * ncp
     nleach <- leachn/(1-leachn) * (a$af*a$nfl + a$aw*a$nw + a$ar*a$nr)
     nburial <- omega*ncp
-    nwood <- 0 # a$aw*a$nw
+    nwood <- a$aw*a$nw
 
     NPP <- N0 / (nleach + nburial + nwood)
     
