@@ -11,10 +11,16 @@
 ### 5. To prepare manuscript figures and tables 
 ###
 ### Author: Mingkai Jiang (m.jiang@westernsydney.edu.au)
-### 
-### Warning: large hard disk space needed,
-### because the simulation creates many large files
-### (but many simulation files will be deleted after processing)
+### To do list:
+###           1. Add M-term constraint line
+###           2. Add plots for all simulations
+###           3. Compare Walker and Ellsworth
+###           4. Generate effect plots
+###           5. Overall paper message
+###           6. Write equation derivations and method section
+###           7. Edit introduction and result section
+###           8. Discuss
+###           9. Simulation results
 
 
 #### ------------------------ General system stuffs ------------------------ #####

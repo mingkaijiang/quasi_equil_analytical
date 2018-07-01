@@ -14,7 +14,8 @@ pacman::p_load(scatterplot3d,
                grid,
                gridBase,
                ini,
-               ggplot2) # add other packages needed to this list
+               ggplot2,
+               plot3D) # add other packages needed to this list
 
 
 #### Sourcing all R files in the function subdirectory

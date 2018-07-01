@@ -25,8 +25,7 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
     
     # calculate photosynthetic constraint at CO2 = 350
     C350 <- photo_constraint_full_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
-    # C350_simple <- photo_constraint_simple_cnp(nfseq, pfseq, a_nf, a_pf, CO2_1)
-    
+
     ### calculate very long term NC and PC constraint on NPP, respectively
     NC_VL <- VL_constraint_N(nf=nfseq, nfdf=a_nf)
     
@@ -108,66 +107,24 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
     equil700DF$NPP_I <- inst700$equilNPP
     
     if (f.flag == 1) {
-    #    
-    #    #### Library
-    #    require(scatterplot3d)
-    #    
-    #    ######### Plotting
-    #    
-    #    tiff("Plots/Analytical_Run1_EucFACE.tiff",
-    #         width = 8, height = 7, units = "in", res = 300)
-    #    
-    #    
-    #    par(mar=c(5.1,5.1,2.1,2.1))
-    #    
-    #    # NPP constraint by CO2 = 350
-    #    s3d <- scatterplot3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_350, xlim=c(0.0, 0.1),
-    #                         ylim = c(0.0, 0.002), zlim=c(0, 3), 
-    #                         type = "l", xlab = "Shoot N:C ratio", ylab = "Shoot P:C ratio", 
-    #                         zlab = expression(paste("Production [kg C ", m^-2, " ", yr^-1, "]")),
-    #                         color="cyan", lwd = 3, angle=24)
-    #    
-    #    # NPP constraint by very long term nutrient availability
-    #    s3d$points3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_VL, type="l", col="tomato", lwd = 3)
-    #    
-    #    # equilibrated NPP for very long term nutrient and CO2 = 350
-    #    s3d$points3d(equil350DF$nc_VL, equil350DF$pc_VL, equil350DF$NPP_VL,
-    #                 type="h", pch = 19, col = "blue")
-    #    
-    #    # NPP constraint by long term nutrient availability
-    #    s3d$points3d(out350DF$nc, out350DF$pc_VL, out350DF$NPP_350_L, type='l',col="violet", lwd = 3)
-    #    #s3d$points3d(out700DF$nc, out700DF$pc_700_L, out700DF$NPP_700_L, type='l',col="grey", lwd = 3)
-    #    
-    #    
-    #    # equilibrated NPP for long term nutrient and CO2 = 350
-    #    #s3d$points3d(equil350DF$nc_L, equil350DF$pc_L, equil350DF$NPP_L,
-    #    #             type="h", col="lightblue", pch = 19)
-    #    
-    #    # NPP constraint by CO2 = 700
-    #    s3d$points3d(out700DF$nc, out700DF$pc_VL, out700DF$NPP_700, col="green", type="l", lwd = 3)
-    #    
-    #    s3d$points3d(equil350DF$nc_VL, equil350DF$pc_VL, 
-    #                 inst700$equilNPP, type="h", col = "darkgreen", pch=19)
-    #    
-    #    # equilibrated NPP for very long term nutrient and CO2 = 700
-    #    s3d$points3d(equil700DF$nc_VL, equil700DF$pc_VL, equil700DF$NPP_VL, 
-    #                 type="h", col="orange", pch = 19)
-    #    
-    #    # equilibrated NPP for long term nutrient and CO2 = 700
-    #    s3d$points3d(equil700DF$nc_L, equil700DF$pc_L, equil700DF$NPP_L,
-    #                 type="h", col="red", pch = 19)
-    #    
-    #    
-    #    legend("topleft", c(expression(paste("Photo constraint at ", CO[2]," = 350 ppm")), 
-    #                        expression(paste("Photo constraint at ", CO[2]," = 700 ppm")), 
-    #                        "VL nutrient constraint", "L nutrient constraint",
-    #                        "A", "B", "C", "D"),
-    #           col=c("cyan","green", "tomato", "violet","blue", "darkgreen","red", "orange"), 
-    #           lwd=c(2,2,2,2,NA,NA,NA,NA), pch=c(NA,NA,NA,NA,19,19,19,19), cex = 1.0, 
-    #           bg = adjustcolor("grey", 0.8))
-    #    
-    #    dev.off()
-    #    
+        
+        ########## Plotting
+        #tiff("Plots/Analytical_Run1_3d_EucFACE.pdf")
+        #
+        ## NPP constraint by CO2 = 350
+        #s3d <- scatter3D(out350DF$nc, out350DF$pc_VL, out350DF$NPP_photo, ticktype="detailed",
+        #                     xlab = "Leaf N:C ratio", ylab = "Leaf P:C ratio", 
+        #                     zlab = "Production")
+        #
+        ## NPP constraint by very long term nutrient availability
+        #scatter3D(out350DF$nc, out350DF$pc_VL, out350DF$NPP_VL, add=T)
+        #
+        ## equilibrated NPP for very long term nutrient and CO2 = 350
+        #scatter3D(equil350DF$nc_VL, equil350DF$pc_VL, equil350DF$NPP_VL,
+        #             type="h", pch = 19, col = "blue", add=T)
+        #
+        #dev.off()
+        
         
         p1<-ggplot() + 
             geom_line(data=out350DF, aes(x=nc, y=NPP_photo, col="C350")) +   

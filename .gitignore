@@ -111,3 +111,4 @@ GDAY/simulations/Run9/*.txt
 Plots/animated/*.png
 Plots/*.gif
 Plots/animated/constraint/*.png
+Plots/*.pdf
