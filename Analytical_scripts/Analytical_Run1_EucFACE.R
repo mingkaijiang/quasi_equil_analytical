@@ -106,7 +106,7 @@ Perform_Analytical_Run1_EucFACE <- function(f.flag) {
     equil350DF$NPP_I <- inst700$equilNPP
     equil700DF$NPP_I <- inst700$equilNPP
     
-    #if (f.flag == 1) {
+    if (f.flag == 1) {
         
         ########## Plotting
         #tiff("Plots/Analytical_Run1_3d_EucFACE.pdf")
